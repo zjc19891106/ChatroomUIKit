@@ -28,7 +28,32 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/zjc19891106/ChatroomUIKit.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '13.0'
+  s.xcconfig = {'ENABLE_BITCODE' => 'NO'}
+  
+  s.subspec 'Service' do |ss|
+      ss.source_files = [
+        'ChatroomUIKit/Service/**/*'
+      ]
+      ss.dependency 'HyphenateChat'
+      ss.dependency 'KakaJSON'
+  end
+
+  s.subspec 'UI' do |ss|
+    ss.source_files = [
+      'ChatroomUIKit/UI/**/*'
+    ]
+    ss.resource = ['ChatroomUIKit/Resources/*.bundle']
+  end
+  
+  s.static_framework = true
+  
+  s.swift_version = '5.0'
+  
+
+  s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+  s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+
 
   s.source_files = 'ChatroomUIKit/Classes/**/*'
   
