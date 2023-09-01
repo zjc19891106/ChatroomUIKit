@@ -30,7 +30,7 @@ import KakaJSON
     }
     
     deinit {
-        consoleLogInfo("\(self.chatroom.swiftClassName ?? "") deinit", type: .debug)
+        consoleLogInfo("\(self.swiftClassName ?? "") deinit", type: .debug)
     }
 
 }

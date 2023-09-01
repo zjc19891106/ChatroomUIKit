@@ -16,9 +16,9 @@ public let edgeZero: UIEdgeInsets = .zero
 
 public let BottomBarHeight = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0
 
-public let StatusBarHeight :CGFloat = UIApplication.shared.statusBarFrame.height
+public let StatusBarHeight :CGFloat = UIApplication.shared.chatroom.keyWindow?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
 
-public let NavigationHeight :CGFloat = UIApplication.shared.statusBarFrame.height + 44
+public let NavigationHeight :CGFloat = StatusBarHeight + 44
 
 //project wrapper
 public struct Chatroom<Base> {

@@ -24,7 +24,6 @@ final class ExampleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.view.backgroundColor = UIColor.theme.primaryColor0
-        
         let button = UIButton(type: .custom)
         button.frame = CGRect(x: 100, y: 100, width: 100, height: 100)
         button.backgroundColor = .orange
@@ -37,6 +36,7 @@ final class ExampleViewController: UIViewController {
         theme.addTarget(self, action: #selector(switchTheme), for: .touchUpInside)
         self.view.addSubview(theme)
         
+        let imageView = UIImageView(frame: CGRect(x: 100, y: 400, width: 100, height: 100)).backgroundColor(.randomColor)        
     }
     
     @objc func switchTheme() {

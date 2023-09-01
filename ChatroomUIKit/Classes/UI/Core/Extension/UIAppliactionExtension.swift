@@ -7,6 +7,12 @@
 
 import UIKit
 
+public extension UIApplication {
+    var chatroom: Chatroom<UIApplication> {
+        return Chatroom.init(self)
+    }
+}
+
 
 public extension Chatroom where Base == UIApplication {
     

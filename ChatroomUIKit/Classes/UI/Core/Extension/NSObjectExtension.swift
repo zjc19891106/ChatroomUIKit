@@ -8,18 +8,12 @@
 import Foundation
 
 public extension NSObject {
-    var chatroom: Chatroom<NSObject> {
-        return Chatroom.init(self)
+    var swiftClassName: String? {
+        let className = type(of: self).description().components(separatedBy: ".").last
+        return  className
     }
     
 }
 
-public extension Chatroom where Base == NSObject {
-    
-    var swiftClassName: String? {
-        let className = type(of: base).description().components(separatedBy: ".").last
-        return  className
-    }
-}
 
 
