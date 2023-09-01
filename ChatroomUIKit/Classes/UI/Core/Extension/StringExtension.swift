@@ -102,7 +102,11 @@ public extension Chatroom where Base == String {
     }
     
     var urlDecoded: String {
-        return base.removingPercentEncoding ?? base
+        base.removingPercentEncoding ?? base
+    }
+    
+    var localize: String {
+        LanguageConvertor.localValue(key: base)
     }
     
     ///        "it's easy to encode strings".urlEncoded -> "it's%20easy%20to%20encode%20strings"

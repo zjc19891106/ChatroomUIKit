@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import HyphenateChat
 
 @objc public final class ChatroomContext: NSObject {
     
@@ -16,7 +15,7 @@ import HyphenateChat
     
     var owner: UserInfoProtocol?
     
-    var room: EMChatroom?
+    var room: ChatRoom?
     
     var usersMap: [String:UserInfoProtocol]? = [String:UserInfoProtocol]()
 }

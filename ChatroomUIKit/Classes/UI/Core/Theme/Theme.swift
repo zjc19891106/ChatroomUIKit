@@ -20,10 +20,20 @@ import UIKit.UIView
     /// Description When some view Implement the protocol method,you can use `Theme.switchTheme(style: .dark)` to switch theme.
     /// - Parameter style: ThemeStyle
     func switchTheme(style: ThemeStyle)
+    
+    /// Description After the custom view implements this protocol method, you can use this method to switch the custom theme color, which includes the following five hue values: primary, secondary, error, neutral, and neutral special. The designer recommends that the hue values of primary and neutral are the same. The hue values ​​of neutral and neutral special are similar.
+    /// - Parameter hues: [primaryHue,secondaryHue,errorHue,neutralHue,neutralSpecialHue]
+    func switchHues(hues: [CGFloat])
 }
 
 
 /// Description The theme switching class is used for users to switch themes or register some user's own views that comply with the ThemeSwitchProtocol protocol.
+/// How to use?
+/// A view conform ThemeSwitchProtocol.Then Implement protocol methods.When you want switch theme that light and dark themes provided by default chatroom UIKit  `` theme.
+/// Call `Theme.switchTheme(style: .dark)` method
+/// A view conform ThemeSwitchProtocol.Then Implement protocol methods.When you want switch themes provided by customer .
+/// Call `Theme.switchHues(hues: [0.56,0.66,0.76,0.56,0.54])` method.
+/// Only one of the above two methods can be called.
 @objcMembers open class Theme: NSObject {
     
     private static var registerViews = NSMutableSet()
@@ -47,6 +57,15 @@ import UIKit.UIView
         for view in registerViews {
             if let themeView = view as? ThemeSwitchProtocol {
                 themeView.switchTheme(style: style)
+            }
+        }
+    }
+    /// Description After the custom view implements this protocol method, you can use this method to switch the custom theme color, which includes the following five hue values: primary, secondary, error, neutral, and neutral special. The designer recommends that the hue values of primary and neutral are the same. The hue values ​​of neutral and neutral special are similar.
+    /// - Parameter hues: [primaryHue,secondaryHue,errorHue,neutralHue,neutralSpecialHue]
+    @MainActor public static func switchHues(hues: [CGFloat]) {
+        for view in registerViews {
+            if let themeView = view as? ThemeSwitchProtocol {
+                themeView.switchHues(hues: hues)
             }
         }
     }

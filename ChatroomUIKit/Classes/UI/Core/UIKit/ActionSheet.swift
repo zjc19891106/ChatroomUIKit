@@ -7,7 +7,7 @@
 
 import UIKit
 
-@objc open class ActionSheet: UIView,ThemeSwitchProtocol {
+@objc open class ActionSheet: UIView {
     
     private var style: ThemeStyle = .light
     
@@ -80,12 +80,20 @@ import UIKit
             }
         }
         
+        Theme.registerSwitchThemeViews(view: self)
     }
     
     @objc private func cancelAction() {
         
     }
     
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
+extension ActionSheet: ThemeSwitchProtocol {
     public func switchTheme(style: ThemeStyle) {
         self.style = style
         self.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
@@ -100,10 +108,24 @@ import UIKit
         self.menuList.reloadData()
     }
     
-    required public init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    public func switchHues(hues: [CGFloat]) {
+        if let primaryHue = hues[safe: 0] {
+            UIColor.ColorTheme.primaryHue = primaryHue
+        }
+        if let secondaryHue = hues[safe: 1] {
+            UIColor.ColorTheme.secondaryHue = secondaryHue
+        }
+        if let errorHue = hues[safe: 2] {
+            UIColor.ColorTheme.errorHue = errorHue
+        }
+        if let neutralHue = hues[safe: 3] {
+            UIColor.ColorTheme.neutralHue = neutralHue
+        }
+        if let neutralSpecialHue = hues[safe: 4] {
+            UIColor.ColorTheme.neutralSpecialHue = neutralSpecialHue
+        }
+        self.switchTheme(style: .light)
     }
-    
 }
 
 extension ActionSheet: UITableViewDelegate,UITableViewDataSource {

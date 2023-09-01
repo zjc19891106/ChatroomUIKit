@@ -40,12 +40,14 @@ final class ExampleViewController: UIViewController {
     }
     
     @objc func switchTheme() {
-        self.actionSheet.switchTheme(style: .dark)
+        Theme.switchTheme(style: .dark)
+//        Theme.switchHues(hues: [0.56,0.66,0.76,0.56,0.54])
     }
    
     // 长按手势处理方法
     @objc func showMenu(sender: UIButton) {
         self.view.addSubview(self.actionSheet)
+        
 //        let alert = UIAlertController(title: "title", message: "message asdasdsad asdasdasdasdasdasdasdasdasdasdasdasdasdasd", preferredStyle: .actionSheet)
 //        alert.addAction(UIAlertAction(title: "Delete", style: .destructive))
 //        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))

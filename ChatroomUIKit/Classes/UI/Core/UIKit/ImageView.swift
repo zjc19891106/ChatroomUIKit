@@ -20,7 +20,7 @@ import Combine
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func image(with url: String,placeHolder: UIImage) {
+    public func image(with url: String,placeHolder: UIImage?) {
         self.image = placeHolder
         guard let imageURL = URL(string: url) else { return }
         ImageLoader.shared.loadImage(from: imageURL)

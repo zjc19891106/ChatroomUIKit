@@ -7,13 +7,13 @@
 
 import UIKit
 
-@objc open class ChatEmojiView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
+@objcMembers open class ChatEmojiView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @objc public var deleteClosure: (() -> Void)?
 
     @objc public var emojiClosure: ((String) -> Void)?
 
-    lazy var flowLayout: UICollectionViewFlowLayout = {
+    public lazy var flowLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: (ScreenWidth - 20 - 60) / 7.0, height: (ScreenWidth - 20 - 60) / 7.0)
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -22,15 +22,15 @@ import UIKit
         return layout
     }()
 
-    lazy var emojiList: UICollectionView = {
+    public lazy var emojiList: UICollectionView = {
         UICollectionView(frame: CGRect(x: 0, y: 10, width: ScreenWidth, height: self.frame.height - 10), collectionViewLayout: self.flowLayout).registerCell(ChatEmojiCell.self, forCellReuseIdentifier: "ChatEmojiCell").dataSource(self).delegate(self).backgroundColor(.clear)
     }()
 
-    lazy var separaLine: UIView = {
+    public lazy var separaLine: UIView = {
         UIView(frame: CGRect(x: 0, y: 10, width: ScreenWidth, height: 1)).backgroundColor(.clear)
     }()
 
-    @objc public lazy var deleteEmoji: UIButton = {
+    public lazy var deleteEmoji: UIButton = {
         UIButton(type: .custom).frame(CGRect(x: self.frame.width - 48, y: self.frame.height - 56, width: 40, height: 40)).addTargetFor(self, action: #selector(deleteAction), for: .touchUpInside).cornerRadius(16).isEnabled(false).isUserInteractionEnabled(false)
     }()
 
@@ -47,9 +47,7 @@ import UIKit
     }
 
     @objc func deleteAction() {
-        if self.deleteClosure != nil {
-            deleteClosure!()
-        }
+        self.deleteClosure?()
     }
 }
 
@@ -66,15 +64,13 @@ public extension ChatEmojiView {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        if self.emojiClosure != nil {
-            self.emojiClosure!(ChatEmojiConvertor.shared.emojis[indexPath.row])
-        }
+        self.emojiClosure?(ChatEmojiConvertor.shared.emojis[indexPath.row])
     }
 }
 
 open class ChatEmojiCell: UICollectionViewCell {
     lazy var icon: UIImageView = {
-        UIImageView.init(frame: CGRect(x: 7, y: 7, width: self.contentView.frame.width - 14, height: self.contentView.frame.height - 14)).contentMode(.scaleAspectFit).backgroundColor(.clear)
+        UIImageView(frame: CGRect(x: 7, y: 7, width: self.contentView.frame.width - 14, height: self.contentView.frame.height - 14)).contentMode(.scaleAspectFit).backgroundColor(.clear)
     }()
 
     override public init(frame: CGRect) {
@@ -94,3 +90,5 @@ open class ChatEmojiCell: UICollectionViewCell {
         self.icon.frame = CGRect(x: 7, y: 7, width: contentView.frame.width - 14, height: contentView.frame.height - 14)
     }
 }
+
+

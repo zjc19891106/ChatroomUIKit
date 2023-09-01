@@ -20,6 +20,8 @@ public extension UIFont {
         
         var headlineSmall = UIFont.systemFont(ofSize: 16, weight: .semibold)
         
+        var headlineExtraSmall = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        
         var titleLarge = UIFont.systemFont(ofSize: 18, weight: .medium)
         
         var titleMedium = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -41,6 +43,9 @@ public extension UIFont {
         var bodySmall = UIFont.systemFont(ofSize: 12, weight: .regular)
         
         var bodyExtraSmall = UIFont.systemFont(ofSize: 11, weight: .regular)
+        
+        var giftNumberFont = UIFont(name: "HelveticaNeue-BoldItalic", size: 18) ?? UIFont.systemFont(ofSize: 18, weight: .bold)
+
     }
         
         
