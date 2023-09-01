@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 #if canImport(HyphenateChat)
 import HyphenateChat
 public typealias ChatClient = EMClient

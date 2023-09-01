@@ -115,7 +115,7 @@ extension ChatroomServiceImplement: ChatroomService {
     
     public func sendMessage(text: String, roomId: String, completion: @escaping (Bool, ChatError?) -> Void) {
         let user = ChatroomContext.shared?.currentUser as? User
-        let message = EMChatMessage(conversationID: roomId, body: EMTextMessageBody(text: text), ext: user?.kj.JSONObject())
+        let message = ChatMessage(conversationID: roomId, body: EMTextMessageBody(text: text), ext: user?.kj.JSONObject())
         message.chatType = .chatRoom
         ChatClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
             completion(error == nil,error)
@@ -124,7 +124,7 @@ extension ChatroomServiceImplement: ChatroomService {
     
     public func sendMessage(to userIds: [String], roomId: String, content: String, completion: @escaping (Bool, ChatError?) -> Void) {
         let user = ChatroomContext.shared?.currentUser as? User
-        let message = EMChatMessage(conversationID: roomId, body: EMTextMessageBody(text: content), ext: user?.kj.JSONObject())
+        let message = ChatMessage(conversationID: roomId, body: EMTextMessageBody(text: content), ext: user?.kj.JSONObject())
         message.chatType = .chatRoom
         message.receiverList = userIds
         ChatClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
@@ -134,7 +134,7 @@ extension ChatroomServiceImplement: ChatroomService {
     
     public func sendCustomMessage(to userIds: [String], roomId: String, eventType: String, infoMap: [String : String], completion: @escaping (Bool, ChatError?) -> Void) {
         let user = ChatroomContext.shared?.currentUser as? User
-        let message = EMChatMessage(conversationID: roomId, body: EMCustomMessageBody(event: eventType, customExt: infoMap), ext: user?.kj.JSONObject())
+        let message = ChatMessage(conversationID: roomId, body: EMCustomMessageBody(event: eventType, customExt: infoMap), ext: user?.kj.JSONObject())
         message.chatType = .chatRoom
         message.receiverList = userIds
         ChatClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
@@ -144,17 +144,17 @@ extension ChatroomServiceImplement: ChatroomService {
     
     private func sendJoinMessage(roomId: String, completion: @escaping (ChatError?) -> Void) {
         let user = ChatroomContext.shared?.currentUser as? User
-        let message = EMChatMessage(conversationID: roomId, body: EMCustomMessageBody(event: chatroom_UIKit_user_join, customExt: nil), ext: user?.kj.JSONObject())
+        let message = ChatMessage(conversationID: roomId, body: EMCustomMessageBody(event: chatroom_UIKit_user_join, customExt: nil), ext: user?.kj.JSONObject())
         message.chatType = .chatRoom
         ChatClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
             completion(error)
         })
     }
 }
-//MARK: - EMChatroomManagerDelegate
+//MARK: - ChatRoomManagerDelegate
 extension ChatroomServiceImplement: ChatroomManagerDelegate {
     
-    public func didDismiss(from aChatroom: EMChatroom, reason aReason: EMChatroomBeKickedReason) {
+    public func didDismiss(from aChatroom: ChatRoom, reason aReason: ChatroomBeKickedReason) {
         for response in self.responseDelegates.allObjects {
             if let roomId = aChatroom.chatroomId,let userMap = ChatroomContext.shared?.usersMap {
                 if userMap.keys.contains(where: { $0 == ChatroomContext.shared?.currentUser?.userId ?? "" }) {
@@ -165,7 +165,7 @@ extension ChatroomServiceImplement: ChatroomManagerDelegate {
         }
     }
     
-    public func chatroomAnnouncementDidUpdate(_ aChatroom: EMChatroom, announcement aAnnouncement: String?) {
+    public func chatroomAnnouncementDidUpdate(_ aChatroom: ChatRoom, announcement aAnnouncement: String?) {
         for response in self.responseDelegates.allObjects {
             if let announcement = aAnnouncement,let roomId = aChatroom.chatroomId {
                 response.onAnnouncementUpdate(roomId: roomId, announcement: announcement)
@@ -173,7 +173,7 @@ extension ChatroomServiceImplement: ChatroomManagerDelegate {
         }
     }
     
-    public func userDidLeave(_ aChatroom: EMChatroom, user aUsername: String) {
+    public func userDidLeave(_ aChatroom: ChatRoom, user aUsername: String) {
         for response in self.responseDelegates.allObjects {
             if let roomId = aChatroom.chatroomId,let userMap = ChatroomContext.shared?.usersMap {
                 if userMap.keys.contains(where: { $0 == aUsername }) {
@@ -188,7 +188,7 @@ extension ChatroomServiceImplement: ChatroomManagerDelegate {
 //MARK: - EMChatManagerDelegate
 extension ChatroomServiceImplement: ChatManagerDelegate {
     
-    public func messagesDidReceive(_ aMessages: [EMChatMessage]) {
+    public func messagesDidReceive(_ aMessages: [ChatMessage]) {
         for message in aMessages {
             for response in self.responseDelegates.allObjects {
                 switch message.body.type {

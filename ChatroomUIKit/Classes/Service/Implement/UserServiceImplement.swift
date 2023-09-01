@@ -57,8 +57,8 @@ extension UserServiceImplement:UserServiceProtocol {
     }
     
     public func userInfos(userIds: [String], completion: @escaping ([UserInfoProtocol],ChatError?) -> Void) {
-        EMClient.shared().userInfoManager?.fetchUserInfo(byId: userIds,completion: { [weak self] infoMap, error in
-            guard let dic = infoMap as? Dictionary<String,EMUserInfo> else { return }
+        ChatClient.shared().userInfoManager?.fetchUserInfo(byId: userIds,completion: { [weak self] infoMap, error in
+            guard let dic = infoMap as? Dictionary<String,UserInfo> else { return }
             var users = [User]()
             for userId in userIds {
                 if let info = dic[userId] {
@@ -72,22 +72,28 @@ extension UserServiceImplement:UserServiceProtocol {
     }
     
     public func updateUserInfo(userInfo: UserInfoProtocol, completion: @escaping (Bool, ChatError?) -> Void) {
-        EMClient.shared().userInfoManager?.updateOwn(self.convertToUserInfo(user: userInfo),completion: { user, error in
+        ChatClient.shared().userInfoManager?.updateOwn(self.convertToUserInfo(user: userInfo),completion: { user, error in
             completion(error == nil,error)
         })
     }
     
     public func login(userId: String, token: String, completion: @escaping (Bool, ChatError?) -> Void) {
-        EMClient.shared().login(withUsername: userId, token: token) { user_id, error in
-            completion(error == nil,error)
+        if token.hasPrefix("007") {
+            ChatClient.shared().login(withUsername: userId, agoraToken: token) { user_id, error in
+                completion(error == nil,error)
+            }
+        } else {
+            ChatClient.shared().login(withUsername: userId, token: token) { user_id, error in
+                completion(error == nil,error)
+            }
         }
     }
     
     public func logout(completion: @escaping (Bool, ChatError?) -> Void) {
-        EMClient.shared().logout(false)
+        ChatClient.shared().logout(false)
     }
     
-    private func convertToUser(info: EMUserInfo) -> User {
+    private func convertToUser(info: UserInfo) -> User {
         let user = User()
         user.userId = info.userId ?? ""
         user.nickName = info.nickname ?? ""
@@ -96,8 +102,8 @@ extension UserServiceImplement:UserServiceProtocol {
         return user
     }
     
-    private func convertToUserInfo(user: UserInfoProtocol) -> EMUserInfo {
-        let info = EMUserInfo()
+    private func convertToUserInfo(user: UserInfoProtocol) -> UserInfo {
+        let info = UserInfo()
         info.userId = user.userId
         info.nickname = user.nickName
         info.avatarUrl = user.avatarURL
@@ -107,8 +113,8 @@ extension UserServiceImplement:UserServiceProtocol {
     
 }
 
-//MARK: - EMClientDelegate
-extension UserServiceImplement: EMClientDelegate {
+//MARK: - ChatClientDelegate
+extension UserServiceImplement: ChatClientDelegate {
     public func tokenDidExpire(_ aErrorCode: ChatErrorCode) {
         for response in self.responseDelegates.allObjects {
             response.onUserTokenDidExpired()
@@ -141,6 +147,6 @@ extension UserServiceImplement: EMClientDelegate {
     }
 }
 
-extension EMUserInfo: Convertible {
+extension UserInfo: Convertible {
     
 }

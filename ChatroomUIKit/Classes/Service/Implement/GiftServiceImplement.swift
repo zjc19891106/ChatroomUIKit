@@ -63,7 +63,7 @@ extension GiftServiceImplement: EMChatManagerDelegate {
             for response in self.responseDelegates.allObjects {
                 switch message.body.type {
                 case .custom:
-                    if let body = message.body as? EMCustomMessageBody {
+                    if let body = message.body as? ChatCustomMessageBody {
                         if body.event == chatroom_UIKit_gift,let json = message.ext as? [String:Any] {
                             let user = model(from: json, type: User.self)
                             if let userInfo = user as? UserInfoProtocol,let jsonString = body.customExt["gift"] {
