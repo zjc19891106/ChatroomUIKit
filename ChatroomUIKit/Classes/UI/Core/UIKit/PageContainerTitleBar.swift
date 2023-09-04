@@ -13,6 +13,8 @@ import UIKit
     
     var chooseClosure: ((Int)->())?
     
+    private var theme: ThemeStyle = .light
+    
     lazy var indicator: UIView = {
         UIView(frame: CGRect(x: 16, y: 8, width: 114, height: self.frame.height-16)).cornerRadius(14).backgroundColor(UIColor(0xD8D8D8))
     }()
@@ -58,6 +60,7 @@ extension PageContainerTitleBar: UICollectionViewDataSource, UICollectionViewDel
             return ChoiceItemCell()
         }
         cell.refresh(text: self.datas[indexPath.row])
+        cell.content.textColor(self.theme == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1)
         return cell
     }
     
@@ -77,13 +80,25 @@ extension PageContainerTitleBar: UICollectionViewDataSource, UICollectionViewDel
 
 }
 
-
+extension PageContainerTitleBar: ThemeSwitchProtocol {
+    
+    public func switchTheme(style: ThemeStyle) {
+        self.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
+        self.indicator.backgroundColor(style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5)
+        self.choicesBar.reloadData()
+    }
+    
+    public func switchHues(hues: [CGFloat]) {
+        UIColor.ColorTheme.switchHues(hues: hues)
+        self.switchTheme(style: .light)
+    }
+}
 
 
 @objc final class ChoiceItemCell: UICollectionViewCell {
     
     lazy var content: UILabel = {
-        UILabel(frame: CGRect(x: 0, y: 0, width: self.contentView.frame.width, height: self.contentView.frame.height)).textAlignment(.center).textColor(.darkText).font(.systemFont(ofSize: 14, weight: .semibold)).backgroundColor(.clear)
+        UILabel(frame: CGRect(x: 0, y: 0, width: self.contentView.frame.width, height: self.contentView.frame.height)).textAlignment(.center).textColor(UIColor.theme.neutralColor1).font(.systemFont(ofSize: 14, weight: .semibold)).backgroundColor(.clear)
     }()
     
     override init(frame: CGRect) {

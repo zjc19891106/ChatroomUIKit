@@ -14,7 +14,55 @@ import UIKit
 //    UIButton(type: .custom).frame(CGRect(x: 100, y: 100, width: 100, height: 50)).title("测试", .normal).font(.systemFont(ofSize: 15)).textColor(.black, .normal).addTargetFor(self, action: #selector(popAction), for: .touchUpInside)
 //}()
 
+public enum CornerRadius: UInt {
+    case extraSmall = 4
+    case small = 8
+    case medium = 16
+    case large = 32
+}
+
 public extension UIView {
+    
+    
+    @discardableResult
+    func cornerRadius(_ value: CornerRadius , _ corners: [UIRectCorner] , _ color: UIColor , _ width: CGFloat) -> Self {
+        let view = self
+        view.clipsToBounds = true
+        var radius = self.frame.height/2.0
+        if value != .large {
+            radius = CGFloat(value.rawValue)
+        }
+        let corner = UIRectCorner(corners)
+        let maskPath = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corner, cornerRadii: CGSize(width: radius, height: radius))
+        let maskLayer = CAShapeLayer().frame(self.bounds).borderColor(color.cgColor).borderWidth(width).path(maskPath.cgPath)
+        maskLayer.path = maskPath.cgPath
+        view.layer.mask = maskLayer
+        return view
+    }
+    
+    @discardableResult
+    func cornerRadius(_ value: CornerRadius) -> Self  {
+        let view = self
+        var radius = self.frame.height/2.0
+        if value != .large {
+            radius = CGFloat(value.rawValue)
+        }
+        view.clipsToBounds = true
+        view.layer.cornerRadius = radius
+        return view
+    }
+    
+    @discardableResult
+    func cornerRadiusMask(_ value: CornerRadius,_ mask: Bool) -> Self {
+        let view = self
+        view.layer.masksToBounds = mask
+        var radius = self.frame.height/2.0
+        if value != .large {
+            radius = CGFloat(value.rawValue)
+        }
+        view.layer.cornerRadius = radius
+        return view
+    }
     
     @discardableResult
     func backgroundColor(_ color: UIColor) -> Self {

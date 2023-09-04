@@ -7,7 +7,9 @@
 
 import UIKit
 
-@objcMembers open class ChatEmojiView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
+@objcMembers open class ChatEmojiView: UIView {
+    
+    private var theme: ThemeStyle = .light
     
     @objc public var deleteClosure: (() -> Void)?
 
@@ -34,11 +36,19 @@ import UIKit
         UIButton(type: .custom).frame(CGRect(x: self.frame.width - 48, y: self.frame.height - 56, width: 40, height: 40)).addTargetFor(self, action: #selector(deleteAction), for: .touchUpInside).cornerRadius(16).isEnabled(false).isUserInteractionEnabled(false)
     }()
 
-    override public init(frame: CGRect) {
+    required override public init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubViews([self.emojiList, self.deleteEmoji, self.separaLine])
         self.deleteEmoji.setImage(UIImage(named: "", in: .chatroomBundle, with: nil), for: .normal)
         self.deleteEmoji.setImage(UIImage(named: "", in: .chatroomBundle, with: nil), for: .disabled)
+        let shadowPath0 = UIBezierPath(roundedRect: self.deleteEmoji.bounds, cornerRadius: 24)
+        let layer0 = self.deleteEmoji.layer
+        layer0.shadowPath = shadowPath0.cgPath
+        layer0.shadowColor = UIColor(red: 0.275, green: 0.306, blue: 0.325, alpha: 0.15).cgColor
+        layer0.shadowOpacity = 1
+        layer0.shadowRadius = 3
+        layer0.shadowOffset = CGSize(width: 0, height: 1)
+
     }
 
     @available(*, unavailable)
@@ -51,20 +61,33 @@ import UIKit
     }
 }
 
-public extension ChatEmojiView {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension ChatEmojiView: UICollectionViewDelegate, UICollectionViewDataSource {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         ChatEmojiConvertor.shared.emojis.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChatEmojiCell", for: indexPath) as? ChatEmojiCell
         cell?.icon.image = ChatEmojiConvertor.shared.emojiMap.isEmpty ? UIImage(named: ChatEmojiConvertor.shared.emojis[indexPath.row], in: .chatroomBundle, with: nil):ChatEmojiConvertor.shared.emojiMap[ChatEmojiConvertor.shared.emojis[indexPath.row]]
         return cell ?? ChatEmojiCell()
     }
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         self.emojiClosure?(ChatEmojiConvertor.shared.emojis[indexPath.row])
+    }
+}
+
+extension ChatEmojiView: ThemeSwitchProtocol {
+    public func switchTheme(style: ThemeStyle) {
+        self.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
+        self.deleteEmoji.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
+        self.deleteEmoji.layer.shadowColor(UIColor(red: 0.275, green: 0.306, blue: 0.325, alpha: style == .dark ? 0.3:0.15).cgColor)
+    }
+    
+    public func switchHues(hues: [CGFloat]) {
+        UIColor.ColorTheme.switchHues(hues: hues)
+        self.switchTheme(style: .light)
     }
 }
 

@@ -13,19 +13,22 @@ import KakaJSON
         
     private var responseDelegates: NSHashTable<UserStateChangedListener> = NSHashTable<UserStateChangedListener>.weakObjects()
     
-    init(userInfo: UserInfoProtocol,token: String,use userProperty: Bool) {
+    @objc public init(userInfo: UserInfoProtocol,token: String,use userProperty: Bool = true,completion: @escaping (ChatError?) -> Void) {
         ChatroomContext.shared?.currentUser = userInfo
         super.init()
         self.login(userId: userInfo.userId, token: token) { [weak self] success, error in
             if !success {
                 consoleLogInfo(error?.errorDescription ?? "", type: .debug)
             } else {
-                self?.updateUserInfo(userInfo: userInfo, completion: { success, error in
-                    if !success {
-                        consoleLogInfo("update user info failure:\(error?.errorDescription ?? "")", type: .debug)
-                    }
-                })
+                if userProperty {
+                    self?.updateUserInfo(userInfo: userInfo, completion: { success, error in
+                        if !success {
+                            consoleLogInfo("update user info failure:\(error?.errorDescription ?? "")", type: .debug)
+                        }
+                    })
+                }
             }
+            completion(error)
         }
     }
     
@@ -91,6 +94,7 @@ extension UserServiceImplement:UserServiceProtocol {
     
     public func logout(completion: @escaping (Bool, ChatError?) -> Void) {
         ChatClient.shared().logout(false)
+        completion(true,nil)
     }
     
     private func convertToUser(info: UserInfo) -> User {

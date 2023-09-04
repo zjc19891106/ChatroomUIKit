@@ -7,20 +7,18 @@
 */
 
 "Send"="发送";
-"Joined"="进入直播间";
+"Joined"="已加入";
 
 
 "Post Success" = "发布成功";
 "Post Failed" = "发布失败";
-"Lau" = "CN";
 
 
-"host" = "房主";
 
 "Welcome to " = "欢迎来到";
 
 "Joined successful!" = "加入成功";
-"join IM failed!" = "加入聊天室失败";
+"Join IM failed!" = "加入聊天室失败";
 
 "Notice Posted"="公告已发布";
 

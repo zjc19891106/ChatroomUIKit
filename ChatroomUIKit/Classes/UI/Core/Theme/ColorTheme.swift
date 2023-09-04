@@ -111,6 +111,24 @@ public extension UIColor {
         
     @objcMembers class ColorTheme: NSObject {
         
+        static func switchHues(hues: [CGFloat]) {
+            if let primaryHue = hues[safe: 0] {
+                self.primaryHue = primaryHue
+            }
+            if let secondaryHue = hues[safe: 1] {
+                self.secondaryHue = secondaryHue
+            }
+            if let errorHue = hues[safe: 2] {
+                self.errorHue = errorHue
+            }
+            if let neutralHue = hues[safe: 3] {
+                self.neutralHue = neutralHue
+            }
+            if let neutralSpecialHue = hues[safe: 4] {
+                self.neutralSpecialHue = neutralSpecialHue
+            }
+        }
+        
         /// Description You can change the hue of the base color, and then change the thirteen UIColor objects of the related color series. The UI components that use the relevant color series in the chat room UIKit will also change accordingly. The default value is 203/360.0.
         ///  How to use?
         ///  `ColorTheme.primaryHue = 0.7`

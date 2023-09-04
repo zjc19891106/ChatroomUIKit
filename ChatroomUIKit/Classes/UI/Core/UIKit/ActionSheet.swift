@@ -109,21 +109,7 @@ extension ActionSheet: ThemeSwitchProtocol {
     }
     
     public func switchHues(hues: [CGFloat]) {
-        if let primaryHue = hues[safe: 0] {
-            UIColor.ColorTheme.primaryHue = primaryHue
-        }
-        if let secondaryHue = hues[safe: 1] {
-            UIColor.ColorTheme.secondaryHue = secondaryHue
-        }
-        if let errorHue = hues[safe: 2] {
-            UIColor.ColorTheme.errorHue = errorHue
-        }
-        if let neutralHue = hues[safe: 3] {
-            UIColor.ColorTheme.neutralHue = neutralHue
-        }
-        if let neutralSpecialHue = hues[safe: 4] {
-            UIColor.ColorTheme.neutralSpecialHue = neutralSpecialHue
-        }
+        UIColor.ColorTheme.switchHues(hues: hues)
         self.switchTheme(style: .light)
     }
 }

@@ -47,7 +47,7 @@ import UIKit
     /// - Parameters:
     ///   - frame: Layout coordinates
     ///   - source: GiftsBarrageListDataSource
-    @objc public convenience init(frame: CGRect, source: GiftsBarrageListDataSource?) {
+    @objc public convenience init(frame: CGRect, source: GiftsBarrageListDataSource? = nil) {
         self.init(frame: frame)
         self.dataSource = source
         self.backgroundColor = .clear
@@ -60,10 +60,7 @@ import UIKit
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    public func receiveGift(gift: GiftEntityProtocol) {
-        self.gifts.append(gift)
-    }
+
 }
 
 
@@ -126,7 +123,6 @@ extension GiftsBarrageList: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-
 extension GiftsBarrageList: GiftsBarrageListDataSource {
     public func rowHeight() -> CGFloat {
         64
@@ -138,5 +134,11 @@ extension GiftsBarrageList: GiftsBarrageListDataSource {
     
     public func zoomScaleY() -> CGFloat {
         0.75
+    }
+}
+
+extension GiftsBarrageList: IGiftsBarrageListDriver {
+    public func receiveGift(gift: GiftEntityProtocol) {
+        self.gifts.append(gift)
     }
 }

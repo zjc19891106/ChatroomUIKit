@@ -36,7 +36,11 @@ final class ExampleViewController: UIViewController {
         theme.addTarget(self, action: #selector(switchTheme), for: .touchUpInside)
         self.view.addSubview(theme)
         
-        let imageView = UIImageView(frame: CGRect(x: 100, y: 400, width: 100, height: 100)).backgroundColor(.randomColor)        
+        let imageView = UIImageView(frame: CGRect(x: 100, y: 400, width: 100, height: 100)).backgroundColor(.randomColor)
+        
+        let chat = ChatRoomView(frame: .zero)
+        chat.bindService(service: ChatroomUIKitService(roomId: "", token: "", user: CustomInfo()))
+        self.view.addSubview(chat)
     }
     
     @objc func switchTheme() {

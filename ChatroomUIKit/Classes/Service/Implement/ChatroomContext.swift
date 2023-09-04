@@ -7,15 +7,15 @@
 
 import UIKit
 
-@objc public final class ChatroomContext: NSObject {
+@objcMembers public final class ChatroomContext: NSObject {
     
-    static let shared: ChatroomContext? = ChatroomContext()
+    public static let shared: ChatroomContext? = ChatroomContext()
     
-    var currentUser: UserInfoProtocol?
+    public var currentUser: UserInfoProtocol?
     
-    var owner: UserInfoProtocol?
+    public var owner: UserInfoProtocol?
     
-    var room: ChatRoom?
+    public var room: ChatRoom?
     
-    var usersMap: [String:UserInfoProtocol]? = [String:UserInfoProtocol]()
+    public var usersMap: [String:UserInfoProtocol]? = [String:UserInfoProtocol]()
 }

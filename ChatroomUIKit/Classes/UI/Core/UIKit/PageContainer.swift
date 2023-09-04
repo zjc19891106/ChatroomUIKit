@@ -99,3 +99,13 @@ extension PageContainer:UIPageViewControllerDataSource, UIPageViewControllerDele
     }
 }
 
+extension PageContainer: ThemeSwitchProtocol {
+    public func switchTheme(style: ThemeStyle) {
+        self.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
+    }
+    
+    public func switchHues(hues: [CGFloat]) {
+        UIColor.ColorTheme.switchHues(hues: hues)
+        self.switchTheme(style: .light)
+    }
+}

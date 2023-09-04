@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit.UIView
 
 /// Contain light and dark themes of the chat room UIKit.
 @objc public enum ThemeStyle: UInt {
@@ -29,7 +28,7 @@ import UIKit.UIView
 
 /// Description The theme switching class is used for users to switch themes or register some user's own views that comply with the ThemeSwitchProtocol protocol.
 /// How to use?
-/// A view conform ThemeSwitchProtocol.Then Implement protocol methods.When you want switch theme that light and dark themes provided by default chatroom UIKit  `` theme.
+/// A view conform ThemeSwitchProtocol.Then Implement protocol methods.When you want switch theme that light and dark themes provided by default chatroom UIKit  `theme` .
 /// Call `Theme.switchTheme(style: .dark)` method
 /// A view conform ThemeSwitchProtocol.Then Implement protocol methods.When you want switch themes provided by customer .
 /// Call `Theme.switchHues(hues: [0.56,0.66,0.76,0.56,0.54])` method.
