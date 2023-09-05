@@ -36,11 +36,22 @@ final class ExampleViewController: UIViewController {
         theme.addTarget(self, action: #selector(switchTheme), for: .touchUpInside)
         self.view.addSubview(theme)
         
-        let imageView = UIImageView(frame: CGRect(x: 100, y: 400, width: 100, height: 100)).backgroundColor(.randomColor)
+        let imageView = UIImageView(frame: CGRect(x: 100, y: 400, width: 100, height: 100)).backgroundColor(.white)
+        self.view.addSubview(imageView)
+//        let chat = ChatRoomView(frame: .zero)
+//        chat.bindService(service: ChatroomUIKitService(roomId: "", token: "", user: CustomInfo()))
+//        self.view.addSubview(chat)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.firstLineHeadIndent = 100
+        let text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit asdasdasdasdasdasdasdasd."
+        let attributedText = NSAttributedString(string: text, attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
+        let label = UILabel(frame: CGRect(x: 20, y: 400, width: ScreenWidth-120, height: 100)).backgroundColor(.gray)
+        label.attributedText = attributedText
+        label.numberOfLines = 0
+        self.view.addSubview(label)
+        let input = ChatInputBar(frame: CGRect(x: 0, y: ScreenHeight-62, width: ScreenWidth, height: 52),text: nil,placeHolder: "Please")
+        self.view.addSubview(input)
         
-        let chat = ChatRoomView(frame: .zero)
-        chat.bindService(service: ChatroomUIKitService(roomId: "", token: "", user: CustomInfo()))
-        self.view.addSubview(chat)
     }
     
     @objc func switchTheme() {

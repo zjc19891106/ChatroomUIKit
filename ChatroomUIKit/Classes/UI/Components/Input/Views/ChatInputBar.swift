@@ -16,7 +16,7 @@ import UIKit
     public var changeEmojiClosure: ((Bool) -> Void)?
     
     lazy var rightView: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 0, y: 4.5, width: 27, height: 27)).addTargetFor(self, action: #selector(changeToEmoji), for: .touchUpInside).backgroundColor(.clear)
+        UIButton(type: .custom).frame(CGRect(x: ScreenWidth-87, y: 12, width: 30, height: 30)).addTargetFor(self, action: #selector(changeToEmoji), for: .touchUpInside).backgroundColor(.clear)
     }()
     
     public lazy var inputField: TextEditorView = {
@@ -24,7 +24,7 @@ import UIKit
     }()
     
     lazy var send: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: ScreenWidth - 49, y: 12, width: 30, height: 30)).backgroundColor(.clear).addTargetFor(self, action: #selector(sendMessage), for: .touchUpInside)
+        UIButton(type: .custom).frame(CGRect(x: ScreenWidth - 49, y: 12, width: 30, height: 30)).backgroundColor(.clear).image(UIImage(named: "airplane", in: .chatroomBundle, with: nil), .normal).addTargetFor(self, action: #selector(sendMessage), for: .touchUpInside)
     }()
     
     private var limitCount: Int {
@@ -35,24 +35,24 @@ import UIKit
         return count
     }
         
-    let line = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 1)).backgroundColor(.clear)
     
     var emoji: ChatEmojiView?
     
-    override public init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
     @objc public convenience init(frame: CGRect,text: String? = nil,placeHolder: String? = nil) {
         self.init(frame: frame)
-        self.rightView.setImage(UIImage(named: "emojiKeyboard", in: .chatroomBundle, with: nil), for: .normal)
-        self.rightView.setImage(UIImage(named: "textKeyboard", in: .chatroomBundle, with: nil), for: .selected)
-        self.addSubViews([self.inputField, self.send, self.line])
+        self.addSubViews([self.inputField, self.rightView,self.send])
+        self.rightView.setImage(UIImage(named: "emojiKeyboard", in: Bundle.chatroomBundle, with: nil)?.withTintColor(UIColor.theme.neutralColor3), for: .normal)
+        self.rightView.setImage(UIImage(named: "textKeyboard", in: Bundle.chatroomBundle, with: nil)?.withTintColor(UIColor.theme.neutralColor3), for: .selected)
         self.inputField.translatesAutoresizingMaskIntoConstraints = false
-        self.inputField.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
-        self.inputField.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8).isActive = true
+        self.inputField.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 12).isActive = true
+        self.inputField.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -99).isActive = true
         self.inputField.topAnchor.constraint(equalTo: self.topAnchor, constant: 8).isActive = true
         self.inputField.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
+        self.inputField.cornerRadius(.medium)
         self.inputField.tintColor = UIColor.theme.primaryColor5
         self.inputField.placeholderTextColor = UIColor.theme.neutralColor6
         self.inputField.textView.textColor = UIColor.theme.neutralColor1
@@ -72,6 +72,8 @@ import UIKit
         self.inputField.heightDidChangedShouldScroll = { [weak self] in
             self?.textViewHeightChanged(height: $0) ?? false
         }
+        
+        Theme.registerSwitchThemeViews(view: self)
     }
     
     deinit {
@@ -134,9 +136,7 @@ extension ChatInputBar {
 
     @objc func changeToEmoji() {
         self.rightView.isSelected = !self.rightView.isSelected
-        if self.changeEmojiClosure != nil {
-            self.changeEmojiClosure!(rightView.isSelected)
-        }
+        self.changeEmojiClosure?(self.rightView.isSelected)
         if self.rightView.isSelected {
             self.inputField.resignFirstResponder()
         } else {
@@ -148,8 +148,8 @@ extension ChatInputBar {
         if !self.inputField.isFirstResponder {
             return
         }
-        let frame = notification.a.keyboardEndFrame
-        let duration = notification.a.keyboardAnimationDuration
+        let frame = notification.chatroom.keyboardEndFrame
+        let duration = notification.chatroom.keyboardAnimationDuration
         self.keyboardHeight = frame!.height
         UIView.animate(withDuration: duration!) {
             self.frame = CGRect(x: 0, y:ScreenHeight - 60 - frame!.height, width: ScreenWidth, height: self.frame.height)
@@ -157,8 +157,8 @@ extension ChatInputBar {
     }
     
     @objc private func keyboardWillHide(notification: Notification) {
-        let frame = notification.a.keyboardEndFrame
-        let duration = notification.a.keyboardAnimationDuration
+        let frame = notification.chatroom.keyboardEndFrame
+        let duration = notification.chatroom.keyboardAnimationDuration
         self.keyboardHeight = frame!.height
         self.frame = CGRect(x: 0, y: self.frame.origin.y, width: ScreenWidth, height: self.keyboardHeight + 5 + 60)
         let emoji = ChatEmojiView(frame: CGRect(x: 0, y: self.inputField.frame.maxY, width: ScreenWidth, height: self.keyboardHeight)).tag(124).backgroundColor(UIColor.theme.neutralColor98)
@@ -235,8 +235,15 @@ extension ChatInputBar {
 extension ChatInputBar: ThemeSwitchProtocol {
     
     public func switchTheme(style: ThemeStyle) {
-        self.rightView.setImage(UIImage(named: "emojiKeyboard", in: .chatroomBundle, with: nil)?.withTintColor(style == .dark ? UIColor.theme.neutralColor3:UIColor.theme.neutralColor95, renderingMode: .automatic), for: .normal)
-        self.rightView.setImage(UIImage(named: "textKeyboard", in: .chatroomBundle, with: nil)?.withTintColor(style == .dark ? UIColor.theme.neutralColor3:UIColor.theme.neutralColor95, renderingMode: .automatic), for: .selected)
+        self.rightView.setImage(UIImage(named: "emojiKeyboard", in: .chatroomBundle, with: nil)?.withTintColor(style == .dark ? UIColor.theme.neutralColor95:UIColor.theme.neutralColor3, renderingMode: .automatic), for: .normal)
+        self.rightView.setImage(UIImage(named: "textKeyboard", in: .chatroomBundle, with: nil)?.withTintColor(style == .dark ? UIColor.theme.neutralColor95:UIColor.theme.neutralColor3, renderingMode: .automatic), for: .selected)
+        var image = UIImage(named: "airplane", in: .chatroomBundle, with: nil)
+        if style == .dark {
+            image = image?.withTintColor(UIColor.theme.primaryColor6)
+        }
+        self.send.setImage(image, for: .normal)
+        self.viewWithTag(124)?.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
+        self.inputField.backgroundColor(style == .dark ? UIColor.theme.neutralColor2:UIColor.theme.neutralColor95)
         self.inputField.tintColor = style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5
         self.inputField.placeholderTextColor = style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor6
         self.inputField.textView.textColor = style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1

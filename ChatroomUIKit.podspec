@@ -43,7 +43,13 @@ TODO: Add long description of the pod here.
     ss.source_files = [
       'ChatroomUIKit/UI/**/*'
     ]
-    ss.resource = ['ChatroomUIKit/Resources/*.bundle']
+    ss.resources = ['ChatroomUIKit/**/*.bundle']
+    
+    ss.resource_bundles = { 'ChatRoomResource' => [
+      'ChatRoomResource.xcassets',
+      'ChatRoomResource/*.lproj'
+    ] }
+
   end
   
   s.static_framework = true

@@ -7,8 +7,16 @@
 
 import Foundation
 
-public let ChatroomResourceBundle = Bundle(path: Bundle.main.path(forResource: "ChatroomResource", ofType: "bundle") ?? "") ?? Bundle.main
+fileprivate var ChatroomResourceBundle: Bundle?
 
 public extension Bundle {
-    class var chatroomBundle: Bundle { ChatroomResourceBundle }
+    class var chatroomBundle: Bundle {
+        if ChatroomResourceBundle != nil {
+            return ChatroomResourceBundle!
+        }
+        let bundlePath = Bundle.main.path(forResource: "ChatRoomResource", ofType: "bundle") ?? ""
+        ChatroomResourceBundle = Bundle(path:  bundlePath) ?? .main
+        return ChatroomResourceBundle!
+        
+    }
 }

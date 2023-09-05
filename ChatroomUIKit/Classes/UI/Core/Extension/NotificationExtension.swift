@@ -10,7 +10,7 @@ import Foundation
 
 public extension Notification {
     
-    var a: Chatroom<Self> {
+    var chatroom: Chatroom<Self> {
         Chatroom.init(self)
     }
     

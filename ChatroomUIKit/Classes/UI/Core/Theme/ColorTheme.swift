@@ -19,8 +19,10 @@ enum LightnessThemeStyle: UInt {
     case five = 50
     case six = 60
     case seven = 70
+    case seventyFive = 75
     case eight = 80
-    case nine = 90
+    case eightyFive = 85
+    case ninety = 90
     case ninetyFive = 95
     case ninetyEight = 98
     case oneHundred = 100
@@ -36,7 +38,7 @@ enum AlphaThemeStyle: CGFloat {
     case six = 0.6
     case seven = 0.7
     case eight = 0.8
-    case nine = 0.9
+    case ninety = 0.9
     case ninetyFive = 0.95
     case ninetyEight = 0.98
     case oneHundred = 1
@@ -66,6 +68,25 @@ fileprivate func hueToRGB(_ m: CGFloat, _ l: CGFloat, _ hue: CGFloat) -> CGFloat
     return m
 }
 
+
+public struct GradientForwardPoints {
+    
+    public static var topLeftToBottomRight = [CGPoint(x: 0, y: 0),CGPoint(x: 1, y: 1)]
+
+    public static var topRightToBottomLeft = [CGPoint(x: 1, y: 0),CGPoint(x: 0, y: 1)]
+    
+    public static var bottomLeftToTopRight = [CGPoint(x: 0, y: 1),CGPoint(x: 1, y: 0)]
+    
+    public static var bottomRightToTopLeft = [CGPoint(x: 1, y: 1),CGPoint(x: 0, y: 0)]
+    
+    public static var topToBottom = [CGPoint(x: 0.5, y: 0),CGPoint(x: 0.5, y: 1)]
+    
+    public static var bottomToTop = [CGPoint(x: 0.5, y: 1),CGPoint(x: 0.5, y: 0)]
+    
+    public static var leftToRight = [CGPoint(x: 0, y: 0.5),CGPoint(x: 1, y: 0.5)]
+    
+    public static var rightToLeft = [CGPoint(x: 1, y: 0.5),CGPoint(x: 0, y: 0.5)]
+}
 
 
 public extension UIColor {
@@ -150,6 +171,9 @@ public extension UIColor {
         ///  `ColorTheme.neutralSpecialHue = 0.7`
         static var neutralSpecialHue: CGFloat = 220/360.0
         
+        /// Description You can modify this value to change the value of all gradient end colors.
+        static var gradientEndHue: CGFloat = 233/360.0
+        
         /// Description UIColor Extension
         ///  `UIColor.theme.primaryColor0`
         var primaryColor0: UIColor {
@@ -189,7 +213,7 @@ public extension UIColor {
         }
         
         var primaryColor9: UIColor {
-            UIColor.ColorTheme.primaryColor(lightness: .nine)
+            UIColor.ColorTheme.primaryColor(lightness: .ninety)
         }
         
         var primaryColor95: UIColor {
@@ -249,7 +273,7 @@ public extension UIColor {
         }
         
         var secondaryColor9: UIColor {
-            UIColor.ColorTheme.secondaryColor(lightness: .nine)
+            UIColor.ColorTheme.secondaryColor(lightness: .ninety)
         }
         
         var secondaryColor95: UIColor {
@@ -307,7 +331,7 @@ public extension UIColor {
             UIColor.ColorTheme.errorColor(lightness: .eight)
         }
         var errorColor9: UIColor {
-            UIColor.ColorTheme.errorColor(lightness: .nine)
+            UIColor.ColorTheme.errorColor(lightness: .ninety)
         }
         var errorColor95: UIColor {
             UIColor.ColorTheme.errorColor(lightness: .ninetyFive)
@@ -354,7 +378,7 @@ public extension UIColor {
             UIColor.ColorTheme.neutralColor(lightness: .eight)
         }
         var neutralColor9: UIColor {
-            UIColor.ColorTheme.neutralColor(lightness: .nine)
+            UIColor.ColorTheme.neutralColor(lightness: .ninety)
         }
         var neutralColor95: UIColor {
             UIColor.ColorTheme.neutralColor(lightness: .ninetyFive)
@@ -401,7 +425,7 @@ public extension UIColor {
             UIColor.ColorTheme.neutralSpecialColor(lightness: .eight)
         }
         var neutralSpecialColor9: UIColor {
-            UIColor.ColorTheme.neutralSpecialColor(lightness: .nine)
+            UIColor.ColorTheme.neutralSpecialColor(lightness: .ninety)
         }
         var neutralSpecialColor95: UIColor {
             UIColor.ColorTheme.neutralSpecialColor(lightness: .ninetyFive)
@@ -448,7 +472,7 @@ public extension UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .zero, alpha: .eight)
         }
         var barrageLightColor9: UIColor {
-            UIColor.ColorTheme.barrageColor(lightness: .zero, alpha: .nine)
+            UIColor.ColorTheme.barrageColor(lightness: .zero, alpha: .ninety)
         }
         var barrageLightColor95: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .zero, alpha: .ninetyFive)
@@ -487,7 +511,7 @@ public extension UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .eight)
         }
         var barrageDarkColor9: UIColor {
-            UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .nine)
+            UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .ninety)
         }
         var barrageDarkColor95: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .ninetyFive)
@@ -506,6 +530,36 @@ public extension UIColor {
             UIColor(hue: 0, saturation: 0, lightness: CGFloat(style.rawValue)/100.0, alpha: alpha.rawValue)
         }
         
+//        var gradientColors0: [UIColor] = [UIColor.theme.primaryColor1,gradientEndColor(lightness: .two)]
+//        
+//        var graduentColors1: [UIColor] = [UIColor.theme.primaryColor2,gradientEndColor(lightness: .three)]
+//        
+//        var graduentColors2: [UIColor] = [UIColor.theme.primaryColor3,gradientEndColor(lightness: .four)]
+//        
+//        var graduentColors3: [UIColor] = [UIColor.theme.primaryColor4,gradientEndColor(lightness: .five)]
+//        
+//        var graduentColors4: [UIColor] = [UIColor.theme.primaryColor5,gradientEndColor(lightness: .six)]
+//        
+//        var graduentColors5: [UIColor] = [UIColor.theme.primaryColor6,gradientEndColor(lightness: .seven)]
+//        
+//        var graduentColors6: [UIColor] = [UIColor.theme.primaryColor7,gradientEndColor(lightness: .seventyFive)]
+//        
+//        var graduentColors7: [UIColor] = [UIColor.theme.primaryColor8,gradientEndColor(lightness: .eight)]
+//        
+//        var graduentColors8: [UIColor] = [UIColor.theme.primaryColor9,gradientEndColor(lightness: .eightyFive)]
+//        
+//        var graduentColors9: [UIColor] = [UIColor.theme.primaryColor9,gradientEndColor(lightness: .ninety)]
+//        
+//        var graduentColors95: [UIColor] = [UIColor.theme.primaryColor95,gradientEndColor(lightness: .ninetyFive)]
+//        
+//        var graduentColors98: [UIColor] = [UIColor.theme.primaryColor98,gradientEndColor(lightness: .ninety)]
+//        
+//        /// Description Gradient Colors constructor method.
+//        /// - Parameter style: LightnessThemeStyle
+//        /// - Returns: UIColor instance
+//        static func gradientEndColor(lightness style: LightnessThemeStyle) -> UIColor {
+//            UIColor(hue: ColorTheme.gradientEndHue, saturation: 1, lightness: CGFloat(style.rawValue)/100.0, alpha: 1)
+//        }
     }
 }
 

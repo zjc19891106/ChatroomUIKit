@@ -226,10 +226,10 @@ private extension TextEditorView {
         placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(placeholderLabel)
 
-        let leftConstraint = placeholderLabel.leftAnchor.constraint(equalTo: textView.leftAnchor, constant: 0)
+        let leftConstraint = placeholderLabel.leftAnchor.constraint(equalTo: textView.leftAnchor, constant: 8)
         let rightConstraint = placeholderLabel.rightAnchor.constraint(equalTo: textView.rightAnchor, constant: 0)
-        let topConstraint = placeholderLabel.topAnchor.constraint(equalTo: textView.topAnchor, constant: 0)
-        let bottomConstraint = placeholderLabel.bottomAnchor.constraint(lessThanOrEqualTo: textView.bottomAnchor, constant: 0)
+        let topConstraint = placeholderLabel.topAnchor.constraint(equalTo: textView.topAnchor, constant: 5)
+        let bottomConstraint = placeholderLabel.bottomAnchor.constraint(lessThanOrEqualTo: textView.bottomAnchor, constant: 5)
         NSLayoutConstraint.activate([leftConstraint, rightConstraint, topConstraint, bottomConstraint])
     }
 

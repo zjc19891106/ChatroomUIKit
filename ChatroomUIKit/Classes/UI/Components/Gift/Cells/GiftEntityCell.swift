@@ -40,6 +40,8 @@ open class GiftEntityCell: UICollectionViewCell {
         self.contentView.addSubViews([self.cover, self.icon, self.name, self.displayValue])
         self.cover.addSubview(self.send)
         self.displayValue.imageEdgeInsets(UIEdgeInsets(top: self.displayValue.imageEdgeInsets.top, left: -10, bottom: self.displayValue.imageEdgeInsets.bottom, right: self.displayValue.imageEdgeInsets.right))
+        
+        Theme.registerSwitchThemeViews(view: self)
     }
     
     public override func layoutSubviews() {

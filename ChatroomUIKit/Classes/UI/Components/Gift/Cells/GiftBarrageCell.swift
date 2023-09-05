@@ -43,6 +43,8 @@ import UIKit
         self.container.barStyle = .default
         self.container.isTranslucent = false
         self.container.isOpaque = false
+        
+        Theme.registerSwitchThemeViews(view: self)
     }
     
 

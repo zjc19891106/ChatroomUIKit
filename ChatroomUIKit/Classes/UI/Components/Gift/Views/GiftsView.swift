@@ -26,7 +26,7 @@ import UIKit
         UICollectionView(frame: CGRect(x: 15, y: 10, width: ScreenWidth - 30, height: self.frame.height), collectionViewLayout: self.flowLayout).registerCell(GiftEntityCell.self, forCellReuseIdentifier: "GiftEntityCell").delegate(self).dataSource(self).showsHorizontalScrollIndicator(false).backgroundColor(.clear).showsVerticalScrollIndicator(false).backgroundColor(.clear).registerView(UICollectionReusableView.self, UICollectionView.elementKindSectionFooter , "AGiftsFooter")
     }()
 
-    override public init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
     }
 

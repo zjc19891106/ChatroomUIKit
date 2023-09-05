@@ -48,7 +48,8 @@ import UIKit
         layer0.shadowOpacity = 1
         layer0.shadowRadius = 3
         layer0.shadowOffset = CGSize(width: 0, height: 1)
-
+        
+        Theme.registerSwitchThemeViews(view: self)
     }
 
     @available(*, unavailable)
