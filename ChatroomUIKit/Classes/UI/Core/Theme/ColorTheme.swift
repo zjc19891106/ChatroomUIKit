@@ -69,25 +69,6 @@ fileprivate func hueToRGB(_ m: CGFloat, _ l: CGFloat, _ hue: CGFloat) -> CGFloat
 }
 
 
-public struct GradientForwardPoints {
-    
-    public static var topLeftToBottomRight = [CGPoint(x: 0, y: 0),CGPoint(x: 1, y: 1)]
-
-    public static var topRightToBottomLeft = [CGPoint(x: 1, y: 0),CGPoint(x: 0, y: 1)]
-    
-    public static var bottomLeftToTopRight = [CGPoint(x: 0, y: 1),CGPoint(x: 1, y: 0)]
-    
-    public static var bottomRightToTopLeft = [CGPoint(x: 1, y: 1),CGPoint(x: 0, y: 0)]
-    
-    public static var topToBottom = [CGPoint(x: 0.5, y: 0),CGPoint(x: 0.5, y: 1)]
-    
-    public static var bottomToTop = [CGPoint(x: 0.5, y: 1),CGPoint(x: 0.5, y: 0)]
-    
-    public static var leftToRight = [CGPoint(x: 0, y: 0.5),CGPoint(x: 1, y: 0.5)]
-    
-    public static var rightToLeft = [CGPoint(x: 1, y: 0.5),CGPoint(x: 0, y: 0.5)]
-}
-
 
 public extension UIColor {
     
@@ -147,6 +128,9 @@ public extension UIColor {
             }
             if let neutralSpecialHue = hues[safe: 4] {
                 self.neutralSpecialHue = neutralSpecialHue
+            }
+            if let gradientEndHue = hues[safe: 5] {
+                self.gradientEndHue = gradientEndHue
             }
         }
         
@@ -530,36 +514,58 @@ public extension UIColor {
             UIColor(hue: 0, saturation: 0, lightness: CGFloat(style.rawValue)/100.0, alpha: alpha.rawValue)
         }
         
-//        var gradientColors0: [UIColor] = [UIColor.theme.primaryColor1,gradientEndColor(lightness: .two)]
-//        
-//        var graduentColors1: [UIColor] = [UIColor.theme.primaryColor2,gradientEndColor(lightness: .three)]
-//        
-//        var graduentColors2: [UIColor] = [UIColor.theme.primaryColor3,gradientEndColor(lightness: .four)]
-//        
-//        var graduentColors3: [UIColor] = [UIColor.theme.primaryColor4,gradientEndColor(lightness: .five)]
-//        
-//        var graduentColors4: [UIColor] = [UIColor.theme.primaryColor5,gradientEndColor(lightness: .six)]
-//        
-//        var graduentColors5: [UIColor] = [UIColor.theme.primaryColor6,gradientEndColor(lightness: .seven)]
-//        
-//        var graduentColors6: [UIColor] = [UIColor.theme.primaryColor7,gradientEndColor(lightness: .seventyFive)]
-//        
-//        var graduentColors7: [UIColor] = [UIColor.theme.primaryColor8,gradientEndColor(lightness: .eight)]
-//        
-//        var graduentColors8: [UIColor] = [UIColor.theme.primaryColor9,gradientEndColor(lightness: .eightyFive)]
-//        
-//        var graduentColors9: [UIColor] = [UIColor.theme.primaryColor9,gradientEndColor(lightness: .ninety)]
-//        
-//        var graduentColors95: [UIColor] = [UIColor.theme.primaryColor95,gradientEndColor(lightness: .ninetyFive)]
-//        
-//        var graduentColors98: [UIColor] = [UIColor.theme.primaryColor98,gradientEndColor(lightness: .ninety)]
-//        
-//        /// Description Gradient Colors constructor method.
-//        /// - Parameter style: LightnessThemeStyle
-//        /// - Returns: UIColor instance
-//        static func gradientEndColor(lightness style: LightnessThemeStyle) -> UIColor {
-//            UIColor(hue: ColorTheme.gradientEndHue, saturation: 1, lightness: CGFloat(style.rawValue)/100.0, alpha: 1)
-//        }
+        
+        /// Description Gradient Colors constructor method.
+        /// - Parameter style: LightnessThemeStyle
+        /// - Returns: UIColor instance
+        static func gradientEndColor(lightness style: LightnessThemeStyle) -> UIColor {
+            UIColor(hue: ColorTheme.gradientEndHue, saturation: 1, lightness: CGFloat(style.rawValue)/100.0, alpha: 1)
+        }
     }
 }
 
+
+@objcMembers public class GradientForwardPoints: NSObject {
+    
+    public static var topLeftToBottomRight = [CGPoint(x: 0, y: 0),CGPoint(x: 1, y: 1)]
+
+    public static var topRightToBottomLeft = [CGPoint(x: 1, y: 0),CGPoint(x: 0, y: 1)]
+    
+    public static var bottomLeftToTopRight = [CGPoint(x: 0, y: 1),CGPoint(x: 1, y: 0)]
+    
+    public static var bottomRightToTopLeft = [CGPoint(x: 1, y: 1),CGPoint(x: 0, y: 0)]
+    
+    public static var topToBottom = [CGPoint(x: 0.5, y: 0),CGPoint(x: 0.5, y: 1)]
+    
+    public static var bottomToTop = [CGPoint(x: 0.5, y: 1),CGPoint(x: 0.5, y: 0)]
+    
+    public static var leftToRight = [CGPoint(x: 0, y: 0.5),CGPoint(x: 1, y: 0.5)]
+    
+    public static var rightToLeft = [CGPoint(x: 1, y: 0.5),CGPoint(x: 0, y: 0.5)]
+}
+
+@objcMembers public class GradientColors: NSObject {
+    var gradientColors0: [UIColor] = [UIColor.theme.primaryColor0,UIColor.ColorTheme.gradientEndColor(lightness: .two)]
+
+    var graduentColors1: [UIColor] = [UIColor.theme.primaryColor1,UIColor.ColorTheme.gradientEndColor(lightness: .three)]
+
+    var graduentColors2: [UIColor] = [UIColor.theme.primaryColor2,UIColor.ColorTheme.gradientEndColor(lightness: .four)]
+
+    var graduentColors3: [UIColor] = [UIColor.theme.primaryColor3,UIColor.ColorTheme.gradientEndColor(lightness: .five)]
+
+    var graduentColors4: [UIColor] = [UIColor.theme.primaryColor4,UIColor.ColorTheme.gradientEndColor(lightness: .six)]
+
+    var graduentColors5: [UIColor] = [UIColor.theme.primaryColor5,UIColor.ColorTheme.gradientEndColor(lightness: .seven)]
+
+    var graduentColors6: [UIColor] = [UIColor.theme.primaryColor6,UIColor.ColorTheme.gradientEndColor(lightness: .seventyFive)]
+
+    var graduentColors7: [UIColor] = [UIColor.theme.primaryColor7,UIColor.ColorTheme.gradientEndColor(lightness: .eight)]
+
+    var graduentColors8: [UIColor] = [UIColor.theme.primaryColor8,UIColor.ColorTheme.gradientEndColor(lightness: .eightyFive)]
+
+    var graduentColors9: [UIColor] = [UIColor.theme.primaryColor9,UIColor.ColorTheme.gradientEndColor(lightness: .ninety)]
+
+    var graduentColors95: [UIColor] = [UIColor.theme.primaryColor95,UIColor.ColorTheme.gradientEndColor(lightness: .ninetyFive)]
+
+    var graduentColors98: [UIColor] = [UIColor.theme.primaryColor98,UIColor.ColorTheme.gradientEndColor(lightness: .ninety)]
+}

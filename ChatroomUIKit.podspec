@@ -33,7 +33,7 @@ TODO: Add long description of the pod here.
   
   s.subspec 'Service' do |ss|
       ss.source_files = [
-        'ChatroomUIKit/Service/**/*'
+        'ChatroomUIKit/Classes/Service/**/*'
       ]
       ss.dependency 'HyphenateChat'
       ss.dependency 'KakaJSON'
@@ -41,7 +41,7 @@ TODO: Add long description of the pod here.
 
   s.subspec 'UI' do |ss|
     ss.source_files = [
-      'ChatroomUIKit/UI/**/*'
+      'ChatroomUIKit/Classes/UI/**/*.swift'
     ]
     ss.resources = ['ChatroomUIKit/**/*.bundle']
     
@@ -61,7 +61,7 @@ TODO: Add long description of the pod here.
   s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 
 
-  s.source_files = 'ChatroomUIKit/Classes/**/*'
+#  s.source_files = 'ChatroomUIKit/Classes/**/*'
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
    s.frameworks = 'UIKit', 'Foundation'
