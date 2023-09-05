@@ -23,7 +23,7 @@ import UIKit
     }()
 
     lazy var giftList: UICollectionView = {
-        UICollectionView(frame: CGRect(x: 15, y: 10, width: ScreenWidth - 30, height: self.frame.height), collectionViewLayout: self.flowLayout).registerCell(GiftEntityCell.self, forCellReuseIdentifier: "GiftEntityCell").delegate(self).dataSource(self).showsHorizontalScrollIndicator(false).backgroundColor(.clear).showsVerticalScrollIndicator(false).backgroundColor(.clear).registerView(UICollectionReusableView.self, UICollectionView.elementKindSectionFooter , "AGiftsFooter")
+        UICollectionView(frame: CGRect(x: 15, y: 10, width: ScreenWidth - 30, height: self.frame.height), collectionViewLayout: self.flowLayout).registerCell(GiftEntityCell.self, forCellReuseIdentifier: "GiftEntityCell").delegate(self).dataSource(self).showsHorizontalScrollIndicator(false).backgroundColor(.clear).showsVerticalScrollIndicator(false).backgroundColor(.clear).registerView(UICollectionReusableView.self, UICollectionView.elementKindSectionFooter , "GiftsFooter")
     }()
 
     override init(frame: CGRect) {
