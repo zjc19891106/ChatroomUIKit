@@ -64,5 +64,5 @@ TODO: Add long description of the pod here.
 #  s.source_files = 'ChatroomUIKit/Classes/**/*'
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-   s.frameworks = 'UIKit', 'Foundation'
+   s.frameworks = 'UIKit', 'Foundation','Combine'
 end
