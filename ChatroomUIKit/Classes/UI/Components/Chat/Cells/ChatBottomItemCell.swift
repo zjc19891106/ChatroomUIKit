@@ -63,7 +63,7 @@ import UIKit
 
 extension ChatBottomItemCell: ThemeSwitchProtocol {
     public func switchTheme(style: ThemeStyle) {
-        self.container.backgroundColor(style == .dark ? UIColor.theme.barrageLightColor2:UIColor.theme.barrageDarkColor9)
+        self.container.backgroundColor(style == .dark ? UIColor.theme.barrageLightColor2:UIColor.theme.barrageDarkColor1)
     }
     
     public func switchHues(hues: [CGFloat]) {

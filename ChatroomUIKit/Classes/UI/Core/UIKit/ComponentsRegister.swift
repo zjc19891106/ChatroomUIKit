@@ -20,4 +20,6 @@ import UIKit
     public var GiftsCell: GiftEntityCell.Type = GiftEntityCell.self
     
     public var InputBar: ChatInputBar.Type = ChatInputBar.self
+    
+    public var barrageStyle: ChatBarrageCellStyle = .all
 }

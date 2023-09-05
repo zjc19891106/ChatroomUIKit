@@ -42,7 +42,7 @@ import UIKit
         super.init(frame: frame)
     }
     
-    @objc public convenience init(frame: CGRect,text: String? = nil,placeHolder: String? = nil) {
+    @objc required public convenience init(frame: CGRect,text: String? = nil,placeHolder: String? = nil) {
         self.init(frame: frame)
         self.addSubViews([self.inputField, self.rightView,self.send])
         self.rightView.setImage(UIImage(named: "emojiKeyboard", in: Bundle.chatroomBundle, with: nil)?.withTintColor(UIColor.theme.neutralColor3), for: .normal)

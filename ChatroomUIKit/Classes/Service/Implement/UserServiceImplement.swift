@@ -103,6 +103,7 @@ extension UserServiceImplement:UserServiceProtocol {
         user.nickName = info.nickname ?? ""
         user.avatarURL = info.avatarUrl ?? ""
         user.gender = info.gender
+        user.identify = info.ext ?? ""
         return user
     }
     
@@ -112,6 +113,7 @@ extension UserServiceImplement:UserServiceProtocol {
         info.nickname = user.nickName
         info.avatarUrl = user.avatarURL
         info.gender = user.gender
+        info.ext = user.identify
         return info
     }
     
@@ -136,6 +138,8 @@ extension UserServiceImplement: ChatClientDelegate {
 
 @objcMembers final public class User:NSObject, UserInfoProtocol,Convertible {
     
+    public var identify: String = ""
+    
     public var userId: String = ""
     
     public var nickName: String = ""
@@ -151,6 +155,3 @@ extension UserServiceImplement: ChatClientDelegate {
     }
 }
 
-extension UserInfo: Convertible {
-    
-}
