@@ -10,6 +10,8 @@ import Foundation
 import ChatroomUIKit
 
 class CustomInfo:NSObject, UserInfoProtocol {
+    var identify: String = ""
+    
     var userId: String = "123"
     
     var nickName: String = "aaa"
