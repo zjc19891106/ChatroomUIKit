@@ -20,7 +20,7 @@ import UIKit
     @objc optional func zoomScaleY() -> CGFloat
 }
 
-@objc public class GiftsBarrageList: UIView {
+@objc open class GiftsBarrageList: UIView {
     
     public var dataSource: GiftsBarrageListDataSource?
     
@@ -57,7 +57,7 @@ import UIKit
     }
 
     @available(*, unavailable)
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

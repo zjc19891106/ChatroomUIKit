@@ -7,7 +7,7 @@
 
 import UIKit
 
-@objc final public class GiftsView: UIView {
+@objcMembers open class GiftsView: UIView {
 
     var gifts = [GiftEntityProtocol]()
 
@@ -42,7 +42,7 @@ import UIKit
     }
 
     @available(*, unavailable)
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

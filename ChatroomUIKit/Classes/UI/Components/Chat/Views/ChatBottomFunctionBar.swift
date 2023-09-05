@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ChatBottomFunctionBar: UIView {
+@objcMembers open class ChatBottomFunctionBar: UIView {
 
     public var raiseKeyboard: (() -> Void)?
     
@@ -59,7 +59,7 @@ class ChatBottomFunctionBar: UIView {
     }
 
     @available(*, unavailable)
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

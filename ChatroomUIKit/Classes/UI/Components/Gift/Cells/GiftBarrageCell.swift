@@ -7,7 +7,7 @@
 
 import UIKit
 
-@objcMembers public class GiftBarrageCell: UITableViewCell {
+@objcMembers open class GiftBarrageCell: UITableViewCell {
 
     var gift: GiftEntityProtocol?
     
@@ -49,7 +49,7 @@ import UIKit
     
 
     @available(*, unavailable)
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

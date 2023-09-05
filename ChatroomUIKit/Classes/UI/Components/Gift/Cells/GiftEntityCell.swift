@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class GiftEntityCell: UICollectionViewCell {
+@objcMembers open class GiftEntityCell: UICollectionViewCell {
     
     private var gift: GiftEntityProtocol?
    
