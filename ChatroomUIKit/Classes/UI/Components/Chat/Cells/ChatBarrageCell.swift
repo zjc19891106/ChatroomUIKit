@@ -17,17 +17,53 @@ import UIKit
     case excludeLevelAndAvatar
 }
 
-@objc public protocol ChatEntityProtocol: NSObjectProtocol {
+@objc open class ChatEntity: NSObject {
     
-    var message: ChatMessage {set get}
+    lazy public var message: ChatMessage = ChatMessage()
     
-    var attributeText: NSAttributedString {set get}
+    lazy public var attributeText: NSAttributedString = self.convertAttribute()
+        
+    lazy public var height: CGFloat =  UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).height + 26
     
-    var user: UserInfoProtocol {set get}
+    lazy public var width: CGFloat = UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).width
+        
+    func convertAttribute() -> NSAttributedString {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.firstLineHeadIndent = self.firstLineHeadIndent()
+        var text = NSMutableAttributedString {
+            AttributedText((self.message.user?.nickName ?? "") + " : ").foregroundColor(Color.theme.primaryColor8).font(UIFont.theme.labelMedium).lineSpacing(5)
+            AttributedText(self.message.text).foregroundColor(Color.theme.neutralColor98).font(UIFont.theme.bodyMedium).lineSpacing(5).paragraphStyle(paragraphStyle)
+        }
+        let string = self.message.text as NSString
+        for symbol in ChatEmojiConvertor.shared.emojis {
+            if string.range(of: symbol).location != NSNotFound {
+                let ranges = self.message.text.chatroom.rangesOfString(symbol)
+                text = ChatEmojiConvertor.shared.convertEmoji(input: text, ranges: ranges, symbol: symbol)
+            }
+        }
+        return text
+    }
     
-    var height: CGFloat {set get}
-    
-    var width: CGFloat {set get}
+    func firstLineHeadIndent() -> CGFloat {
+        var distance:CGFloat = 0
+        switch Appearance.default.barrageCellStyle {
+        case .all: distance = 88
+        case .excludeAvatar,.excludeLevel: distance = 62
+        case .excludeTime: distance = 48
+        case .excludeLevelAndAvatar: distance = 44
+        case .excludeTimeAndLevel,.excludeTimeAndAvatar: distance = 26
+        }
+        return distance
+    }
+}
+
+extension ChatMessage {
+    var user: User? {
+        ChatroomContext.shared?.usersMap?[from]
+    }
+    var text: String {
+        (self.body as? ChatTextMessageBody)?.text ?? ""
+    }
 }
 
 
@@ -125,7 +161,7 @@ import UIKit
     
     /// Description 刷新渲染聊天弹幕的实体，内部包含高度宽度以及富文本缓存
     /// - Parameter chat: 实体对象
-    @objc public func refresh(chat: ChatEntityProtocol) {
+    @objc public func refresh(chat: ChatEntity) {
         self.container.frame = CGRect(x: 15, y: 6, width: chat.width + 30, height: chat.height - 6)
         self.content.attributedText = chat.attributeText
         self.content.preferredMaxLayoutWidth =  self.container.frame.width - 24
@@ -140,8 +176,7 @@ extension ChatBarrageCell: ThemeSwitchProtocol {
         self.container.backgroundColor(style == .dark ? UIColor.theme.barrageLightColor2:UIColor.theme.barrageDarkColor1)
     }
     
-    public func switchHues(hues: [CGFloat]) {
-        UIColor.ColorTheme.switchHues(hues: hues)
+    public func switchHues() {
         self.switchTheme(style: .dark)
     }
 }

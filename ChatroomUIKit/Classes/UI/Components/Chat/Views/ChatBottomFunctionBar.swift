@@ -97,8 +97,7 @@ extension ChatBottomFunctionBar: ThemeSwitchProtocol {
         self.toolBar.reloadData()
     }
     
-    public func switchHues(hues: [CGFloat]) {
-        UIColor.ColorTheme.switchHues(hues: hues)
+    public func switchHues() {
         self.switchTheme(style: .dark)
     }
     

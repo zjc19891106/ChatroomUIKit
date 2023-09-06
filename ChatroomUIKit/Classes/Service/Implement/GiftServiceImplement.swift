@@ -86,6 +86,7 @@ extension GiftServiceImplement: EMChatManagerDelegate {
 }
 
 @objc public class GiftEntity:NSObject,GiftEntityProtocol,Convertible {
+    
     public var giftId: String = ""
     
     public var giftName: String = ""
@@ -99,6 +100,8 @@ extension GiftServiceImplement: EMChatManagerDelegate {
     public var giftEffect: String = ""
     
     public var selected: Bool = false
+    
+    public var sentThenClose: Bool = false
     
     public var sendUser: UserInfoProtocol?
     

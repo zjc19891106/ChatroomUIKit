@@ -7,7 +7,7 @@
 
 import UIKit
 
-@objc final class PageContainerTitleBar: UIView {
+@objcMembers open class PageContainerTitleBar: UIView {
     
     var datas: [String] = []
     
@@ -16,13 +16,13 @@ import UIKit
     private var theme: ThemeStyle = .light
     
     lazy var indicator: UIView = {
-        UIView(frame: CGRect(x: 16, y: 8, width: 114, height: self.frame.height-16)).cornerRadius(14).backgroundColor(UIColor(0xD8D8D8))
+        UIView(frame: CGRect(x: 16, y: 8, width: Appearance.default.pageContainerTitleBarItemWidth, height: Int(self.frame.height)-16)).cornerRadius(14).backgroundColor(UIColor(0xD8D8D8))
     }()
     
     lazy var layout: UICollectionViewFlowLayout = {
         let flow = UICollectionViewFlowLayout()
         flow.scrollDirection = .horizontal
-        flow.itemSize = CGSize(width: 114, height: self.frame.height-16)
+        flow.itemSize = CGSize(width: Appearance.default.pageContainerTitleBarItemWidth, height: Int(self.frame.height)-16)
         flow.minimumInteritemSpacing = 0
         flow.minimumLineSpacing = 0
         return flow
@@ -41,21 +41,22 @@ import UIKit
         self.chooseClosure = selectedClosure
         self.datas = choices
         self.addSubViews([self.indicator,self.choicesBar])
+        self.choicesBar.bounces = false
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
 }
 
 extension PageContainerTitleBar: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         self.datas.count
     }
     
     // MARK: - UICollectionViewDelegate
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(ChoiceItemCell.self), for: indexPath) as? ChoiceItemCell else {
             return ChoiceItemCell()
         }
@@ -64,16 +65,14 @@ extension PageContainerTitleBar: UICollectionViewDataSource, UICollectionViewDel
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        UIView.animate(withDuration: 0.25) {
-            self.indicator.frame = CGRect(x: 16+CGFloat(indexPath.row)*114, y: 8, width: 114, height: (self.frame.height-16))
-        }
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.scrollIndicator(to: indexPath.row)
         self.chooseClosure?(indexPath.row)
     }
     
     @objc public func scrollIndicator(to index: Int) {
         UIView.animate(withDuration: 0.25) {
-            self.indicator.frame = CGRect(x: 16+CGFloat(index)*114, y: 8, width: 114, height: (self.frame.height-16))
+            self.indicator.frame = CGRect(x: 16+index*Appearance.default.pageContainerTitleBarItemWidth, y: 8, width: Appearance.default.pageContainerTitleBarItemWidth, height: (Int(self.frame.height)-16))
         }
     }
 
@@ -88,14 +87,13 @@ extension PageContainerTitleBar: ThemeSwitchProtocol {
         self.choicesBar.reloadData()
     }
     
-    public func switchHues(hues: [CGFloat]) {
-        UIColor.ColorTheme.switchHues(hues: hues)
+    public func switchHues() {
         self.switchTheme(style: .light)
     }
 }
 
 
-@objc final class ChoiceItemCell: UICollectionViewCell {
+@objcMembers open class ChoiceItemCell: UICollectionViewCell {
     
     lazy var content: UILabel = {
         UILabel(frame: CGRect(x: 0, y: 0, width: self.contentView.frame.width, height: self.contentView.frame.height)).textAlignment(.center).textColor(UIColor.theme.neutralColor1).font(.systemFont(ofSize: 14, weight: .semibold)).backgroundColor(.clear)
@@ -108,23 +106,23 @@ extension PageContainerTitleBar: ThemeSwitchProtocol {
         self.contentView.addSubview(self.content)
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
         self.content.frame = CGRect(x: 0, y: 0, width: self.contentView.frame.width, height: self.contentView.frame.height)
     }
     
-    func refresh(text: String) {
+    public func refresh(text: String) {
         self.content.text = text
     }
 }
 
 
 /// Description Choice layout
-@objcMembers public final class ChoiceItemLayout: UICollectionViewFlowLayout {
+@objcMembers open class ChoiceItemLayout: UICollectionViewFlowLayout {
     
     internal var center: CGPoint!
     internal var rows: Int!

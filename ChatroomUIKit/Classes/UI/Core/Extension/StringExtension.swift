@@ -435,8 +435,9 @@ public extension Chatroom where Base == String {
     }
     
     /// 获取子串的所有range
-    static func rangesOfString(_ searchString: String, inString: NSString) -> [NSRange] {
+    func rangesOfString(_ searchString: String) -> [NSRange] {
         var results = [NSRange]()
+        let inString = base as NSString
         if searchString.count > 0 && inString.length > 0 {
             var searchRange = NSMakeRange(0, inString.length)
             var range = inString.range(of: searchString, options: [], range: searchRange)

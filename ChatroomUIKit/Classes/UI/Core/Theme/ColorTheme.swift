@@ -545,27 +545,27 @@ public extension UIColor {
 }
 
 @objcMembers public class GradientColors: NSObject {
-    var gradientColors0: [UIColor] = [UIColor.theme.primaryColor0,UIColor.ColorTheme.gradientEndColor(lightness: .two)]
+    public static var gradientColors0: [UIColor] = [UIColor.theme.primaryColor0,UIColor.ColorTheme.gradientEndColor(lightness: .two)]
 
-    var graduentColors1: [UIColor] = [UIColor.theme.primaryColor1,UIColor.ColorTheme.gradientEndColor(lightness: .three)]
+    public static var graduentColors1: [UIColor] = [UIColor.theme.primaryColor1,UIColor.ColorTheme.gradientEndColor(lightness: .three)]
 
-    var graduentColors2: [UIColor] = [UIColor.theme.primaryColor2,UIColor.ColorTheme.gradientEndColor(lightness: .four)]
+    public static var graduentColors2: [UIColor] = [UIColor.theme.primaryColor2,UIColor.ColorTheme.gradientEndColor(lightness: .four)]
 
-    var graduentColors3: [UIColor] = [UIColor.theme.primaryColor3,UIColor.ColorTheme.gradientEndColor(lightness: .five)]
+    public static var graduentColors3: [UIColor] = [UIColor.theme.primaryColor3,UIColor.ColorTheme.gradientEndColor(lightness: .five)]
 
-    var graduentColors4: [UIColor] = [UIColor.theme.primaryColor4,UIColor.ColorTheme.gradientEndColor(lightness: .six)]
+    public static var graduentColors4: [UIColor] = [UIColor.theme.primaryColor4,UIColor.ColorTheme.gradientEndColor(lightness: .six)]
 
-    var graduentColors5: [UIColor] = [UIColor.theme.primaryColor5,UIColor.ColorTheme.gradientEndColor(lightness: .seven)]
+    public static var graduentColors5: [UIColor] = [UIColor.theme.primaryColor5,UIColor.ColorTheme.gradientEndColor(lightness: .seven)]
 
-    var graduentColors6: [UIColor] = [UIColor.theme.primaryColor6,UIColor.ColorTheme.gradientEndColor(lightness: .seventyFive)]
+    public static var graduentColors6: [UIColor] = [UIColor.theme.primaryColor6,UIColor.ColorTheme.gradientEndColor(lightness: .seventyFive)]
 
-    var graduentColors7: [UIColor] = [UIColor.theme.primaryColor7,UIColor.ColorTheme.gradientEndColor(lightness: .eight)]
+    static var graduentColors7: [UIColor] = [UIColor.theme.primaryColor7,UIColor.ColorTheme.gradientEndColor(lightness: .eight)]
 
-    var graduentColors8: [UIColor] = [UIColor.theme.primaryColor8,UIColor.ColorTheme.gradientEndColor(lightness: .eightyFive)]
+    static var graduentColors8: [UIColor] = [UIColor.theme.primaryColor8,UIColor.ColorTheme.gradientEndColor(lightness: .eightyFive)]
 
-    var graduentColors9: [UIColor] = [UIColor.theme.primaryColor9,UIColor.ColorTheme.gradientEndColor(lightness: .ninety)]
+    static var graduentColors9: [UIColor] = [UIColor.theme.primaryColor9,UIColor.ColorTheme.gradientEndColor(lightness: .ninety)]
 
-    var graduentColors95: [UIColor] = [UIColor.theme.primaryColor95,UIColor.ColorTheme.gradientEndColor(lightness: .ninetyFive)]
+    static var graduentColors95: [UIColor] = [UIColor.theme.primaryColor95,UIColor.ColorTheme.gradientEndColor(lightness: .ninetyFive)]
 
-    var graduentColors98: [UIColor] = [UIColor.theme.primaryColor98,UIColor.ColorTheme.gradientEndColor(lightness: .ninety)]
+    static var graduentColors98: [UIColor] = [UIColor.theme.primaryColor98,UIColor.ColorTheme.gradientEndColor(lightness: .ninety)]
 }

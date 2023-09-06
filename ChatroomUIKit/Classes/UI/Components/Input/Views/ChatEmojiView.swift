@@ -86,8 +86,7 @@ extension ChatEmojiView: ThemeSwitchProtocol {
         self.deleteEmoji.layer.shadowColor(UIColor(red: 0.275, green: 0.306, blue: 0.325, alpha: style == .dark ? 0.3:0.15).cgColor)
     }
     
-    public func switchHues(hues: [CGFloat]) {
-        UIColor.ColorTheme.switchHues(hues: hues)
+    public func switchHues() {
         self.switchTheme(style: .light)
     }
 }

@@ -93,7 +93,11 @@ import Foundation
     ///   - completion: Send callback,what if success or error.
     func sendCustomMessage(to userIds:[String], roomId: String, eventType: String, infoMap:[String:String], completion: @escaping (Bool,ChatError?) -> Void)
     
-        
+    /// Description Translate the specified message
+    /// - Parameters:
+    ///   - message: ChatMessage kind of text message.
+    ///   - completion: Translate callback,what if success or error.
+    func translateMessage(message: ChatMessage, completion: @escaping (Bool,ChatError?) -> Void)
 }
 
 

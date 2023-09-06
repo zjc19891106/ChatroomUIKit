@@ -29,6 +29,12 @@ public typealias ActionClosure = ((ActionSheetItemProtocol) -> Void)
         self.title = title
         self.type = type
         self.action = action
+   }
+    
+    @objc public convenience init(title: String, type: ActionSheetItemType) {
+         self.init()
+         self.title = title
+         self.type = type
     }
 
     public var title: String = ""

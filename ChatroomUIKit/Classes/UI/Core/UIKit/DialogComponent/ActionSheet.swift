@@ -11,7 +11,7 @@ import UIKit
     
     private var style: ThemeStyle = .light
     
-    private var items: [ActionSheetItemProtocol] = []
+    public var items: [ActionSheetItemProtocol] = []
     
     lazy var indicator: UIView = {
         UIView(frame: CGRect(x: self.frame.width/2.0-18, y: 6, width: 36, height: 5)).cornerRadius(2.5).backgroundColor(UIColor.theme.neutralColor8)
@@ -30,11 +30,11 @@ import UIKit
     }()
     
     lazy var menuList: UITableView = {
-        UITableView(frame: CGRect(x: 0, y: self.messageContainer.frame.maxY+5, width: self.frame.width, height: CGFloat(56*self.items.count + 8)), style: .plain).delegate(self).dataSource(self).registerCell(ActionSheetCell.self, forCellReuseIdentifier: "ActionSheetCell").rowHeight(56).separatorColor(UIColor.theme.neutralColor9).backgroundColor(UIColor.theme.neutralColor95).tableFooterView(UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 8)).backgroundColor(UIColor.theme.neutralColor95)).separatorStyle(.singleLine)
+        UITableView(frame: CGRect(x: 0, y: self.messageContainer.frame.maxY+5, width: self.frame.width, height: CGFloat(Int(Appearance.default.actionSheetRowHeight)*self.items.count + 8)), style: .plain).delegate(self).dataSource(self).registerCell(ActionSheetCell.self, forCellReuseIdentifier: "ActionSheetCell").rowHeight(Appearance.default.actionSheetRowHeight).separatorColor(UIColor.theme.neutralColor9).backgroundColor(UIColor.theme.neutralColor95).tableFooterView(UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 8)).backgroundColor(UIColor.theme.neutralColor95)).separatorStyle(.singleLine)
     }()
     
     lazy var cancel: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 0, y: self.frame.height - 56 - BottomBarHeight, width: self.frame.width, height: 56)).backgroundColor(UIColor.theme.neutralColor98).title("Cancel", .normal).font(UIFont.theme.labelLarge).textColor(UIColor.theme.primaryColor5, .normal).addTargetFor(self, action: #selector(cancelAction), for: .touchUpInside)
+        UIButton(type: .custom).frame(CGRect(x: 0, y: self.frame.height - Appearance.default.actionSheetRowHeight - BottomBarHeight, width: self.frame.width, height: Appearance.default.actionSheetRowHeight)).backgroundColor(UIColor.theme.neutralColor98).title("Cancel", .normal).font(UIFont.theme.labelLarge).textColor(UIColor.theme.primaryColor5, .normal).addTargetFor(self, action: #selector(cancelAction), for: .touchUpInside)
     }()
 
     override init(frame: CGRect) {
@@ -43,7 +43,7 @@ import UIKit
     
     @objc public convenience init(items:[ActionSheetItemProtocol],title: String? = nil,message: String? = nil) {
         let messageHeight = (message?.chatroom.sizeWithText(font: UIFont.theme.bodyMedium, size: CGSize(width: ScreenWidth-32, height: ScreenHeight/3.0)).height ?? 0)
-        var contentHeight = 11+(56*items.count)+56+8+Int(BottomBarHeight)
+        var contentHeight = 11+Int(Appearance.default.actionSheetRowHeight)*items.count+Int(Appearance.default.actionSheetRowHeight)+8+Int(BottomBarHeight)
         if messageHeight > 0 {
             contentHeight += (Int(messageHeight)+20)
             if title != nil {
@@ -54,7 +54,10 @@ import UIKit
                 contentHeight += 43
             }
         }
-        self.init(frame: CGRect(x: 0, y: Int(ScreenHeight)-contentHeight, width: Int(ScreenWidth), height: contentHeight))
+        if CGFloat(contentHeight) > ScreenHeight*(2/3.0) {
+            contentHeight = Int(ScreenHeight*(2/3.0))
+        }
+        self.init(frame: CGRect(x: 0, y: abs(Int(ScreenHeight)-contentHeight), width: Int(ScreenWidth), height: contentHeight))
         self.backgroundColor(UIColor.theme.neutralColor98)
         self.items.append(contentsOf: items)
         if title != nil,message != nil {
@@ -64,7 +67,7 @@ import UIKit
             self.addSubViews([self.indicator,self.titleContainer,self.messageContainer,self.menuList,self.cancel,self.dividingLine])
         } else {
             if title == nil,message == nil {
-                self.menuList.frame = CGRect(x: 0, y: self.indicator.frame.maxY+5, width: self.frame.width, height: self.frame.height-56)
+                self.menuList.frame = CGRect(x: 0, y: self.indicator.frame.maxY+5, width: self.frame.width, height: self.frame.height-Appearance.default.actionSheetRowHeight)
                 self.addSubViews([self.indicator,self.menuList,self.cancel])
             } else {
                 if title == nil {
@@ -74,7 +77,7 @@ import UIKit
                 } else {
                     self.titleContainer.text = title
                     self.dividingLine.frame = CGRect(x: 16, y: self.titleContainer.frame.maxY+12, width: ScreenWidth-32, height: 0.5)
-                    self.menuList.frame = CGRect(x: 0, y: self.titleContainer.frame.maxY+5, width: self.frame.width, height: CGFloat(56*self.items.count + 8))
+                    self.menuList.frame = CGRect(x: 0, y: self.titleContainer.frame.maxY+5, width: self.frame.width, height: CGFloat(Int(Appearance.default.actionSheetRowHeight)*self.items.count + 8))
                     self.addSubViews([self.indicator,self.titleContainer,self.menuList,self.cancel,self.dividingLine])
                 }
             }
@@ -108,8 +111,7 @@ extension ActionSheet: ThemeSwitchProtocol {
         self.menuList.reloadData()
     }
     
-    public func switchHues(hues: [CGFloat]) {
-        UIColor.ColorTheme.switchHues(hues: hues)
+    public func switchHues() {
         self.switchTheme(style: .light)
     }
 }

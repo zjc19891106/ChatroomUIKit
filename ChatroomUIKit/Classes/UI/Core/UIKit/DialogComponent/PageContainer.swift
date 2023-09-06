@@ -25,8 +25,12 @@ public final class PageContainer:  UIView {
         }
     }
     
+    lazy var indicator: UIView = {
+        UIView(frame: CGRect(x: self.frame.width/2.0-18, y: 6, width: 36, height: 5)).cornerRadius(2.5).backgroundColor(UIColor.theme.neutralColor8)
+    }()
+    
     private lazy var toolBar: PageContainerTitleBar = {
-        PageContainerTitleBar(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 44), choices: self.indicators) { [weak self] in
+        PageContainerTitleBar(frame: CGRect(x: 0, y: self.indicator.frame.maxY + 4, width: self.frame.width, height: 44), choices: self.indicators) { [weak self] in
             self?.index = $0
         }.backgroundColor(.white)
     }()
@@ -48,7 +52,7 @@ public final class PageContainer:  UIView {
         self.indicators = indicators
         self.controllers = viewControllers
         self.pageController.setViewControllers([viewControllers[0]], direction: .forward, animated: false)
-        self.addSubViews([self.toolBar,self.pageController.view])
+        self.addSubViews([self.indicator,self.toolBar,self.pageController.view])
         
         self.toolBar.translatesAutoresizingMaskIntoConstraints = false
         self.toolBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
@@ -60,7 +64,7 @@ public final class PageContainer:  UIView {
         self.pageController.view.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         self.pageController.view.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         self.pageController.view.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        self.pageController.view.topAnchor.constraint(equalTo: topAnchor,constant: 44).isActive = true
+        self.pageController.view.topAnchor.constraint(equalTo: topAnchor,constant: self.toolBar.frame.maxY).isActive = true
     }
 
     @available(*, unavailable)
@@ -101,11 +105,11 @@ extension PageContainer:UIPageViewControllerDataSource, UIPageViewControllerDele
 
 extension PageContainer: ThemeSwitchProtocol {
     public func switchTheme(style: ThemeStyle) {
+        self.indicator.backgroundColor(style == .dark ? UIColor.theme.neutralColor3:UIColor.theme.neutralColor8)
         self.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
     }
     
-    public func switchHues(hues: [CGFloat]) {
-        UIColor.ColorTheme.switchHues(hues: hues)
+    public func switchHues() {
         self.switchTheme(style: .light)
     }
 }

@@ -143,6 +143,12 @@ extension ChatroomServiceImplement: ChatroomService {
         })
     }
     
+    public func translateMessage(message: ChatMessage, completion: @escaping (Bool, ChatError?) -> Void) {
+        ChatClient.shared().chatManager?.translate(message, targetLanguages: [Appearance.default.targetLanguage.rawValue],completion: { chatMessage, error in
+            completion(error == nil,error)
+        })
+    }
+    
     private func sendJoinMessage(roomId: String, completion: @escaping (ChatError?) -> Void) {
         let user = ChatroomContext.shared?.currentUser as? User
         let message = ChatMessage(conversationID: roomId, body: EMCustomMessageBody(event: chatroom_UIKit_user_join, customExt: nil), ext: user?.kj.JSONObject())
@@ -195,19 +201,17 @@ extension ChatroomServiceImplement: ChatManagerDelegate {
                 switch message.body.type {
                 case .text:
                     if let json = message.ext as? [String:Any] {
-                        let user = model(from: json, type: User.self)
-                        if let userInfo = user as? UserInfoProtocol {
-                            ChatroomContext.shared?.usersMap?[userInfo.userId] = userInfo
+                        if let user = model(from: json, type: User.self) as? User {
+                            ChatroomContext.shared?.usersMap?[user.userId] = user
                         }
                     }
                     response.onMessageReceived(roomId: message.to, message: message)
                 case .custom:
                     if let body = message.body as? ChatCustomMessageBody {
                         if body.event == chatroom_UIKit_user_join,let json = message.ext as? [String:Any] {
-                            let user = model(from: json, type: User.self)
-                            if let userInfo = user as? UserInfoProtocol {
-                                ChatroomContext.shared?.usersMap?[userInfo.userId] = userInfo
-                                response.onUserJoined(roomId: message.to, user: userInfo)
+                            if let user = model(from: json, type: User.self) as? User {
+                                ChatroomContext.shared?.usersMap?[user.userId] = user
+                                response.onUserJoined(roomId: message.to, user: user)
                             }
                         }
                     }

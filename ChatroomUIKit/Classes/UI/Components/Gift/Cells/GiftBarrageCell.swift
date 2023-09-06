@@ -89,7 +89,7 @@ import UIKit
 
 
 extension GiftBarrageCell: ThemeSwitchProtocol {
-    public func switchHues(hues: [CGFloat]) {
+    public func switchHues() {
         
     }
     

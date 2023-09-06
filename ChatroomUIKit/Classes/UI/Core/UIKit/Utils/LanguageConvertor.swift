@@ -7,6 +7,8 @@
 
 import UIKit
 
+
+/// Description https://learn.microsoft.com/en-us/azure/ai-services/translator/language-support#translation 
 public enum LanguageType: String {
     case Chinese = "zh-Hans", Chinese_traditional = "zh-Hant", English = "en", Russian = "ru", German = "de", French = "fr", Japanese = "ja", Korean = "ko", Auto = "auto"
 }

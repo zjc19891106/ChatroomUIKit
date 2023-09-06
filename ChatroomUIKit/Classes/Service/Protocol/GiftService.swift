@@ -19,6 +19,9 @@ import HyphenateChat
     
     var selected: Bool {set get}
     
+    /// Description  Do you want to close the pop-up window after sending a gift?`true` mens dialog close.
+    var sentThenClose: Bool {set get}
+    
     var sendUser: UserInfoProtocol? {set get}
 }
 

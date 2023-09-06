@@ -17,5 +17,5 @@ import UIKit
     
     public var room: ChatRoom?
     
-    public var usersMap: [String:UserInfoProtocol]? = [String:UserInfoProtocol]()
+    public var usersMap: Dictionary<String,User>? = Dictionary<String,User>()
 }

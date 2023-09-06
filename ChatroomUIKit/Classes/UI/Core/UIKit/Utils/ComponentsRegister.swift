@@ -7,18 +7,18 @@
 
 import UIKit
 
-@objcMembers final public class ComponentsRegister: NSObject {
+fileprivate let component = ComponentsRegister()
+
+@objcMembers public class ComponentsRegister: NSObject {
     
-    public static let shared: ComponentsRegister = ComponentsRegister()
-    
-    public var EmojiView: ChatEmojiView.Type = ChatEmojiView.self
-    
-    public var GiftBarragesView: GiftsBarrageList.Type = GiftsBarrageList.self
-    
+    public class var shared: ComponentsRegister {
+        component
+    }
+            
     public var GiftBarragesViewCell: GiftBarrageCell.Type = GiftBarrageCell.self
     
     public var GiftsCell: GiftEntityCell.Type = GiftEntityCell.self
-    
+        
     public var InputBar: ChatInputBar.Type = ChatInputBar.self
     
     public var barrageStyle: ChatBarrageCellStyle = .all

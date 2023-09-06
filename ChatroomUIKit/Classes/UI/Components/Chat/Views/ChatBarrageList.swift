@@ -10,7 +10,7 @@ import UIKit
 var chatViewWidth: CGFloat = 0
 
 @objc public protocol IChatBarrageListDriver: NSObjectProtocol {
-    func showNewMessage(entity: ChatEntityProtocol)
+    func showNewMessage(entity: ChatEntity)
 }
 
 @objcMembers open class ChatBarrageList: UIView {
@@ -19,7 +19,7 @@ var chatViewWidth: CGFloat = 0
 
     private var cellOffset = CGFloat(0)
 
-    public var messages: [ChatEntityProtocol]? = [ChatEntityProtocol]()
+    public var messages: [ChatEntity]? = [ChatEntity]()
 
     public lazy var chatView: UITableView = {
         UITableView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height), style: .plain).delegate(self).dataSource(self).separatorStyle(.none).tableFooterView(UIView()).backgroundColor(.clear).showsVerticalScrollIndicator(false)
@@ -114,7 +114,7 @@ extension ChatBarrageList:UITableViewDelegate, UITableViewDataSource {
 
 
 extension ChatBarrageList: IChatBarrageListDriver {
-    public func showNewMessage(entity: ChatEntityProtocol) {
+    public func showNewMessage(entity: ChatEntity) {
         self.messages?.append(entity)
         self.chatView.reloadData()
         self.scrollTableViewToBottom()

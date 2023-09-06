@@ -43,7 +43,7 @@ TODO: Add long description of the pod here.
     ss.source_files = [
       'ChatroomUIKit/Classes/UI/**/*.swift'
     ]
-    ss.resources = ['ChatroomUIKit/**/*.bundle']
+#    ss.resources = ['ChatroomUIKit/**/*.bundle']
     
     ss.resource_bundles = { 'ChatRoomResource' => [
       'ChatRoomResource.xcassets',

@@ -13,12 +13,7 @@ import ChatroomUIKit
 final class ExampleViewController: UIViewController {
 
     lazy var actionSheet: ActionSheet = {
-        let items = [ActionSheetItem(title: "Operation", type: .normal, action: { item in
-            
-        }),ActionSheetItem(title: "Delete", type: .destructive, action: { item in
-            
-        })]
-        return ActionSheet(items: items,title: "Title",message: nil)
+        ActionSheet(items: [ActionSheetItem(title: "Operation", type: .normal),ActionSheetItem(title: "Delete", type: .destructive)],title: "Title",message: nil)
     }()
 
     override func viewDidLoad() {
@@ -48,19 +43,22 @@ final class ExampleViewController: UIViewController {
         let label = UILabel(frame: CGRect(x: 20, y: 400, width: ScreenWidth-120, height: 100)).backgroundColor(.gray)
         label.attributedText = attributedText
         label.numberOfLines = 0
-        self.view.addSubview(label)
+//        self.view.addSubview(label)
         let input = ChatInputBar(frame: CGRect(x: 0, y: ScreenHeight-62, width: ScreenWidth, height: 52),text: nil,placeHolder: "Please")
         self.view.addSubview(input)
-        
+//        self.view.createGradient(GradientColors.gradientColors0, GradientForwardPoints.bottomLeftToTopRight, [NSNumber(value: 0),NSNumber(value: 1)])
     }
     
     @objc func switchTheme() {
         Theme.switchTheme(style: .dark)
-//        Theme.switchHues(hues: [0.56,0.66,0.76,0.56,0.54])
+//        Theme.switchHues()
     }
    
     // 长按手势处理方法
     @objc func showMenu(sender: UIButton) {
+        self.actionSheet.items[safe: 0]?.action = { [weak self] item in
+            
+        }
         self.view.addSubview(self.actionSheet)
         
 //        let alert = UIAlertController(title: "title", message: "message asdasdsad asdasdasdasdasdasdasdasdasdasdasdasdasdasd", preferredStyle: .actionSheet)

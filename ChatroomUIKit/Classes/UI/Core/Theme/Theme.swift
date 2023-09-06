@@ -21,8 +21,7 @@ import Foundation
     func switchTheme(style: ThemeStyle)
     
     /// Description After the custom view implements this protocol method, you can use this method to switch the custom theme color, which includes the following five hue values: primary, secondary, error, neutral, and neutral special. The designer recommends that the hue values of primary and neutral are the same. The hue values ​​of neutral and neutral special are similar.
-    /// - Parameter hues: [primaryHue,secondaryHue,errorHue,neutralHue,neutralSpecialHue]
-    func switchHues(hues: [CGFloat])
+    func switchHues()
 }
 
 
@@ -60,11 +59,11 @@ import Foundation
         }
     }
     /// Description After the custom view implements this protocol method, you can use this method to switch the custom theme color, which includes the following five hue values: primary, secondary, error, neutral, and neutral special. The designer recommends that the hue values of primary and neutral are the same. The hue values ​​of neutral and neutral special are similar.
-    /// - Parameter hues: [primaryHue,secondaryHue,errorHue,neutralHue,neutralSpecialHue]
-    @MainActor public static func switchHues(hues: [CGFloat]) {
+    @MainActor public static func switchHues() {
+        UIColor.ColorTheme.switchHues(hues: Appearance.default.colorHues)
         for view in registerViews {
             if let themeView = view as? ThemeSwitchProtocol {
-                themeView.switchHues(hues: hues)
+                themeView.switchHues()
             }
         }
     }
