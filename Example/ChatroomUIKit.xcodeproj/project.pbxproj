@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		054544102AA9BEFC0079C260 /* Gifts.json in Resources */ = {isa = PBXBuildFile; fileRef = 0545440F2AA9BEFC0079C260 /* Gifts.json */; };
 		054EA71B2AA072D200C716A4 /* OCExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 054EA71A2AA072D200C716A4 /* OCExampleViewController.m */; };
 		0565533E2AA5CC8500E3A6C7 /* ChatroomUIKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0565533D2AA5CC8500E3A6C7 /* ChatroomUIKitService.swift */; };
 		056553402AA5CFFE00E3A6C7 /* ChatRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0565533F2AA5CFFE00E3A6C7 /* ChatRoomView.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0545440F2AA9BEFC0079C260 /* Gifts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Gifts.json; sourceTree = "<group>"; };
 		054EA7182AA072D100C716A4 /* ChatroomUIKit_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ChatroomUIKit_Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		054EA7192AA072D200C716A4 /* OCExampleViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCExampleViewController.h; sourceTree = "<group>"; };
 		054EA71A2AA072D200C716A4 /* OCExampleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCExampleViewController.m; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ExampleViewController.swift */,
+				0545440F2AA9BEFC0079C260 /* Gifts.json */,
 				0565533F2AA5CFFE00E3A6C7 /* ChatRoomView.swift */,
 				0565533D2AA5CC8500E3A6C7 /* ChatroomUIKitService.swift */,
 				056553412AA5D7F100E3A6C7 /* GiftsBarrageBinder.swift */,
@@ -145,7 +148,7 @@
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
 				C5E2A18C5359F868CA30B270 /* [CP] Embed Pods Frameworks */,
-				4370783DEE9542A890DB39A7 /* [CP] Copy Pods Resources */,
+				DCDE0859213CE738CA70BADE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -199,6 +202,7 @@
 			files = (
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
+				054544102AA9BEFC0079C260 /* Gifts.json in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -228,25 +232,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4370783DEE9542A890DB39A7 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ChatroomUIKit_Example/Pods-ChatroomUIKit_Example-resources.sh",
-				"${PODS_ROOT}/../../ChatroomUIKit/Classes/UI/Resources/ChatRoomResource.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/ChatroomUIKit/ChatRoomResource.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ChatRoomResource.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChatroomUIKit_Example/Pods-ChatroomUIKit_Example-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		C5E2A18C5359F868CA30B270 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -265,6 +250,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChatroomUIKit_Example/Pods-ChatroomUIKit_Example-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DCDE0859213CE738CA70BADE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ChatroomUIKit_Example/Pods-ChatroomUIKit_Example-resources.sh",
+				"${PODS_ROOT}/../../ChatroomUIKit/Classes/UI/Resources/ChatRoomResource.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ChatRoomResource.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChatroomUIKit_Example/Pods-ChatroomUIKit_Example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

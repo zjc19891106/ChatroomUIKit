@@ -16,7 +16,7 @@ public final class PresentationController: UIPresentationController {
     private lazy var backgroundView: UIView = {
         let containerbounds = containerView?.bounds ?? UIScreen.main.bounds
         let backgroundView = UIView(frame: containerbounds)
-        backgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        backgroundView.backgroundColor = UIColor.theme.barrageLightColor2
         backgroundView.alpha = 0.0
         if component.canTapBGDismiss {
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(backgroundViewDidTapped))

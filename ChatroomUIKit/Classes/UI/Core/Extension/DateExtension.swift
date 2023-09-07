@@ -46,7 +46,7 @@ public extension Chatroom where Base == Date {
         let fmt = DateFormatter()
         fmt.timeZone = TimeZone.current
         let newDate = base
-        fmt.locale = Locale(identifier: "zh_CN")
+        fmt.locale = .current
         fmt.dateFormat = formatter
         return fmt.string(from: newDate)
     }

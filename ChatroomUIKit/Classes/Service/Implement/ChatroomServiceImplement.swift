@@ -144,7 +144,7 @@ extension ChatroomServiceImplement: ChatroomService {
     }
     
     public func translateMessage(message: ChatMessage, completion: @escaping (Bool, ChatError?) -> Void) {
-        ChatClient.shared().chatManager?.translate(message, targetLanguages: [Appearance.default.targetLanguage.rawValue],completion: { chatMessage, error in
+        ChatClient.shared().chatManager?.translate(message, targetLanguages: [Appearance.targetLanguage.rawValue],completion: { chatMessage, error in
             completion(error == nil,error)
         })
     }

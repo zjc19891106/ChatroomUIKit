@@ -43,7 +43,7 @@ import UIKit
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         if self.font == nil {
-            self.font = .systemFont(ofSize: 14)
+            self.font = UIFont.theme.bodyLarge
         }
         NotificationCenter.default.addObserver(self, selector: #selector(textDidChanged(noti:)), name: UITextView.textDidChangeNotification, object: self)
     }
@@ -68,13 +68,13 @@ import UIKit
             return
         }
         var newRect = CGRect()
-        newRect.origin.x = 12
-        newRect.origin.y = 7
-        let size = self.placeHolder.chatroom.sizeWithText(font: self.font ?? UIFont.systemFont(ofSize: 14), size: rect.size)
+        let size = self.placeHolder.chatroom.sizeWithText(font: self.font ?? UIFont.theme.bodyLarge, size: rect.size)
         newRect.size.width = size.width
         newRect.size.height = size.height
+        newRect.origin.x = 12
+        newRect.origin.y = (rect.height-size.height)/2.0
         
-        (self.placeHolder as NSString).draw(in: newRect, withAttributes: [.font: self.font ?? UIFont.systemFont(ofSize: 14),.foregroundColor: self.placeHolderColor])
+        (self.placeHolder as NSString).draw(in: newRect, withAttributes: [.font: self.font ?? UIFont.theme.bodyLarge,.foregroundColor: self.placeHolderColor])
     }
     
     public override func layoutSubviews() {

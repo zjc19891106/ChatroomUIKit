@@ -41,6 +41,9 @@ var chatViewWidth: CGFloat = 0
         self.blurView.addSubview(self.chatView)
         self.chatView.bounces = false
         self.chatView.allowsSelection = false
+        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longGesture(gesture:)))
+        longGesture.minimumPressDuration = 2.0
+        self.chatView.addGestureRecognizer(longGesture)
     }
     
     @available(*, unavailable)
@@ -110,6 +113,16 @@ extension ChatBarrageList:UITableViewDelegate, UITableViewDataSource {
             self.cellOffset = 0
         }
     }
+    
+    @objc func longGesture(gesture: UILongPressGestureRecognizer) {
+        if gesture.state == .began {
+            let touchPoint = gesture.location(in: self.chatView)
+            if let indexPath = self.chatView.indexPathForRow(at: touchPoint),let cell = self.chatView.cellForRow(at: indexPath) as? ChatBarrageCell {
+                
+            }
+        }
+    }
+
 }
 
 

@@ -16,13 +16,13 @@ import UIKit
     private var theme: ThemeStyle = .light
     
     lazy var indicator: UIView = {
-        UIView(frame: CGRect(x: 16, y: 8, width: Appearance.default.pageContainerTitleBarItemWidth, height: Int(self.frame.height)-16)).cornerRadius(14).backgroundColor(UIColor(0xD8D8D8))
+        UIView(frame: CGRect(x: 16+Appearance.pageContainerTitleBarItemWidth/2.0-8, y: self.frame.height-4, width: 16, height: 4)).cornerRadius(2).backgroundColor(UIColor.theme.primaryColor5)
     }()
     
     lazy var layout: UICollectionViewFlowLayout = {
         let flow = UICollectionViewFlowLayout()
         flow.scrollDirection = .horizontal
-        flow.itemSize = CGSize(width: Appearance.default.pageContainerTitleBarItemWidth, height: Int(self.frame.height)-16)
+        flow.itemSize = CGSize(width: Appearance.pageContainerTitleBarItemWidth, height: self.frame.height-16)
         flow.minimumInteritemSpacing = 0
         flow.minimumLineSpacing = 0
         return flow
@@ -42,6 +42,7 @@ import UIKit
         self.datas = choices
         self.addSubViews([self.indicator,self.choicesBar])
         self.choicesBar.bounces = false
+        Theme.registerSwitchThemeViews(view: self)
     }
     
     required public init?(coder: NSCoder) {
@@ -72,7 +73,7 @@ extension PageContainerTitleBar: UICollectionViewDataSource, UICollectionViewDel
     
     @objc public func scrollIndicator(to index: Int) {
         UIView.animate(withDuration: 0.25) {
-            self.indicator.frame = CGRect(x: 16+index*Appearance.default.pageContainerTitleBarItemWidth, y: 8, width: Appearance.default.pageContainerTitleBarItemWidth, height: (Int(self.frame.height)-16))
+            self.indicator.frame = CGRect(x: 16+Appearance.pageContainerTitleBarItemWidth/2.0+Appearance.pageContainerTitleBarItemWidth*CGFloat(index)-8, y: self.frame.height-4, width: 16, height: 4)
         }
     }
 

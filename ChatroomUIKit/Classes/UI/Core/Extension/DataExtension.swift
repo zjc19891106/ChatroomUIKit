@@ -24,4 +24,14 @@ public extension Chatroom where Base == Data {
         }
         return dic
     }
+    
+    func toDictionaryArray() -> [Dictionary<String,Any>]? {
+        var dic: [Dictionary<String,Any>]?
+        do {
+            dic = try JSONSerialization.jsonObject(with: base, options: .allowFragments) as? [Dictionary<String,Any>]
+        } catch {
+            assert(false, "\(error)")
+        }
+        return dic
+    }
 }

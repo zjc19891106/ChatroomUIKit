@@ -56,7 +56,7 @@ import UIKit
     
     func refresh(item: ChatBottomItemProtocol) {
         self.icon.image = item.selected ? item.selectedImage:item.normalImage
-        self.redDot.isHidden = item.showRedDot
+        self.redDot.isHidden = !item.showRedDot
     }
 
 }

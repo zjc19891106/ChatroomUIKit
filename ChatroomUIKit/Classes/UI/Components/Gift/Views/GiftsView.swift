@@ -58,9 +58,8 @@ extension GiftsView: UICollectionViewDelegate,UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GiftEntityCell", for: indexPath) as? GiftEntityCell
         cell?.refresh(item: self.gifts[safe: indexPath.row])
         cell?.sendCallback = { [weak self] in
-            guard let entity = $0 else { return }
-            if self?.sendClosure != nil {
-                self?.sendClosure!(entity)
+            if let gift = $0 {
+                self?.sendClosure?(gift)
             }
         }
         return cell ?? GiftEntityCell()
@@ -81,7 +80,6 @@ extension GiftsView: UICollectionViewDelegate,UICollectionViewDataSource {
         self.gifts.forEach { $0.selected = false }
         if let gift = self.gifts[safe: indexPath.row] {
             gift.selected = true
-            self.sendClosure?(gift)
         }
         self.giftList.reloadData()
     }

@@ -9,7 +9,7 @@ import UIKit
 
 @objc final public class DialogContainerViewController:  UIViewController, PresentedViewType {
     
-    public var presentedViewComponent: PresentedViewComponent? = PresentedViewComponent(contentSize: Appearance.default.giftContainerConstraintsSize)
+    public var presentedViewComponent: PresentedViewComponent? = PresentedViewComponent(contentSize: Appearance.giftContainerConstraintsSize)
 
     var customView: UIView?
 

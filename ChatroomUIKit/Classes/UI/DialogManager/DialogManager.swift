@@ -9,17 +9,23 @@ import UIKit
 
 @objc final public class DialogManager: NSObject {
     
-    static let shared = DialogManager()
+    public static let shared = DialogManager()
     
-    @objc func showGiftsDialog(gifts: [GiftEntityProtocol] ,sendClosure: @escaping (GiftEntityProtocol) -> Void) {
+    @objc public func showGiftsDialog(gifts: [GiftEntityProtocol] ,sendClosure: @escaping (GiftEntityProtocol) -> Void) {
         var gift: PageContainersDialogController?
         let vc = GiftsViewController(gifts: gifts) { item in
+            sendClosure(item)
+//            if item.sentThenClose {
+                gift?.dismiss(animated: true)
+//            }
+        }
+        let vc1 = GiftsViewController(gifts: gifts) { item in
             sendClosure(item)
             if item.sentThenClose {
                 gift?.dismiss(animated: true)
             }
         }
-        gift = PageContainersDialogController(pageTitles: ["Gifts"], childControllers: [vc])
+        gift = PageContainersDialogController(pageTitles: ["Gifts","Gifts"], childControllers: [vc,vc1],constraintsSize: Appearance.giftContainerConstraintsSize)
         UIViewController.currentController?.presentViewController(gift!)
     }
     
@@ -28,7 +34,7 @@ import UIKit
     }
     
     @objc func showMessageActions(entity: ChatEntity,action: @escaping ActionClosure) {
-        let actionSheet = ActionSheet(items: Appearance.default.defaultMessageActions)
+        let actionSheet = ActionSheet(items: Appearance.defaultMessageActions)
         let vc = DialogContainerViewController(custom: actionSheet)
         for item in actionSheet.items {
             item.action = {

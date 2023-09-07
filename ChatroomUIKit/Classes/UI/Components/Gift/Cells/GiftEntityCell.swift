@@ -59,7 +59,7 @@ import UIKit
         self.contentView.isHidden = (item == nil)
 
         let url = self.ossPictureCrop(url: item?.giftIcon ?? "")
-        self.icon.image(with: url, placeHolder: nil)
+        self.icon.image(with: url, placeHolder: Appearance.giftPlaceHolder)
         self.name.text = item?.giftName
         self.displayValue.setImage(UIImage(named: "dollagora", in: .chatroomBundle, with: nil), for: .normal)
         self.displayValue.setTitle(item?.giftPrice ?? "100", for: .normal)

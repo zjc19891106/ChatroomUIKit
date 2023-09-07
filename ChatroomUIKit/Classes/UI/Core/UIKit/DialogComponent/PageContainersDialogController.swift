@@ -9,7 +9,7 @@ import UIKit
 
 @objc public class PageContainersDialogController: UIViewController, PresentedViewType {
     
-    public var presentedViewComponent: PresentedViewComponent? = PresentedViewComponent(contentSize: Appearance.default.pageContainerConstraintsSize)
+    public var presentedViewComponent: PresentedViewComponent? = PresentedViewComponent(contentSize: Appearance.pageContainerConstraintsSize)
     
     private var pageTitles = [String]()
     

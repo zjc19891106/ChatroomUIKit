@@ -304,6 +304,42 @@ public extension UILabel {
 public extension UIButton {
     
     @discardableResult
+    func setGradientBackground(colors: [UIColor], cornerRadius: CGFloat) -> Self {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = bounds
+        gradientLayer.colors = colors.map { $0.cgColor }
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        gradientLayer.cornerRadius = cornerRadius
+        
+        UIGraphicsBeginImageContextWithOptions(gradientLayer.bounds.size, false, UIScreen.main.scale)
+        gradientLayer.render(in: UIGraphicsGetCurrentContext()!)
+        let backgroundImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        setBackgroundImage(backgroundImage, for: .normal)
+        return self
+    }
+    
+    @discardableResult
+    func updateGradientColors(for state: UIControl.State, colors: [UIColor]) -> Self {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = bounds
+        gradientLayer.colors = colors.map { $0.cgColor }
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        gradientLayer.cornerRadius = layer.cornerRadius
+        
+        UIGraphicsBeginImageContextWithOptions(gradientLayer.bounds.size, false, UIScreen.main.scale)
+        gradientLayer.render(in: UIGraphicsGetCurrentContext()!)
+        let backgroundImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        setBackgroundImage(backgroundImage, for: state)
+        return self
+    }
+    
+    @discardableResult
     func frame(_ frame: CGRect) -> Self {
         let view = self
         view.frame = frame
@@ -873,14 +909,14 @@ public extension UIDatePicker {
 public extension UIImageView {
     
     @discardableResult
-    func image(_ img: UIImage) -> Self {
+    func image(_ img: UIImage?) -> Self {
         let view = self
         view.image = img
         return view
     }
     
     @discardableResult
-    func highlightedImage(_ img: UIImage) -> Self {
+    func highlightedImage(_ img: UIImage?) -> Self {
         let view = self
         view.highlightedImage = img
         return view

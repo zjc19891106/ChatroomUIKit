@@ -49,7 +49,7 @@ open class ChatroomUIKitService: NSObject {
         super.init()
         self.roomId = roomId
         self.token = token
-        ChatroomContext.shared?.currentUser = user
+        ChatroomContext.shared?.currentUser = user as? User
         self.userImplement?.login(userId: user.userId, token: token, completion: { [weak self] success, error in
             if error != nil {
                 consoleLogInfo("\(error?.errorDescription ?? "")", type: .debug)

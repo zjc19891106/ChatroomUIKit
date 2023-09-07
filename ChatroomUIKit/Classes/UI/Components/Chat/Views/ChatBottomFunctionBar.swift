@@ -16,7 +16,7 @@ import UIKit
     public var datas = [ChatBottomItemProtocol]()
 
     public lazy var chatRaiser: UIButton = {
-        UIButton(type: .custom).frame(.zero).backgroundColor(UIColor.theme.barrageLightColor2).cornerRadius((self.frame.height - 10) / 2.0).font(.systemFont(ofSize: 12, weight: .regular)).textColor(UIColor(white: 1, alpha: 0.8), .normal).addTargetFor(self, action: #selector(raiseAction), for: .touchUpInside)
+        UIButton(type: .custom).frame(.zero).backgroundColor(UIColor.theme.barrageLightColor2).cornerRadius((self.frame.height - 10) / 2.0).font(.systemFont(ofSize: 12, weight: .regular)).textColor(UIColor(white: 1, alpha: 0.8), .normal).addTargetFor(self, action: #selector(raiseAction), for: .touchUpInside).backgroundColor(UIColor.theme.barrageDarkColor1)
     }()
 
     lazy var flowLayout: UICollectionViewFlowLayout = {
@@ -40,7 +40,7 @@ import UIKit
         self.chatRaiser.isHidden = hiddenChat
         self.addSubViews([self.chatRaiser, self.toolBar])
         self.refreshToolBar(datas: datas)
-        self.chatRaiser.setImage(UIImage(named: "chatraise",in: .chatroomBundle,compatibleWith: nil), for: .normal)
+        self.chatRaiser.setImage(UIImage(named: "chatraise",in: .chatroomBundle,with: nil), for: .normal)
         self.chatRaiser.setTitle(" " + "Let's Chat!".chatroom.localize, for: .normal)
         self.chatRaiser.titleEdgeInsets = UIEdgeInsets(top: self.chatRaiser.titleEdgeInsets.top, left: 10, bottom: self.chatRaiser.titleEdgeInsets.bottom, right: 10)
         self.chatRaiser.imageEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 80)
@@ -52,8 +52,10 @@ import UIKit
     @objc public func refreshToolBar(datas: [ChatBottomItemProtocol]) {
         self.datas.removeAll()
         self.datas = datas
-        let toolBarWidth = self.frame.width - (40 * CGFloat(self.datas.count)) - (CGFloat(self.datas.count) - 1) * 8 - 32
-        self.chatRaiser.frame = CGRect(x: 15, y: 5, width: self.frame.width-15-toolBarWidth, height: self.frame.height - 10)
+        let toolBarWidth = self.frame.width - (40 * CGFloat(self.datas.count)) - (CGFloat(self.datas.count) - 1) * 8 - 32 - 30
+        if !self.chatRaiser.isHidden {
+            self.chatRaiser.frame = CGRect(x: 15, y: 5, width: 120, height: self.frame.height - 10)
+        }
         self.toolBar.frame = CGRect(x: self.frame.width - toolBarWidth, y: 0, width: 40 * CGFloat(self.datas.count) + (CGFloat(self.datas.count) - 1) * 8 + 25, height: self.frame.height)
         self.toolBar.reloadData()
     }

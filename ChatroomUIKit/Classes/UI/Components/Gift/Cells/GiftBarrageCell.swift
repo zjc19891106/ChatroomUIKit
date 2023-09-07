@@ -15,7 +15,7 @@ import UIKit
         UIToolbar(frame: CGRect(x: 0, y: 5, width: self.contentView.frame.width, height: self.contentView.frame.height - 10)).backgroundColor(.clear).isUserInteractionEnabled(false)
     }()
     
-    lazy var avatar: ImageView = ImageView(frame: CGRect(x: 5, y: 5, width: self.frame.width / 5.0, height: self.frame.width / 5.0)).contentMode(.scaleAspectFit)
+    lazy var avatar: ImageView = ImageView(frame: CGRect(x: 5, y: 5, width: self.frame.width / 5.0, height: self.frame.width / 5.0)).contentMode(.scaleAspectFit).cornerRadius(Appearance.avatarRadius)
     
     lazy var userName: UILabel = {
         UILabel(frame: CGRect(x: self.avatar.frame.maxX + 6, y: 8, width: self.frame.width / 5.0 * 2 - 12, height: 15)).font(UIFont.theme.headlineExtraSmall).textColor(UIColor.theme.neutralColor100)
@@ -59,7 +59,6 @@ import UIKit
         self.container.createGradient([], [CGPoint(x: 0, y: 0), CGPoint(x: 0, y: 1)],[0,1])
         self.container.cornerRadius(self.container.frame.height/2.0)
         self.avatar.frame = CGRect(x: 5, y: 5, width: self.container.frame.height - 10, height: self.container.frame.height - 10)
-        self.avatar.cornerRadius((self.container.frame.height - 10) / 2.0)
         self.userName.frame = CGRect(x: self.avatar.frame.maxX + 6, y: self.container.frame.height/2.0 - 15, width: frame.width / 5.0 * 2 - 12, height: 15)
         self.giftName.frame = CGRect(x: self.avatar.frame.maxX + 6, y: self.container.frame.height/2.0 , width: frame.width / 5.0 * 2 - 12, height: 15)
         self.giftIcon.frame = CGRect(x: frame.width / 5.0 * 3, y: 0, width: self.container.frame.height, height: self.container.frame.height)
@@ -80,7 +79,7 @@ import UIKit
         
         self.userName.text = item.sendUser?.nickName
         self.giftName.text = "Sent ".chatroom.localize + (item.giftName)
-        self.giftIcon.image(with: item.giftIcon, placeHolder: nil)
+        self.giftIcon.image(with: item.giftIcon, placeHolder: Appearance.giftPlaceHolder)
         self.giftNumbers.text = "X \(item.giftCount)"
     }
 
@@ -90,15 +89,11 @@ import UIKit
 
 extension GiftBarrageCell: ThemeSwitchProtocol {
     public func switchHues() {
-        
+        self.switchTheme(style: .light)
     }
     
     public func switchTheme(style: ThemeStyle) {
-        if style == .dark {
-//            self.container.barTintColor = UIColor(red: <#T##CGFloat#>, green: <#T##CGFloat#>, blue: <#T##CGFloat#>, alpha: <#T##CGFloat#>)
-        } else {
-            
-        }
+        self.container.barTintColor = style == .dark ? UIColor.theme.barrageLightColor2:UIColor.theme.barrageDarkColor1
     }
     
     

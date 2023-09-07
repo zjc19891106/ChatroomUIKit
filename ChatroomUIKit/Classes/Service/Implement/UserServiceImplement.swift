@@ -14,7 +14,7 @@ import KakaJSON
     private var responseDelegates: NSHashTable<UserStateChangedListener> = NSHashTable<UserStateChangedListener>.weakObjects()
     
     @objc public init(userInfo: UserInfoProtocol,token: String,use userProperty: Bool = true,completion: @escaping (ChatError?) -> Void) {
-        ChatroomContext.shared?.currentUser = userInfo
+        ChatroomContext.shared?.currentUser = userInfo as? User
         super.init()
         self.login(userId: userInfo.userId, token: token) { [weak self] success, error in
             if !success {

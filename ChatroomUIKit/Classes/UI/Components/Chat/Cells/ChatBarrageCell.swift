@@ -21,6 +21,11 @@ import UIKit
     
     lazy public var message: ChatMessage = ChatMessage()
     
+    lazy public var showTime: String = {
+        let date = Date(timeIntervalSince1970: Double(self.message.timestamp)/1000)
+        return date.chatroom.dateString("HH:mm")
+    }()
+    
     lazy public var attributeText: NSAttributedString = self.convertAttribute()
         
     lazy public var height: CGFloat =  UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).height + 26
@@ -28,11 +33,9 @@ import UIKit
     lazy public var width: CGFloat = UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).width
         
     func convertAttribute() -> NSAttributedString {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.firstLineHeadIndent = self.firstLineHeadIndent()
         var text = NSMutableAttributedString {
-            AttributedText((self.message.user?.nickName ?? "") + " : ").foregroundColor(Color.theme.primaryColor8).font(UIFont.theme.labelMedium).lineSpacing(5)
-            AttributedText(self.message.text).foregroundColor(Color.theme.neutralColor98).font(UIFont.theme.bodyMedium).lineSpacing(5).paragraphStyle(paragraphStyle)
+            AttributedText((self.message.user?.nickName ?? "") + " : ").foregroundColor(Color.theme.primaryColor8).font(UIFont.theme.labelMedium).paragraphStyle(self.paragraphStyle())
+            AttributedText(self.message.text).foregroundColor(Color.theme.neutralColor98).font(UIFont.theme.bodyMedium).paragraphStyle(self.paragraphStyle())
         }
         let string = self.message.text as NSString
         for symbol in ChatEmojiConvertor.shared.emojis {
@@ -44,13 +47,20 @@ import UIKit
         return text
     }
     
+    func paragraphStyle() -> NSMutableParagraphStyle {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.firstLineHeadIndent = self.firstLineHeadIndent()
+        paragraphStyle.lineHeightMultiple = 1.08
+        return paragraphStyle
+    }
+    
     func firstLineHeadIndent() -> CGFloat {
         var distance:CGFloat = 0
-        switch Appearance.default.barrageCellStyle {
+        switch Appearance.barrageCellStyle {
         case .all: distance = 88
-        case .excludeAvatar,.excludeLevel: distance = 62
         case .excludeTime: distance = 48
         case .excludeLevelAndAvatar: distance = 44
+        case .excludeAvatar,.excludeLevel: distance = 62
         case .excludeTimeAndLevel,.excludeTimeAndAvatar: distance = 26
         }
         return distance
@@ -69,14 +79,14 @@ extension ChatMessage {
 
 @objcMembers open class ChatBarrageCell: UITableViewCell {
     
-    private var style: ChatBarrageCellStyle = .all
+    private var style: ChatBarrageCellStyle = Appearance.barrageCellStyle
 
     public lazy var container: UIView = {
-        UIView(frame: CGRect(x: 15, y: 6, width: self.contentView.frame.width - 30, height: self.frame.height - 6)).backgroundColor( UIColor.theme.barrageLightColor2)
+        UIView(frame: CGRect(x: 15, y: 6, width: self.contentView.frame.width - 30, height: self.frame.height - 6)).backgroundColor( UIColor.theme.barrageLightColor2).cornerRadius(.small)
     }()
     
     lazy var time: UILabel = {
-        UILabel(frame: CGRect(x: 10, y: 7, width: 40, height: 18)).font(UIFont.theme.bodyMedium).textColor(UIColor.theme.secondaryColor8).textAlignment(.center)
+        UILabel(frame: CGRect(x: 10, y: 11, width: 40, height: 18)).font(UIFont.theme.bodyMedium).textColor(UIColor.theme.secondaryColor8).textAlignment(.center).backgroundColor(.clear)
     }()
     
     lazy var userIdentify: ImageView = {
@@ -89,7 +99,7 @@ extension ChatMessage {
         default:
             break
         }
-        return ImageView(frame: CGRect(x: originX, y: 5, width: 18, height: 18)).backgroundColor(.clear)
+        return ImageView(frame: CGRect(x: originX, y: 10, width: 18, height: 18)).backgroundColor(.clear).cornerRadius(Appearance.avatarRadius)
     }()
     
     lazy var avatar: ImageView = {
@@ -104,7 +114,7 @@ extension ChatMessage {
         default:
             break
         }
-        return ImageView(frame: CGRect(x: originX, y: 5, width: 18, height: 18)).backgroundColor(.clear)
+        return ImageView(frame: CGRect(x: originX, y: 10, width: 18, height: 18)).backgroundColor(.clear).cornerRadius(Appearance.avatarRadius)
     }()
 
     public lazy var content: UILabel = {
@@ -130,7 +140,7 @@ extension ChatMessage {
     
     @objc required public convenience init(barrageStyle: ChatBarrageCellStyle, reuseIdentifier: String?) {
         self.init(style: .default, reuseIdentifier: reuseIdentifier)
-        self.style = style
+        self.style = barrageStyle
         self.contentView.addSubview(self.container)
         switch style {
         case .all:
@@ -150,6 +160,7 @@ extension ChatMessage {
         default:
             break
         }
+        
         Theme.registerSwitchThemeViews(view: self)
     }
 
@@ -162,12 +173,14 @@ extension ChatMessage {
     /// Description 刷新渲染聊天弹幕的实体，内部包含高度宽度以及富文本缓存
     /// - Parameter chat: 实体对象
     @objc public func refresh(chat: ChatEntity) {
+        self.time.text = chat.showTime
+        self.userIdentify.image(with: chat.message.user?.identify ?? "", placeHolder: Appearance.userIdentifyPlaceHolder)
+        self.avatar.image(with: chat.message.user?.avatarURL ?? "", placeHolder: Appearance.avatarPlaceHolder)
         self.container.frame = CGRect(x: 15, y: 6, width: chat.width + 30, height: chat.height - 6)
         self.content.attributedText = chat.attributeText
         self.content.preferredMaxLayoutWidth =  self.container.frame.width - 24
-        self.content.frame = CGRect(x: 12, y: 7, width:  self.container.frame.width - 24, height:  self.container.frame.height - 16)
+        self.content.frame = CGRect(x: self.content.frame.minX, y: self.content.frame.minY, width:  self.container.frame.width - 24, height:  self.container.frame.height - 16)
     }
-
 }
 
 

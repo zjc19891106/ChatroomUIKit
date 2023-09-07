@@ -11,20 +11,26 @@ import UIKit
     
     var keyboardHeight = CGFloat(0)
     
+    var rawHeight: CGFloat = 0
+    
+    var rawTextHeight: CGFloat = 0
+    
+    var rawFrame: CGRect = .zero
+    
     public var sendClosure: ((String) -> Void)?
     
     public var changeEmojiClosure: ((Bool) -> Void)?
     
     lazy var rightView: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: ScreenWidth-87, y: 12, width: 30, height: 30)).addTargetFor(self, action: #selector(changeToEmoji), for: .touchUpInside).backgroundColor(.clear)
+        UIButton(type: .custom).frame(CGRect(x: self.frame.width-87, y: 12, width: 30, height: 30)).addTargetFor(self, action: #selector(changeToEmoji), for: .touchUpInside).backgroundColor(.clear)
     }()
     
-    public lazy var inputField: TextEditorView = {
-        TextEditorView(frame: .zero).backgroundColor(UIColor.theme.neutralColor95)
+    public lazy var inputField: PlaceHolderTextView = {
+        PlaceHolderTextView(frame: .zero).delegate(self).font(UIFont.theme.bodyLarge).backgroundColor(.clear).backgroundColor(UIColor.theme.neutralColor95).delegate(self)
     }()
     
     lazy var send: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: ScreenWidth - 49, y: 12, width: 30, height: 30)).backgroundColor(.clear).image(UIImage(named: "airplane", in: .chatroomBundle, with: nil), .normal).addTargetFor(self, action: #selector(sendMessage), for: .touchUpInside)
+        UIButton(type: .custom).frame(CGRect(x: self.frame.width - 49, y: 12, width: 30, height: 30)).backgroundColor(.clear).image(UIImage(named: "airplane", in: .chatroomBundle, with: nil), .normal).addTargetFor(self, action: #selector(sendMessage), for: .touchUpInside)
     }()
     
     private var limitCount: Int {
@@ -44,6 +50,9 @@ import UIKit
     
     @objc required public convenience init(frame: CGRect,text: String? = nil,placeHolder: String? = nil) {
         self.init(frame: frame)
+        self.rawHeight = frame.height
+        self.rawTextHeight = self.rawHeight-16
+        self.rawFrame = frame
         self.addSubViews([self.inputField, self.rightView,self.send])
         self.rightView.setImage(UIImage(named: "emojiKeyboard", in: Bundle.chatroomBundle, with: nil)?.withTintColor(UIColor.theme.neutralColor3), for: .normal)
         self.rightView.setImage(UIImage(named: "textKeyboard", in: Bundle.chatroomBundle, with: nil)?.withTintColor(UIColor.theme.neutralColor3), for: .selected)
@@ -52,26 +61,23 @@ import UIKit
         self.inputField.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -99).isActive = true
         self.inputField.topAnchor.constraint(equalTo: self.topAnchor, constant: 8).isActive = true
         self.inputField.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
-        self.inputField.cornerRadius(.medium)
+        self.inputField.cornerRadius(Appearance.inputBarCorner)
+        self.inputField.placeHolder = Appearance.inputPlaceHolder.chatroom.localize
+        self.inputField.textContainerInset = UIEdgeInsets(top: 7, left: CGFloat(Appearance.inputBarCorner.rawValue), bottom: 7, right: CGFloat(Appearance.inputBarCorner.rawValue))
         self.inputField.tintColor = UIColor.theme.primaryColor5
-        self.inputField.placeholderTextColor = UIColor.theme.neutralColor6
-        self.inputField.textView.textColor = UIColor.theme.neutralColor1
-        self.inputField.textView.font = UIFont.theme.bodyLarge
+        self.inputField.placeHolderColor = UIColor.theme.neutralColor6
+        self.inputField.textColor = UIColor.theme.neutralColor1
+        self.inputField.font = UIFont.theme.bodyLarge
         if text != nil {
-            self.inputField.textView.text = text
+            self.inputField.text = text
         }
         if placeHolder != nil {
-            self.inputField.placeholder = placeHolder ?? "Aa"
+            self.inputField.placeHolder = placeHolder ?? "Aa"
         }
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIApplication.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIApplication.keyboardWillHideNotification, object: nil)
         self.backgroundColor = UIColor.theme.neutralColor98
-        self.inputField.textDidChanged = { [weak self] in
-            self?.textViewChanged(text: $0)
-        }
-        self.inputField.heightDidChangedShouldScroll = { [weak self] in
-            self?.textViewHeightChanged(height: $0) ?? false
-        }
+        
         
         Theme.registerSwitchThemeViews(view: self)
     }
@@ -91,35 +97,40 @@ import UIKit
    
 }
 
-extension ChatInputBar {
+extension ChatInputBar: UITextViewDelegate {
     
-    private func textViewHeightChanged(height: CGFloat) -> Bool {
-        if self.inputField.textView.attributedText.size().height > 102 {
-            self.frame = CGRect(x: 0, y: ScreenHeight - (height+16) - self.keyboardHeight, width: self.frame.width, height: 102)
-            return true
-        } else {
-            self.frame = CGRect(x: 0, y: ScreenHeight - (height+16) - self.keyboardHeight, width: self.frame.width, height: height)
-            return false
-        }
-    }
     
-    private func textViewChanged(text: String) {
+    public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
             self.sendMessage()
+            return false
         } else {
-            if self.inputField.textView.attributedText.length >= self.limitCount,!text.isEmpty {
-                let string = self.inputField.textView.text as NSString
-                self.inputField.textView.text = string.substring(to: self.limitCount)
+            let textHeight = self.inputField.sizeThatFits(CGSize(width: self.inputField.frame.width, height: 9999)).height
+            if textHeight > self.rawTextHeight {
+                let increment = textHeight - self.rawTextHeight
+                self.rawTextHeight += increment
+                self.rawHeight = self.rawTextHeight + 16
+                if textHeight > Appearance.maxInputHeight {
+                    self.frame = CGRect(x: 0, y: ScreenHeight - (Appearance.maxInputHeight+16) - self.keyboardHeight, width: self.frame.width, height: Appearance.maxInputHeight+16)
+                } else {
+                    self.frame = CGRect(x: 0, y: ScreenHeight - self.rawHeight - self.keyboardHeight, width: self.frame.width, height: self.rawHeight)
+                }
             }
+            return true
         }
     }
     
     @objc func sendMessage() {
         self.hiddenInputBar()
         self.rightView.isSelected = false
-        if !self.inputField.textView.attributedText.toString().isEmpty {
-            self.sendClosure?(self.inputField.textView.attributedText.toString().trimmingCharacters(in: .whitespacesAndNewlines))
+        if !self.inputField.attributedText.toString().isEmpty {
+            self.sendClosure?(self.inputField.attributedText.toString().trimmingCharacters(in: .whitespacesAndNewlines))
         }
+        self.inputField.text = nil
+        self.inputField.attributedText = nil
+        self.frame = self.rawFrame
+        self.rawHeight = self.rawFrame.height
+        self.rawTextHeight = self.rawHeight-16
     }
     
     public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -152,7 +163,7 @@ extension ChatInputBar {
         let duration = notification.chatroom.keyboardAnimationDuration
         self.keyboardHeight = frame!.height
         UIView.animate(withDuration: duration!) {
-            self.frame = CGRect(x: 0, y:ScreenHeight - 60 - frame!.height, width: ScreenWidth, height: self.frame.height)
+            self.frame = CGRect(x: 0, y: ScreenHeight - self.rawFrame.height - frame!.height, width: self.frame.width, height: self.rawFrame.height)
         }
     }
     
@@ -160,20 +171,18 @@ extension ChatInputBar {
         let frame = notification.chatroom.keyboardEndFrame
         let duration = notification.chatroom.keyboardAnimationDuration
         self.keyboardHeight = frame!.height
-        self.frame = CGRect(x: 0, y: self.frame.origin.y, width: ScreenWidth, height: self.keyboardHeight + 5 + 60)
-        let emoji = ChatEmojiView(frame: CGRect(x: 0, y: self.inputField.frame.maxY, width: ScreenWidth, height: self.keyboardHeight)).tag(124).backgroundColor(UIColor.theme.neutralColor98)
+        self.frame = CGRect(x: 0, y: self.frame.origin.y, width: self.frame.width, height: self.keyboardHeight + 5 + 60)
+        let emoji = ChatEmojiView(frame: CGRect(x: 0, y: self.inputField.frame.maxY, width: self.frame.width, height: self.keyboardHeight)).tag(124).backgroundColor(UIColor.theme.neutralColor98)
         self.emoji = emoji
         emoji.emojiClosure = { [weak self] in
             guard let self = self else { return }
             emoji.deleteEmoji.isEnabled = true
             emoji.deleteEmoji.isUserInteractionEnabled = true
-            if self.inputField.textView.attributedText.length <= self.limitCount {
-                self.inputField.textView.attributedText = self.convertText(text: self.inputField.textView.attributedText, key: $0)
-            }
+            self.inputField.attributedText = self.convertText(text: self.inputField.attributedText, key: $0)
         }
         emoji.deleteClosure = { [weak self] in
-            if self?.inputField.textView.text?.count ?? 0 > 0 {
-                self?.inputField.textView.deleteBackward()
+            if self?.inputField.text?.count ?? 0 > 0 {
+                self?.inputField.deleteBackward()
                 emoji.deleteEmoji.isEnabled = true
                 emoji.deleteEmoji.isUserInteractionEnabled = true
             } else {
@@ -191,10 +200,14 @@ extension ChatInputBar {
     @objc public func hiddenInputBar() {
         self.inputField.resignFirstResponder()
         UIView.animate(withDuration: 0.3) {
-            self.frame = CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: self.keyboardHeight + 60)
+            self.frame = CGRect(x: 0, y: ScreenHeight, width: self.frame.width, height: self.keyboardHeight + 60)
         }
         self.emoji?.removeFromSuperview()
         self.rightView.isSelected = false
+    }
+    
+    @objc public func show() {
+        self.inputField.becomeFirstResponder()
     }
     
     func inputBar() -> ChatInputBar? {
@@ -245,8 +258,8 @@ extension ChatInputBar: ThemeSwitchProtocol {
         self.viewWithTag(124)?.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
         self.inputField.backgroundColor(style == .dark ? UIColor.theme.neutralColor2:UIColor.theme.neutralColor95)
         self.inputField.tintColor = style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5
-        self.inputField.placeholderTextColor = style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor6
-        self.inputField.textView.textColor = style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1
+        self.inputField.placeHolderColor = style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor6
+        self.inputField.textColor = style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1
         self.backgroundColor = style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
     }
     

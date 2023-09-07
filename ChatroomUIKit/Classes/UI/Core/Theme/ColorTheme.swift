@@ -113,7 +113,7 @@ public extension UIColor {
         
     @objcMembers class ColorTheme: NSObject {
         
-        static func switchHues(hues: [CGFloat]) {
+        public static func switchHues(hues: [CGFloat]) {
             if let primaryHue = hues[safe: 0] {
                 self.primaryHue = primaryHue
             }
@@ -137,78 +137,78 @@ public extension UIColor {
         /// Description You can change the hue of the base color, and then change the thirteen UIColor objects of the related color series. The UI components that use the relevant color series in the chat room UIKit will also change accordingly. The default value is 203/360.0.
         ///  How to use?
         ///  `ColorTheme.primaryHue = 0.7`
-        static var primaryHue: CGFloat = 203/360.0
+        public static var primaryHue: CGFloat = 203/360.0
         /// Description You can change the hue of the base color, and then change the thirteen UIColor objects of the related color series. The UI components that use the relevant color series in the chat room UIKit will also change accordingly . The default value is 155/360.0.
         ///  How to use?
         ///  `ColorTheme.secondaryHue = 0.`7
-        static var secondaryHue: CGFloat = 155/360.0
+        public static var secondaryHue: CGFloat = 155/360.0
         /// Description You can change the hue of the base color, and then change the thirteen UIColor objects of the related color series. The UI components that use the relevant color series in the chat room UIKit will also change accordingly . The default value is 350/360.0.
         ///  How to use?
         ///  `ColorTheme.errorHue = 0.7`
-        static var errorHue: CGFloat = 350/360.0
+        public static var errorHue: CGFloat = 350/360.0
         /// Description You can change the hue of the base color, and then change the thirteen UIColor objects of the related color series. The UI components that use the relevant color series in the chat room UIKit will also change accordingly. The default value is 203/360.0.
         ///  How to use?
         ///  ColorTheme.neutralHue = 0.7
-        static var neutralHue: CGFloat = 203/360.0
+        public static var neutralHue: CGFloat = 203/360.0
         /// Description You can change the hue of the base color, and then change the thirteen UIColor objects of the related color series. The UI components that use the relevant color series in the chat room UIKit will also change accordingly. The default value is 220/360.0
         ///  How to use?
         ///  `ColorTheme.neutralSpecialHue = 0.7`
-        static var neutralSpecialHue: CGFloat = 220/360.0
+        public static var neutralSpecialHue: CGFloat = 220/360.0
         
         /// Description You can modify this value to change the value of all gradient end colors.
-        static var gradientEndHue: CGFloat = 233/360.0
+        public static var gradientEndHue: CGFloat = 233/360.0
         
         /// Description UIColor Extension
         ///  `UIColor.theme.primaryColor0`
-        var primaryColor0: UIColor {
+        public var primaryColor0: UIColor {
             UIColor.ColorTheme.primaryColor(lightness: .zero)
         }
         
-        var primaryColor1: UIColor {
+        public var primaryColor1: UIColor {
             UIColor.ColorTheme.primaryColor(lightness: .one)
         }
         
-        var primaryColor2: UIColor {
+        public var primaryColor2: UIColor {
             UIColor.ColorTheme.primaryColor(lightness: .two)
         }
         
-        var primaryColor3: UIColor {
+        public var primaryColor3: UIColor {
             UIColor.ColorTheme.primaryColor(lightness: .three)
         }
         
-        var primaryColor4: UIColor {
+        public var primaryColor4: UIColor {
             UIColor.ColorTheme.primaryColor(lightness: .four)
         }
         
-        var primaryColor5: UIColor {
+        public var primaryColor5: UIColor {
             UIColor.ColorTheme.primaryColor(lightness: .five)
         }
         
-        var primaryColor6: UIColor {
+        public var primaryColor6: UIColor {
             UIColor.ColorTheme.primaryColor(lightness: .six)
         }
         
-        var primaryColor7: UIColor {
+        public var primaryColor7: UIColor {
             UIColor.ColorTheme.primaryColor(lightness: .seven)
         }
         
-        var primaryColor8: UIColor {
+        public var primaryColor8: UIColor {
             UIColor.ColorTheme.primaryColor(lightness: .eight)
         }
         
-        var primaryColor9: UIColor {
+        public var primaryColor9: UIColor {
             UIColor.ColorTheme.primaryColor(lightness: .ninety)
         }
         
-        var primaryColor95: UIColor {
+        public var primaryColor95: UIColor {
             UIColor.ColorTheme.primaryColor(lightness: .ninetyFive)
         }
         
-        var primaryColor98: UIColor {
+        public var primaryColor98: UIColor {
             UIColor.ColorTheme.primaryColor(lightness: .ninetyEight)
         }
         
-        var primaryColor100: UIColor {
+        public var primaryColor100: UIColor {
             UIColor.ColorTheme.primaryColor(lightness: .oneHundred)
         }
         
@@ -220,55 +220,55 @@ public extension UIColor {
         }
         /// Description UIColor Extension
         /// `UIColor.theme.secondaryColor0`
-        var secondaryColor0: UIColor {
+        public var secondaryColor0: UIColor {
             UIColor.ColorTheme.secondaryColor(lightness: .zero)
         }
         
-        var secondaryColor1: UIColor {
+        public var secondaryColor1: UIColor {
             UIColor.ColorTheme.secondaryColor(lightness: .one)
         }
         
-        var secondaryColor2: UIColor {
+        public var secondaryColor2: UIColor {
             UIColor.ColorTheme.secondaryColor(lightness: .two)
         }
         
-        var secondaryColor3: UIColor {
+        public var secondaryColor3: UIColor {
             UIColor.ColorTheme.secondaryColor(lightness: .three)
         }
         
-        var secondaryColor4: UIColor {
+        public var secondaryColor4: UIColor {
             UIColor.ColorTheme.secondaryColor(lightness: .four)
         }
         
-        var secondaryColor5: UIColor {
+        public var secondaryColor5: UIColor {
             UIColor.ColorTheme.secondaryColor(lightness: .five)
         }
         
-        var secondaryColor6: UIColor {
+        public var secondaryColor6: UIColor {
             UIColor.ColorTheme.secondaryColor(lightness: .six)
         }
         
-        var secondaryColor7: UIColor {
+        public var secondaryColor7: UIColor {
             UIColor.ColorTheme.secondaryColor(lightness: .seven)
         }
         
-        var secondaryColor8: UIColor {
+        public var secondaryColor8: UIColor {
             UIColor.ColorTheme.secondaryColor(lightness: .eight)
         }
         
-        var secondaryColor9: UIColor {
+        public var secondaryColor9: UIColor {
             UIColor.ColorTheme.secondaryColor(lightness: .ninety)
         }
         
-        var secondaryColor95: UIColor {
+        public var secondaryColor95: UIColor {
             UIColor.ColorTheme.secondaryColor(lightness: .ninetyFive)
         }
         
-        var secondaryColor98: UIColor {
+        public var secondaryColor98: UIColor {
             UIColor.ColorTheme.secondaryColor(lightness: .ninetyEight)
         }
         
-        var secondaryColor100: UIColor {
+        public var secondaryColor100: UIColor {
             UIColor.ColorTheme.secondaryColor(lightness: .oneHundred)
         }
         /// Description secondary color constructor.
@@ -279,51 +279,51 @@ public extension UIColor {
         }
         /// Description UIColor Extension
         /// `UIColor.theme.errorColor0`
-        var errorColor0: UIColor {
+        public var errorColor0: UIColor {
             UIColor.ColorTheme.errorColor(lightness: .zero)
         }
         
-        var errorColor1: UIColor {
+        public var errorColor1: UIColor {
             UIColor.ColorTheme.errorColor(lightness: .one)
         }
         
-        var errorColor2: UIColor {
+        public var errorColor2: UIColor {
             UIColor.ColorTheme.errorColor(lightness: .two)
         }
         
-        var errorColor3: UIColor {
+        public var errorColor3: UIColor {
             UIColor.ColorTheme.errorColor(lightness: .three)
         }
         
-        var errorColor4: UIColor {
+        public var errorColor4: UIColor {
             UIColor.ColorTheme.errorColor(lightness: .four)
         }
         
-        var errorColor5: UIColor {
+        public var errorColor5: UIColor {
             UIColor.ColorTheme.errorColor(lightness: .five)
         }
         
-        var errorColor6: UIColor {
+        public var errorColor6: UIColor {
             UIColor.ColorTheme.errorColor(lightness: .six)
         }
         
-        var errorColor7: UIColor {
+        public var errorColor7: UIColor {
             UIColor.ColorTheme.errorColor(lightness: .seven)
         }
         
-        var errorColor8: UIColor {
+        public var errorColor8: UIColor {
             UIColor.ColorTheme.errorColor(lightness: .eight)
         }
-        var errorColor9: UIColor {
+        public var errorColor9: UIColor {
             UIColor.ColorTheme.errorColor(lightness: .ninety)
         }
-        var errorColor95: UIColor {
+        public var errorColor95: UIColor {
             UIColor.ColorTheme.errorColor(lightness: .ninetyFive)
         }
-        var errorColor98: UIColor {
+        public var errorColor98: UIColor {
             UIColor.ColorTheme.errorColor(lightness: .ninetyEight)
         }
-        var errorColor100: UIColor {
+        public var errorColor100: UIColor {
             UIColor.ColorTheme.errorColor(lightness: .oneHundred)
         }
         /// Description error color constructor.
@@ -334,43 +334,43 @@ public extension UIColor {
         }
         /// Description UIColor Extension
         /// `UIColor.theme.neutralColor0`
-        var neutralColor0: UIColor {
+        public var neutralColor0: UIColor {
             UIColor.ColorTheme.neutralColor(lightness: .zero)
         }
-        var neutralColor1: UIColor {
+        public var neutralColor1: UIColor {
             UIColor.ColorTheme.neutralColor(lightness: .one)
         }
-        var neutralColor2: UIColor {
+        public var neutralColor2: UIColor {
             UIColor.ColorTheme.neutralColor(lightness: .two)
         }
-        var neutralColor3: UIColor {
+        public var neutralColor3: UIColor {
             UIColor.ColorTheme.neutralColor(lightness: .three)
         }
-        var neutralColor4: UIColor {
+        public var neutralColor4: UIColor {
             UIColor.ColorTheme.neutralColor(lightness: .four)
         }
-        var neutralColor5: UIColor {
+        public var neutralColor5: UIColor {
             UIColor.ColorTheme.neutralColor(lightness: .five)
         }
-        var neutralColor6: UIColor {
+        public var neutralColor6: UIColor {
             UIColor.ColorTheme.neutralColor(lightness: .six)
         }
-        var neutralColor7: UIColor {
+        public var neutralColor7: UIColor {
             UIColor.ColorTheme.neutralColor(lightness: .seven)
         }
-        var neutralColor8: UIColor {
+        public var neutralColor8: UIColor {
             UIColor.ColorTheme.neutralColor(lightness: .eight)
         }
-        var neutralColor9: UIColor {
+        public var neutralColor9: UIColor {
             UIColor.ColorTheme.neutralColor(lightness: .ninety)
         }
-        var neutralColor95: UIColor {
+        public var neutralColor95: UIColor {
             UIColor.ColorTheme.neutralColor(lightness: .ninetyFive)
         }
-        var neutralColor98: UIColor {
+        public var neutralColor98: UIColor {
             UIColor.ColorTheme.neutralColor(lightness: .ninetyEight)
         }
-        var neutralColor100: UIColor {
+        public var neutralColor100: UIColor {
             UIColor.ColorTheme.neutralColor(lightness: .oneHundred)
         }
         /// Description neutral color constructor.
@@ -381,43 +381,43 @@ public extension UIColor {
         }
         /// Description UIColor Extension
         /// `UIColor.theme.neutralSpecialColor0`
-        var neutralSpecialColor0: UIColor {
+        public var neutralSpecialColor0: UIColor {
             UIColor.ColorTheme.neutralSpecialColor(lightness: .zero)
         }
-        var neutralSpecialColor1: UIColor {
+        public var neutralSpecialColor1: UIColor {
             UIColor.ColorTheme.neutralSpecialColor(lightness: .one)
         }
-        var neutralSpecialColor2: UIColor {
+        public var neutralSpecialColor2: UIColor {
             UIColor.ColorTheme.neutralSpecialColor(lightness: .two)
         }
-        var neutralSpecialColor3: UIColor {
+        public var neutralSpecialColor3: UIColor {
             UIColor.ColorTheme.neutralSpecialColor(lightness: .three)
         }
-        var neutralSpecialColor4: UIColor {
+        public var neutralSpecialColor4: UIColor {
             UIColor.ColorTheme.neutralSpecialColor(lightness: .four)
         }
-        var neutralSpecialColor5: UIColor {
+        public var neutralSpecialColor5: UIColor {
             UIColor.ColorTheme.neutralSpecialColor(lightness: .five)
         }
-        var neutralSpecialColor6: UIColor {
+        public var neutralSpecialColor6: UIColor {
             UIColor.ColorTheme.neutralSpecialColor(lightness: .six)
         }
-        var neutralSpecialColor7: UIColor {
+        public var neutralSpecialColor7: UIColor {
             UIColor.ColorTheme.neutralSpecialColor(lightness: .seven)
         }
-        var neutralSpecialColor8: UIColor {
+        public var neutralSpecialColor8: UIColor {
             UIColor.ColorTheme.neutralSpecialColor(lightness: .eight)
         }
-        var neutralSpecialColor9: UIColor {
+        public var neutralSpecialColor9: UIColor {
             UIColor.ColorTheme.neutralSpecialColor(lightness: .ninety)
         }
-        var neutralSpecialColor95: UIColor {
+        public var neutralSpecialColor95: UIColor {
             UIColor.ColorTheme.neutralSpecialColor(lightness: .ninetyFive)
         }
-        var neutralSpecialColor98: UIColor {
+        public var neutralSpecialColor98: UIColor {
             UIColor.ColorTheme.neutralSpecialColor(lightness: .ninetyEight)
         }
-        var neutralSpecialColor100: UIColor {
+        public var neutralSpecialColor100: UIColor {
             UIColor.ColorTheme.neutralSpecialColor(lightness: .oneHundred)
         }
         /// Description neutral special color constructor.
@@ -428,82 +428,82 @@ public extension UIColor {
         }
         /// Description UIColor Extension
         /// `UIColor.theme.barrageLightColor0`
-        var barrageLightColor0: UIColor {
+        public var barrageLightColor0: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .zero, alpha: .zero)
         }
-        var barrageLightColor1: UIColor {
+        public var barrageLightColor1: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .zero, alpha: .one)
         }
-        var barrageLightColor2: UIColor {
+        public var barrageLightColor2: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .zero, alpha: .two)
         }
-        var barrageLightColor3: UIColor {
+        public var barrageLightColor3: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .zero, alpha: .three)
         }
-        var barrageLightColor4: UIColor {
+        public var barrageLightColor4: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .zero, alpha: .four)
         }
-        var barrageLightColor5: UIColor {
+        public var barrageLightColor5: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .zero, alpha: .five)
         }
-        var barrageLightColor6: UIColor {
+        public var barrageLightColor6: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .zero, alpha: .six)
         }
-        var barrageLightColor7: UIColor {
+        public var barrageLightColor7: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .zero, alpha: .seven)
         }
-        var barrageLightColor8: UIColor {
+        public var barrageLightColor8: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .zero, alpha: .eight)
         }
-        var barrageLightColor9: UIColor {
+        public var barrageLightColor9: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .zero, alpha: .ninety)
         }
-        var barrageLightColor95: UIColor {
+        public var barrageLightColor95: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .zero, alpha: .ninetyFive)
         }
-        var barrageLightColor98: UIColor {
+        public var barrageLightColor98: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .zero, alpha: .ninetyEight)
         }
-        var barrageLightColor100: UIColor {
+        public var barrageLightColor100: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .zero, alpha: .oneHundred)
         }
-        var barrageDarkColor0: UIColor {
+        public var barrageDarkColor0: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .zero)
         }
-        var barrageDarkColor1: UIColor {
+        public var barrageDarkColor1: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .one)
         }
-        var barrageDarkColor2: UIColor {
+        public var barrageDarkColor2: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .two)
         }
-        var barrageDarkColor3: UIColor {
+        public var barrageDarkColor3: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .three)
         }
-        var barrageDarkColor4: UIColor {
+        public var barrageDarkColor4: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .four)
         }
-        var barrageDarkColor5: UIColor {
+        public var barrageDarkColor5: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .five)
         }
-        var barrageDarkColor6: UIColor {
+        public var barrageDarkColor6: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .six)
         }
-        var barrageDarkColor7: UIColor {
+        public var barrageDarkColor7: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .seven)
         }
         var barrageDarkColor8: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .eight)
         }
-        var barrageDarkColor9: UIColor {
+        public var barrageDarkColor9: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .ninety)
         }
-        var barrageDarkColor95: UIColor {
+        public var barrageDarkColor95: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .ninetyFive)
         }
-        var barrageDarkColor98: UIColor {
+        public var barrageDarkColor98: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .ninetyEight)
         }
-        var barrageDarkColor100: UIColor {
+        public var barrageDarkColor100: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .oneHundred)
         }
         

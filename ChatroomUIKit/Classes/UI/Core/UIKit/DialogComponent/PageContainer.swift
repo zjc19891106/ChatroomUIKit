@@ -58,13 +58,17 @@ public final class PageContainer:  UIView {
         self.toolBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
         self.toolBar.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         self.toolBar.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        self.toolBar.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        self.toolBar.topAnchor.constraint(equalTo: topAnchor,constant: self.indicator.frame.maxY+5).isActive = true
         
         self.pageController.view.translatesAutoresizingMaskIntoConstraints = false
         self.pageController.view.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         self.pageController.view.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         self.pageController.view.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         self.pageController.view.topAnchor.constraint(equalTo: topAnchor,constant: self.toolBar.frame.maxY).isActive = true
+        
+        self.toolBar.backgroundColor(UIColor.theme.neutralColor98)
+        self.backgroundColor(UIColor.theme.neutralColor98)
+        Theme.registerSwitchThemeViews(view: self)
     }
 
     @available(*, unavailable)
@@ -85,7 +89,7 @@ extension PageContainer:UIPageViewControllerDataSource, UIPageViewControllerDele
     }
 
     public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        if finished, self.controllers?.count ?? 0 > 0 {
+        if finished,completed, self.controllers?.count ?? 0 > 0 {
             for (idx, vc) in self.controllers!.enumerated() {
                 if vc == self.nextViewController {
                     self.index = idx
@@ -106,6 +110,7 @@ extension PageContainer:UIPageViewControllerDataSource, UIPageViewControllerDele
 extension PageContainer: ThemeSwitchProtocol {
     public func switchTheme(style: ThemeStyle) {
         self.indicator.backgroundColor(style == .dark ? UIColor.theme.neutralColor3:UIColor.theme.neutralColor8)
+        self.toolBar.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
         self.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
     }
     
