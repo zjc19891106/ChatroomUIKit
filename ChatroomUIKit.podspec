@@ -11,14 +11,9 @@ Pod::Spec.new do |s|
   s.version          = '0.1.0'
   s.summary          = 'A short description of ChatroomUIKit.'
 
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+A chat room UIKit that is easy to use, efficient, innovative and rich in custom themes, easy to create a better chat room experience.
                        DESC
 
   s.homepage         = 'https://github.com/zjc19891106/ChatroomUIKit'
@@ -26,7 +21,7 @@ TODO: Add long description of the pod here.
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'zjc19891106' => '984065974@qq.com' }
   s.source           = { :git => 'https://github.com/zjc19891106/ChatroomUIKit.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  # s.social_media_url = 'https://github.com/zjc19891106'
 
   s.ios.deployment_target = '13.0'
   s.xcconfig = {'ENABLE_BITCODE' => 'NO'}

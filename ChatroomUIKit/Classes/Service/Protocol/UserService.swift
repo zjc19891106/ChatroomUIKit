@@ -77,5 +77,9 @@ import Foundation
     
     /// Description User token expired,when you need to fetch chat token  re-login.
     func onUserTokenDidExpired()
+    
+    /// Description Chatroom socket connection state changed listener.
+    /// - Parameter state: ConnectionState
+    func onSocketConnectionStateChanged(state: ConnectionState)
         
 }

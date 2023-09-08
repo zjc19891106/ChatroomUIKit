@@ -134,6 +134,12 @@ extension UserServiceImplement: ChatClientDelegate {
             }
         }
     }
+    
+    public func connectionStateDidChange(_ aConnectionState: ConnectionState) {
+        for response in self.responseDelegates.allObjects {
+            response.onSocketConnectionStateChanged(state: aConnectionState)
+        }
+    }
 }
 
 @objcMembers final public class User:NSObject, UserInfoProtocol,Convertible {

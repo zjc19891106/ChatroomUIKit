@@ -21,11 +21,7 @@ class ChatRoomView: UIView {
     }()
     
     lazy var gifts: GiftsView = {
-        GiftsView(frame: .zero, gifts: []) { [weak self] entity in
-            self?.service?.giftImplement?.sendGift(gift: entity, completion: { error in
-                
-            })
-        }
+        GiftsView(frame: .zero, gifts: [])
     }()
 
     public func bindService(service: ChatroomUIKitService) {

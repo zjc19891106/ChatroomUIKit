@@ -15,19 +15,11 @@ fileprivate let chatroom_UIKit_user_join = "chatroom_UIKit_user_join"
             
     private var responseDelegates: NSHashTable<ChatroomResponseListener> = NSHashTable<ChatroomResponseListener>.weakObjects()
     
-    @objc public init(chatroomId: String, completion:@escaping (ChatError?) -> Void) {
+    @objc public override init() {
         super.init()
-        if let userId = ChatroomContext.shared?.currentUser?.userId  {
-            self.chatroomOperating(roomId: chatroomId, userId: userId, type: .join) { success, error in
-                if !success {
-                    consoleLogInfo("Joined chatroom error:\(error?.errorDescription ?? "")", type: .debug)
-                } else {
-                    ChatClient.shared().roomManager?.add(self, delegateQueue: .main)
-                    ChatClient.shared().chatManager?.add(self, delegateQueue: .main)
-                }
-                completion(error)
-            }
-        }
+        ChatClient.shared().roomManager?.add(self, delegateQueue: .main)
+        ChatClient.shared().chatManager?.add(self, delegateQueue: .main)
+        
     }
 
     deinit {

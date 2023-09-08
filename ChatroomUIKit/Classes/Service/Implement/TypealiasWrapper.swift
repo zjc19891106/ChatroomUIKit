@@ -22,6 +22,8 @@ public typealias ChatroomManagerDelegate = EMChatroomManagerDelegate
 public typealias ChatRoom = EMChatroom
 public typealias UserInfo = EMUserInfo
 public typealias ChatroomBeKickedReason = EMChatroomBeKickedReason
+public typealias ConnectionState = EMConnectionState
+public typealias Options = EMOptions
 
 #elseif canImport(AgoraChat)
 import AgoraChat
@@ -38,5 +40,7 @@ public typealias ChatroomManagerDelegate = AgoraChatChatroomManagerDelegate
 public typealias ChatRoom = AgoraChatChatroom
 public typealias UserInfo = AgoraChatUserInfo
 public typealias ChatroomBeKickedReason = AgoraChatChatroomBeKickedReason
+public typealias ConnectionState = AgoraChatConnectionState
+public typealias Options = AgoraChatOptions
 #endif
 

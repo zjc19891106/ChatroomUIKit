@@ -67,7 +67,7 @@ import UIKit
     }
 }
 
-extension ChatMessage {
+public extension ChatMessage {
     var user: User? {
         ChatroomContext.shared?.usersMap?[from]
     }

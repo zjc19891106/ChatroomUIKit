@@ -7,11 +7,29 @@
 
 import UIKit
 
+@objc public protocol GiftsViewActionEventsDelegate: NSObjectProtocol {
+    
+    func onGiftSendClick(item: GiftEntityProtocol)
+    
+    func onGiftSelected(item: GiftEntityProtocol)
+}
+
 @objcMembers open class GiftsView: UIView {
+    
+    private var eventHandlers: NSHashTable<GiftsViewActionEventsDelegate> = NSHashTable<GiftsViewActionEventsDelegate>.weakObjects()
+        
+    public func addActionHandler(actionHandler: GiftsViewActionEventsDelegate) {
+        if self.eventHandlers.contains(actionHandler) {
+            return
+        }
+        self.eventHandlers.add(actionHandler)
+    }
+
+    public func removeEventHandler(actionHandler: GiftsViewActionEventsDelegate) {
+        self.eventHandlers.remove(actionHandler)
+    }
 
     var gifts = [GiftEntityProtocol]()
-
-    private var sendClosure: ((GiftEntityProtocol) -> Void)?
 
     lazy var flowLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
@@ -29,15 +47,12 @@ import UIKit
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
-
     
-    @objc public convenience init(frame: CGRect, gifts: [GiftEntityProtocol], sentGift: @escaping ((GiftEntityProtocol) -> Void)) {
+    @objc public convenience init(frame: CGRect, gifts: [GiftEntityProtocol]) {
         self.init(frame: frame)
-        self.sendClosure = sentGift
         self.gifts = gifts
         self.giftList.bounces = false
         self.addSubViews([self.giftList])
-        
         self.backgroundColor = .clear
     }
 
@@ -58,8 +73,11 @@ extension GiftsView: UICollectionViewDelegate,UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GiftEntityCell", for: indexPath) as? GiftEntityCell
         cell?.refresh(item: self.gifts[safe: indexPath.row])
         cell?.sendCallback = { [weak self] in
+            guard let `self` = self else { return }
             if let gift = $0 {
-                self?.sendClosure?(gift)
+                for handler in self.eventHandlers.allObjects {
+                    handler.onGiftSendClick(item: gift)
+                }
             }
         }
         return cell ?? GiftEntityCell()
@@ -80,6 +98,9 @@ extension GiftsView: UICollectionViewDelegate,UICollectionViewDataSource {
         self.gifts.forEach { $0.selected = false }
         if let gift = self.gifts[safe: indexPath.row] {
             gift.selected = true
+            for handler in self.eventHandlers.allObjects {
+                handler.onGiftSelected(item: gift)
+            }
         }
         self.giftList.reloadData()
     }

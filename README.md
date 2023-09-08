@@ -5,20 +5,200 @@
 [![License](https://img.shields.io/cocoapods/l/ChatroomUIKit.svg?style=flat)](https://cocoapods.org/pods/ChatroomUIKit)
 [![Platform](https://img.shields.io/cocoapods/p/ChatroomUIKit.svg?style=flat)](https://cocoapods.org/pods/ChatroomUIKit)
 
-## Example
+# Chatroom UIKit Guide 
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+## Introduction
 
-## Requirements
+ This is a guide that provides an overview and usage examples for the Chatroom UIKit framework in iOS development. It covers various components and features of UIKit and aims to help developers understand and utilize the toolkit effectively.
 
-## Installation
+## Table of Contents
 
-ChatroomUIKit is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+- [Requirements](#Requirements)
+- [Installation](#Installation)
+- [Structure](#Structure)
+- [QuickStart](#QuickStart)
+- [Customize](#Customize)
+- [Contributing](#Contributing)
+- [License](#License)
 
-```ruby
-pod 'ChatroomUIKit'
+# Requirements
+
+- iOS 13.0+
+- Xcode 13.0+
+- Swift 5.0+
+
+# Installation
+
+You can install the ChatroomUIKit framework by adding it as a dependency to your Xcode project. Follow these steps:
+
+1.Open your project in Xcode.
+
+2.Go to the project settings.
+
+3.Select your target.
+
+4.Go to the "General" tab.
+
+5.Scroll down to the "Frameworks, Libraries, and Embedded Content" section.
+
+6.Click the "+" button.
+
+7.Search for "ChatroomUIKit" and select it.
+
+8.Choose the desired version.
+
+9.Click "Add".
+
+Alternatively, you can install it using Swift Package Manager or CocoaPods.
+
+# Structure
+
+### ChatroomUIKit Basic Components
+- Classes: Contains the main ChatroomUIKit classes and components.
 ```
+ChatroomUIKit  
+├─ Service                           // Basic service components
+│  ├─ Protocol                       // ChatroomUIKit bussiness protocols.Component    
+│  │  ├─ GiftSerivce                 // Gift send and receive channel.
+│  │  ├─ UserSerivce                 // User login and update your profile.
+│  │  └─ ChatroomService             // The chat room management protocol includes the join and leave operations of the chat room as well as operations on members, sending and receiving messages, etc.
+│  ├─ Implement                      // Protocol implement. 
+│  └─ Client                         // ChatroomUIKit initialize class.
+│
+└─ UI                                // Basic UI components without business
+   ├─ Resource                       // Image or localize file.
+   ├─ Component                      // UI module containing specific business.Some functional UI components in chat room UIKit
+   │  ├─ Room                        // All chatroom view container.
+   │  ├─ Chat                        // The barrage component and bottom functional area in the chat room. 
+   │  ├─ Gift                        // Components such as the gift barrage area and gift container in the chat room.
+   │  └─ Input                       // Input components in chat rooms include emoticons, etc.
+   └─ Core
+      ├─ UIKit                       // Some common UIKit components and custom related.
+      ├─ Theme                       // Theme-related components include colors, fonts, skinning protocols and their components.
+      └─ Extension                   // Some convenient system class extensions.
+
+   
+```
+
+# QuickStart
+
+This guide provides several usage examples for different ChatroomUIKit components. Refer to the Examples folder for detailed code snippets and projects showcasing various use cases.
+
+### Step 1: Initialize ChatroomUIKit
+
+```Swift
+
+import UIKit
+import ChatroomUIKit
+    
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    var window: UIWindow?
+
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        // Override point for customization after application launch.
+        // You can initialize ChatroomUIKit when the app loads or before you need to use ChatroomUIKit
+        RoomUIKitClient.shared.setup(with: <#T##String#>)
+        return true
+    }
+}
+```
+### Step 2: Login
+
+```Swift
+        // Use the user information of the current user object that conforms to the UserInfoProtocol protocol to log in to ChatroomUIKit
+        // The token needs to be obtained from your server. You can also log in with a temporary token visit at (https://console.agora.io/project/WLRRH-ir6/extension?id=Chat)
+        RoomUIKitClient.shared.login(with: <#T##UserInfoProtocol#>, token: <#T##String#>, completion: <#T##(ChatError?) -> Void#>)
+```
+
+### Step 3: Create chatroom view
+```Swift
+        // Let's start creating the ChatroomView. The parameters that need to be passed in include layout parameters, the bottom toolbar extension button model protocol array, whether to hide the button that evokes the input box, etc.
+        let roomView = ChatroomView(frame: <#T##CGRect#>, bottom: <#T##[ChatBottomItemProtocol]#>,showGiftBarrage: <#T##Bool#>,hiddenChat: <#T##Bool#>)
+        // Create objects that carry all ChatroomUIKit business requests and responses
+        let service = RoomService(roomId: <#T##String#>)
+        // Link them together
+        roomView.connectService(service: service)
+        //Then add to you destination frame.
+```
+
+# Customize
+
+### 1.Modify configurable items
+For example
+```Swift
+        // You can change the overall cell layout style of the barrage area by setting the properties.
+        Appearance.barrageCellStyle = .excludeLevel
+        // Let's start creating the ChatroomView. The parameters that need to be passed in include layout parameters, the bottom toolbar extension button model protocol array, whether to hide the button that evokes the input box, etc.
+        let roomView = ChatroomView(frame: <#T##CGRect#>, bottom: <#T##[ChatBottomItemProtocol]#>,showGiftBarrage: <#T##Bool#>,hiddenChat: <#T##Bool#>)
+        // Create objects that carry all ChatroomUIKit business requests and responses
+        let service = RoomService(roomId: <#T##String#>)
+        // Link them together
+        roomView.connectService(service: service)
+```
+### 2.Custom components
+For example
+```Swift
+        class CustomGiftBarragesViewCell: GiftBarrageCell {
+            lazy var redDot: UIView = {
+                UIView().backgroundColor(.red).cornerRadius(.large)
+            }()
+    
+            override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+                super.init(style: style, reuseIdentifier: reuseIdentifier)
+                self.addSubview(redDot)
+            }
+    
+            override func refresh(item: GiftEntityProtocol) {
+                super.refresh(item: item)
+                self.redDot.isHidden = item.selected
+            }
+        }
+        //Register the custom class that integrates the original class into ChatroomUIKit to complete the replacement.
+        //Note that before creating a ChatroomView or using other UI components, use.
+        ComponentsRegister.shared.GiftBarragesViewCell = CustomGiftBarragesViewCell.self
+```
+### 3.Switch original or custom theme
+
+- Switch original theme
+```Swift
+        //When you want to switch the light and dark themes that come with ChatroomUIKit, you can use the following method when switching themes in the iOS system
+        Theme.switchTheme(style: .dark)
+        Theme.switchTheme(style: .light)
+```
+
+- Switch custom theme
+```Swift
+        /**
+         How to custom theme?
+         Users only need to determine the hue values of the following five theme colors based on the theme color of the design document to implement a customized theme.
+         All colors in ChatroomUIKit use the HSLA color model.
+         The HSLA color model is a model for describing colors, which includes the following elements:
+
+         H (Hue): Indicates hue, which is the basic attribute of color, such as red, blue, green, etc. It is represented by an angle value, ranging from 0° to 360°, 0° represents red, 120° represents green, and 240° represents blue.
+
+         S (Saturation): Indicates saturation, that is, the purity or concentration of a color. The higher the saturation, the brighter the color; the lower the saturation, the darker the color. It is represented by a percentage value, ranging from 0% to 100%, 0% represents gray, and 100% represents solid color.
+
+         L (Lightness): Indicates brightness, that is, the lightness or darkness of a color. The higher the brightness, the brighter the color, the lower the brightness, the darker the color. It is represented by a percentage value, ranging from 0% to 100%, with 0% representing black and 100% representing white.
+
+         A (Alpha): Indicates transparency, that is, the degree of transparency of the color. An A value of 1 means completely opaque, and an A value of 0 means completely transparent.
+
+         By adjusting the values of individual components of the HSLA model, precise control of color can be achieved.
+         */
+        Appearance.primaryHue = 0.5
+        Appearance.secondaryHue = 0.65
+        Appearance.errorHue = 0.55
+        Appearance.neutralHue = 0.57
+        Appearance.neutralSpecialHue = 0.58
+        Theme.switchHues()
+```
+
+# Contributing
+
+Contributions and feedback are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
+
 
 ## Author
 

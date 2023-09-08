@@ -42,7 +42,7 @@ open class ChatroomUIKitService: NSObject {
     }()
     
     lazy var giftImplement: GiftService? = {
-        GiftServiceImplement(gifts: [], roomId: self.roomId)
+        GiftServiceImplement(roomId: self.roomId)
     }()
     
     public init(roomId: String,token: String,user: UserInfoProtocol) {

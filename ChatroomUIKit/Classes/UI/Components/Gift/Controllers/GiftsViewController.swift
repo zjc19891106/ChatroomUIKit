@@ -7,29 +7,56 @@
 
 import UIKit
 
+@objc public protocol GiftToChannelResultDelegate: NSObjectProtocol {
+    func giftResult(gift:GiftEntityProtocol, error: ChatError?)
+}
+
 @objcMembers open class GiftsViewController: UIViewController {
     
     private var gifts = [GiftEntityProtocol]()
     
-    private var sendClosure: ((GiftEntityProtocol) -> Void)?
-    
+    private var resultDelegate: GiftToChannelResultDelegate?
+        
+    lazy var giftService: GiftService = {
+        GiftServiceImplement(roomId: ChatroomContext.shared?.roomId ?? "")
+    }()
+        
     lazy var giftsView: GiftsView = {
-        GiftsView(frame: self.view.frame, gifts: self.gifts) { [weak self] gift in
-            self?.sendClosure?(gift)
-        }
+        GiftsView(frame: self.view.frame, gifts: self.gifts)
     }()
     
-    convenience init(gifts: [GiftEntityProtocol],sendClosure: @escaping (GiftEntityProtocol) -> Void) {
+    @objc public convenience init(gifts: [GiftEntityProtocol],result delegate: GiftToChannelResultDelegate,eventsDelegate: GiftsViewActionEventsDelegate? = nil) {
         self.init()
         self.gifts = gifts
-        self.sendClosure = sendClosure
+        if let events = eventsDelegate {
+            self.giftsView.addActionHandler(actionHandler: events)
+        }
     }
 
     open override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.view.addSubview(self.giftsView)
+        self.giftsView.addActionHandler(actionHandler: self)
     }
     
-
+    @objc public func onUserHandleSentGiftComplete(gift: GiftEntityProtocol)  {
+        self.giftService.sendGift(gift: gift) { [weak self] error in
+            self?.resultDelegate?.giftResult(gift: gift, error: error)
+        }
+    }
 }
+
+extension GiftsViewController: GiftsViewActionEventsDelegate {
+    public func onGiftSendClick(item: GiftEntityProtocol) {
+        if item.sentThenClose {
+            self.dismiss(animated: true)
+        }
+    }
+    
+    public func onGiftSelected(item: GiftEntityProtocol) {
+        
+    }
+    
+}
+

@@ -11,7 +11,7 @@ import UIKit
     
     public static let shared: ChatroomContext? = ChatroomContext()
     
-    public var currentUser: User? {
+    public var currentUser: UserInfoProtocol? {
         willSet {
             if let user = newValue {
                 self.usersMap?[user.userId] = user
@@ -21,7 +21,7 @@ import UIKit
     
     public var owner: UserInfoProtocol?
     
-    public var room: ChatRoom?
+    public var roomId: String?
     
-    public var usersMap: Dictionary<String,User>? = Dictionary<String,User>()
+    public var usersMap: Dictionary<String,UserInfoProtocol>? = Dictionary<String,UserInfoProtocol>()
 }

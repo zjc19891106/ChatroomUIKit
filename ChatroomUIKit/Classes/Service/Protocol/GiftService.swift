@@ -34,12 +34,6 @@ import HyphenateChat
     /// Description Unbind user state changed listener
     /// - Parameter listener: UserStateChangedListener
     func unbindGiftResponseListener(listener: GiftResponseListener)
-    
-    /// Description You should fetch gifts data from server.Then init the service Implement.
-    /// - Parameters:
-    ///   - gifts: gifts map
-    ///   - roomId: chatroom id
-    init(gifts: [[Dictionary<String,Any>]],roomId: String)
  
     /// Description Send gift.
     /// - Parameters:

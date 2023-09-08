@@ -78,7 +78,7 @@ import UIKit
         super.hitTest(point, with: event)
     }
 
-    @objc public func refresh(item: GiftEntityProtocol) {
+    @objc open func refresh(item: GiftEntityProtocol) {
         if self.gift == nil {
             self.gift = item
         }

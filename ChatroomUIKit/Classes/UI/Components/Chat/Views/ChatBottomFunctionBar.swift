@@ -7,15 +7,41 @@
 
 import UIKit
 
+@objc public protocol IChatBottomFunctionBarDriver: NSObjectProtocol {
+    
+    func updateItemSelectState(index: UInt, select: Bool)
+    
+    func updateItemRedDot(index: UInt, showRedDot: Bool)
+    
+    func updateDatas(items: [ChatBottomItemProtocol])
+}
+
+@objc public protocol ChatBottomFunctionBarActionEvents: NSObjectProtocol {
+    
+    func onBottomItemClicked(item: ChatBottomItemProtocol)
+    
+    func onKeyboardWillWakeup()
+}
+
 @objcMembers open class ChatBottomFunctionBar: UIView {
 
-    public var raiseKeyboard: (() -> Void)?
+    private var eventHandlers: NSHashTable<ChatBottomFunctionBarActionEvents> = NSHashTable<ChatBottomFunctionBarActionEvents>.weakObjects()
     
-    public var actionClosure: ((ChatBottomItemProtocol) -> Void)?
+    
+    public func addActionHandler(actionHandler: ChatBottomFunctionBarActionEvents) {
+        if self.eventHandlers.contains(actionHandler) {
+            return
+        }
+        self.eventHandlers.add(actionHandler)
+    }
 
-    public var datas = [ChatBottomItemProtocol]()
+    public func removeEventHandler(actionHandler: ChatBottomFunctionBarActionEvents) {
+        self.eventHandlers.remove(actionHandler)
+    }
+    
+    private var datas = [ChatBottomItemProtocol]()
 
-    public lazy var chatRaiser: UIButton = {
+    lazy var chatRaiser: UIButton = {
         UIButton(type: .custom).frame(.zero).backgroundColor(UIColor.theme.barrageLightColor2).cornerRadius((self.frame.height - 10) / 2.0).font(.systemFont(ofSize: 12, weight: .regular)).textColor(UIColor(white: 1, alpha: 0.8), .normal).addTargetFor(self, action: #selector(raiseAction), for: .touchUpInside).backgroundColor(UIColor.theme.barrageDarkColor1)
     }()
 
@@ -27,7 +53,7 @@ import UIKit
         return layout
     }()
 
-    public lazy var toolBar: UICollectionView = {
+    lazy var toolBar: UICollectionView = {
         UICollectionView(frame: .zero, collectionViewLayout: self.flowLayout).delegate(self).dataSource(self).backgroundColor(.clear).registerCell(ChatBottomItemCell.self, forCellReuseIdentifier: "ChatBottomItemCell").showsVerticalScrollIndicator(false).showsHorizontalScrollIndicator(false)
     }()
 
@@ -35,8 +61,9 @@ import UIKit
         super.init(frame: frame)
     }
 
-    public convenience init(frame: CGRect, datas: [ChatBottomItemProtocol], hiddenChat: Bool) {
+    @objc public convenience init(frame: CGRect, datas: [ChatBottomItemProtocol], hiddenChat: Bool) {
         self.init(frame: frame)
+        self.datas = datas
         self.chatRaiser.isHidden = hiddenChat
         self.addSubViews([self.chatRaiser, self.toolBar])
         self.refreshToolBar(datas: datas)
@@ -49,7 +76,7 @@ import UIKit
         Theme.registerSwitchThemeViews(view: self)
     }
     
-    @objc public func refreshToolBar(datas: [ChatBottomItemProtocol]) {
+    private func refreshToolBar(datas: [ChatBottomItemProtocol]) {
         self.datas.removeAll()
         self.datas = datas
         let toolBarWidth = self.frame.width - (40 * CGFloat(self.datas.count)) - (CGFloat(self.datas.count) - 1) * 8 - 32 - 30
@@ -70,7 +97,9 @@ import UIKit
 extension ChatBottomFunctionBar: UICollectionViewDelegate, UICollectionViewDataSource {
     
     @objc func raiseAction() {
-        self.raiseKeyboard?()
+        for handler in self.eventHandlers.allObjects {
+            handler.onKeyboardWillWakeup()
+        }
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -88,9 +117,26 @@ extension ChatBottomFunctionBar: UICollectionViewDelegate, UICollectionViewDataS
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         guard let entity = self.datas[safe:indexPath.row] else { return }
-        self.actionClosure?(entity)
+        for handler in self.eventHandlers.allObjects {
+            handler.onBottomItemClicked(item: entity)
+        }
         self.toolBar.reloadItems(at: [indexPath])
     }
+}
+
+extension ChatBottomFunctionBar: IChatBottomFunctionBarDriver {
+    public func updateItemSelectState(index: UInt, select: Bool) {
+        self.datas[safe: Int(index)]?.selected = select
+    }
+    
+    public func updateItemRedDot(index: UInt, showRedDot: Bool) {
+        self.datas[safe: Int(index)]?.showRedDot = showRedDot
+    }
+    
+    public func updateDatas(items: [ChatBottomItemProtocol]) {
+        self.refreshToolBar(datas: items)
+    }
+    
 }
 
 extension ChatBottomFunctionBar: ThemeSwitchProtocol {

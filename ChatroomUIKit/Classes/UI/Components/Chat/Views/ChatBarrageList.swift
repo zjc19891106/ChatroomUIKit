@@ -13,7 +13,27 @@ var chatViewWidth: CGFloat = 0
     func showNewMessage(entity: ChatEntity)
 }
 
+@objc public protocol ChatBarrageActionEventsHandler: NSObjectProtocol {
+    
+    func onMessageBarrageLongPressed(message: ChatMessage)
+    
+    func onMessageClicked(message: ChatMessage)
+}
+
 @objcMembers open class ChatBarrageList: UIView {
+    
+    private var eventHandlers: NSHashTable<ChatBarrageActionEventsHandler> = NSHashTable<ChatBarrageActionEventsHandler>.weakObjects()
+        
+    public func addActionHandler(actionHandler: ChatBarrageActionEventsHandler) {
+        if self.eventHandlers.contains(actionHandler) {
+            return
+        }
+        self.eventHandlers.add(actionHandler)
+    }
+
+    public func removeEventHandler(actionHandler: ChatBarrageActionEventsHandler) {
+        self.eventHandlers.remove(actionHandler)
+    }
 
     private var lastOffsetY = CGFloat(0)
 
@@ -89,6 +109,15 @@ extension ChatBarrageList:UITableViewDelegate, UITableViewDataSource {
             self.cellOffset += cell.frame.height
         }
     }
+    
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        for handler in self.eventHandlers.allObjects {
+            if let message = self.messages?[safe: indexPath.row]?.message {
+                handler.onMessageClicked(message: message)
+            }
+        }
+    }
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let indexPath = self.chatView.indexPathForRow(at: scrollView.contentOffset) ?? IndexPath(row: 0, section: 0)
@@ -114,8 +143,12 @@ extension ChatBarrageList:UITableViewDelegate, UITableViewDataSource {
     @objc func longGesture(gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
             let touchPoint = gesture.location(in: self.chatView)
-            if let indexPath = self.chatView.indexPathForRow(at: touchPoint),let cell = self.chatView.cellForRow(at: indexPath) as? ChatBarrageCell {
-                
+            if let indexPath = self.chatView.indexPathForRow(at: touchPoint),let _ = self.chatView.cellForRow(at: indexPath) as? ChatBarrageCell {
+                for handler in self.eventHandlers.allObjects {
+                    if let message = self.messages?[safe: indexPath.row]?.message {
+                        handler.onMessageBarrageLongPressed(message: message)
+                    }
+                }
             }
         }
     }

@@ -15,18 +15,13 @@ let chatroom_UIKit_gift = "chatroom_UIKit_gift"
 @objc public final class GiftServiceImplement: NSObject {
     
     private var currentRoomId: String = ""
-    
-    public var gifts = [GiftEntityProtocol]()
-    
+        
     private var responseDelegates: NSHashTable<GiftResponseListener> = NSHashTable<GiftResponseListener>.weakObjects()
 
-    @objc public init(gifts: [[Dictionary<String, Any>]], roomId: String) {
-        if let array = gifts.kj.modelArray(type: GiftEntity.self) as? [GiftEntityProtocol] {
-            self.gifts = array
-        }
+    @objc public init(roomId: String) {
         self.currentRoomId = roomId
         super.init()
-        EMClient.shared().chatManager?.add(self, delegateQueue: .main)
+        ChatClient.shared().chatManager?.add(self, delegateQueue: .main)
     }
 }
 //MARK: - GiftService
