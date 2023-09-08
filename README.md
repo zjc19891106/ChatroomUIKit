@@ -13,13 +13,13 @@
 
 ## Table of Contents
 
-- [Requirements](#Requirements)
-- [Installation](#Installation)
-- [Structure](#Structure)
-- [QuickStart](#QuickStart)
-- [Customize](#Customize)
-- [Contributing](#Contributing)
-- [License](#License)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Structure](#structure)
+- [QuickStart](#quickStart)
+- [Customize](#customize)
+- [Contributing](#contributing)
+- [License](#license)
 
 # Requirements
 
