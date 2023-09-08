@@ -29,27 +29,27 @@
 
 # Installation
 
-You can install the ChatroomUIKit framework by adding it as a dependency to your Xcode project. Follow these steps:
+You can install it using Swift Package Manager or CocoaPods. As a dependency to your Xcode project. Follow these steps:
+
+## Swift Package Manager
 
 1.Open your project in Xcode.
 
-2.Go to the project settings.
+2.Go to the file.
 
-3.Select your target.
+3.Select add packages.
 
-4.Go to the "General" tab.
+4.Search for "ChatroomUIKit" and select it.
 
-5.Scroll down to the "Frameworks, Libraries, and Embedded Content" section.
+5.Choose the desired version.
 
-6.Click the "+" button.
+6.Click "Add".
 
-7.Search for "ChatroomUIKit" and select it.
+## Cocoapods
 
-8.Choose the desired version.
-
-9.Click "Add".
-
-Alternatively, you can install it using Swift Package Manager or CocoaPods.
+```
+   pod 'ChatroomUIKit'
+```
 
 # Structure
 
