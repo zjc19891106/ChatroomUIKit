@@ -68,8 +68,8 @@ import UIKit
 }
 
 public extension ChatMessage {
-    var user: User? {
-        ChatroomContext.shared?.usersMap?[from]
+    var user: UserInfoProtocol? {
+        ChatroomContext.shared?.usersMap?["self.from"]
     }
     var text: String {
         (self.body as? ChatTextMessageBody)?.text ?? ""

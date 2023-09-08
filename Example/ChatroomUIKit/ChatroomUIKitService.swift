@@ -36,9 +36,7 @@ open class ChatroomUIKitService: NSObject {
     }()
     
     lazy var chatroomImplement: ChatroomService? = {
-        ChatroomServiceImplement(chatroomId: self.roomId) { error in
-            
-        }
+        ChatroomServiceImplement()
     }()
     
     lazy var giftImplement: GiftService? = {
