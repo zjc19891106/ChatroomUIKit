@@ -45,7 +45,7 @@ You can install it using Swift Package Manager or CocoaPods. As a dependency to 
 
 6.Click "Add".
 
-## Cocoapods
+## CocoaPods
 
 ```
    pod 'ChatroomUIKit'
