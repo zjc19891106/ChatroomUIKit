@@ -21,7 +21,7 @@ final class ExampleViewController: UIViewController {
     }()
     
     lazy var giftBarrages: GiftsBarrageList = {
-        GiftsBarrageList(frame: CGRect(x: 10, y: 400, width: self.view.frame.width-100, height: ScreenWidth / 9.0 * 2.5))
+        GiftsBarrageList(frame: CGRect(x: 10, y: 400, width: self.view.frame.width-100, height: ScreenWidth / 9.0 * 2.5),source:nil)
     }()
     
     lazy var barrageList: ChatBarrageList = {
@@ -78,6 +78,7 @@ final class ExampleViewController: UIViewController {
             case 2:
                 DialogManager.shared.showGiftsDialog(gifts: self?.gifts() ?? []) { item in
                     item.sendUser = ChatroomContext.shared?.currentUser
+                    item.giftCount = "1"
                     self?.giftBarrages.gifts.append(item)
                 }
             default:

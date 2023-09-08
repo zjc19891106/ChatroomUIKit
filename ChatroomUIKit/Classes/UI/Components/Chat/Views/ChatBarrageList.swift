@@ -22,7 +22,7 @@ var chatViewWidth: CGFloat = 0
     public var messages: [ChatEntity]? = [ChatEntity]()
 
     public lazy var chatView: UITableView = {
-        UITableView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height), style: .plain).delegate(self).dataSource(self).separatorStyle(.none).tableFooterView(UIView()).backgroundColor(.clear).showsVerticalScrollIndicator(false)
+        UITableView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height), style: .plain).delegate(self).dataSource(self).separatorStyle(.none).tableFooterView(UIView()).backgroundColor(.clear).showsVerticalScrollIndicator(false).isUserInteractionEnabled(false)
     }()
 
     private lazy var gradientLayer: CAGradientLayer = {
@@ -35,6 +35,7 @@ var chatViewWidth: CGFloat = 0
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
+        self.isUserInteractionEnabled = false
         chatViewWidth = frame.width
         self.addSubViews([self.blurView])
         self.blurView.layer.mask = self.gradientLayer
@@ -79,10 +80,6 @@ extension ChatBarrageList:UITableViewDelegate, UITableViewDataSource {
         cell?.refresh(chat: entity)
         cell?.selectionStyle = .none
         return cell!
-    }
-
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
     }
 
     public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
