@@ -29,7 +29,7 @@ import UIKit
         ChatBarrageList(frame: CGRect(x: 0, y: self.showGiftBarrage ? self.giftBarrages.frame.maxY:0, width: self.frame.width-50, height: 200))
     }()
     
-    private lazy var bottomBar: ChatBottomFunctionBar = {
+    public lazy var bottomBar: ChatBottomFunctionBar = {
         ChatBottomFunctionBar(frame: CGRect(x: 0, y: self.frame.height-54-BottomBarHeight, width: self.frame.width, height: 54), datas: self.menus, hiddenChat: self.hiddenChat)
     }()
     
@@ -37,7 +37,7 @@ import UIKit
         ChatInputBar(frame: CGRect(x: 0, y: self.frame.height, width: self.frame.width, height: 52),text: nil,placeHolder: Appearance.inputPlaceHolder)
     }()
     
-    @objc public required convenience init(frame: CGRect,bottom menus: [ChatBottomItemProtocol],showGiftBarrage: Bool = true,hiddenChat: Bool = false) {
+    @objc public required convenience init(frame: CGRect,bottom menus: [ChatBottomItemProtocol] = [],showGiftBarrage: Bool = true,hiddenChat: Bool = false) {
         if showGiftBarrage {
             if frame.height < 206 {
                 assert(false,"The lower limit of the entire view height must not be less than 206.")
