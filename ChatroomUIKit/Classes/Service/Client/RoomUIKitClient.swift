@@ -13,6 +13,8 @@ final public class RoomUIKitClient: NSObject {
     
     lazy var userImplement: UserServiceProtocol? = nil
     
+    var useProperties: Bool = true
+    
     /// Description Initialize chat room UIKit.
     /// - Parameter appKey: Application key.(https://docs.agora.io/en/agora-chat/get-started/enable?platform=ios)
     /// - Returns: Result error that nil  result indicates success, otherwise it fails.
@@ -27,6 +29,7 @@ final public class RoomUIKitClient: NSObject {
     ///   - userProperties: This parameter means whether the user passes in his or her own user information (including avatar, nickname, user id) as a user attribute for use in ChatRoomUIKit.
     ///   - completion: Login result.
     public func login(with user: UserInfoProtocol,token: String,use userProperties: Bool = true,completion: @escaping (ChatError?) -> Void) {
+        self.useProperties = userProperties
         ChatroomContext.shared?.currentUser = user
         self.userImplement = UserServiceImplement(userInfo: user, token: token, use: userProperties, completion: completion)
     }

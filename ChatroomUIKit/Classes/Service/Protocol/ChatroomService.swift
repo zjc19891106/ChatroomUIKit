@@ -16,6 +16,7 @@ import Foundation
     case unmute
     case block
     case unblock
+    case kick
 }
 
 /// Description Chatroom operation events.Ext,leave or join.
@@ -43,12 +44,20 @@ import Foundation
     ///   - completion: callback,what if success or error.
     func chatroomOperating(roomId: String, userId: String, type: ChatroomOperationType, completion: @escaping (Bool,ChatError?) -> Void)
     
+    /// Description Fetch chatroom participants.
+    /// - Parameters:
+    ///   - roomId: chatroom id
+    ///   - pageSize: The number of chat room members you want to obtain at a time.
+    ///   - completion: Callback,what if success or error.Success mens result contain [UserId].
+    func fetchParticipants(roomId: String,pageSize: UInt,completion: @escaping ([String]?,ChatError?) -> Void)
     
-//    /// Description  Destroy a chat room.
-//    /// - Parameters:
-//    ///   - roomId: chatroom id
-//    ///   - completion: Destroyed callback,what if success or error.
-//    func destroyedChatRoom(roomId: String, completion: @escaping (Bool,ChatError?) -> Void)
+    /// Description Fetch chatroom mute users
+    /// - Parameters:
+    ///   - roomId: chatroom id
+    ///   - pageNum: pageNum
+    ///   - pageSize: pageSize
+    ///   - completion: Callback,what if success or error.Success mens result contain [UserId].
+    func fetchMuteUsers(roomId: String,pageNum: UInt,pageSize: UInt,completion: @escaping ([String]?,ChatError?) -> Void)
     
     /// Description Get chatroom announcement.
     func announcement(roomId: String, completion: @escaping (String?,ChatError?) -> Void)
@@ -59,7 +68,6 @@ import Foundation
     ///   - announcement: announcement content
     ///   - completion: Updated callback,what if success or error.
     func updateAnnouncement(roomId: String, announcement: String, completion: @escaping (Bool,ChatError?) -> Void)
-    
     
     /// Description Various operations of group owners or administrators on users.
     /// - Parameters:
@@ -97,7 +105,21 @@ import Foundation
     /// - Parameters:
     ///   - message: ChatMessage kind of text message.
     ///   - completion: Translate callback,what if success or error.
-    func translateMessage(message: ChatMessage, completion: @escaping (Bool,ChatError?) -> Void)
+    func translateMessage(message: ChatMessage, completion: @escaping (ChatMessage?,ChatError?) -> Void)
+    
+    /// Description Recall message.
+    /// - Parameters:
+    ///   - messageId: message id
+    ///   - completion: Recall callback,what if success or error.
+    func recall(messageId: String, completion: @escaping (ChatError?) -> Void)
+    
+    /// Description Report illegal message.
+    /// - Parameters:
+    ///   - messageId: message id
+    ///   - tag: Illegal type defined at console.
+    ///   - reason: reason
+    ///   - completion: Report callback,what if success or error.
+    func report(messageId: String,tag: String,reason: String, completion: @escaping (ChatError?) -> Void)
 }
 
 
@@ -108,6 +130,19 @@ import Foundation
     ///   - roomId: chatroom id
     ///   - message: EMChatMessage
     func onMessageReceived(roomId: String,message: ChatMessage)
+    
+    /// Description When some one recall a message,the method will call.
+    /// - Parameters:
+    ///   - roomId: chatroom id
+    ///   - message: ChatMessage
+    ///   - userId: call recall user id
+    func onMessageRecalled(roomId: String, message: ChatMessage,by userId: String)
+    
+    /// Description When admin publish global notify message,the method will called.
+    /// - Parameters:
+    ///   - roomId: chatroom id
+    ///   - notifyMessage: ChatMessage
+    func onGlobalNotifyReceived(roomId: String,notifyMessage: ChatMessage)
     
     /// Description When a user joins a chatroom.The method carry user info for display.
     /// - Parameters:

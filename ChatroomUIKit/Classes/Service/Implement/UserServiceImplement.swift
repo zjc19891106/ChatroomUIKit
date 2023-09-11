@@ -66,6 +66,7 @@ extension UserServiceImplement:UserServiceProtocol {
             for userId in userIds {
                 if let info = dic[userId] {
                     if let user = self?.convertToUser(info: info) {
+                        ChatroomContext.shared?.usersMap?[userId] = user
                         users.append(user)
                     }
                 }
@@ -153,6 +154,8 @@ extension UserServiceImplement: ChatClientDelegate {
     public var avatarURL: String = ""
     
     public var gender: Int = 1
+    
+    public var mute: Bool = false
     
     override public required init() {}
     

@@ -24,6 +24,8 @@ public typealias UserInfo = EMUserInfo
 public typealias ChatroomBeKickedReason = EMChatroomBeKickedReason
 public typealias ConnectionState = EMConnectionState
 public typealias Options = EMOptions
+public typealias RecallInfo = EMRecallMessageInfo
+public typealias CursorResult = EMCursorResult
 
 #elseif canImport(AgoraChat)
 import AgoraChat
@@ -42,5 +44,7 @@ public typealias UserInfo = AgoraChatUserInfo
 public typealias ChatroomBeKickedReason = AgoraChatChatroomBeKickedReason
 public typealias ConnectionState = AgoraChatConnectionState
 public typealias Options = AgoraChatOptions
+public typealias RecallInfo = AgoraChatRecallMessageInfo
+public typealias CursorResult = AgoraChatCursorResult
 #endif
 

@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 @objc public protocol UserInfoProtocol: NSObjectProtocol {
     
     /// Description Your application's userId register for chat.
@@ -23,6 +24,9 @@ import Foundation
     
     /// Description User's identify picture url
     var identify: String {set get}
+    
+    /// Description Whether user mute or no.
+    var mute: Bool {set get}
 }
 
 @objc public protocol UserServiceProtocol: NSObjectProtocol {

@@ -20,8 +20,8 @@ import UIKit
         
     }
     
-    @objc func showMessageActions(message: ChatMessage,action: @escaping ActionClosure) {
-        let actionSheet = ActionSheet(items: Appearance.defaultMessageActions)
+    @objc func showMessageActions(message: ChatMessage,actions: [ActionSheetItemProtocol],action: @escaping ActionClosure) {
+        let actionSheet = ActionSheet(items: actions)
         let vc = DialogContainerViewController(custom: actionSheet)
         for item in actionSheet.items {
             item.action = {

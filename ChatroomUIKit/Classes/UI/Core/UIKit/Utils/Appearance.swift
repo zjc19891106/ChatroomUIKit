@@ -53,7 +53,7 @@ import UIKit
     public static var targetLanguage: LanguageType = .English
     
     /// Description ActionSheet data source.
-    public static var defaultMessageActions: [ActionSheetItemProtocol] = [ActionSheetItem(title: "Translate".chatroom.localize, type: .normal),ActionSheetItem(title: "Delete", type: .normal),ActionSheetItem(title: "Mute", type: .normal),ActionSheetItem(title: "unmute", type: .normal),ActionSheetItem(title: "Report", type: .destructive)]
+    public static var defaultMessageActions: [ActionSheetItemProtocol] = [ActionSheetItem(title: "Translate".chatroom.localize, type: .normal,tag: "Translate"),ActionSheetItem(title: "Delete", type: .normal,tag: "Delete"),ActionSheetItem(title: "Mute", type: .normal,tag: "Mute"),ActionSheetItem(title: "unmute", type: .normal,tag: "unmute"),ActionSheetItem(title: "Report", type: .destructive,tag: "Report")]
     
     /// Description ActionSheet row height.
     public static var actionSheetRowHeight: CGFloat = 56
@@ -73,4 +73,6 @@ import UIKit
     public static var avatarRadius: CornerRadius = .large
     
     public static var giftBarrageRowHeight: CGFloat = 64
+    /// Description You can set label for report types.
+    public static var reportTags: [String] = ["Adult","Racist","Other"]
 }

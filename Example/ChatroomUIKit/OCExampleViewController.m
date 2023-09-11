@@ -18,7 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    ActionSheet *sheet = [[ActionSheet alloc] initWithItems:@[[[ActionSheetItem alloc] initWithTitle:@"Normal" type:ActionSheetItemTypeNormal action:^(id<ActionSheetItemProtocol> _Nonnull item) {
+    ActionSheet *sheet = [[ActionSheet alloc] initWithItems:@[[[ActionSheetItem alloc] initWithTitle:@"Normal" type:ActionSheetItemTypeNormal tag:@"" action:^(id<ActionSheetItemProtocol> _Nonnull item) {
         
     }]] title:nil message:nil];
     [self.view addSubview:sheet];

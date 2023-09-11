@@ -10,7 +10,11 @@ import UIKit
 var chatViewWidth: CGFloat = 0
 
 @objc public protocol IChatBarrageListDriver: NSObjectProtocol {
-    func showNewMessage(entity: ChatEntity)
+    func showNewMessage(message: ChatMessage)
+    
+    func refreshMessage(message: ChatMessage)
+    
+    func removeMessage(message: ChatMessage)
 }
 
 @objc public protocol ChatBarrageActionEventsHandler: NSObjectProtocol {
@@ -157,9 +161,31 @@ extension ChatBarrageList:UITableViewDelegate, UITableViewDataSource {
 
 
 extension ChatBarrageList: IChatBarrageListDriver {
-    public func showNewMessage(entity: ChatEntity) {
-        self.messages?.append(entity)
+    public func removeMessage(message: ChatMessage) {
+        if let index = self.messages?.firstIndex(where: { $0.message.messageId == message.messageId }),let count = self.messages?.count,count > 0,index < count - 1 {
+            self.messages?.remove(at: index)
+        }
+    }
+    
+    public func refreshMessage(message: ChatMessage) {
+        if let index = self.messages?.firstIndex(where: { $0.message.messageId == message.messageId }),let count = self.messages?.count,count > 0,index < count - 1 {
+            self.messages?[index] = self.convertMessageToRender(message: message)
+            self.chatView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+        }
+    }
+    
+    public func showNewMessage(message: ChatMessage) {
+        self.messages?.append(self.convertMessageToRender(message: message))
         self.chatView.reloadData()
         self.scrollTableViewToBottom()
+    }
+    
+    private func convertMessageToRender(message: ChatMessage) -> ChatEntity {
+        let entity = ChatEntity()
+        entity.message = message
+        entity.attributeText = entity.attributeText
+        entity.width = entity.width
+        entity.height = entity.height
+        return entity
     }
 }

@@ -55,9 +55,10 @@ final class ExampleViewController: UIViewController {
         self.view.addSubview(self.inputBar)
         
         self.bottomBar.addActionHandler(actionHandler: self)
-        self.inputBar.sendClosure = { [weak self] in
+        self.inputBar.sendClosure = { [weak self] _ in
             guard let `self` = self else { return }
-            self.barrageList.showNewMessage(entity: self.startMessage($0))
+            
+//            self.barrageList.showNewMessage(message: self.startMessage($0))
         }
 
     }
@@ -138,6 +139,8 @@ extension ExampleViewController {
 }
 
 class ChatBottomItem:NSObject, ChatBottomItemProtocol {
+    
+    var action: ((ChatroomUIKit.ChatBottomItemProtocol) -> Void)?
     
     var showRedDot: Bool = false
     

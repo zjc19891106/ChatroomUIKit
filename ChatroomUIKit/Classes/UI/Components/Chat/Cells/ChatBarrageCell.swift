@@ -86,7 +86,7 @@ public extension ChatMessage {
     }()
     
     lazy var time: UILabel = {
-        UILabel(frame: CGRect(x: 10, y: 11, width: 40, height: 18)).font(UIFont.theme.bodyMedium).textColor(UIColor.theme.secondaryColor8).textAlignment(.center).backgroundColor(.clear)
+        UILabel(frame: CGRect(x: 10, y: 12, width: 40, height: 18)).font(UIFont.theme.bodyMedium).textColor(UIColor.theme.secondaryColor8).textAlignment(.center).backgroundColor(.clear)
     }()
     
     lazy var userIdentify: ImageView = {
@@ -99,7 +99,7 @@ public extension ChatMessage {
         default:
             break
         }
-        return ImageView(frame: CGRect(x: originX, y: 10, width: 18, height: 18)).backgroundColor(.clear).cornerRadius(Appearance.avatarRadius)
+        return ImageView(frame: CGRect(x: originX, y: 11, width: 18, height: 18)).backgroundColor(.clear).cornerRadius(Appearance.avatarRadius)
     }()
     
     lazy var avatar: ImageView = {
@@ -114,7 +114,7 @@ public extension ChatMessage {
         default:
             break
         }
-        return ImageView(frame: CGRect(x: originX, y: 10, width: 18, height: 18)).backgroundColor(.clear).cornerRadius(Appearance.avatarRadius)
+        return ImageView(frame: CGRect(x: originX, y: 11, width: 18, height: 18)).backgroundColor(.clear).cornerRadius(Appearance.avatarRadius)
     }()
 
     public lazy var content: UILabel = {

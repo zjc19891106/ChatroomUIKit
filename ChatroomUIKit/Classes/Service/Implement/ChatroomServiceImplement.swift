@@ -12,6 +12,8 @@ import KakaJSON
 fileprivate let chatroom_UIKit_user_join = "chatroom_UIKit_user_join"
 
 @objc public final class ChatroomServiceImplement: NSObject {
+    
+    var cursor = ""
             
     private var responseDelegates: NSHashTable<ChatroomResponseListener> = NSHashTable<ChatroomResponseListener>.weakObjects()
     
@@ -101,6 +103,10 @@ extension ChatroomServiceImplement: ChatroomService {
             ChatClient.shared().roomManager?.unmuteMembers([userId], fromChatroom: roomId,completion: { room, error in
                 completion(error == nil,error)
             })
+        case .kick:
+            ChatClient.shared().roomManager?.removeMembers([userId], fromChatroom: roomId,completion: { room, error in
+                completion(error == nil,error)
+            })
         default:
             break
         }
@@ -135,9 +141,9 @@ extension ChatroomServiceImplement: ChatroomService {
         })
     }
     
-    public func translateMessage(message: ChatMessage, completion: @escaping (Bool, ChatError?) -> Void) {
+    public func translateMessage(message: ChatMessage, completion: @escaping (ChatMessage?,ChatError?) -> Void) {
         ChatClient.shared().chatManager?.translate(message, targetLanguages: [Appearance.targetLanguage.rawValue],completion: { chatMessage, error in
-            completion(error == nil,error)
+            completion(chatMessage,error)
         })
     }
     
@@ -147,6 +153,33 @@ extension ChatroomServiceImplement: ChatroomService {
         message.chatType = .chatRoom
         ChatClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
             completion(error)
+        })
+    }
+    
+    public func recall(messageId: String, completion: @escaping (ChatError?) -> Void) {
+        ChatClient.shared().chatManager?.recallMessage(withMessageId: messageId,completion: { error in
+            completion(error)
+        })
+    }
+    
+    public func report(messageId: String, tag: String, reason: String, completion: @escaping (ChatError?) -> Void) {
+        ChatClient.shared().chatManager?.reportMessage(withId: messageId, tag: tag, reason: reason,completion: { error in
+            completion(error)
+        })
+    }
+    
+    public func fetchParticipants(roomId: String, pageSize: UInt, completion: @escaping ([String]?, ChatError?) -> Void) {
+        ChatClient.shared().roomManager?.getChatroomMemberListFromServer(withId: roomId, cursor: self.cursor, pageSize: Int(pageSize),completion: { [weak self] cursorResult, error in
+            if error == nil {
+                self?.cursor = cursorResult?.cursor ?? ""
+            }
+            completion(cursorResult?.list as? [String],error)
+        })
+    }
+    
+    public func fetchMuteUsers(roomId: String, pageNum: UInt, pageSize: UInt, completion: @escaping ([String]?, ChatError?) -> Void) {
+        ChatClient.shared().roomManager?.getChatroomMuteListFromServer(withId: roomId, pageNumber: Int(pageNum), pageSize: Int(pageSize),completion: { ids, error in
+            completion(ids,error)
         })
     }
 }
@@ -184,7 +217,7 @@ extension ChatroomServiceImplement: ChatroomManagerDelegate {
     }
     
 }
-//MARK: - EMChatManagerDelegate
+//MARK: - ChatManagerDelegate
 extension ChatroomServiceImplement: ChatManagerDelegate {
     
     public func messagesDidReceive(_ aMessages: [ChatMessage]) {
@@ -208,8 +241,24 @@ extension ChatroomServiceImplement: ChatManagerDelegate {
                         }
                     }
                 default:
+                    if message.broadcast {
+                        if let json = message.ext as? [String:Any] {
+                            if let user = model(from: json, type: User.self) as? User {
+                                ChatroomContext.shared?.usersMap?[user.userId] = user
+                            }
+                        }
+                        response.onGlobalNotifyReceived(roomId: message.to, notifyMessage: message)
+                    }
                     break
                 }
+            }
+        }
+    }
+    
+    public func messagesInfoDidRecall(_ aRecallMessagesInfo: [RecallInfo]) {
+        for info in aRecallMessagesInfo {
+            for response in self.responseDelegates.allObjects {
+                response.onMessageRecalled(roomId: info.recallMessage.to, message: info.recallMessage, by: info.recallBy)
             }
         }
     }

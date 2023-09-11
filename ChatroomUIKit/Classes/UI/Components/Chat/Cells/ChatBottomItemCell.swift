@@ -8,6 +8,7 @@
 import UIKit
 
 @objc public protocol ChatBottomItemProtocol: NSObjectProtocol {
+    
     var showRedDot: Bool {set get}
     
     var selected: Bool {set get}
@@ -17,6 +18,8 @@ import UIKit
     var normalImage: UIImage? {set get}
     
     var type: Int {set get}
+    
+    var action: ((ChatBottomItemProtocol) -> Void)? {set get}
 
 }
 
