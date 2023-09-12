@@ -8,7 +8,7 @@
 import Foundation
 
 
-/// Description Chatroom user operation events.
+/// Chatroom user operation events.
 @objc public enum ChatroomUserOperationType: Int {
     case addAdministrator
     case removeAdministrator
@@ -19,7 +19,7 @@ import Foundation
     case kick
 }
 
-/// Description Chatroom operation events.Ext,leave or join.
+/// Chatroom operation events.Ext,leave or join.
 @objc public enum ChatroomOperationType: Int {
     case join
     case leave
@@ -28,15 +28,15 @@ import Foundation
 
 @objc public protocol ChatroomService: NSObjectProtocol {
     
-    /// Description Binding a listener to receive callback events.
+    /// Binding a listener to receive callback events.
     /// - Parameter response: ChatResponseListener
     func bindResponse(response: ChatroomResponseListener)
     
-    /// Description Unbind the listener.
+    /// Unbind the listener.
     /// - Parameter response: ChatResponseListener
     func unbindResponse(response: ChatroomResponseListener)
     
-    /// Description Chatroom operation events.
+    /// Chatroom operation events.
     /// - Parameters:
     ///   - roomId: chatroom id
     ///   - userId: user id
@@ -44,14 +44,14 @@ import Foundation
     ///   - completion: callback,what if success or error.
     func chatroomOperating(roomId: String, userId: String, type: ChatroomOperationType, completion: @escaping (Bool,ChatError?) -> Void)
     
-    /// Description Fetch chatroom participants.
+    /// Fetch chatroom participants.
     /// - Parameters:
     ///   - roomId: chatroom id
     ///   - pageSize: The number of chat room members you want to obtain at a time.
     ///   - completion: Callback,what if success or error.Success mens result contain [UserId].
     func fetchParticipants(roomId: String,pageSize: UInt,completion: @escaping ([String]?,ChatError?) -> Void)
     
-    /// Description Fetch chatroom mute users
+    /// Fetch chatroom mute users
     /// - Parameters:
     ///   - roomId: chatroom id
     ///   - pageNum: pageNum
@@ -59,17 +59,17 @@ import Foundation
     ///   - completion: Callback,what if success or error.Success mens result contain [UserId].
     func fetchMuteUsers(roomId: String,pageNum: UInt,pageSize: UInt,completion: @escaping ([String]?,ChatError?) -> Void)
     
-    /// Description Get chatroom announcement.
+    /// Get chatroom announcement.
     func announcement(roomId: String, completion: @escaping (String?,ChatError?) -> Void)
     
-    /// Description Update chatroom announcement
+    /// Update chatroom announcement
     /// - Parameters:
     ///   - roomId: chatroom id
     ///   - announcement: announcement content
     ///   - completion: Updated callback,what if success or error.
     func updateAnnouncement(roomId: String, announcement: String, completion: @escaping (Bool,ChatError?) -> Void)
     
-    /// Description Various operations of group owners or administrators on users.
+    /// Various operations of group owners or administrators on users.
     /// - Parameters:
     ///   - roomId: chatroom id
     ///   - userId: user id
@@ -77,14 +77,14 @@ import Foundation
     ///   - completion: callback,what if success or error.
     func operatingUser(roomId: String, userId: String, type: ChatroomUserOperationType, completion: @escaping (Bool,ChatError?) -> Void)
     
-    /// Description Send text message to chatroom.
+    /// Send text message to chatroom.
     /// - Parameters:
     ///   - text: You'll send text.
     ///   - roomId: chatroom id
     ///   - completion: Send callback,what if success or error.
     func sendMessage(text: String, roomId: String, completion: @escaping (Bool,ChatError?) -> Void)
     
-    /// Description Send targeted text messages to some members of the chat room
+    /// Send targeted text messages to some members of the chat room
     /// - Parameters:
     ///   - userIds: [UserId]
     ///   - roomId: chatroom id
@@ -92,7 +92,7 @@ import Foundation
     ///   - completion: Send callback,what if success or error.
     func sendMessage(to userIds:[String], roomId: String, content: String, completion: @escaping (Bool,ChatError?) -> Void)
     
-    /// Description Send targeted custom messages to some members of the chat room
+    /// Send targeted custom messages to some members of the chat room
     /// - Parameters:
     ///   - userIds: userIds description
     ///   - roomId: [UserId]
@@ -101,19 +101,19 @@ import Foundation
     ///   - completion: Send callback,what if success or error.
     func sendCustomMessage(to userIds:[String], roomId: String, eventType: String, infoMap:[String:String], completion: @escaping (Bool,ChatError?) -> Void)
     
-    /// Description Translate the specified message
+    /// Translate the specified message
     /// - Parameters:
     ///   - message: ChatMessage kind of text message.
     ///   - completion: Translate callback,what if success or error.
     func translateMessage(message: ChatMessage, completion: @escaping (ChatMessage?,ChatError?) -> Void)
     
-    /// Description Recall message.
+    /// Recall message.
     /// - Parameters:
     ///   - messageId: message id
     ///   - completion: Recall callback,what if success or error.
     func recall(messageId: String, completion: @escaping (ChatError?) -> Void)
     
-    /// Description Report illegal message.
+    /// Report illegal message.
     /// - Parameters:
     ///   - messageId: message id
     ///   - tag: Illegal type defined at console.
@@ -125,58 +125,58 @@ import Foundation
 
 @objc public protocol ChatroomResponseListener:NSObjectProtocol {
     
-    /// Description Received message from chatroom members.
+    /// Received message from chatroom members.
     /// - Parameters:
     ///   - roomId: chatroom id
     ///   - message: EMChatMessage
     func onMessageReceived(roomId: String,message: ChatMessage)
     
-    /// Description When some one recall a message,the method will call.
+    /// When some one recall a message,the method will call.
     /// - Parameters:
     ///   - roomId: chatroom id
     ///   - message: ChatMessage
     ///   - userId: call recall user id
     func onMessageRecalled(roomId: String, message: ChatMessage,by userId: String)
     
-    /// Description When admin publish global notify message,the method will called.
+    /// When admin publish global notify message,the method will called.
     /// - Parameters:
     ///   - roomId: chatroom id
     ///   - notifyMessage: ChatMessage
     func onGlobalNotifyReceived(roomId: String,notifyMessage: ChatMessage)
     
-    /// Description When a user joins a chatroom.The method carry user info for display.
+    /// When a user joins a chatroom.The method carry user info for display.
     /// - Parameters:
     ///   - roomId: chatroom id
     ///   - user: UserInfoProtocol
     func onUserJoined(roomId: String, user: UserInfoProtocol)
     
-    /// Description When some user leave chatroom.
+    /// When some user leave chatroom.
     /// - Parameters:
     ///   - roomId: chatroom id
     ///   - userId: user id
     func onUserLeave(roomId: String,userId: String)
     
-    /// Description When chatroom announcement updated.The method will called.
+    /// When chatroom announcement updated.The method will called.
     /// - Parameters:
     ///   - roomId: chatroom id
     ///   - announcement: announcement
     func onAnnouncementUpdate(roomId: String,announcement: String)
     
-    /// Description When some user kicked out by owner.
+    /// When some user kicked out by owner.
     /// - Parameters:
     ///   - roomId: chatroom id
     ///   - userId: user id
     ///   - reason: reason
     func onUserBeKicked(roomId: String, reason: ChatroomBeKickedReason)
     
-    /// Description When some room members were muted,then method will call notify Administrator.
+    /// When some room members were muted,then method will call notify Administrator.
     /// - Parameters:
     ///   - roomId: chatroom id
     ///   - userId: UserId were muted
     ///   - operatorId: Operator user id
     func onUserMuted(roomId: String,userId: String,operatorId: String)
     
-    /// Description When some room members were unmuted,then method will call notify Administrator.
+    /// When some room members were unmuted,then method will call notify Administrator.
     /// - Parameters:
     ///   - roomId: chatroom id
     ///   - userId: UserId were muted

@@ -47,13 +47,13 @@ public extension NotificationCenter {
 }
 
 public extension Chatroom where Base == Notification {
-    /// Description keyboardEndFrame
+    /// keyboardEndFrame
     var keyboardEndFrame: CGRect? {
         return (base.userInfo?[UIApplication.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
     }
 
     
-    /// Description keyboard animation duration
+    /// keyboard animation duration
     var keyboardAnimationDuration: TimeInterval? {
         return (base.userInfo?[UIApplication.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue
     }

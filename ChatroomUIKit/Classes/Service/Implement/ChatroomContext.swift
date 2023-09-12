@@ -6,6 +6,9 @@
 //
 
 import UIKit
+/**
+ A singleton class that represents the context of a chatroom. It contains information about the current user, the owner of the chatroom, the mute map, the room ID, and a dictionary of users in the chatroom.
+ */
 
 @objcMembers public final class ChatroomContext: NSObject {
     

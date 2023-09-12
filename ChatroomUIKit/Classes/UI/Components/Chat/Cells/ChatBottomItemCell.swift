@@ -7,18 +7,25 @@
 
 import UIKit
 
+/// ChatBottomBar item protocol
 @objc public protocol ChatBottomItemProtocol: NSObjectProtocol {
     
+    /// Whether show red dot
     var showRedDot: Bool {set get}
     
+    /// Whether selected
     var selected: Bool {set get}
     
+    /// When `selected` is `true` show image.
     var selectedImage: UIImage? {set get}
     
+    /// normal image
     var normalImage: UIImage? {set get}
     
+    /// tag
     var type: Int {set get}
     
+    /// Action
     var action: ((ChatBottomItemProtocol) -> Void)? {set get}
 
 }

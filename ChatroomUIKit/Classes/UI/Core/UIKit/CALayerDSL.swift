@@ -8,8 +8,13 @@
 import Foundation
 import QuartzCore
 
-
+/**
+     A DSL for setting common properties of a CALayer instance.
+     
+     - Returns: The modified CALayer instance.
+     */
 public extension CALayer {
+    
     @discardableResult
     func bounds(_ rect: CGRect) -> Self {
         let layer = self

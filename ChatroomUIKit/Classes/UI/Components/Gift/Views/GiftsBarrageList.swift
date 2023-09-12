@@ -9,20 +9,27 @@ import UIKit
 
 
 @objc public protocol IGiftsBarrageListDriver {
-    /// Description Refresh the UI after receiving the gift
+    /// Refresh the UI after receiving the gift
     /// - Parameter gift: GiftEntityProtocol
     func receiveGift(gift: GiftEntityProtocol)
 }
 
-@objc public protocol GiftsBarrageListDataSource: NSObjectProtocol {
+/// A protocol that defines optional methods for transforming animations in the GiftsBarrageList.
+@objc public protocol GiftsBarrageListTransformAnimationDataSource: NSObjectProtocol {
+    
+    /// An optional method that returns the row height for the GiftsBarrageList.
     @objc optional func rowHeight() -> CGFloat
+    
+    /// An optional method that returns the zoom scale for the x-axis of the GiftsBarrageList.
     @objc optional func zoomScaleX() -> CGFloat
+    
+    /// An optional method that returns the zoom scale for the y-axis of the GiftsBarrageList.
     @objc optional func zoomScaleY() -> CGFloat
 }
 
 @objc open class GiftsBarrageList: UIView {
     
-    public var dataSource: GiftsBarrageListDataSource?
+    public var dataSource: GiftsBarrageListTransformAnimationDataSource?
     
     public var gifts = [GiftEntityProtocol]() {
         didSet {
@@ -43,11 +50,11 @@ import UIKit
         super.init(frame: frame)
     }
     
-    /// Description Init method.
+    /// Init method.
     /// - Parameters:
     ///   - frame: Layout coordinates
     ///   - source: GiftsBarrageListDataSource
-    @objc public convenience init(frame: CGRect, source: GiftsBarrageListDataSource? = nil) {
+    @objc public convenience init(frame: CGRect, source: GiftsBarrageListTransformAnimationDataSource? = nil) {
         self.init(frame: frame)
         self.dataSource = source
         self.backgroundColor = .clear
@@ -87,7 +94,7 @@ extension GiftsBarrageList: UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "GiftBarrageCell") as? GiftBarrageCell
         if cell == nil {
-            cell = GiftBarrageCell(style: .default, reuseIdentifier: "GiftBarrageCell")
+            cell = ComponentsRegister.shared.GiftBarragesViewCell.init(style: .default, reuseIdentifier: "GiftBarrageCell")
         }
         if let entity = self.gifts[safe: indexPath.row] {
             cell?.refresh(item: entity)
@@ -123,7 +130,7 @@ extension GiftsBarrageList: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension GiftsBarrageList: GiftsBarrageListDataSource {
+extension GiftsBarrageList: GiftsBarrageListTransformAnimationDataSource {
     public func rowHeight() -> CGFloat {
         64
     }

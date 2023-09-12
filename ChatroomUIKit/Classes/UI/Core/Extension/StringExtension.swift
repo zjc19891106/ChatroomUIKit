@@ -53,7 +53,7 @@ public extension String {
         }
     }
     
-    /// Description insert character
+    /// insert character
     ///
     /// - Parameters:
     ///   - text: The string to be inserted
@@ -250,7 +250,7 @@ public extension Chatroom where Base == String {
         return base.unicodeScalars.map { Int($0.value) }
     }
     
-    /// Description jsonString convert dic
+    /// jsonString convert dic
     /// - Returns: Dictionary
     func jsonToDictionary() -> Dictionary<String,Any> {
         base.data(using: .utf8)?.chatroom.toDictionary() ?? [:]
@@ -319,7 +319,7 @@ public extension Chatroom where Base == String {
         return nil
     }
     
-    /// Description Whether regularity matches-predicate method
+    /// Whether regularity matches-predicate method
     ///
     /// - Parameter string: MATCHES string
     /// - Returns: Bool
@@ -342,7 +342,7 @@ public extension Chatroom where Base == String {
         return base.chatroom.removeMatchRegular(expression: "[^\\u0020-\\u007E\\u00A0-\\u00BE\\u2E80-\\uA4CF\\uF900-\\uFAFF\\uFE30-\\uFE4F\\uFF00-\\uFFEF\\u0080-\\u009F\\u2000-\\u201f\r\n]", with: "")
     }
     
-    /// Description  String convert to Date
+    ///  String convert to Date
     /// - Parameter formatter: yyyy-MM-dd hh:mm:ss
     /// - Returns: Date
     func toDate(formatter: String) -> Date {

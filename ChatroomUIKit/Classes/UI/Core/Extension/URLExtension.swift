@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import AVFoundation
-/// Description url params convert dic
+/// url params convert dic
 /// - Parameter url: get url
 /// - Returns: url's params
 public func queryParameters(for url: URL?) -> [String: String] {
@@ -35,7 +35,7 @@ public extension URL {
 
 public extension Chatroom where Base == URL {
     
-    /// Description  URL拼接参数
+    ///  URL拼接参数
     /// - Parameter parameters: param
     /// - Returns: URL
     func appendingQueryParameters(_ parameters: [String: String]) -> URL? {
@@ -46,7 +46,7 @@ public extension Chatroom where Base == URL {
         return urlComponents.url
     }
     
-    /// Description 获取视频某一刻的缩略图
+    /// 获取视频某一刻的缩略图
     /// - Parameter time: timeInterval
     /// - Returns: Image
     func thumbnail(fromTime time: Float64 = 0) -> UIImage? {

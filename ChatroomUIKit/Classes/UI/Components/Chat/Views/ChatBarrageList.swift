@@ -9,30 +9,30 @@ import UIKit
 
 var chatViewWidth: CGFloat = 0
 
-/// Description ChatBarrageList's driver.
+/// ChatBarrageList's driver.
 @objc public protocol IChatBarrageListDriver: NSObjectProtocol {
     
-    /// Description When you receive or will send a message.
+    /// When you receive or will send a message.
     /// - Parameter message: ChatMessage
     func showNewMessage(message: ChatMessage)
     
-    /// Description When you want modify or translate a message.
+    /// When you want modify or translate a message.
     /// - Parameter message: ChatMessage
     func refreshMessage(message: ChatMessage)
     
-    /// Description When you want delete message.
+    /// When you want delete message.
     /// - Parameter message: ChatMessage
     func removeMessage(message: ChatMessage)
 }
 
-/// Description ChatBarrageList action events handler.
+/// ChatBarrageList action events handler.
 @objc public protocol ChatBarrageActionEventsHandler: NSObjectProtocol {
     
-    /// Description The method called on message barrage long pressed.
+    /// The method called on message barrage long pressed.
     /// - Parameter message: ChatBarrage
     func onMessageBarrageLongPressed(message: ChatMessage)
     
-    /// Description The method called on message barrage clicked.
+    /// The method called on message barrage clicked.
     /// - Parameter message: ChatBarrage
     func onMessageClicked(message: ChatMessage)
 }
@@ -111,7 +111,7 @@ extension ChatBarrageList:UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "ChatBarrageCell") as? ChatBarrageCell
         if cell == nil {
-            cell = ChatBarrageCell(barrageStyle: ComponentsRegister.shared.barrageStyle, reuseIdentifier: "ChatBarrageCell")
+            cell = ComponentsRegister.shared.ChatBarragesCell.init(barrageStyle: Appearance.barrageCellStyle, reuseIdentifier: "ChatBarrageCell")
         }
         guard let entity = self.messages?[safe: indexPath.row] else { return ChatBarrageCell() }
         cell?.refresh(chat: entity)

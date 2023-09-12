@@ -8,7 +8,7 @@
 import UIKit
 
 
-/// Description https://learn.microsoft.com/en-us/azure/ai-services/translator/language-support#translation 
+/// https://learn.microsoft.com/en-us/azure/ai-services/translator/language-support#translation 
 public enum LanguageType: String {
     case Chinese = "zh-Hans", Chinese_traditional = "zh-Hant", English = "en", Russian = "ru", German = "de", French = "fr", Japanese = "ja", Korean = "ko", Auto = "auto"
 }
@@ -30,6 +30,12 @@ public enum LanguageType: String {
         Locale.current
     }
 
+    /**
+     Returns a localized string for the given key.
+     
+     - Parameter key: The key for the localized string.
+     - Returns: The localized string for the given key.
+     */
     private func localValue(_ key: String) -> String {
         let bundle = Bundle.chatroomBundle
         guard var lang = NSLocale.preferredLanguages.first else { return Bundle.main.bundlePath }

@@ -13,11 +13,19 @@ import Combine
  A singleton class that manages caching of images in memory and on disk.
  */
 final public class ImageCacheManager {
+    
     static let shared = ImageCacheManager()
     
+    /// The memory cache used to store images.
     private let memoryCache = NSCache<NSString, UIImage>()
+    
+    /// The file manager used to manage files on disk.
     private let fileManager = FileManager.default
+    
+    /// The directory used to store cached images on disk.
     private let cacheDirectory = NSTemporaryDirectory() + "ImageCache/"
+    
+    /// A set of cancellables used to cancel image loading tasks.
     private var cancellables = Set<AnyCancellable>()
     
     private init() {
@@ -29,6 +37,11 @@ final public class ImageCacheManager {
             .store(in: &cancellables)
     }
     
+    /**
+     Creates a cache directory using the file manager. If the directory already exists, it will not be recreated.
+
+     - Returns: Void
+    */
     private func createCacheDirectory() {
         do {
             try fileManager.createDirectory(atPath: cacheDirectory, withIntermediateDirectories: true, attributes: nil)
@@ -37,10 +50,16 @@ final public class ImageCacheManager {
         }
     }
     
-    private func cachePath(for key: String) -> String {
-        return cacheDirectory + key.replacingOccurrences(of: "/", with: "-")
+     private func cachePath(for key: String) -> String {
+       return cacheDirectory + key.replacingOccurrences(of: "/", with: "-")
     }
     
+    /**
+     Returns the image for the given key if it exists in the memory cache or disk cache.
+     
+     - Parameter key: The key used to identify the image.
+     - Returns: The image for the given key if it exists in the memory cache or disk cache, otherwise returns nil.
+     */
     func image(for key: String) -> UIImage? {
         // Check memory cache first
         if let cachedImage = memoryCache.object(forKey: key as NSString) {
@@ -60,6 +79,13 @@ final public class ImageCacheManager {
         return nil
     }
     
+    /**
+     Caches the given image for the specified key in memory and on disk.
+     
+     - Parameters:
+        - image: The image to be cached.
+        - key: The key to associate with the image.
+     */
     func cacheImage(_ image: UIImage, for key: String) {
         memoryCache.setObject(image, forKey: key as NSString)
         

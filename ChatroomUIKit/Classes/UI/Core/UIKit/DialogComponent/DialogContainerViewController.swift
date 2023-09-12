@@ -6,9 +6,18 @@
 //
 
 import UIKit
-
+ /**
+     A view controller that manages the presentation of a dialog container view and its content.
+     
+     - FILEPATH: /Users/zhujichao_1/Desktop/ChatroomUIKit/ChatroomUIKit/Classes/UI/Core/UIKit/DialogComponent/DialogContainerViewController.swift
+     
+     - `presentedViewComponent`: An optional `PresentedViewComponent` object that represents the content view to be presented.
+     
+     - `customView`: An optional `UIView` object that represents a custom view to be presented.
+     */
 @objc final public class DialogContainerViewController:  UIViewController, PresentedViewType {
     
+   
     public var presentedViewComponent: PresentedViewComponent? = PresentedViewComponent(contentSize: Appearance.giftContainerConstraintsSize)
 
     var customView: UIView?
@@ -21,6 +30,15 @@ import UIKit
         super.init(coder: aDecoder)
     }
 
+    /**
+     Initializes a new `DialogContainerViewController` instance with a custom view and optional constraints size.
+
+     - Parameters:
+        - custom: The custom view to be displayed in the dialog container.
+        - constraintsSize: The size of the constraints to be applied to the dialog container's content view. Defaults to `.zero`.
+
+     - Returns: A new `DialogContainerViewController` instance.
+     */
     @objc public convenience init(custom: UIView,constraintsSize:CGSize = .zero) {
         self.init()
         if constraintsSize != .zero {

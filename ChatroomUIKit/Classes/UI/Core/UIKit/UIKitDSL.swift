@@ -91,7 +91,7 @@ public extension UIView {
     }
     
     
-    /// Description  单边圆角
+    ///  单边圆角
     /// - Parameters:
     ///   - radius: 弧度
     ///   - corners: [左上角，右上角，左下角，右下角]
@@ -191,7 +191,7 @@ public extension UIView {
         return view
     }
     
-    /// Description Put all the subviews to be added in the array in order and add them at once
+    /// Put all the subviews to be added in the array in order and add them at once
     /// - Parameter views: subviews
     func addSubViews(_ views: [UIView]) {
         views.forEach {

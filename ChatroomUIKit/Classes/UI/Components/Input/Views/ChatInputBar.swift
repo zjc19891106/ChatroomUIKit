@@ -9,16 +9,22 @@ import UIKit
 
 @objcMembers open class ChatInputBar: UIView {
     
+    /// The height of the keyboard.
     var keyboardHeight = CGFloat(0)
-    
+
+    /// The raw height of the input bar.
     var rawHeight: CGFloat = 0
-    
+
+    /// The raw height of the text input area.
     var rawTextHeight: CGFloat = 0
-    
+
+    /// The raw frame of the input bar.
     var rawFrame: CGRect = .zero
-    
+
+    /// A closure to be called when the user taps the send button.
     public var sendClosure: ((String) -> Void)?
-    
+
+    /// A closure to be called when the user toggles the emoji keyboard.
     public var changeEmojiClosure: ((Bool) -> Void)?
     
     lazy var rightView: UIButton = {
@@ -48,7 +54,7 @@ import UIKit
         super.init(frame: frame)
     }
     
-    /// Description ChatInputBar init method
+    /// ChatInputBar init method
     /// - Parameters:
     ///   - frame: CGRect
     ///   - text: `String` value
@@ -125,6 +131,9 @@ extension ChatInputBar: UITextViewDelegate {
         }
     }
     
+    /**
+     This function is called when the user taps on the send button in the chat input bar. It hides the input bar, deselects the right view, and sends the message if the input field is not empty. It also resets the input field and the frame of the input bar to their original values.
+     */
     @objc func sendMessage() {
         self.hiddenInputBar()
         self.rightView.isSelected = false
@@ -150,6 +159,7 @@ extension ChatInputBar: UITextViewDelegate {
         return super.hitTest(point, with: event)
     }
 
+    /// This function is called when the user taps on the emoji button in the chat input bar. It toggles the selected state of the right view and calls the `changeEmojiClosure` closure with the new selected state. If the right view is selected, it resigns the first responder status of the input field. Otherwise, it becomes the first responder.
     @objc func changeToEmoji() {
         self.rightView.isSelected = !self.rightView.isSelected
         self.changeEmojiClosure?(self.rightView.isSelected)
@@ -211,16 +221,25 @@ extension ChatInputBar: UITextViewDelegate {
         self.rightView.isSelected = false
     }
     
-    /// Description Raise input bar
+    /// Raise input bar
     @objc public func show() {
         self.inputField.becomeFirstResponder()
     }
     
-    /// Description Hidden input bar
+    /// Hidden input bar
     @objc public func hiddenInput() {
         self.hiddenInputBar()
     }
 
+    /**
+     Converts the given attributed string to include an emoji image attachment with the specified key.
+
+     - Parameters:
+        - text: The attributed string to convert.
+        - key: The key of the emoji image to use.
+
+     - Returns: The converted attributed string with the emoji image attachment.
+     */
     func convertText(text: NSAttributedString?, key: String) -> NSAttributedString {
         let attribute = NSMutableAttributedString(attributedString: text!)
         let attachment = NSTextAttachment()
@@ -266,6 +285,11 @@ extension ChatInputBar: ThemeSwitchProtocol {
 }
 
 public extension NSAttributedString {
+    /**
+     Converts the attributed string to a plain string by replacing any custom accessibility text with its corresponding value.
+
+     - Returns: A plain string representation of the attributed string.
+     */
     func toString() -> String {
         let result = NSMutableAttributedString(attributedString: self)
         var replaceList: [(NSRange, String)] = []

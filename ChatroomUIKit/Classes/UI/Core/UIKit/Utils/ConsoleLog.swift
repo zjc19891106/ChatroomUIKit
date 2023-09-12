@@ -16,7 +16,7 @@ public enum consoleLogType : String {
     case test    = "TEST"
 }
 
-/// Description  Log
+///  Log
 /// - Parameters:
 ///   - message: object that you want to print
 ///   - type: print type

@@ -7,45 +7,45 @@
 
 import UIKit
 
-/// Description A wrapper class for some options when initializing ChatroomUIKit.ChatroomView.
+/// A wrapper class for some options when initializing ChatroomUIKit.ChatroomView.
 @objc open class RoomUIKitInitialOptions: NSObject {
     
-    /// Description Is there a gift barrage?
+    /// Is there a gift barrage?
     @objc public var hasGiftsBarrage = false
     
-    /// Description ChatBottomBar data source.
+    /// ChatBottomBar data source.
     @objc public var bottomDataSource: [ChatBottomItemProtocol] = []
     
-    /// Description Whether to hide the evoke keyboard button.
+    /// Whether to hide the evoke keyboard button.
     @objc public var hiddenChatRaise = false
     
-    /// Description Whether to use user attributes
+    /// Whether to use user attributes
     var useProperties: Bool = true
 }
 
-/// Description ChatroomUIKit initialize class.
+/// ChatroomUIKit initialize class.
 @objcMembers final public class RoomUIKitClient: NSObject {
     
     static public let shared = RoomUIKitClient()
     
-    /// Description User related protocol implementation class
+    /// User related protocol implementation class
     public private(set) lazy var userImplement: UserServiceProtocol? = nil
     
-    /// Description Chat room related protocol implementation class
+    /// Chat room related protocol implementation class
     public private(set) lazy var roomService: RoomService? = nil
     
     public private(set) lazy var option: RoomUIKitInitialOptions = RoomUIKitInitialOptions()
     
     public private(set) var roomId = ""
     
-    /// Description Initialize chat room UIKit.
+    /// Initialize chat room UIKit.
     /// - Parameter appKey: Application key.(https://docs.agora.io/en/agora-chat/get-started/enable?platform=ios)
     /// - Returns: Result error that nil  result indicates success, otherwise it fails.
     @objc public func setup(with appKey: String) -> ChatError? {
         ChatClient.shared().initializeSDK(with: Options(appkey: appKey))
     }
     
-    /// Description Login method
+    /// Login method
     /// - Parameters:
     ///   - user: Conform UserInfoProtocol instance.
     ///   - token: Chat token
@@ -57,7 +57,7 @@ import UIKit
         self.userImplement = UserServiceImplement(userInfo: user, token: token, use: userProperties, completion: completion)
     }
     
-    /// Description Login method
+    /// Login method
     /// - Parameters:
     ///   - userId: userId
     ///   - token: Chat token
@@ -69,7 +69,7 @@ import UIKit
         self.userImplement = UserServiceImplement(userInfo: user, token: token, use: false, completion: completion)
     }
     
-    /// Description Launch a chatroom view of ChatroomUIKit.
+    /// Launch a chatroom view of ChatroomUIKit.
     /// - Parameters:
     ///   - roomId: chatroom id
     ///   - frame: destination frame

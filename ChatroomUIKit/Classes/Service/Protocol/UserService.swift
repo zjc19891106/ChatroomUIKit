@@ -10,58 +10,58 @@ import Foundation
 
 @objc public protocol UserInfoProtocol: NSObjectProtocol {
     
-    /// Description Your application's userId register for chat.
+    /// Your application's userId register for chat.
     var userId: String { set get }
     
-    /// Description User's nickname
+    /// User's nickname
     var nickName: String { set get }
     
-    /// Description User's avatar url
+    /// User's avatar url
     var avatarURL: String { set get }
     
-    /// Description The user's gender. If you didn't set, the default value is 0.  For example you can set 1 for male and 2 for female
+    /// The user's gender. If you didn't set, the default value is 0.  For example you can set 1 for male and 2 for female
     var gender: Int { set get }
     
-    /// Description User's identify picture url
+    /// User's identify picture url
     var identify: String {set get}
 }
 
 @objc public protocol UserServiceProtocol: NSObjectProtocol {
     
-    /// Description Bind user state changed listener
+    /// Bind user state changed listener
     /// - Parameter listener: UserStateChangedListener
     func bindUserStateChangedListener(listener: UserStateChangedListener)
     
-    /// Description Unbind user state changed listener
+    /// Unbind user state changed listener
     /// - Parameter listener: UserStateChangedListener
     func unBindUserStateChangedListener(listener: UserStateChangedListener)
     
-    /// Description Get user info by userId.The frequency of api usage for free users is 100 times in 1 second.Upgrading the package can increase the usage.
+    /// Get user info by userId.The frequency of api usage for free users is 100 times in 1 second.Upgrading the package can increase the usage.
     /// - Parameters:
     ///   - userId: userId
     ///   - completion: completion
     func userInfo(userId: String, completion: @escaping (UserInfoProtocol?,ChatError?) -> Void)
     
-    /// Description Get user info by userIds.The frequency of api usage for free users is 100 times in 1 second.Upgrading the package can increase the usage.
+    /// Get user info by userIds.The frequency of api usage for free users is 100 times in 1 second.Upgrading the package can increase the usage.
     /// - Parameters:
     ///   - userIds: userIds
     ///   - completion: completion
     func userInfos(userIds: [String], completion: @escaping ([UserInfoProtocol],ChatError?) -> Void)
     
-    /// Description Update user info.The frequency of api usage for free users is 100 times in 1 second.Upgrading the package can increase the usage.
+    /// Update user info.The frequency of api usage for free users is 100 times in 1 second.Upgrading the package can increase the usage.
     /// - Parameters:
     ///   - userInfo: UserInfoProtocol
     ///   - completion: 
     func updateUserInfo(userInfo: UserInfoProtocol, completion: @escaping (Bool,ChatError?) -> Void)
     
-    /// Description Login SDK
+    /// Login SDK
     /// - Parameters:
     ///   - userId: user id
     ///   - token: chat token(https://console.agora.io/project/WLRRH-ir6/extension?id=Chat or https://console.easemob.com/app/applicationOverview/userManagement  can build temp token)
     ///   - completion: Callback,success or failure
     func login(userId: String, token: String, completion: @escaping (Bool,ChatError?) -> Void)
     
-    /// Description Logout SDK
+    /// Logout SDK
     /// - Parameter completion: Callback,success or failure
     func logout(completion: @escaping (Bool,ChatError?) -> Void)
     
@@ -71,17 +71,17 @@ import Foundation
 
 @objc public protocol UserStateChangedListener: NSObjectProtocol {
     
-    /// Description User login at other device
+    /// User login at other device
     /// - Parameter device: Other device name
     func onUserLoginOtherDevice(device: String)
     
-    /// Description User token will expired,when you need to fetch chat token  re-login.
+    /// User token will expired,when you need to fetch chat token  re-login.
     func onUserTokenWillExpired()
     
-    /// Description User token expired,when you need to fetch chat token  re-login.
+    /// User token expired,when you need to fetch chat token  re-login.
     func onUserTokenDidExpired()
     
-    /// Description Chatroom socket connection state changed listener.
+    /// Chatroom socket connection state changed listener.
     /// - Parameter state: ConnectionState
     func onSocketConnectionStateChanged(state: ConnectionState)
         

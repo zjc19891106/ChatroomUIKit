@@ -12,7 +12,7 @@ public extension DispatchQueue {
     
     private static var _onceTracker = [String]()
     
-    /// Description GCD DispatchOnce
+    /// GCD DispatchOnce
     /// - Parameters:
     ///   - token: token string
     ///   - block: callBack
@@ -29,7 +29,7 @@ public extension DispatchQueue {
         block()
     }
     
-    /// Description 异步执行 @escaping () throws -> T 中任务后通知主线程
+    /// 异步执行 @escaping () throws -> T 中任务后通知主线程
     /// - Parameters:
     ///   - work: 要执行的任务
     ///   - mainSuccess: 成功回到主线程
@@ -51,7 +51,7 @@ public extension DispatchQueue {
             }
         }
     }
-    /// Description 延时异步执行 @escaping () throws -> T 中任务后通知主线程
+    /// 延时异步执行 @escaping () throws -> T 中任务后通知主线程
     /// - Parameters:
     ///   - work: 要执行的任务
     ///   - mainSuccess: 成功回到主线程

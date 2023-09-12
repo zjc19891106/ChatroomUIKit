@@ -7,7 +7,13 @@
 
 import UIKit
 
+///  The result of sending a gift message to the channel
 @objc public protocol GiftToChannelResultDelegate: NSObjectProtocol {
+    
+    /// The result of sending a gift message to the channel。
+    /// - Parameters:
+    ///   - gift: `GiftEntityProtocol`
+    ///   - error: `ChatError`
     func giftResult(gift:GiftEntityProtocol, error: ChatError?)
 }
 
@@ -25,7 +31,12 @@ import UIKit
         GiftsView(frame: self.view.frame, gifts: self.gifts)
     }()
     
-    @objc public convenience init(gifts: [GiftEntityProtocol],result delegate: GiftToChannelResultDelegate,eventsDelegate: GiftsViewActionEventsDelegate? = nil) {
+    /// GiftsViewController init method.
+    /// - Parameters:
+    ///   - gifts: `Array<GiftEntityProtocol>` data source.
+    ///   - delegate: `GiftToChannelResultDelegate`
+    ///   - eventsDelegate: `GiftsViewActionEventsDelegate`
+    @objc required public convenience init(gifts: [GiftEntityProtocol],result delegate: GiftToChannelResultDelegate,eventsDelegate: GiftsViewActionEventsDelegate? = nil) {
         self.init()
         self.gifts = gifts
         if let events = eventsDelegate {

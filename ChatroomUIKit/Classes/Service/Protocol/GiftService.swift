@@ -14,12 +14,12 @@ import HyphenateChat
     var giftPrice: String {set get}
     var giftCount: String {set get}
     var giftIcon: String {set get}
-    /// Description Developers can upload a special effect to the server that matches the gift ID. The special effect name is the ID of the gift. When entering the room, the SDK will pull the gift resource and download the special effect corresponding to the gift ID. If the value of the gift received is true, the corresponding special effect will be found in full screen. For playback and broadcasting, the gift resource and special effects resource download server can create a web page for users to use. After each app is started, the gift resources are pre-downloaded and cached to disk for UIKit to access before loading the scene.
+    /// Developers can upload a special effect to the server that matches the gift ID. The special effect name is the ID of the gift. When entering the room, the SDK will pull the gift resource and download the special effect corresponding to the gift ID. If the value of the gift received is true, the corresponding special effect will be found in full screen. For playback and broadcasting, the gift resource and special effects resource download server can create a web page for users to use. After each app is started, the gift resources are pre-downloaded and cached to disk for UIKit to access before loading the scene.
     var giftEffect: String {set get}
     
     var selected: Bool {set get}
     
-    /// Description  Do you want to close the pop-up window after sending a gift?`true` mens dialog close.
+    ///  Do you want to close the pop-up window after sending a gift?`true` mens dialog close.
     var sentThenClose: Bool {set get}
     
     var sendUser: UserInfoProtocol? {set get}
@@ -27,15 +27,15 @@ import HyphenateChat
 
 @objc public protocol GiftService: NSObjectProtocol {
     
-    /// Description Bind user state changed listener
+    /// Bind user state changed listener
     /// - Parameter listener: UserStateChangedListener
     func bindGiftResponseListener(listener: GiftResponseListener)
     
-    /// Description Unbind user state changed listener
+    /// Unbind user state changed listener
     /// - Parameter listener: UserStateChangedListener
     func unbindGiftResponseListener(listener: GiftResponseListener)
  
-    /// Description Send gift.
+    /// Send gift.
     /// - Parameters:
     ///   - gift: GiftEntityProtocol
     ///   - completion: Callback,what if success or error.
@@ -44,7 +44,7 @@ import HyphenateChat
 
 @objc public protocol GiftResponseListener: NSObjectProtocol {
     
-    /// Description Some one send gift to chatroom
+    /// Some one send gift to chatroom
     /// - Parameter gift: GiftEntityProtocol
     func receiveGift(gift: GiftEntityProtocol)
 }

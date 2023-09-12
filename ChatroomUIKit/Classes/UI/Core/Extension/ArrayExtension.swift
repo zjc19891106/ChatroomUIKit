@@ -53,7 +53,7 @@ public extension Array {
     }
     
     
-    /// Description filterDuplicatesElements
+    /// filterDuplicatesElements
     /// - Parameter filter: filter condition
     /// - Returns: result
     func filterDuplicates<E: Equatable>(_ filter: (Element) -> E) -> [Element] {

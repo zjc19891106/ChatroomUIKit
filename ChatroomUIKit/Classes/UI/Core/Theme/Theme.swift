@@ -13,19 +13,19 @@ import Foundation
     case dark
 }
 
-/// Description When the system theme changes, you can use this static method to switch between the light and dark themes of the chat room UIKit.
+/// When the system theme changes, you can use this static method to switch between the light and dark themes of the chat room UIKit.
 @objc public protocol ThemeSwitchProtocol: NSObjectProtocol {
     
-    /// Description When some view Implement the protocol method,you can use `Theme.switchTheme(style: .dark)` to switch theme.
+    /// When some view Implement the protocol method,you can use `Theme.switchTheme(style: .dark)` to switch theme.
     /// - Parameter style: ThemeStyle
     func switchTheme(style: ThemeStyle)
     
-    /// Description After the custom view implements this protocol method, you can use this method to switch the custom theme color, which includes the following five hue values: primary, secondary, error, neutral, and neutral special. The designer recommends that the hue values of primary and neutral are the same. The hue values ​​of neutral and neutral special are similar.
+    /// After the custom view implements this protocol method, you can use this method to switch the custom theme color, which includes the following five hue values: primary, secondary, error, neutral, and neutral special. The designer recommends that the hue values of primary and neutral are the same. The hue values ​​of neutral and neutral special are similar.
     func switchHues()
 }
 
 
-/// Description The theme switching class is used for users to switch themes or register some user's own views that comply with the ThemeSwitchProtocol protocol.
+/// The theme switching class is used for users to switch themes or register some user's own views that comply with the ThemeSwitchProtocol protocol.
 /// How to use?
 /// A view conform ThemeSwitchProtocol.Then Implement protocol methods.When you want switch theme that light and dark themes provided by default chatroom UIKit  `theme` .
 /// Call `Theme.switchTheme(style: .dark)` method
@@ -36,7 +36,7 @@ import Foundation
     
     private static var registerViews = NSMutableSet()
     
-    /// Description Register some user's own views that Implement with the ThemeSwitchProtocol protocol.
+    /// Register some user's own views that Implement with the ThemeSwitchProtocol protocol.
     /// - Parameter view: The view conform ThemeSwitchProtocol.
     /// How to use?
     /// `Theme.registerSwitchThemeViews(view: Some view implement ThemeSwitchProtocol)`
@@ -47,7 +47,7 @@ import Foundation
         registerViews.add(view)
     }
     
-    /// Description The method
+    /// The method
     /// - Parameter style: ThemeStyle
     /// How to use?
     /// `Theme.switchTheme(style: .dark)`
@@ -58,7 +58,7 @@ import Foundation
             }
         }
     }
-    /// Description After the custom view implements this protocol method, you can use this method to switch the custom theme color, which includes the following five hue values: primary, secondary, error, neutral, and neutral special. The designer recommends that the hue values of primary and neutral are the same. The hue values ​​of neutral and neutral special are similar.
+    /// After the custom view implements this protocol method, you can use this method to switch the custom theme color, which includes the following five hue values: primary, secondary, error, neutral, and neutral special. The designer recommends that the hue values of primary and neutral are the same. The hue values ​​of neutral and neutral special are similar.
     @MainActor public static func switchHues() {
         UIColor.ColorTheme.switchHues(hues: Appearance.colorHues)
         for view in registerViews {

@@ -19,7 +19,7 @@ public extension UIColor {
         return UIColor(red: r, green: g, blue: b, alpha: a)
     }
     
-    /// Description  init with 0xabcd123
+    ///  init with 0xabcd123
     /// - Parameter rgbValue: hex
     convenience init(_ rgbValue: UInt) {
         self.init(red: CGFloat((CGFloat((rgbValue & 0xff0000) >> 16)) / 255.0),

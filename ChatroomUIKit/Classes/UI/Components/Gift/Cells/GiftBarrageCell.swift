@@ -7,6 +7,11 @@
 
 import UIKit
 
+/**
+ A UITableViewCell subclass used to display a gift item in a barrage view.
+ 
+ This cell contains the avatar, username, gift name, gift icon, and gift count of the gift item.
+ */
 @objcMembers open class GiftBarrageCell: UITableViewCell {
 
     var gift: GiftEntityProtocol?
@@ -43,7 +48,7 @@ import UIKit
         UILabel(frame: CGRect(x: self.frame.width / 5.0 * 4 + 8, y: 10, width: self.frame.width / 5.0 - 16, height: self.frame.height - 20)).font(UIFont.theme.giftNumberFont).textColor(UIColor.theme.neutralColor100)
     }()
 
-    override public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    override required public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.isUserInteractionEnabled = false
         self.contentView.backgroundColor = .clear

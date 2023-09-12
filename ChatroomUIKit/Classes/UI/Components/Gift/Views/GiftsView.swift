@@ -7,15 +7,20 @@
 
 import UIKit
 
+/// GiftsView event actions delegate
 @objc public protocol GiftsViewActionEventsDelegate: NSObjectProtocol {
     
+    /// Send button click
+    /// - Parameter item: `GiftEntityProtocol`
     func onGiftSendClick(item: GiftEntityProtocol)
     
+    /// Select a gift item.
+    /// - Parameter item: `GiftEntityProtocol`
     func onGiftSelected(item: GiftEntityProtocol)
 }
 
 @objcMembers open class GiftsView: UIView {
-    
+        
     private var eventHandlers: NSHashTable<GiftsViewActionEventsDelegate> = NSHashTable<GiftsViewActionEventsDelegate>.weakObjects()
         
     public func addActionHandler(actionHandler: GiftsViewActionEventsDelegate) {
@@ -41,7 +46,7 @@ import UIKit
     }()
 
     lazy var giftList: UICollectionView = {
-        UICollectionView(frame: CGRect(x: 15, y: 10, width: self.frame.width - 30, height: self.frame.height), collectionViewLayout: self.flowLayout).registerCell(GiftEntityCell.self, forCellReuseIdentifier: "GiftEntityCell").delegate(self).dataSource(self).showsHorizontalScrollIndicator(false).backgroundColor(.clear).showsVerticalScrollIndicator(false).backgroundColor(.clear).registerView(UICollectionReusableView.self, UICollectionView.elementKindSectionFooter , "GiftsFooter")
+        UICollectionView(frame: CGRect(x: 15, y: 10, width: self.frame.width - 30, height: self.frame.height), collectionViewLayout: self.flowLayout).registerCell(ComponentsRegister.shared.GiftsCell, forCellReuseIdentifier: "GiftEntityCell").delegate(self).dataSource(self).showsHorizontalScrollIndicator(false).backgroundColor(.clear).showsVerticalScrollIndicator(false).backgroundColor(.clear).registerView(UICollectionReusableView.self, UICollectionView.elementKindSectionFooter , "GiftsFooter")
     }()
 
     override init(frame: CGRect) {
@@ -70,6 +75,7 @@ extension GiftsView: UICollectionViewDelegate,UICollectionViewDataSource {
     }
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let type = ComponentsRegister.shared.GiftsCell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GiftEntityCell", for: indexPath) as? GiftEntityCell
         cell?.refresh(item: self.gifts[safe: indexPath.row])
         cell?.sendCallback = { [weak self] in
@@ -108,3 +114,13 @@ extension GiftsView: UICollectionViewDelegate,UICollectionViewDataSource {
 }
 
 
+extension UICollectionView {
+    /// Dequeues a UICollectionView Cell with a generic type and indexPath
+    /// - Parameters:
+    ///   - type: A generic cell type
+    ///   - indexPath: The indexPath of the row in the UICollectionView
+    /// - Returns: A Cell from the type passed through
+    func dequeueReusableCell<Cell: UICollectionViewCell>(with type: Cell.Type, for indexPath: IndexPath, reuseIdentifier: String) -> Cell {
+        dequeueReusableCell(withReuseIdentifier: reuseIdentifier , for: indexPath) as! Cell
+    }
+}

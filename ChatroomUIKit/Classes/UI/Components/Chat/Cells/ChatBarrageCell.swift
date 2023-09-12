@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// An enumeration that represents the different styles of a chat barrage cell.
 @objc public enum ChatBarrageCellStyle: UInt {
     case all = 1
     case excludeTime
@@ -17,21 +18,28 @@ import UIKit
     case excludeLevelAndAvatar
 }
 
+/// A class that represents a chat entity, which includes a message, a timestamp, attributed text, height, and width.
 @objc open class ChatEntity: NSObject {
     
+    /// The message associated with the chat entity.
     lazy public var message: ChatMessage = ChatMessage()
     
+    /// The time at which the message was sent, formatted as "HH:mm".
     lazy public var showTime: String = {
         let date = Date(timeIntervalSince1970: Double(self.message.timestamp)/1000)
         return date.chatroom.dateString("HH:mm")
     }()
     
+    /// The attributed text of the message, including the user's nickname, message text, and emojis.
     lazy public var attributeText: NSAttributedString = self.convertAttribute()
         
+    /// The height of the chat entity, calculated based on the attributed text and the width of the chat view.
     lazy public var height: CGFloat =  UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).height + 26
     
+    /// The width of the chat entity, calculated based on the attributed text and the width of the chat view.
     lazy public var width: CGFloat = UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).width
         
+    /// Converts the message text into an attributed string, including the user's nickname, message text, and emojis.
     func convertAttribute() -> NSAttributedString {
         var text = NSMutableAttributedString {
             AttributedText((self.message.user?.nickName ?? "") + " : ").foregroundColor(Color.theme.primaryColor8).font(UIFont.theme.labelMedium).paragraphStyle(self.paragraphStyle())
@@ -47,6 +55,7 @@ import UIKit
         return text
     }
     
+    /// Returns a paragraph style object with the first line head indent set based on the appearance of the chat cell.
     func paragraphStyle() -> NSMutableParagraphStyle {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.firstLineHeadIndent = self.firstLineHeadIndent()
@@ -54,6 +63,7 @@ import UIKit
         return paragraphStyle
     }
     
+    /// Returns the distance of the first line head indent based on the appearance of the chat cell.
     func firstLineHeadIndent() -> CGFloat {
         var distance:CGFloat = 0
         switch Appearance.barrageCellStyle {
@@ -77,11 +87,18 @@ public extension ChatMessage {
 }
 
 
+/**
+ A UITableViewCell subclass used to display chat messages as a barrage-style cell.
+ 
+ This cell contains a container view, a time label, a user identity image view, an avatar image view, and a content label. The appearance of these subviews can be customized by setting the `ChatBarrageCellStyle` of the cell.
+ 
+ Use the `refresh(chat:)` method to update the content of the cell with a `ChatEntity` object.
+ */
 @objcMembers open class ChatBarrageCell: UITableViewCell {
     
-    private var style: ChatBarrageCellStyle = Appearance.barrageCellStyle
+    public private(set) var style: ChatBarrageCellStyle = Appearance.barrageCellStyle
 
-    public lazy var container: UIView = {
+    lazy var container: UIView = {
         UIView(frame: CGRect(x: 15, y: 6, width: self.contentView.frame.width - 30, height: self.frame.height - 6)).backgroundColor( UIColor.theme.barrageLightColor2).cornerRadius(.small)
     }()
     
@@ -117,7 +134,7 @@ public extension ChatMessage {
         return ImageView(frame: CGRect(x: originX, y: 11, width: 18, height: 18)).backgroundColor(.clear).cornerRadius(Appearance.avatarRadius)
     }()
 
-    public lazy var content: UILabel = {
+    lazy var content: UILabel = {
         var originX = 4
         switch self.style {
         case .all,.excludeLevel,.excludeTimeAndLevel,.excludeTime:
@@ -138,6 +155,10 @@ public extension ChatMessage {
         self.contentView.backgroundColor = .clear
     }
     
+    /// ChatBarrageCell init method
+    /// - Parameters:
+    ///   - barrageStyle: ChatBarrageCellStyle
+    ///   - reuseIdentifier: reuse identifier
     @objc required public convenience init(barrageStyle: ChatBarrageCellStyle, reuseIdentifier: String?) {
         self.init(style: .default, reuseIdentifier: reuseIdentifier)
         self.style = barrageStyle
@@ -170,8 +191,8 @@ public extension ChatMessage {
     }
 
     
-    /// Description 刷新渲染聊天弹幕的实体，内部包含高度宽度以及富文本缓存
-    /// - Parameter chat: 实体对象
+    /// Refresh the entity that renders the chat barrage, which contains height, width and rich text cache.
+    /// - Parameter chat: ChatEntity
     @objc public func refresh(chat: ChatEntity) {
         self.time.text = chat.showTime
         self.userIdentify.image(with: chat.message.user?.identify ?? "", placeHolder: Appearance.userIdentifyPlaceHolder)

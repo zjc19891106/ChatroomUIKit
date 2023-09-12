@@ -20,73 +20,73 @@ import UIKit
     case fetchMutes
 }
 
-/// Description All events listener of chatroom.
+/// All events listener of chatroom.
 @objc public protocol RoomEventsListener: NSObjectProtocol {
     
-    /// Description This function will be called when the network link status changes.
+    /// This function will be called when the network link status changes.
     /// - Parameter state: ConnectionState
     func onSocketConnectionStateChanged(state: ConnectionState)
     
-    /// Description Token expired you were logout.You need fetch token from your server then call `RoomUIKitClient.shared.login(with userId: "user id", token: "token", completion: <#T##(ChatError?) -> Void#>)` method.
+    /// Token expired you were logout.You need fetch token from your server then call `RoomUIKitClient.shared.login(with userId: "user id", token: "token", completion: <#T##(ChatError?) -> Void#>)` method.
     func onUserTokenDidExpired()
     
-    /// Description Token will expire.If this process takes more than two minutes, the server will kick the user out of the chat room and you will need to rejoin the chat room.You  need fetch token from server then call `RoomUIKitClient.shared.refreshToken(token: "token")`.
+    /// Token will expire.If this process takes more than two minutes, the server will kick the user out of the chat room and you will need to rejoin the chat room.You  need fetch token from server then call `RoomUIKitClient.shared.refreshToken(token: "token")`.
     func onUserTokenWillExpired()
     
-    /// Description If you do not set up multi-device login in the Chat service provider's application configuration service, and the user logs in to the same account on other devices, the current device will be kicked offline.
+    /// If you do not set up multi-device login in the Chat service provider's application configuration service, and the user logs in to the same account on other devices, the current device will be kicked offline.
     /// - Parameter device: other device name
     func onUserLoginOtherDevice(device: String)
     
-    /// Description The method called on user unmuted.
+    /// The method called on user unmuted.
     /// - Parameters:
     ///   - roomId: Chatroom id
     ///   - userId: User id
     ///   - operatorId: Operator id
     func onUserUnmuted(roomId: String, userId: String, operatorId: String)
     
-    /// Description The method called on user muted.
+    /// The method called on user muted.
     /// - Parameters:
     ///   - roomId: Chatroom id
     ///   - userId: User id
     ///   - operatorId: Operator id
     func onUserMuted(roomId: String, userId: String, operatorId: String)
     
-    /// Description The method called on user joined chatroom.
+    /// The method called on user joined chatroom.
     /// - Parameters:
     ///   - roomId: Chatroom id
     ///   - user: UserInfoProtocol
     func onUserJoined(roomId: String, user: UserInfoProtocol)
     
-    /// Description The method called on user kicked out chatroom.
+    /// The method called on user kicked out chatroom.
     /// - Parameters:
     ///   - roomId: Chatroom id
     ///   - reason: ChatroomBeKickedReason
     func onUserBeKicked(roomId: String, reason: ChatroomBeKickedReason)
     
-    /// Description The method called on receive global notify message.
+    /// The method called on receive global notify message.
     /// - Parameter message: ChatMessage
     func onReceiveGlobalNotify(message: ChatMessage)
     
-    /// Description The method called on chatroom announcement updated.
+    /// The method called on chatroom announcement updated.
     /// - Parameters:
     ///   - roomId: Chatroom id
     ///   - announcement: Announcement text
     func onAnnouncementUpdate(roomId: String, announcement: String)
     
-    /// Description The method called on  some chatroom events error occured.
+    /// The method called on  some chatroom events error occured.
     /// - Parameters:
     ///   - error: ChatError
     ///   - type: RoomEventsError
     func onErrorOccur(error: ChatError,type: RoomEventsError)
 }
 
-/// Description Chat room hub service transfer class in chat room UIKit.
+/// Chat room hub service transfer class in chat room UIKit.
 @objc open class RoomService: NSObject {
     
-    /// Description Events listener of chatroom.
+    /// Events listener of chatroom.
     public private(set) var eventsListener: NSHashTable<RoomEventsListener> = NSHashTable<RoomEventsListener>.weakObjects()
     
-    /// Description Current chatroom id.
+    /// Current chatroom id.
     public private(set)var roomId = "" {
         willSet {
             if !newValue.isEmpty {
@@ -95,7 +95,7 @@ import UIKit
         }
     }
     
-    /// Description Participants list request page number
+    /// Participants list request page number
     public private(set)var pageNum = 15
     
     public private(set) lazy var giftService: GiftService? = nil {

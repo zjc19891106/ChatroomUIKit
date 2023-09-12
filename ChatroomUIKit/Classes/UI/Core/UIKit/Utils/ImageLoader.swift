@@ -21,12 +21,12 @@ import Combine
      .store(in: &cancellables)
  */
 
-/// Description An Image loader
+/// An Image loader
 struct ImageLoader {
     static let shared = ImageLoader()
     private let cache = ImageCacheManager.shared
     
-    /// Description Load image from url.
+    /// Load image from url.
     /// - Parameter url: image url
     /// - Returns: An
     /// - How to user? See above the ImageLoader.

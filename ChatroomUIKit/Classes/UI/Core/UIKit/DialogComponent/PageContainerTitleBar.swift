@@ -132,7 +132,7 @@ extension PageContainerTitleBar: ThemeSwitchProtocol {
 }
 
 
-/// Description Choice layout
+/// Choice layout
 @objcMembers open class ChoiceItemLayout: UICollectionViewFlowLayout {
     
     internal var center: CGPoint!

@@ -16,7 +16,7 @@ public extension UIApplication {
 
 public extension Chatroom where Base == UIApplication {
     
-    /// Description KeyWindow property
+    /// KeyWindow property
     /// How to use?
     /// `UIApplication.shared.chatroom.keyWindow`
     var keyWindow: UIWindow? {

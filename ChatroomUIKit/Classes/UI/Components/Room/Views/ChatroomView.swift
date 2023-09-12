@@ -34,10 +34,10 @@ import UIKit
     }()
     
     private lazy var inputBar: ChatInputBar = {
-        ChatInputBar(frame: CGRect(x: 0, y: self.frame.height, width: self.frame.width, height: 52),text: nil,placeHolder: Appearance.inputPlaceHolder)
+        ComponentsRegister.shared.InputBar.init(frame: CGRect(x: 0, y: self.frame.height, width: self.frame.width, height: 52),text: nil,placeHolder: Appearance.inputPlaceHolder)
     }()
     
-    /// Description Chatroom view init method.
+    /// Chatroom view init method.
     /// - Parameters:
     ///   - frame: CGRect
     ///   - menus: Array<ChatBottomItemProtocol>
@@ -67,7 +67,7 @@ import UIKit
         self.bottomBar.addActionHandler(actionHandler: self)
     }
     
-    /// Description This method binds your view to the model it serves. A ChatroomView can only call it once. There is judgment in this method. Calling it multiple times is invalid.
+    /// This method binds your view to the model it serves. A ChatroomView can only call it once. There is judgment in this method. Calling it multiple times is invalid.
     /// - Parameter service: RoomService
     @objc public func connectService(service: RoomService) {
         if self.service != nil {
@@ -81,7 +81,7 @@ import UIKit
         })
     }
     
-    /// Description Disconnect room service
+    /// Disconnect room service
     /// - Parameter service: RoomService
     @objc public func disconnectService(service: RoomService) {
         self.service = nil
@@ -90,7 +90,7 @@ import UIKit
 }
 
 //MARK: - GiftsBarrageListDataSource
-extension ChatroomView: GiftsBarrageListDataSource {
+extension ChatroomView: GiftsBarrageListTransformAnimationDataSource {
     public func rowHeight() -> CGFloat {
         Appearance.giftBarrageRowHeight
     }

@@ -19,7 +19,7 @@ open class ParticipantsController: UITableViewController {
     
     private var muteTab = false
     
-    /// Description ParticipantsController init method.
+    /// ParticipantsController init method.
     /// - Parameters:
     ///   - muteTab: `Bool` value
     ///   - moreClosure: Callback,when click more.
