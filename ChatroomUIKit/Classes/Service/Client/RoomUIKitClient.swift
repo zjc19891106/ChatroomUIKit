@@ -46,6 +46,13 @@ import UIKit
         self.userImplement = UserServiceImplement(userInfo: user, token: token, use: userProperties, completion: completion)
     }
     
+    @objc public func login(with userId: String,token: String,completion: @escaping (ChatError?) -> Void) {
+        let user = User()
+        user.userId = userId
+        ChatroomContext.shared?.currentUser = user
+        self.userImplement = UserServiceImplement(userInfo: user, token: token, use: false, completion: completion)
+    }
+    
     @objc public func launchRoomView(roomId: String,frame: CGRect) -> ChatroomView {
         self.roomId = roomId
         let room = ChatroomView(frame: frame)

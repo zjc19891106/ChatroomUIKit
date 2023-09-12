@@ -100,7 +100,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         // You can initialize ChatroomUIKit when the app loads or before you need to use ChatroomUIKit
-        RoomUIKitClient.shared.setup(with: <#T##String#>)
+        RoomUIKitClient.shared.setup(with: "Appkey")
         return true
     }
 }
@@ -110,17 +110,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ```Swift
         // Use the user information of the current user object that conforms to the UserInfoProtocol protocol to log in to ChatroomUIKit
         // The token needs to be obtained from your server. You can also log in with a temporary token visit at (https://console.agora.io/project/WLRRH-ir6/extension?id=Chat)
-        RoomUIKitClient.shared.login(with: <#T##UserInfoProtocol#>, token: <#T##String#>, completion: <#T##(ChatError?) -> Void#>)
+        RoomUIKitClient.shared.login(with userId: "user id", token: "token", completion: <#T##(ChatError?) -> Void#>)
 ```
 
 ### Step 3: Create chatroom view
 ```Swift
         // Let's start creating the ChatroomView. The parameters that need to be passed in include layout parameters, the bottom toolbar extension button model protocol array, whether to hide the button that evokes the input box, etc.
-        let roomView = ChatroomView(frame: <#T##CGRect#>, bottom: <#T##[ChatBottomItemProtocol]#>,showGiftBarrage: <#T##Bool#>,hiddenChat: <#T##Bool#>)
-        // Create objects that carry all ChatroomUIKit business requests and responses
-        let service = RoomService(roomId: <#T##String#>)
-        // Link them together
-        roomView.connectService(service: service)
+        let roomView = RoomUIKitClient.shared.launchRoomView(roomId: "chatroom Id", frame: <#T##CGRect#>)        
         //Then add to you destination frame.
 ```
 
@@ -132,11 +128,8 @@ For example
         // You can change the overall cell layout style of the barrage area by setting the properties.
         Appearance.barrageCellStyle = .excludeLevel
         // Let's start creating the ChatroomView. The parameters that need to be passed in include layout parameters, the bottom toolbar extension button model protocol array, whether to hide the button that evokes the input box, etc.
-        let roomView = ChatroomView(frame: <#T##CGRect#>, bottom: <#T##[ChatBottomItemProtocol]#>,showGiftBarrage: <#T##Bool#>,hiddenChat: <#T##Bool#>)
-        // Create objects that carry all ChatroomUIKit business requests and responses
-        let service = RoomService(roomId: <#T##String#>)
-        // Link them together
-        roomView.connectService(service: service)
+        let roomView = RoomUIKitClient.shared.launchRoomView(roomId: "chatroom Id", frame: <#T##CGRect#>)
+        self.view.addSubView(roomView)
 ```
 ### 2.Custom components
 For example
@@ -165,8 +158,7 @@ For example
 - Switch original theme
 ```Swift
         //When you want to switch the light and dark themes that come with ChatroomUIKit, you can use the following method when switching themes in the iOS system
-        Theme.switchTheme(style: .dark)
-        Theme.switchTheme(style: .light)
+        `Theme.switchTheme(style: .dark)` or `Theme.switchTheme(style: .light)`
 ```
 
 - Switch custom theme
@@ -187,11 +179,11 @@ For example
 
          By adjusting the values of individual components of the HSLA model, precise control of color can be achieved.
          */
-        Appearance.primaryHue = 0.5
-        Appearance.secondaryHue = 0.65
-        Appearance.errorHue = 0.55
-        Appearance.neutralHue = 0.57
-        Appearance.neutralSpecialHue = 0.58
+        Appearance.primaryHue = 191/360.0
+        Appearance.secondaryHue = 210/360.0
+        Appearance.errorHue = 189/360.0
+        Appearance.neutralHue = 191/360.0
+        Appearance.neutralSpecialHue = 199/360.0
         Theme.switchHues()
 ```
 
