@@ -48,6 +48,11 @@ import UIKit
         super.init(frame: frame)
     }
     
+    /// Description ChatInputBar init method
+    /// - Parameters:
+    ///   - frame: CGRect
+    ///   - text: `String` value
+    ///   - placeHolder: `String` value
     @objc required public convenience init(frame: CGRect,text: String? = nil,placeHolder: String? = nil) {
         self.init(frame: frame)
         self.rawHeight = frame.height
@@ -206,21 +211,12 @@ extension ChatInputBar: UITextViewDelegate {
         self.rightView.isSelected = false
     }
     
+    /// Description Raise input bar
     @objc public func show() {
         self.inputField.becomeFirstResponder()
     }
     
-    func inputBar() -> ChatInputBar? {
-        if let subviews = UIApplication.shared.chatroom.keyWindow?.subviews {
-            for subView in subviews {
-                if let input = subView as? ChatInputBar {
-                    return input
-                }
-            }
-        }
-        return nil
-    }
-    
+    /// Description Hidden input bar
     @objc public func hiddenInput() {
         self.hiddenInputBar()
     }

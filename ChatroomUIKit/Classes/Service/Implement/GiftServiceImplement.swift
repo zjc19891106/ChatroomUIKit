@@ -8,7 +8,6 @@
 import UIKit
 import KakaJSON
 import HyphenateChat
-import Combine
 
 let chatroom_UIKit_gift = "chatroom_UIKit_gift"
 

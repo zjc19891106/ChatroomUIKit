@@ -13,6 +13,9 @@ public enum LanguageType: String {
     case Chinese = "zh-Hans", Chinese_traditional = "zh-Hant", English = "en", Russian = "ru", German = "de", French = "fr", Japanese = "ja", Korean = "ko", Auto = "auto"
 }
 
+/**
+ A utility class for converting language keys to localized strings.
+ */
 @objc public final class LanguageConvertor: NSObject {
 
     public static func localValue(key: String) -> String {

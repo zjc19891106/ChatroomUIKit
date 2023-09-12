@@ -168,6 +168,20 @@ import Foundation
     ///   - userId: user id
     ///   - reason: reason
     func onUserBeKicked(roomId: String, reason: ChatroomBeKickedReason)
+    
+    /// Description When some room members were muted,then method will call notify Administrator.
+    /// - Parameters:
+    ///   - roomId: chatroom id
+    ///   - userId: UserId were muted
+    ///   - operatorId: Operator user id
+    func onUserMuted(roomId: String,userId: String,operatorId: String)
+    
+    /// Description When some room members were unmuted,then method will call notify Administrator.
+    /// - Parameters:
+    ///   - roomId: chatroom id
+    ///   - userId: UserId were muted
+    ///   - operatorId: Operator user id
+    func onUserUnmuted(roomId: String,userId: String,operatorId: String)
 }
 
 

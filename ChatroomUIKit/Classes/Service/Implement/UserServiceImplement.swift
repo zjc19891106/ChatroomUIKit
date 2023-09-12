@@ -128,6 +128,12 @@ extension UserServiceImplement: ChatClientDelegate {
         }
     }
     
+    public func tokenWillExpire(_ aErrorCode: ChatErrorCode) {
+        for response in self.responseDelegates.allObjects {
+            response.onUserTokenWillExpired()
+        }
+    }
+    
     public func userAccountDidLogin(fromOtherDevice aDeviceName: String?) {
         for response in self.responseDelegates.allObjects {
             if let device = aDeviceName {

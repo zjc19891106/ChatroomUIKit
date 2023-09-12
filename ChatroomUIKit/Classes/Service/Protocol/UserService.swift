@@ -24,9 +24,6 @@ import Foundation
     
     /// Description User's identify picture url
     var identify: String {set get}
-    
-    /// Description Whether user mute or no.
-    var mute: Bool {set get}
 }
 
 @objc public protocol UserServiceProtocol: NSObjectProtocol {
@@ -78,6 +75,8 @@ import Foundation
     /// - Parameter device: Other device name
     func onUserLoginOtherDevice(device: String)
     
+    /// Description User token will expired,when you need to fetch chat token  re-login.
+    func onUserTokenWillExpired()
     
     /// Description User token expired,when you need to fetch chat token  re-login.
     func onUserTokenDidExpired()

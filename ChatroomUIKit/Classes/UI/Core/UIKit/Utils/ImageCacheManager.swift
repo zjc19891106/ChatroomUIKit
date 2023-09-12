@@ -9,7 +9,10 @@ import Foundation
 import UIKit
 import Combine
 
-class ImageCacheManager {
+/**
+ A singleton class that manages caching of images in memory and on disk.
+ */
+final public class ImageCacheManager {
     static let shared = ImageCacheManager()
     
     private let memoryCache = NSCache<NSString, UIImage>()

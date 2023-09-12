@@ -21,6 +21,8 @@ import UIKit
     
     public var owner: UserInfoProtocol?
     
+    public var muteMap: Dictionary<String,Bool>? = Dictionary<String,Bool>()
+    
     public var roomId: String?
     
     public var usersMap: Dictionary<String,UserInfoProtocol>? = Dictionary<String,UserInfoProtocol>()

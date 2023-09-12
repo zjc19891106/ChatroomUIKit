@@ -9,18 +9,31 @@ import UIKit
 
 var chatViewWidth: CGFloat = 0
 
+/// Description ChatBarrageList's driver.
 @objc public protocol IChatBarrageListDriver: NSObjectProtocol {
+    
+    /// Description When you receive or will send a message.
+    /// - Parameter message: ChatMessage
     func showNewMessage(message: ChatMessage)
     
+    /// Description When you want modify or translate a message.
+    /// - Parameter message: ChatMessage
     func refreshMessage(message: ChatMessage)
     
+    /// Description When you want delete message.
+    /// - Parameter message: ChatMessage
     func removeMessage(message: ChatMessage)
 }
 
+/// Description ChatBarrageList action events handler.
 @objc public protocol ChatBarrageActionEventsHandler: NSObjectProtocol {
     
+    /// Description The method called on message barrage long pressed.
+    /// - Parameter message: ChatBarrage
     func onMessageBarrageLongPressed(message: ChatMessage)
     
+    /// Description The method called on message barrage clicked.
+    /// - Parameter message: ChatBarrage
     func onMessageClicked(message: ChatMessage)
 }
 

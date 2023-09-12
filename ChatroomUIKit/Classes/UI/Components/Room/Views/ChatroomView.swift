@@ -37,6 +37,12 @@ import UIKit
         ChatInputBar(frame: CGRect(x: 0, y: self.frame.height, width: self.frame.width, height: 52),text: nil,placeHolder: Appearance.inputPlaceHolder)
     }()
     
+    /// Description Chatroom view init method.
+    /// - Parameters:
+    ///   - frame: CGRect
+    ///   - menus: Array<ChatBottomItemProtocol>
+    ///   - showGiftBarrage: `Bool` showGiftBarrage value
+    ///   - hiddenChat: `Bool` hiddenChat value
     @objc public required convenience init(frame: CGRect,bottom menus: [ChatBottomItemProtocol] = [],showGiftBarrage: Bool = true,hiddenChat: Bool = false) {
         if showGiftBarrage {
             if frame.height < 206 {
@@ -94,7 +100,7 @@ extension ChatroomView: GiftsBarrageListDataSource {
 extension ChatroomView: ChatBarrageActionEventsHandler {
     
     public func onMessageBarrageLongPressed(message: ChatMessage) {
-        if let mute = ChatroomContext.shared?.usersMap?[message.from]?.mute {
+        if let mute = ChatroomContext.shared?.muteMap?[message.from] {
             if mute {
                 if let index = Appearance.defaultMessageActions.firstIndex(where: { $0.tag == "Mute"
                 }) {

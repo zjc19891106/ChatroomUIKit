@@ -6,8 +6,14 @@
 //
 
 import UIKit
-
+/**
+     A container view controller that manages a UIPageViewController and a PageContainerTitleBar.
+     
+     The PageContainerTitleBar displays a list of choices that correspond to the view controllers managed by the UIPageViewController.
+     The UIPageViewController displays the view controllers that correspond to the selected choice in the PageContainerTitleBar.
+     */
 public final class PageContainer:  UIView {
+    
     
     private var controllers: [UIViewController]?
 
@@ -47,6 +53,16 @@ public final class PageContainer:  UIView {
         super.init(frame: frame)
     }
 
+    /**
+     A convenience initializer for creating a `PageContainer` with a given frame, view controllers, and indicators.
+     
+     - Parameters:
+        - frame: The frame for the `PageContainer`.
+        - viewControllers: An array of `UIViewController`s to be displayed in the `PageContainer`.
+        - indicators: An array of strings representing the indicators for the `PageContainer`.
+     
+     - Returns: A new `PageContainer` instance.
+     */
     @objc public convenience init(frame: CGRect, viewControllers: [UIViewController],indicators: [String]) {
         self.init(frame: frame)
         self.indicators = indicators

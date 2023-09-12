@@ -7,25 +7,36 @@
 
 import UIKit
 
+/// Description A wrapper class for some options when initializing ChatroomUIKit.ChatroomView.
 @objc open class RoomUIKitInitialOptions: NSObject {
+    
+    /// Description Is there a gift barrage?
     @objc public var hasGiftsBarrage = false
     
+    /// Description ChatBottomBar data source.
     @objc public var bottomDataSource: [ChatBottomItemProtocol] = []
     
+    /// Description Whether to hide the evoke keyboard button.
     @objc public var hiddenChatRaise = false
+    
+    /// Description Whether to use user attributes
+    var useProperties: Bool = true
 }
 
-@objc final public class RoomUIKitClient: NSObject {
+/// Description ChatroomUIKit initialize class.
+@objcMembers final public class RoomUIKitClient: NSObject {
     
     static public let shared = RoomUIKitClient()
     
-    lazy var userImplement: UserServiceProtocol? = nil
+    /// Description User related protocol implementation class
+    public private(set) lazy var userImplement: UserServiceProtocol? = nil
     
-    public var roomService: RoomService?
+    /// Description Chat room related protocol implementation class
+    public private(set) lazy var roomService: RoomService? = nil
     
-    var roomId = ""
+    public private(set) lazy var option: RoomUIKitInitialOptions = RoomUIKitInitialOptions()
     
-    var useProperties: Bool = true
+    public private(set) var roomId = ""
     
     /// Description Initialize chat room UIKit.
     /// - Parameter appKey: Application key.(https://docs.agora.io/en/agora-chat/get-started/enable?platform=ios)
@@ -41,11 +52,16 @@ import UIKit
     ///   - userProperties: This parameter means whether the user passes in his or her own user information (including avatar, nickname, user id) as a user attribute for use in ChatRoomUIKit.
     ///   - completion: Login result.
     @objc public func login(with user: UserInfoProtocol,token: String,use userProperties: Bool = true,completion: @escaping (ChatError?) -> Void) {
-        self.useProperties = userProperties
         ChatroomContext.shared?.currentUser = user
+        self.option.useProperties = userProperties
         self.userImplement = UserServiceImplement(userInfo: user, token: token, use: userProperties, completion: completion)
     }
     
+    /// Description Login method
+    /// - Parameters:
+    ///   - userId: userId
+    ///   - token: Chat token
+    ///   - completion: Login result.
     @objc public func login(with userId: String,token: String,completion: @escaping (ChatError?) -> Void) {
         let user = User()
         user.userId = userId
@@ -53,17 +69,17 @@ import UIKit
         self.userImplement = UserServiceImplement(userInfo: user, token: token, use: false, completion: completion)
     }
     
-    @objc public func launchRoomView(roomId: String,frame: CGRect) -> ChatroomView {
+    /// Description Launch a chatroom view of ChatroomUIKit.
+    /// - Parameters:
+    ///   - roomId: chatroom id
+    ///   - frame: destination frame
+    ///   - options: `RoomUIKitInitialOptions`
+    /// - Returns: ChatroomUIKit.ChatroomView
+    @objc public func launchRoomViewWithOptions(roomId: String,frame: CGRect,options: RoomUIKitInitialOptions = RoomUIKitInitialOptions()) -> ChatroomView {
         self.roomId = roomId
-        let room = ChatroomView(frame: frame)
-        let service = RoomService(roomId: self.roomId)
-        room.connectService(service: service)
-        self.roomService = service
-        return room
-    }
-    
-    @objc public func launchRoomViewWithOptions(roomId: String,frame: CGRect,options: RoomUIKitInitialOptions) -> ChatroomView {
-        self.roomId = roomId
+        self.option.bottomDataSource = options.bottomDataSource
+        self.option.hasGiftsBarrage = options.hasGiftsBarrage
+        self.option.hiddenChatRaise = options.hiddenChatRaise
         let room = ChatroomView(frame: frame,bottom: options.bottomDataSource,showGiftBarrage: options.hasGiftsBarrage,hiddenChat: options.hiddenChatRaise)
         let service = RoomService(roomId: self.roomId)
         self.roomService = service
@@ -71,26 +87,65 @@ import UIKit
         return room
     }
     
-    @objc public func registerRoomResponseListener() {
-//        self.roomService.
+    @objc public func registerRoomEventsListener(listener: RoomEventsListener) {
+        self.roomService?.registerListener(listener: listener)
     }
     
-    @objc public func registerRoomRequestListener() {
-        
+    @objc public func unregisterRoomEventsListener(listener: RoomEventsListener) {
+        self.roomService?.unregisterListener(listener: listener)
+    }
+    
+    @objc public func refreshToken(token: String) {
+        ChatClient.shared().renewToken(token)
     }
 }
 
 extension RoomUIKitClient: UserStateChangedListener {
+    
     public func onUserLoginOtherDevice(device: String) {
         //User will be kick by UIKit.
+        if let service = self.roomService {
+            for listener in service.eventsListener.allObjects {
+                listener.onUserLoginOtherDevice(device: device)
+            }
+        }
+    }
+    
+    public func onUserTokenWillExpired() {
+        //Renew token form your service
+        if let service = self.roomService {
+            for listener in service.eventsListener.allObjects {
+                listener.onUserTokenWillExpired()
+            }
+        }
     }
     
     public func onUserTokenDidExpired() {
         //Renew token form your service
+        if let service = self.roomService {
+            for listener in service.eventsListener.allObjects {
+                listener.onUserTokenDidExpired()
+            }
+        }
     }
     
     public func onSocketConnectionStateChanged(state: ConnectionState) {
-        
+        switch state {
+        case .connected:
+            if !self.roomId.isEmpty {
+                self.roomService?.enterRoom(completion: { _ in
+                    
+                })
+            }
+        default:
+            break
+        }
+        if let service = self.roomService {
+            for listener in service.eventsListener.allObjects {
+                listener.onSocketConnectionStateChanged(state: state)
+            }
+        }
+
     }
     
     

@@ -6,6 +6,15 @@
 //
 
 import UIKit
+/**
+ An ActionSheet is a view that presents a set of options to the user. It is a subclass of UIView and conforms to the ThemeSwitchProtocol.
+ 
+ The ActionSheet has a title, a message, a list of items, and a cancel button. The items are presented in a table view. The cancel button is always at the bottom of the view.
+ 
+ The ActionSheet can be initialized with a list of items, a title, and a message. The title and message are optional. If the message is provided, it will be displayed below the title. If the title is not provided, the items will be displayed directly below the indicator. If both the title and message are not provided, the items will be displayed directly below the indicator.
+ 
+ The ActionSheet conforms to the ThemeSwitchProtocol, which allows it to switch between light and dark themes.
+ */
 
 @objc open class ActionSheet: UIView {
     
@@ -41,6 +50,16 @@ import UIKit
         super.init(frame: frame)
     }
     
+    /**
+     Initializes an ActionSheet with the given items, title, and message.
+     
+     - Parameters:
+         - items: An array of ActionSheetItemProtocol objects.
+         - title: The title of the ActionSheet. Default is nil.
+         - message: The message of the ActionSheet. Default is nil.
+     
+     - Returns: An initialized ActionSheet object.
+     */
     @objc public convenience init(items:[ActionSheetItemProtocol],title: String? = nil,message: String? = nil) {
         let messageHeight = (message?.chatroom.sizeWithText(font: UIFont.theme.bodyMedium, size: CGSize(width: ScreenWidth-32, height: ScreenHeight/3.0)).height ?? 0)
         var contentHeight = 11+Int(Appearance.actionSheetRowHeight)*items.count+Int(Appearance.actionSheetRowHeight)+8+Int(BottomBarHeight)

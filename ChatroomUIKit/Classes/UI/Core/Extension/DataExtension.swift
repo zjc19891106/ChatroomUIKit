@@ -6,7 +6,9 @@
 //
 
 import Foundation
-
+/**
+ An extension of `Data` that provides a computed property `chatroom` of type `Chatroom<Self>`.
+ */
 public extension Data {
     
     var chatroom: Chatroom<Self> {
@@ -14,7 +16,16 @@ public extension Data {
     }
 }
 
+/**
+ An extension of `Chatroom` that provides two methods to convert the base `Data` object to a dictionary or an array of dictionaries.
+ */
 public extension Chatroom where Base == Data {
+    
+    /**
+     Converts the base `Data` object to a dictionary.
+     
+     - Returns: A dictionary of type `[String: Any]` if the conversion is successful, otherwise `nil`.
+     */
     func toDictionary() -> Dictionary<String,Any>? {
         var dic: Dictionary<String,Any>?
         do {
@@ -25,6 +36,11 @@ public extension Chatroom where Base == Data {
         return dic
     }
     
+    /**
+     Converts the base `Data` object to an array of dictionaries.
+     
+     - Returns: An array of dictionaries of type `[String: Any]` if the conversion is successful, otherwise `nil`.
+     */
     func toDictionaryArray() -> [Dictionary<String,Any>]? {
         var dic: [Dictionary<String,Any>]?
         do {

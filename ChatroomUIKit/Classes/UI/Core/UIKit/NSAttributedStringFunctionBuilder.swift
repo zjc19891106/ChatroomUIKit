@@ -29,6 +29,11 @@ import Foundation
  */
 
 
+/**
+ This file defines a function builder for creating attributed strings in UIKit and AppKit.
+ 
+ The file defines a typealias for Font, Color, and Size based on the platform. It also defines an AttributedText struct conforming to the Component protocol, which is used to build attributed strings. The file also defines a result builder for the NSAttributedStringFunctionBuilder struct, which is used to build attributed strings using a function builder syntax. The file also defines a convenience init for NSAttributedString that takes a function builder as a parameter. The file also defines a protocol for Component, which defines the string, attributes, and attributedString properties. The file also defines basic modifiers for attributed strings, such as backgroundColor, font, foregroundColor, and more. Finally, the file defines paragraph style modifiers for attributed strings, such as paragraphStyle.
+ */
 #if canImport(UIKit)
 import UIKit
 public typealias Font = UIFont

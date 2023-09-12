@@ -6,6 +6,20 @@
 //
 
 import Foundation
+/**
+ An extension of the Array class that provides additional functionality for ChatroomUIKit.
+ 
+ - Author: ChatroomUIKit Team
+ - Version: 1.0.0
+ 
+ - Note: This extension provides the following functionality:
+     - `chatroom` property that returns a `Chatroom` instance initialized with the array.
+     - `safe` subscript that returns the element at the specified index if it exists, otherwise returns nil.
+     - `safe` subscript that returns a slice of the array for the specified range if it exists, otherwise returns nil.
+     - `jsonString` function that returns a JSON string representation of the array.
+     - `filterDuplicates` function that returns an array with duplicates removed based on a filter condition.
+     - `splitToString` function that returns a string with the array elements joined by a delimiter.
+ */
 
 // MARK: - ArrayExtension
 public extension Array {
@@ -24,7 +38,7 @@ public extension Array {
         return range.endIndex <= self.endIndex ? self[range.startIndex...range.endIndex]:nil
     }
     
-    func zyb_JsonString() -> String {
+    func jsonString() -> String {
         if (!JSONSerialization.isValidJSONObject(self)) {
             print("无法解析出JSONString")
             return ""

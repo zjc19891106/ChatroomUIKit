@@ -14,6 +14,15 @@ import UIKit
 //    UIButton(type: .custom).frame(CGRect(x: 100, y: 100, width: 100, height: 50)).title("测试", .normal).font(.systemFont(ofSize: 15)).textColor(.black, .normal).addTargetFor(self, action: #selector(popAction), for: .touchUpInside)
 //}()
 
+/**
+ A set of convenience methods for configuring UIView properties, such as corner radius, background color, gradient, content mode, layer properties, user interaction, tag, center, and transform. 
+ 
+ This extension provides a set of methods that can be used to configure the properties of a UIView instance. These methods include setting the corner radius, background color, gradient, content mode, layer properties, user interaction, tag, center, and transform. 
+ 
+ - Author: UIKitDSL.swift
+ - Version: 1.0
+ - Date: August 2021
+ */
 public enum CornerRadius: UInt {
     case extraSmall = 4
     case small = 8

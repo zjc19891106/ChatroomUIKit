@@ -14,7 +14,7 @@ import HyphenateChat
     var giftPrice: String {set get}
     var giftCount: String {set get}
     var giftIcon: String {set get}
-    /// Description 开发者可以上传服务器一个匹配礼物id的特效  特效名称为礼物的id  sdk会进入房间时拉取礼物资源并下载对应礼物id的特效，如果收到的礼物这个值为true 则会找到对应的特效全屏播放加广播，礼物资源以及特效资源下载服务端可做一个web页面供用户使用，每个app启动后加载场景之前预先去下载礼物资源缓存到磁盘供UIKit取用
+    /// Description Developers can upload a special effect to the server that matches the gift ID. The special effect name is the ID of the gift. When entering the room, the SDK will pull the gift resource and download the special effect corresponding to the gift ID. If the value of the gift received is true, the corresponding special effect will be found in full screen. For playback and broadcasting, the gift resource and special effects resource download server can create a web page for users to use. After each app is started, the gift resources are pre-downloaded and cached to disk for UIKit to access before loading the scene.
     var giftEffect: String {set get}
     
     var selected: Bool {set get}

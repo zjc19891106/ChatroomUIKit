@@ -47,7 +47,6 @@ final class ExampleViewController: UIViewController {
         user.identify = "https://accktvpic.oss-cn-beijing.aliyuncs.com/pic/sample_avatar/sample_avatar_2.png"
         user.userId = "12323123123"
         ChatroomContext.shared?.currentUser = user
-        
         self.view.addSubview(self.background)
         self.view.addSubview(self.giftBarrages)
         self.view.addSubview(self.barrageList)
@@ -55,10 +54,9 @@ final class ExampleViewController: UIViewController {
         self.view.addSubview(self.inputBar)
         
         self.bottomBar.addActionHandler(actionHandler: self)
-        self.inputBar.sendClosure = { [weak self] _ in
+        self.inputBar.sendClosure = { [weak self] in
             guard let `self` = self else { return }
-            
-//            self.barrageList.showNewMessage(message: self.startMessage($0))
+            self.barrageList.showNewMessage(message: self.startMessage($0))
         }
 
     }
@@ -112,14 +110,9 @@ extension ExampleViewController {
         return entities
     }
     
-    @objc func startMessage(_ text: String?) -> ChatEntity {
-        let entity = ChatEntity()
+    @objc func startMessage(_ text: String?) -> ChatMessage {
         let user = ChatroomContext.shared?.currentUser as? User
-        entity.message = ChatMessage(conversationID: "test", from: "12323123123", to: "test",body: ChatTextMessageBody(text: text == nil ? "Welcome":text), ext: user?.kj.JSONObject())
-        entity.attributeText = entity.attributeText
-        entity.width = entity.width
-        entity.height = entity.height
-        return entity
+        return ChatMessage(conversationID: "test", from: "12323123123", to: "test",body: ChatTextMessageBody(text: text == nil ? "Welcome":text), ext: user?.kj.JSONObject())
     }
 
     private func gifts() -> [GiftEntityProtocol] {

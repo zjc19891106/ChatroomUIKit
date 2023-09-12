@@ -79,14 +79,14 @@ extension ChatroomServiceImplement: ChatroomService {
     
     public func operatingUser(roomId: String, userId: String, type: ChatroomUserOperationType, completion: @escaping (Bool, ChatError?) -> Void) {
         switch type {
-        case .addAdministrator:
-            ChatClient.shared().roomManager?.addAdmin(userId, toChatroom: roomId,completion: { room, error in
-                completion(error == nil,error)
-            })
-        case .removeAdministrator:
-            ChatClient.shared().roomManager?.removeAdmin(userId, fromChatroom: roomId,completion: { room, error in
-                completion(error == nil,error)
-            })
+//        case .addAdministrator:
+//            ChatClient.shared().roomManager?.addAdmin(userId, toChatroom: roomId,completion: { room, error in
+//                completion(error == nil,error)
+//            })
+//        case .removeAdministrator:
+//            ChatClient.shared().roomManager?.removeAdmin(userId, fromChatroom: roomId,completion: { room, error in
+//                completion(error == nil,error)
+//            })
         case .block:
             ChatClient.shared().roomManager?.blockMembers([userId], fromChatroom: roomId,completion: { room, error in
                 completion(error == nil,error)
@@ -212,6 +212,28 @@ extension ChatroomServiceImplement: ChatroomManagerDelegate {
                     ChatroomContext.shared?.usersMap?.removeValue(forKey: aUsername)
                 }
                 response.onUserLeave(roomId: roomId, userId: aUsername)
+            }
+        }
+    }
+    
+    public func chatroomMuteListDidUpdate(_ aChatroom: ChatRoom, removedMutedMembers aMutes: [String]) {
+        for response in self.responseDelegates.allObjects {
+            for userId in aMutes {
+                if let roomId = aChatroom.chatroomId {
+                    ChatroomContext.shared?.muteMap?.removeValue(forKey: userId)
+                    response.onUserUnmuted(roomId: roomId, userId: userId, operatorId: "")
+                }
+            }
+        }
+    }
+    
+    public func chatroomMuteListDidUpdate(_ aChatroom: ChatRoom, addedMutedMembers aMutes: [String], muteExpire aMuteExpire: Int) {
+        for response in self.responseDelegates.allObjects {
+            for userId in aMutes {
+                if let roomId = aChatroom.chatroomId {
+                    ChatroomContext.shared?.muteMap?[userId] = true
+                    response.onUserMuted(roomId: roomId, userId: userId, operatorId: "")
+                }
             }
         }
     }

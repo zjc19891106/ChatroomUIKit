@@ -36,6 +36,16 @@ import UIKit
         super.init(frame: frame)
     }
     
+    /**
+     A convenience initializer for creating a `PageContainerTitleBar` instance with the specified frame, choices, and selected closure.
+
+     - Parameters:
+        - frame: The frame rectangle for the view, measured in points.
+        - choices: An array of strings representing the choices to be displayed in the title bar.
+        - selectedClosure: A closure that will be called when a choice is selected, passing the index of the selected choice as an argument.
+
+     - Returns: A new `PageContainerTitleBar` instance.
+     */
     @objc public convenience init(frame: CGRect, choices: [String], selectedClosure: @escaping (Int)->()) {
         self.init(frame: frame)
         self.chooseClosure = selectedClosure

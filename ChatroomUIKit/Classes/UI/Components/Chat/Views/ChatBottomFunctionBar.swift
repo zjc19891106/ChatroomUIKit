@@ -7,19 +7,34 @@
 
 import UIKit
 
+/// Description ChatBottomFunctionBar‘s driver.
 @objc public protocol IChatBottomFunctionBarDriver: NSObjectProtocol {
     
+    /// Description You can call the method update item select state.
+    /// - Parameters:
+    ///   - index: Index
+    ///   - select: `Bool`select value
     func updateItemSelectState(index: UInt, select: Bool)
     
+    /// Description You can call the method update item red dot show or hidden.
+    /// - Parameters:
+    ///   - index: Index
+    ///   - showRedDot: `Bool` showRedDot  value
     func updateItemRedDot(index: UInt, showRedDot: Bool)
     
+    /// Description You can call then method update ChatBottomFunctionBar‘s data source.
+    /// - Parameter items: `Array<ChatBottomItemProtocol>`
     func updateDatas(items: [ChatBottomItemProtocol])
 }
 
+/// Description ChatBottomFunctionBar actions delegate.
 @objc public protocol ChatBottomFunctionBarActionEvents: NSObjectProtocol {
     
+    /// Description ChatBottomFunctionBar each item click event.
+    /// - Parameter item: ChatBottomItemProtocol
     func onBottomItemClicked(item: ChatBottomItemProtocol)
     
+    /// Description When you tap `button` let's chat callback.
     func onKeyboardWillWakeup()
 }
 
@@ -60,8 +75,13 @@ import UIKit
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
-
-    @objc public convenience init(frame: CGRect, datas: [ChatBottomItemProtocol], hiddenChat: Bool) {
+    
+    /// Description ChatBottomBar init method
+    /// - Parameters:
+    ///   - frame: CGRect
+    ///   - datas: Array<ChatBottomItemProtocol>
+    ///   - hiddenChat: Whether to hide the evoke keyboard button
+    @objc required public convenience init(frame: CGRect, datas: [ChatBottomItemProtocol] = [], hiddenChat: Bool = false) {
         self.init(frame: frame)
         self.datas = datas
         self.chatRaiser.isHidden = hiddenChat

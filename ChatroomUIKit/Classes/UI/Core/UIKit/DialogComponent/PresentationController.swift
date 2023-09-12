@@ -7,12 +7,21 @@
 
 import Foundation
 
-// MARK: - UIPresentationController子类，重写present相关属性和方法
+
+/**
+ A custom presentation controller that manages the transition animations and layout of the presented view controller's view.
+ 
+ - Note: This class is a subclass of `UIPresentationController`.
+ 
+ - Author: FILEPATH
+ 
+ - Version: 1.0
+ */
 public final class PresentationController: UIPresentationController {
-    /// present配置
+    /// present config
     private let component: PresentedViewComponent
 
-    /// 背景蒙层
+    /// background
     private lazy var backgroundView: UIView = {
         let containerbounds = containerView?.bounds ?? UIScreen.main.bounds
         let backgroundView = UIView(frame: containerbounds)
@@ -261,7 +270,7 @@ extension PresentationController {
             let inputViewFrame = textInputView.convert(textInputView.bounds, to: nil)
             let translatedFrame = translateFrame(keyboardFrame: keyboardFrame, presentedViewFrame: presentedViewFrame, inputViewFrame: inputViewFrame)
             if translatedFrame != presentedViewFrame {
-                UIView.setAnimationBeginsFromCurrentState(true)
+//                UIView.setAnimationBeginsFromCurrentState(true)
                 UIView.animate(withDuration: keyboardAnimationDuration, animations: {
                     self.presentedView?.frame = translatedFrame
                 })
@@ -269,7 +278,7 @@ extension PresentationController {
         } else {
             let presentedViewFrame = frameOfPresentedViewInContainerView
             if presentedView?.frame != presentedViewFrame {
-                UIView.setAnimationBeginsFromCurrentState(true)
+//                UIView.setAnimationBeginsFromCurrentState(true)
                 UIView.animate(withDuration: keyboardAnimationDuration, animations: {
                     self.presentedView?.frame = presentedViewFrame
                 })

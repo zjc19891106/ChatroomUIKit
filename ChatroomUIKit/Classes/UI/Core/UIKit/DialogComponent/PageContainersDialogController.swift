@@ -6,8 +6,15 @@
 //
 
 import UIKit
-
+/**
+     A controller that manages a page container which displays a collection of child view controllers in a paged interface.
+     
+     The `presentedViewComponent` property is used to set the size of the page container. The `pageTitles` property is used to set the titles of the pages in the container. The `childControllers` property is used to set the child view controllers to be displayed in the container.
+     
+     The `container` property is a lazy var that returns a `PageContainer` instance with the specified frame, view controllers, and page titles. It also sets the corner radius of the container view.
+*/
 @objc public class PageContainersDialogController: UIViewController, PresentedViewType {
+    
     
     public var presentedViewComponent: PresentedViewComponent? = PresentedViewComponent(contentSize: Appearance.pageContainerConstraintsSize)
     
@@ -27,6 +34,16 @@ import UIKit
         super.init(coder: aDecoder)
     }
 
+    /**
+     Initializes a PageContainersDialogController with the given page titles, child view controllers, and optional constraints size.
+
+     - Parameters:
+         - pageTitles: An array of strings representing the titles of each page.
+         - childControllers: An array of UIViewControllers representing the child view controllers for each page.
+         - constraintsSize: An optional CGSize representing the size of the constraints for the presented view component.
+
+     - Returns: A PageContainersDialogController instance.
+     */
     @objc public required convenience init(pageTitles:[String],childControllers: [UIViewController],constraintsSize: CGSize = .zero) {
         self.init()
         if constraintsSize != .zero {

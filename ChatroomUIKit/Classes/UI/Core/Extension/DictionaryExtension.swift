@@ -7,14 +7,17 @@
 
 import Foundation
 
+/// Extension for Dictionary to provide a computed property `chatroom` of type `Chatroom<Self>`.
 public extension Dictionary {
     var chatroom: Chatroom<Self> {
         return Chatroom.init(self)
     }
-    
 }
 
+/// Extension for `Chatroom` where `Base` is `Dictionary<String, Any>`.
 public extension Chatroom where Base == Dictionary<String, Any> {
+    
+    /// Returns the JSON string representation of the dictionary.
     var jsonString: String {
         if (!JSONSerialization.isValidJSONObject(base)) {
             print("无法解析出JSONString")
