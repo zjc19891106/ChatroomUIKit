@@ -87,14 +87,20 @@ import UIKit
         return room
     }
     
+    /// Register chatroom events listener
+    /// - Parameter listener: RoomEventsListener
     @objc public func registerRoomEventsListener(listener: RoomEventsListener) {
         self.roomService?.registerListener(listener: listener)
     }
     
+    /// Unregister chatroom events listener
+    /// - Parameter listener: RoomEventsListener
     @objc public func unregisterRoomEventsListener(listener: RoomEventsListener) {
         self.roomService?.unregisterListener(listener: listener)
     }
     
+    /// When you'll fetch new token from your app server on receive `RoomEventsListener.onUserTokenWillExpired`.
+    /// - Parameter token: token
     @objc public func refreshToken(token: String) {
         ChatClient.shared().renewToken(token)
     }

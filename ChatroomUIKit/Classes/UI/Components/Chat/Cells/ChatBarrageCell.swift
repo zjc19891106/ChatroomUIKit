@@ -45,10 +45,10 @@ import UIKit
             AttributedText((self.message.user?.nickName ?? "") + " : ").foregroundColor(Color.theme.primaryColor8).font(UIFont.theme.labelMedium).paragraphStyle(self.paragraphStyle())
             AttributedText(self.message.text).foregroundColor(Color.theme.neutralColor98).font(UIFont.theme.bodyMedium).paragraphStyle(self.paragraphStyle())
         }
-        let string = self.message.text as NSString
+        let string = text.string as NSString
         for symbol in ChatEmojiConvertor.shared.emojis {
             if string.range(of: symbol).location != NSNotFound {
-                let ranges = self.message.text.chatroom.rangesOfString(symbol)
+                let ranges = text.string.chatroom.rangesOfString(symbol)
                 text = ChatEmojiConvertor.shared.convertEmoji(input: text, ranges: ranges, symbol: symbol)
             }
         }
@@ -79,7 +79,7 @@ import UIKit
 
 public extension ChatMessage {
     var user: UserInfoProtocol? {
-        ChatroomContext.shared?.usersMap?["self.from"]
+        ChatroomContext.shared?.usersMap?[self.from]
     }
     var text: String {
         (self.body as? ChatTextMessageBody)?.text ?? ""

@@ -104,12 +104,12 @@ extension ChatroomView: ChatBarrageActionEventsHandler {
             if mute {
                 if let index = Appearance.defaultMessageActions.firstIndex(where: { $0.tag == "Mute"
                 }) {
-                    Appearance.defaultMessageActions[index] = ActionSheetItem(title: "unmute", type: .normal, tag: "unmute")
+                    Appearance.defaultMessageActions[index] = ActionSheetItem(title: "barrage_long_press_menu_unmute".chatroom.localize, type: .normal, tag: "unmute")
                 }
             } else {
                 if let index = Appearance.defaultMessageActions.firstIndex(where: { $0.tag == "unmute"
                 }) {
-                    Appearance.defaultMessageActions[index] = ActionSheetItem(title: "Mute", type: .normal, tag: "Mute")
+                    Appearance.defaultMessageActions[index] = ActionSheetItem(title: "barrage_long_press_menu_mute".chatroom.localize, type: .normal, tag: "Mute")
                 }
             }
             

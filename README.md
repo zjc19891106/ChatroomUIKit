@@ -115,6 +115,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 ### Step 3: Create chatroom view
 ```Swift
+        //Required,you need fetch room list or create room from app server.Then join room with chatroom id.
         // Let's start creating the ChatroomView. The parameters that need to be passed in include layout parameters, the bottom toolbar extension button model protocol array, whether to hide the button that evokes the input box, etc.
         let roomView = RoomUIKitClient.shared.launchRoomView(roomId: "chatroom Id", frame: <#T##CGRect#>)        
         //Then add to you destination frame.

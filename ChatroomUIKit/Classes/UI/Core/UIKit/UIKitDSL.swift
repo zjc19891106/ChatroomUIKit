@@ -32,6 +32,14 @@ public enum CornerRadius: UInt {
 
 public extension UIView {
     
+    func middleShowBothSidesAnimation() {
+        
+        self.transform = CGAffineTransform(scaleX: 0, y: 1)
+
+        UIView.animate(withDuration: 1.0, animations: {
+            self.transform = CGAffineTransform.identity
+        })
+    }
     
     @discardableResult
     func cornerRadius(_ value: CornerRadius , _ corners: [UIRectCorner] , _ color: UIColor , _ width: CGFloat) -> Self {

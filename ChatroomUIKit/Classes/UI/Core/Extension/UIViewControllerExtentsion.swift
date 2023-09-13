@@ -42,3 +42,37 @@ public extension UIViewController {
     }
     
 }
+
+extension UIViewController {
+    
+    func makeToast(toast content: String, style: UIBlurEffect.Style = .light, duration: TimeInterval = 2.0) {
+        let toastView = UIVisualEffectView(effect: UIBlurEffect(style: style)).cornerRadius(.small)
+        toastView.alpha = 0
+        toastView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(toastView)
+        
+        NSLayoutConstraint.activate([
+            toastView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            toastView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            toastView.widthAnchor.constraint(greaterThanOrEqualToConstant: ScreenWidth - 40),
+            toastView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50)
+        ])
+        
+        let label = UILabel().text(content).textColor(style == .light ? UIColor.theme.neutralColor3:UIColor.theme.neutralColor98).textAlignment(.center).numberOfLines(0)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        toastView.contentView.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: toastView.leadingAnchor, constant: 8),
+            label.trailingAnchor.constraint(equalTo: toastView.trailingAnchor, constant: -8),
+            label.topAnchor.constraint(equalTo: toastView.topAnchor, constant: 8),
+            label.bottomAnchor.constraint(equalTo: toastView.bottomAnchor, constant: -8)
+        ])
+        
+        UIView.animate(withDuration: 0.5, delay: duration, options: .curveEaseOut, animations: {
+            toastView.alpha = 1
+        }, completion: { (isCompleted) in
+            toastView.removeFromSuperview()
+        })
+    }
+}

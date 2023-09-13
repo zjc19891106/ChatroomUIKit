@@ -55,7 +55,7 @@ import UIKit
     public static var targetLanguage: LanguageType = .English
     
     /// ActionSheet data source.
-    public static var defaultMessageActions: [ActionSheetItemProtocol] = [ActionSheetItem(title: "Translate".chatroom.localize, type: .normal,tag: "Translate"),ActionSheetItem(title: "Delete", type: .normal,tag: "Delete"),ActionSheetItem(title: "Mute", type: .normal,tag: "Mute"),ActionSheetItem(title: "unmute", type: .normal,tag: "unmute"),ActionSheetItem(title: "Report", type: .destructive,tag: "Report")]
+    public static var defaultMessageActions: [ActionSheetItemProtocol] = [ActionSheetItem(title: "barrage_long_press_menu_translate".chatroom.localize, type: .normal,tag: "Translate"),ActionSheetItem(title: "barrage_long_press_menu_delete".chatroom.localize, type: .normal,tag: "Delete"),ActionSheetItem(title: "barrage_long_press_menu_mute".chatroom.localize, type: .normal,tag: "Mute"),ActionSheetItem(title: "barrage_long_press_menu_report".chatroom.localize, type: .destructive,tag: "Report")]
     
     /// ActionSheet row height.
     public static var actionSheetRowHeight: CGFloat = 56
@@ -85,5 +85,5 @@ import UIKit
     public static var giftBarrageRowHeight: CGFloat = 64
     
     /// You can set label for report types.
-    public static var reportTags: [String] = ["Adult","Racist","Other"]
+    public static var reportTags: [String] = ["violation_reason_1".chatroom.localize,"violation_reason_2".chatroom.localize,"violation_reason_3".chatroom.localize,"violation_reason_5".chatroom.localize,"violation_reason_5".chatroom.localize,"violation_reason_6".chatroom.localize,"violation_reason_7".chatroom.localize,"violation_reason_8".chatroom.localize,"violation_reason_9".chatroom.localize]
 }

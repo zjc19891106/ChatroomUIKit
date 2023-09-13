@@ -38,6 +38,10 @@ final class ExampleViewController: UIViewController {
     lazy var gift2: GiftsViewController = {
         GiftsViewController(gifts: self.gifts(), result: self)
     }()
+    
+    lazy var animationView: HorizontalTextCarousel = {
+        HorizontalTextCarousel(originPoint: CGPoint(x: 20, y: 60), width: self.view.frame.width-40, font: .systemFont(ofSize: 20, weight: .semibold), textColor: UIColor.theme.neutralColor98).cornerRadius(.large)
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +63,10 @@ final class ExampleViewController: UIViewController {
             self.barrageList.showNewMessage(message: self.startMessage($0))
         }
 
+        let button = UIButton(type: .custom).frame(CGRect(x: 100, y: 120, width: 150, height: 20)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title("Add Global Notify", .normal).addTargetFor(self, action: #selector(switchTheme), for: .touchUpInside)
+        self.view.addSubview(button)
+        self.view.addSubview(self.animationView)
+        self.animationView.alpha = 0
     }
 
     
@@ -91,7 +99,9 @@ extension ExampleViewController: ChatBottomFunctionBarActionEvents {
 
 extension ExampleViewController {
     @objc func switchTheme() {
-        Theme.switchTheme(style: .dark)
+        self.animationView.addTask(text: ["123123adadsasjdaklsdjaskldjakdjakldsjkadjkasldjalksjdlkjasdklsajdl","99999999999999999999999999999999","66666666666666666666666666666"].randomElement()!)
+        
+//        Theme.switchTheme(style: .dark)
 //        Theme.switchHues()
     }
     
@@ -147,3 +157,5 @@ class ChatBottomItem:NSObject, ChatBottomItemProtocol {
    
     
 }
+
+
