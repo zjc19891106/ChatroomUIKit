@@ -10,16 +10,16 @@ import UIKit
 @objcMembers open class ChatInputBar: UIView {
     
     /// The height of the keyboard.
-    var keyboardHeight = CGFloat(0)
+    public private(set) var keyboardHeight = CGFloat(0)
 
     /// The raw height of the input bar.
-    var rawHeight: CGFloat = 0
+    public private(set)var rawHeight: CGFloat = 0
 
     /// The raw height of the text input area.
-    var rawTextHeight: CGFloat = 0
+    public private(set) var rawTextHeight: CGFloat = 0
 
     /// The raw frame of the input bar.
-    var rawFrame: CGRect = .zero
+    public private(set) var rawFrame: CGRect = .zero
 
     /// A closure to be called when the user taps the send button.
     public var sendClosure: ((String) -> Void)?
@@ -27,15 +27,15 @@ import UIKit
     /// A closure to be called when the user toggles the emoji keyboard.
     public var changeEmojiClosure: ((Bool) -> Void)?
     
-    lazy var rightView: UIButton = {
+    public private(set) lazy var rightView: UIButton = {
         UIButton(type: .custom).frame(CGRect(x: self.frame.width-87, y: self.inputField.frame.maxY-30, width: 30, height: 30)).addTargetFor(self, action: #selector(changeToEmoji), for: .touchUpInside).backgroundColor(.clear)
     }()
     
-    public lazy var inputField: PlaceHolderTextView = {
+    public private(set) lazy var inputField: PlaceHolderTextView = {
         PlaceHolderTextView(frame: CGRect(x: 12, y: 8, width: self.frame.width-111, height: 36)).delegate(self).font(UIFont.theme.bodyLarge).backgroundColor(.clear).backgroundColor(UIColor.theme.neutralColor95).delegate(self)
     }()
     
-    lazy var send: UIButton = {
+    public private(set) lazy var send: UIButton = {
         UIButton(type: .custom).frame(CGRect(x: self.frame.width - 49, y: self.inputField.frame.maxY-30, width: 30, height: 30)).backgroundColor(.clear).image(UIImage(named: "airplane", in: .chatroomBundle, with: nil), .normal).addTargetFor(self, action: #selector(sendMessage), for: .touchUpInside)
     }()
     
@@ -48,7 +48,7 @@ import UIKit
     }
         
     
-    var emoji: ChatEmojiView?
+    public private(set) var emoji: ChatEmojiView?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -67,11 +67,7 @@ import UIKit
         self.addSubViews([self.inputField, self.rightView,self.send])
         self.rightView.setImage(UIImage(named: "emojiKeyboard", in: Bundle.chatroomBundle, with: nil)?.withTintColor(UIColor.theme.neutralColor3), for: .normal)
         self.rightView.setImage(UIImage(named: "textKeyboard", in: Bundle.chatroomBundle, with: nil)?.withTintColor(UIColor.theme.neutralColor3), for: .selected)
-//        self.inputField.translatesAutoresizingMaskIntoConstraints = false
-//        self.inputField.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 12).isActive = true
-//        self.inputField.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -99).isActive = true
-//        self.inputField.topAnchor.constraint(equalTo: self.topAnchor, constant: 8).isActive = true
-//        self.inputField.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
+        
         self.inputField.cornerRadius(Appearance.inputBarCorner)
         self.inputField.placeHolder = Appearance.inputPlaceHolder.chatroom.localize
         self.inputField.textContainerInset = UIEdgeInsets(top: 7, left: CGFloat(Appearance.inputBarCorner.rawValue), bottom: 7, right: CGFloat(Appearance.inputBarCorner.rawValue))
@@ -121,6 +117,7 @@ extension ChatInputBar: UITextViewDelegate {
         }
     }
     
+    /// Update subviews height on text input content changed.
     private func updateHeight() {
         let textHeight = self.inputField.sizeThatFits(CGSize(width: self.inputField.frame.width, height: 9999)).height
         if textHeight >= self.rawTextHeight {
@@ -136,9 +133,7 @@ extension ChatInputBar: UITextViewDelegate {
             }
             self.rightView.frame = CGRect(x: self.frame.width-87, y: self.inputField.frame.maxY-30, width: 30, height: 30)
             self.send.frame = CGRect(x: self.frame.width - 49, y: self.inputField.frame.maxY-30, width: 30, height: 30)
-            if self.emoji != nil {
-                self.emoji?.frame = CGRect(x: 0, y: self.inputField.frame.maxY, width: self.frame.width, height: self.keyboardHeight)
-            }
+            self.emoji?.frame = CGRect(x: 0, y: self.inputField.frame.maxY+8, width: self.frame.width, height: self.keyboardHeight)
         }
     }
     
@@ -202,7 +197,7 @@ extension ChatInputBar: UITextViewDelegate {
         let duration = notification.chatroom.keyboardAnimationDuration
         self.keyboardHeight = frame!.height
         self.frame = CGRect(x: 0, y: self.frame.origin.y, width: self.frame.width, height: self.keyboardHeight + 60)
-        let emoji = ChatEmojiView(frame: CGRect(x: 0, y: self.inputField.frame.maxY, width: self.frame.width, height: self.keyboardHeight)).tag(124).backgroundColor(UIColor.theme.neutralColor98)
+        let emoji = ChatEmojiView(frame: CGRect(x: 0, y: self.inputField.frame.maxY+8, width: self.frame.width, height: self.keyboardHeight)).tag(124).backgroundColor(UIColor.theme.neutralColor98)
         self.emoji = emoji
         self.addSubview(emoji)
         self.updateHeight()

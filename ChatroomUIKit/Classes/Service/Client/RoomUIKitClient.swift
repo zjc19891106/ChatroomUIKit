@@ -71,12 +71,14 @@ import UIKit
     
     /// Launch a chatroom view of ChatroomUIKit.
     /// - Parameters:
-    ///   - roomId: chatroom id
-    ///   - frame: destination frame
+    ///   - roomId: Chatroom id
+    ///   - frame: Frame
+    ///   - owner: Whether judge current user is owner or not.
     ///   - options: `RoomUIKitInitialOptions`
     /// - Returns: ChatroomUIKit.ChatroomView
-    @objc public func launchRoomViewWithOptions(roomId: String,frame: CGRect,options: RoomUIKitInitialOptions = RoomUIKitInitialOptions()) -> ChatroomView {
+    @objc public func launchRoomViewWithOptions(roomId: String,frame: CGRect, is owner: Bool, options: RoomUIKitInitialOptions = RoomUIKitInitialOptions()) -> ChatroomView {
         self.roomId = roomId
+        ChatroomContext.shared?.owner = owner
         self.option.bottomDataSource = options.bottomDataSource
         self.option.hasGiftsBarrage = options.hasGiftsBarrage
         self.option.hiddenChatRaise = options.hiddenChatRaise

@@ -9,7 +9,7 @@ import UIKit
 
 @objc open class ReportOptionsController: UIViewController {
     
-    private var style = ThemeStyle.light
+    public private(set) var style = ThemeStyle.light
     
     public private(set) var items: [Bool] = []
     

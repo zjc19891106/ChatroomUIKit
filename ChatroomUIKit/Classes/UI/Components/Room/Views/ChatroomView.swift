@@ -7,33 +7,67 @@
 
 import UIKit
 
+
+/// ChatroomView all action events delegate.
+@objc public protocol ChatroomViewActionEventsDelegate {
+    
+    /// The method called on ChatroomView message barrage clicked.
+    /// - Parameter message: `ChatMessage`
+    func onMessageBarrageClicked(message: ChatMessage)
+    
+    /// The method called on ChatroomView message barrage long pressed.
+    /// - Parameter message: `ChatMessage`
+    func onMessageListBarrageLongPressed(message: ChatMessage)
+    
+    /// The method called on ChatroomView raise keyboard button clicked.
+    func onKeyboardRaiseClicked()
+    
+    /// The method called on ChatroomView extension view  item clicked that below chat barrages list .
+    /// - Parameter item: The item conform `ChatBottomItemProtocol` instance.
+    func onExtensionBottomItemClicked(item: ChatBottomItemProtocol)
+}
+
+/// ChatroomUIKit's ChatroomView UI component.
 @objc open class ChatroomView: UIView {
     
-    private var service: RoomService?
+    /// `RoomService`
+    public private(set) var service: RoomService?
     
-    private var menus = [ChatBottomItemProtocol]()
+    /// Bottom bar extension view's data source.
+    public private(set) var menus = [ChatBottomItemProtocol]()
     
-    private var showGiftBarrage = true
+    private var eventHandlers: NSHashTable<ChatroomViewActionEventsDelegate> = NSHashTable<ChatroomViewActionEventsDelegate>.weakObjects()
     
-    private var hiddenChat = false
+    /// Whether display gift barrages or not on receive gifts.
+    public private(set) var showGiftBarrage = true
     
-    private var giftContainers = [GiftsViewController]()
+    /// Whether display raise keyboard button or not.
+    public private(set) var hiddenChat = false
     
-    private var giftContainerTitles = [String]()
-
-    private lazy var giftBarrages: GiftsBarrageList = {
+    /// Gift dialog child view controllers.You can integrate this Controller for business expansion and event response processing.
+    /// - Example `DialogManager.shared.showGiftsDialog(titles: ["Gifts","Gifts1"], gifts: [vc1,vc2])`
+    public private(set) var giftContainers = [GiftsViewController]()
+    
+    /// The `DialogManager.shared.showGiftsDialog(titles: ["Gifts","Gifts1"], gifts: [vc1,vc2])` method param titles.
+    public private(set) var giftContainerTitles = [String]()
+    
+    /// Gift list on receive gift.
+    public private(set) lazy var giftBarrages: GiftsBarrageList = {
         GiftsBarrageList(frame: CGRect(x: 10, y: 0, width: self.frame.width-100, height: Appearance.giftBarrageRowHeight*2+20),source:self)
     }()
     
-    private lazy var barrageList: ChatBarrageList = {
+    /// Chat barrages list.
+    public private(set) lazy var barrageList: ChatBarrageList = {
         ChatBarrageList(frame: CGRect(x: 0, y: self.showGiftBarrage ? self.giftBarrages.frame.maxY:0, width: self.frame.width-50, height: 200))
     }()
     
-    public lazy var bottomBar: ChatBottomFunctionBar = {
+    /// Bottom function bar below chat barrages list.
+    public private(set) lazy var bottomBar: ChatBottomFunctionBar = {
         ChatBottomFunctionBar(frame: CGRect(x: 0, y: self.frame.height-54-BottomBarHeight, width: self.frame.width, height: 54), datas: self.menus, hiddenChat: self.hiddenChat)
     }()
     
-    private lazy var inputBar: ChatInputBar = {
+    /// Input text menu bar.
+    public private(set) lazy var inputBar: ChatInputBar = {
         ComponentsRegister.shared.InputBar.init(frame: CGRect(x: 0, y: self.frame.height, width: self.frame.width, height: 52),text: nil,placeHolder: Appearance.inputPlaceHolder)
     }()
     
@@ -74,9 +108,13 @@ import UIKit
             return
         }
         self.service = service
-        self.service?.enterRoom(completion: { error in
+        self.service?.enterRoom(completion: { [weak self] error in
             if error == nil {
-                
+                self?.service?.fetchMuteUsers(pageSize: 100, completion: { _, error in
+                    if error != nil {
+                        consoleLogInfo("SDK fetch mute users failure!\nError:\(error?.errorDescription ?? "")", type: .debug)
+                    }
+                })
             }
         })
     }
@@ -84,9 +122,30 @@ import UIKit
     /// Disconnect room service
     /// - Parameter service: RoomService
     @objc public func disconnectService(service: RoomService) {
-        self.service = nil
+        self.service?.leaveRoom(completion: { [weak self] error in
+            if error == nil {
+                self?.service = nil
+            } else {
+                consoleLogInfo("SDK leave chatroom failure!\nError:\(error?.errorDescription ?? "")", type: .debug)
+            }
+        })
     }
-
+    
+    
+    /// When you want receive chatroom view's touch action events.You can called the method.
+    /// - Parameter actionHandler: `ChatroomViewActionEventsDelegate`
+    @objc public func addActionHandler(actionHandler: ChatroomViewActionEventsDelegate) {
+        if self.eventHandlers.contains(actionHandler) {
+            return
+        }
+        self.eventHandlers.add(actionHandler)
+    }
+    
+    /// When you doesn't want receive chatroom view's touch action events.You can called the method.
+    /// - Parameter actionHandler: `ChatroomViewActionEventsDelegate`
+    @objc public func removeEventHandler(actionHandler: ChatroomViewActionEventsDelegate) {
+        self.eventHandlers.remove(actionHandler)
+    }
 }
 
 //MARK: - GiftsBarrageListDataSource
@@ -100,42 +159,45 @@ extension ChatroomView: GiftsBarrageListTransformAnimationDataSource {
 extension ChatroomView: ChatBarrageActionEventsHandler {
     
     public func onMessageBarrageLongPressed(message: ChatMessage) {
-        if let mute = ChatroomContext.shared?.muteMap?[message.from] {
-            if mute {
-                if let index = Appearance.defaultMessageActions.firstIndex(where: { $0.tag == "Mute"
-                }) {
-                    Appearance.defaultMessageActions[index] = ActionSheetItem(title: "barrage_long_press_menu_unmute".chatroom.localize, type: .normal, tag: "unmute")
-                }
-            } else {
-                if let index = Appearance.defaultMessageActions.firstIndex(where: { $0.tag == "unmute"
-                }) {
-                    Appearance.defaultMessageActions[index] = ActionSheetItem(title: "barrage_long_press_menu_mute".chatroom.localize, type: .normal, tag: "Mute")
+        if let owner = ChatroomContext.shared?.owner,owner {
+            if let map = ChatroomContext.shared?.muteMap {
+                let mute = map[message.from] ?? false
+                if mute {
+                    if let index = Appearance.defaultMessageActions.firstIndex(where: { $0.tag == "Mute"
+                    }) {
+                        Appearance.defaultMessageActions[index] = ActionSheetItem(title: "barrage_long_press_menu_unmute".chatroom.localize, type: .normal, tag: "unmute")
+                    }
+                } else {
+                    if let index = Appearance.defaultMessageActions.firstIndex(where: { $0.tag == "unmute"
+                    }) {
+                        Appearance.defaultMessageActions[index] = ActionSheetItem(title: "barrage_long_press_menu_mute".chatroom.localize, type: .normal, tag: "Mute")
+                    }
                 }
             }
-            
+        } else {
+            if let index = Appearance.defaultMessageActions.firstIndex(where: { $0.tag == "Mute"
+            }) {
+                Appearance.defaultMessageActions.remove(at: index)
+            }
         }
-        DialogManager.shared.showMessageActions(message: message,actions: Appearance.defaultMessageActions) { item in
+        for delegate in self.eventHandlers.allObjects {
+            delegate.onMessageListBarrageLongPressed(message: message)
+        }
+    }
+    
+    private func showLongPressDialog(message: ChatMessage) {
+        DialogManager.shared.showMessageActions(message: message,actions: Appearance.defaultMessageActions) { [weak self] item in
             switch item.tag {
             case "Translate":
-                self.service?.translate(message: message, completion: { error in
-                    
-                })
+                self?.service?.translate(message: message, completion: { _ in })
             case "Delete":
-                self.service?.roomService?.recall(messageId: message.messageId, completion: { error in
-                    
-                })
+                self?.service?.roomService?.recall(messageId: message.messageId, completion: { _ in })
             case "Mute":
-                self.service?.mute(userId: message.from, completion: { error in
-                    
-                })
+                self?.service?.mute(userId: message.from, completion: { _ in })
             case "unmute":
-                self.service?.unmute(userId: message.from, completion: { error in
-                    
-                })
+                self?.service?.unmute(userId: message.from, completion: { _ in })
             case "Report":
-                self.service?.report(message: message, tag: "", reason: "", completion: { error in
-                    
-                })
+                DialogManager.shared.showReportDialog(message: message)
             default:
                 item.action?(item)
             }
@@ -144,11 +206,11 @@ extension ChatroomView: ChatBarrageActionEventsHandler {
     
     public func onMessageClicked(message: ChatMessage) {
         consoleLogInfo("onMessageClicked:\(message.messageId)", type: .debug)
+        for delegate in self.eventHandlers.allObjects {
+            delegate.onMessageBarrageClicked(message: message)
+        }
     }
     
-    private func showReport(completion: @escaping (String,String,ChatError?) -> Void) {
-//        DialogManager.shared
-    }
 }
 
 //MARK: - ChatBottomFunctionBarActionEvents
@@ -156,10 +218,16 @@ extension ChatroomView: ChatBottomFunctionBarActionEvents {
     
     public func onBottomItemClicked(item: ChatBottomItemProtocol) {
         item.action?(item)
+        for delegate in self.eventHandlers.allObjects {
+            delegate.onExtensionBottomItemClicked(item: item)
+        }
     }
     
     public func onKeyboardWillWakeup() {
         self.inputBar.show()
+        for delegate in self.eventHandlers.allObjects {
+            delegate.onKeyboardRaiseClicked()
+        }
     }
     
     

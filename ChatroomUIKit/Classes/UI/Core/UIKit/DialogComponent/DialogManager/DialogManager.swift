@@ -16,11 +16,20 @@ import UIKit
         UIViewController.currentController?.presentViewController(gift)
     }
     
-    @objc func showParticipantsDialog() {
-        
+    @objc public func showParticipantsDialog(moreClosure: @escaping (UserInfoProtocol) -> Void,muteMoreClosure: @escaping (UserInfoProtocol) -> Void) {
+        let participants = ParticipantsController(muteTab: false, moreClosure: moreClosure)
+        let mutes = ParticipantsController(muteTab: true, moreClosure: muteMoreClosure)
+        let container = PageContainersDialogController(pageTitles: ["participant_list_title".chatroom.localize,"Ban List".chatroom.localize], childControllers: [participants,mutes],constraintsSize: Appearance.pageContainerConstraintsSize)
+        UIViewController.currentController?.presentViewController(container)
     }
     
-    @objc func showMessageActions(message: ChatMessage,actions: [ActionSheetItemProtocol],action: @escaping ActionClosure) {
+    @objc public func showReportDialog(message: ChatMessage) {
+        let report = ReportOptionsController(message: message)
+        let vc = PageContainersDialogController(pageTitles: ["barrage_long_press_menu_report".chatroom.localize], childControllers: [report], constraintsSize: Appearance.pageContainerConstraintsSize)
+        UIViewController.currentController?.presentViewController(vc)
+    }
+    
+    @objc public func showMessageActions(message: ChatMessage,actions: [ActionSheetItemProtocol],action: @escaping ActionClosure) {
         let actionSheet = ActionSheet(items: actions)
         let vc = DialogContainerViewController(custom: actionSheet)
         for item in actionSheet.items {

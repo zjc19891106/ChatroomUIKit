@@ -67,11 +67,13 @@ final class ExampleViewController: UIViewController {
         self.view.addSubview(button)
         self.view.addSubview(self.animationView)
         self.animationView.alpha = 0
+        
     }
 
     
     
 }
+
 
 extension ExampleViewController: GiftToChannelResultDelegate {
     

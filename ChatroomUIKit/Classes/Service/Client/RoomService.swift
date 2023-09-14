@@ -195,6 +195,8 @@ import UIKit
         self.roomService?.operatingUser(roomId: self.roomId, userId: userId, type: .mute, completion: { [weak self] success, error in
             if error != nil {
                 self?.handleError(type: .mute, error: error!)
+            } else {
+                ChatroomContext.shared?.muteMap?[userId] = true
             }
             completion(error)
         })
@@ -204,6 +206,8 @@ import UIKit
         self.roomService?.operatingUser(roomId: self.roomId, userId: userId, type: .mute, completion: { [weak self] success, error in
             if error != nil {
                 self?.handleError(type: .unmute, error: error!)
+            } else {
+                ChatroomContext.shared?.muteMap?.removeValue(forKey: userId)
             }
             completion(error)
         })
@@ -248,6 +252,8 @@ import UIKit
         self.roomService?.recall(messageId: message.messageId, completion: { [weak self] error in
             if error != nil {
                 self?.handleError(type: .recall, error: error!)
+            } else {
+                self?.chatDriver?.removeMessage(message: message)
             }
             completion(error)
         })
@@ -308,9 +314,13 @@ import UIKit
     
     @objc public func fetchMuteUsers(pageSize: UInt, completion: @escaping (([UserInfoProtocol]?,ChatError?)->Void)) {
         self.roomService?.fetchMuteUsers(roomId: self.roomId, pageNum: UInt(self.pageNum), pageSize: pageSize, completion: { [weak self] userIds, error in
+            if error == nil {
+                ChatroomContext.shared?.muteMap = [:]
+            }
             if let ids = userIds {
                 var unknownUserIds = [String]()
                 for userId in ids {
+                    ChatroomContext.shared?.muteMap?[userId] = true
                     if ChatroomContext.shared?.usersMap?[userId] == nil {
                         unknownUserIds.append(userId)
                     }

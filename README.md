@@ -17,6 +17,7 @@
 - [Installation](#installation)
 - [Structure](#structure)
 - [QuickStart](#quickStart)
+- [AdvancedUsage](#advancedusage)
 - [Customize](#customize)
 - [Contributing](#contributing)
 - [License](#license)
@@ -115,11 +116,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 ### Step 3: Create chatroom view
 ```Swift
-        //Required,you need fetch room list or create room from app server.Then join room with chatroom id.
+        //Required,you need fetch room list or create room contain owner info from app server.Then join room with chatroom id.
         // Let's start creating the ChatroomView. The parameters that need to be passed in include layout parameters, the bottom toolbar extension button model protocol array, whether to hide the button that evokes the input box, etc.
-        let roomView = RoomUIKitClient.shared.launchRoomView(roomId: "chatroom Id", frame: <#T##CGRect#>)        
+        let roomView = RoomUIKitClient.shared.launchRoomView(roomId: String,frame: CGRect, is owner: Bool)        
         //Then add to you destination frame.
 ```
+# AdvancedUsage
+
+Let me give two examples below
+
+### 1.For example login
+
+```Swift
+        
+        class YourAppUser: UserInfoProtocol {
+            var userId: String = "your application user id"
+            
+            var nickName: String = "you user nick name"
+            
+            var avatarURL: String = "you user avatar url"
+            
+            var gender: Int = 1
+            
+            var identify: String =  "you user level symbol url"
+            
+        }
+        // Use the user information of the current user object that conforms to the UserInfoProtocol protocol to log in to ChatroomUIKit
+        // The token needs to be obtained from your server. You can also log in with a temporary token visit at (https://console.agora.io/project/WLRRH-ir6/extension?id=Chat)
+        RoomUIKitClient.shared.login(with: YourAppUser(), token: "token", completion: <#T##(ChatError?) -> Void#>)
+```
+
+### 2.For example initialize chatroom view
+
+```Swift
+        //Required,you need fetch room list or create room contain owner info from app server.Then join room with chatroom id.
+        // Let's start creating the ChatroomView. The parameters that need to be passed in include layout parameters, the bottom toolbar extension button model protocol array, whether to hide the button that evokes the input box, etc.
+        let options  = RoomUIKitInitialOptions()
+        options.bottomDataSource = self.bottomBarDatas()
+        options.hasGiftsBarrage = true
+        options.hiddenChatRaise = false
+        RoomUIKitClient.shared.launchRoomViewWithOptions(roomId: "chatroom id", frame: .zero, is: true,options: options)        
+        //Then add to you destination frame.
+```
+
 
 # Customize
 
@@ -132,6 +171,8 @@ For example
         let roomView = RoomUIKitClient.shared.launchRoomView(roomId: "chatroom Id", frame: <#T##CGRect#>)
         self.view.addSubView(roomView)
 ```
+For details, please refer to [Appearance](https://github.com/zjc19891106/ChatroomUIKit/blob/main/ChatroomUIKit/Classes/UI/Core/UIKit/Utils/Appearance.swift).
+
 ### 2.Custom components
 For example
 ```Swift

@@ -7,17 +7,29 @@
 
 import UIKit
 
+/// Chatroom participants list
 open class ParticipantsController: UITableViewController {
     
-    private var roomService = RoomService(roomId: ChatroomContext.shared?.roomId ?? "")
+    public private(set) var roomService = RoomService(roomId: ChatroomContext.shared?.roomId ?? "")
     
-    private var users = [UserInfoProtocol]()
+    public private(set) var users = [UserInfoProtocol]()
     
-    private var pageSize: UInt = 15
+    public private(set) var searchResults = [UserInfoProtocol]()
     
-    private var fetchFinish = true
+    public private(set) var pageSize: UInt = 15
     
-    private var muteTab = false
+    public private(set) var fetchFinish = true
+    
+    public private(set) var muteTab = false
+    
+    public private(set) lazy var searchContainer: UISearchController = {
+        let searchController = UISearchController(searchResultsController: self)
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        searchController.searchBar.placeholder = "Search"
+        return searchController
+    }()
     
     /// ParticipantsController init method.
     /// - Parameters:
@@ -30,6 +42,8 @@ open class ParticipantsController: UITableViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
+            
+        self.tableView.tableHeaderView = self.searchContainer.searchBar
         self.tableView.separatorColor(UIColor.theme.neutralColor9)
         self.tableView.tableFooterView(UIView())
         Theme.registerSwitchThemeViews(view: self)
@@ -59,7 +73,6 @@ open class ParticipantsController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
     open override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 0
@@ -67,7 +80,11 @@ open class ParticipantsController: UITableViewController {
 
     open override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.users.count
+        if self.searchContainer.isActive {
+            return self.searchResults.count
+        } else {
+            return self.users.count
+        }
     }
     
     open override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -76,7 +93,8 @@ open class ParticipantsController: UITableViewController {
             cell = ChatroomParticipantsCell(style: .default, reuseIdentifier: "ChatroomParticipantsCell")
         }
         // Configure the cell...
-        if let user = self.users[safe: indexPath.row] {
+        let datas = (self.searchContainer.isActive ? self.searchResults:self.users)
+        if let user = datas[safe: indexPath.row] {
             cell?.refresh(user: user)
         }
         
@@ -85,9 +103,11 @@ open class ParticipantsController: UITableViewController {
     }
     
     open override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if UInt(self.users.count)%self.pageSize == 0,self.users.count - 3 == indexPath.row,self.fetchFinish {
-            self.fetchFinish = false
-            self.fetchUsers()
+        if !self.searchContainer.isActive {
+            if UInt(self.users.count)%self.pageSize == 0,self.users.count - 3 == indexPath.row,self.fetchFinish {
+                self.fetchFinish = false
+                self.fetchUsers()
+            }
         }
     }
 }
@@ -103,5 +123,13 @@ extension ParticipantsController: ThemeSwitchProtocol {
         self.switchTheme(style: .light)
     }
     
-    
+}
+
+extension ParticipantsController: UISearchResultsUpdating {
+    public func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text {
+            self.searchResults = self.users.filter({ $0.nickName.contains(searchText) })
+            self.tableView.reloadData()
+        }
+    }
 }

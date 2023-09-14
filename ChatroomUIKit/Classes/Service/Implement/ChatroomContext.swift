@@ -6,10 +6,11 @@
 //
 
 import UIKit
+
+
 /**
  A singleton class that represents the context of a chatroom. It contains information about the current user, the owner of the chatroom, the mute map, the room ID, and a dictionary of users in the chatroom.
  */
-
 @objcMembers public final class ChatroomContext: NSObject {
     
     public static let shared: ChatroomContext? = ChatroomContext()
@@ -22,11 +23,13 @@ import UIKit
         }
     }
     
-    public var owner: UserInfoProtocol?
+    public var owner: Bool = false
     
-    public var muteMap: Dictionary<String,Bool>? = Dictionary<String,Bool>()
+    /// The cache mute users map.Key is user id.
+    public var muteMap: Dictionary<String,Bool>?
     
     public var roomId: String?
     
+    /// The cache users map.Key is user id.Value is conform `UserInfoProtocol` instance.
     public var usersMap: Dictionary<String,UserInfoProtocol>? = Dictionary<String,UserInfoProtocol>()
 }

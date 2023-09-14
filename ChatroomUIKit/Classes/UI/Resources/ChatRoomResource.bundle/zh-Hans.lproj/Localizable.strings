@@ -36,9 +36,11 @@
 "barrage_long_press_menu_unmute" = "解除禁言";
 "barrage_long_press_menu_report" = "举报";
 "barrage_long_press_menu_cancel" = "取消";
-"report_button_click_menu_button_cancel" = "Cancel";
+"report_button_click_menu_button_cancel" = "取消";
 
-"participant_list_title" = "Participants";
+"participant_list_title" = "成员列表";
+
+"Ban List" = "禁言列表";
 "Sent" = "Sent";
 
 "violation_reason_1" = "不受欢迎的商业内容或垃圾内容";
