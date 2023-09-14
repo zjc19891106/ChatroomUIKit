@@ -28,7 +28,7 @@ A chat room UIKit that is easy to use, efficient, innovative and rich in custom 
   
   s.subspec 'Service' do |ss|
       ss.source_files = [
-        'ChatroomUIKit/Classes/Service/**/*'
+        'Sources/ChatroomUIKit/Classes/Service/**/*'
       ]
       ss.dependency 'HyphenateChat'
       ss.dependency 'KakaJSON'
@@ -36,9 +36,9 @@ A chat room UIKit that is easy to use, efficient, innovative and rich in custom 
 
   s.subspec 'UI' do |ss|
     ss.source_files = [
-      'ChatroomUIKit/Classes/UI/**/*.swift'
+      'Sources/ChatroomUIKit/Classes/UI/**/*.swift'
     ]
-    ss.resources = ['ChatroomUIKit/**/*.bundle']
+    ss.resources = ['Sources/ChatroomUIKit/**/*.bundle']
 
   end
   
@@ -51,7 +51,7 @@ A chat room UIKit that is easy to use, efficient, innovative and rich in custom 
   s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 
 
-#  s.source_files = 'ChatroomUIKit/Classes/**/*'
+#  s.source_files = 'Sources/ChatroomUIKit/Classes/**/*'
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
    s.frameworks = 'UIKit', 'Foundation','Combine'

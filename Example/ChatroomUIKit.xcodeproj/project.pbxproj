@@ -250,7 +250,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ChatroomUIKit_Example/Pods-ChatroomUIKit_Example-resources.sh",
-				"${PODS_ROOT}/../../ChatroomUIKit/Classes/UI/Resources/ChatRoomResource.bundle",
+				"${PODS_ROOT}/../../Sources/ChatroomUIKit/Classes/UI/Resources/ChatRoomResource.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (

@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "kakajson",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kakaopensource/KakaJSON",
+      "state" : {
+        "revision" : "88d8587a90b8efaac9228baee3a759c25f8a6dd3",
+        "version" : "1.1.2"
+      }
+    }
+  ],
+  "version" : 2
+}
