@@ -15,6 +15,7 @@
 
 - [Requirements](#requirements)
 - [Installation](#installation)
+- [Documentation](#documentation)
 - [Structure](#structure)
 - [QuickStart](#quickStart)
 - [AdvancedUsage](#advancedusage)
@@ -80,6 +81,11 @@ ChatroomUIKit
 
    
 ```
+
+# Documentation
+
+ [Document](https://github.com/zjc19891106/ChatroomUIKit/tree/main/ChatroomUIKit.doccarchive)
+ You can use Xcode to open the ChatroomUIKit.doccarchive file to view the document in Xcode or open index.html in this folder to view it in the browser or deploy it to your homepage for viewing.
 
 # QuickStart
 
