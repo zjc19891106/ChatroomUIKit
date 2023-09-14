@@ -64,7 +64,9 @@ import UIKit
         self.icon.frame = CGRect(x: 7, y: 7, width: contentView.frame.width - 14, height: contentView.frame.height - 14)
     }
     
-    func refresh(item: ChatBottomItemProtocol) {
+    /// Refresh subviews.
+    /// - Parameter item: `ChatBottomItemProtocol`
+    @objc public func refresh(item: ChatBottomItemProtocol) {
         self.icon.image = item.selected ? item.selectedImage:item.normalImage
         self.redDot.isHidden = !item.showRedDot
     }

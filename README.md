@@ -129,7 +129,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ```
 # AdvancedUsage
 
-Let me give two examples below
+Let me give three examples below
 
 ### 1.For example login
 
@@ -165,6 +165,13 @@ Let me give two examples below
         //Then add to you destination frame.
 ```
 
+### 3.How listen to ChatroomUIKit events and error？
+
+```Swift
+        //You can call the method.
+        RoomUIKitClient.shared.registerRoomEventsListener(listener: self)
+
+``` 
 
 # Customize
 

@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// All of business service error
 @objc public enum RoomEventsError: UInt {
     case join
     case leave
