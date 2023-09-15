@@ -38,7 +38,7 @@ public final class PageContainer:  UIView {
     private lazy var toolBar: PageContainerTitleBar = {
         PageContainerTitleBar(frame: CGRect(x: 0, y: self.indicator.frame.maxY + 4, width: self.frame.width, height: 44), choices: self.indicators) { [weak self] in
             self?.index = $0
-        }.backgroundColor(.white)
+        }
     }()
 
     private lazy var pageController: UIPageViewController = {
@@ -74,7 +74,7 @@ public final class PageContainer:  UIView {
         self.toolBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
         self.toolBar.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         self.toolBar.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        self.toolBar.topAnchor.constraint(equalTo: topAnchor,constant: self.indicator.frame.maxY+5).isActive = true
+        self.toolBar.topAnchor.constraint(equalTo: self.indicator.bottomAnchor,constant: 5).isActive = true
         
         self.pageController.view.translatesAutoresizingMaskIntoConstraints = false
         self.pageController.view.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
@@ -91,7 +91,6 @@ public final class PageContainer:  UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 
 }
 

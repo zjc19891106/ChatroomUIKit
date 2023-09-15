@@ -28,4 +28,10 @@ fileprivate let component = ComponentsRegister()
     /// Chatroom barrages list cell class.
     public var ChatBarragesCell: ChatBarrageCell.Type = ChatBarrageCell.self
     
+    /// Report message controller
+    public var ReportViewController: ReportOptionsController.Type = ReportOptionsController.self
+    
+    /// Member list page&Banned list page
+    public var ParticipantsViewController: ParticipantsController.Type = ParticipantsController.self
+    
 }

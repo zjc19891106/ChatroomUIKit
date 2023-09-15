@@ -108,10 +108,10 @@ import UIKit
         }
     }
     
-    public private(set) lazy var roomService: ChatroomService? = nil {
+    public private(set) lazy var roomService: ChatroomService? = ChatroomServiceImplement() {
         willSet {
-            newValue?.unbindResponse(response: self)
             if newValue != nil {
+                newValue?.unbindResponse(response: self)
                 newValue?.bindResponse(response: self)
             }
         }
@@ -278,8 +278,8 @@ import UIKit
                         unknownUserIds.append(userId)
                     }
                 }
-                if unknownUserIds.count > 0,RoomUIKitClient.shared.option.useProperties {
-                    RoomUIKitClient.shared.userImplement?.userInfos(userIds: unknownUserIds, completion: { infos, error in
+                if unknownUserIds.count > 0,ChatroomUIKitClient.shared.option.useProperties {
+                    ChatroomUIKitClient.shared.userImplement?.userInfos(userIds: unknownUserIds, completion: { infos, error in
                         if error == nil {
                             var users = [UserInfoProtocol]()
                             for userId in ids {
@@ -326,8 +326,8 @@ import UIKit
                         unknownUserIds.append(userId)
                     }
                 }
-                if unknownUserIds.count > 0,RoomUIKitClient.shared.option.useProperties {
-                    RoomUIKitClient.shared.userImplement?.userInfos(userIds: unknownUserIds, completion: { infos, error in
+                if unknownUserIds.count > 0,ChatroomUIKitClient.shared.option.useProperties {
+                    ChatroomUIKitClient.shared.userImplement?.userInfos(userIds: unknownUserIds, completion: { infos, error in
                         if error == nil {
                             var users = [UserInfoProtocol]()
                             for userId in ids {

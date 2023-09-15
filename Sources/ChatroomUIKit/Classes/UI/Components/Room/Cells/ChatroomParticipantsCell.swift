@@ -45,11 +45,20 @@ import UIKit
         fatalError("init(coder:) has not been implemented")
     }
     
+    open override func layoutSubviews() {
+        self.more.frame = CGRect(x: self.contentView.frame.width-40, y: (self.contentView.frame.height-28)/2.0, width: 28, height: 28)
+    }
+    
     @objc public func refresh(user: UserInfoProtocol) {
         self.user = user
         self.userLevel.image(with: user.identify, placeHolder: Appearance.userIdentifyPlaceHolder)
         self.userAvatar.image(with: user.avatarURL, placeHolder: Appearance.avatarPlaceHolder)
         self.userName.text = user.nickName
+        if self.userDetail.text == nil {
+            self.userName.frame = CGRect(x: self.userAvatar.frame.maxX+12, y: self.userAvatar.frame.minY+10, width: self.contentView.frame.width-self.userAvatar.frame.maxX-36-28, height: 20)
+        } else {
+            self.userName.frame = CGRect(x: self.userAvatar.frame.maxX+12, y: self.userAvatar.frame.minY, width: self.contentView.frame.width-self.userAvatar.frame.maxX-36-28, height: 20)
+        }
     }
 }
 

@@ -1,8 +1,8 @@
 //
-//  OCExampleViewController.h
+//  OCBusinessUIViewController.h
 //  ChatroomUIKit_Example
 //
-//  Created by 朱继超 on 2023/8/31.
+//  Created by 朱继超 on 2023/9/15.
 //  Copyright © 2023 CocoaPods. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OCExampleViewController : UIViewController
+@interface OCBusinessUIViewController : UIViewController
 
 @end
 

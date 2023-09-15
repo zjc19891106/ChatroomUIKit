@@ -11,7 +11,7 @@ import UIKit
 @objcMembers final public class Appearance: NSObject {
         
     /// You can change the width of a single option with `PageContainerTitleBar` in the popup container by setting the current property
-    public static var pageContainerTitleBarItemWidth: CGFloat = 114
+    public static var pageContainerTitleBarItemWidth: CGFloat = ScreenWidth/2.0
     
     /// PageContainersDialogController constraints size.
     public static var pageContainerConstraintsSize = CGSizeMake(ScreenWidth, ScreenHeight*(3/5.0))

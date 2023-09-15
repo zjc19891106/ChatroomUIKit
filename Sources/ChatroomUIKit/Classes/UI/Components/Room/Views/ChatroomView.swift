@@ -68,8 +68,10 @@ import UIKit
     
     /// Input text menu bar.
     public private(set) lazy var inputBar: ChatInputBar = {
-        ComponentsRegister.shared.InputBar.init(frame: CGRect(x: 0, y: self.frame.height, width: self.frame.width, height: 52),text: nil,placeHolder: Appearance.inputPlaceHolder)
+        ChatInputBar(frame: CGRect(x: 0, y: self.frame.height, width: self.frame.width, height: 52),text: nil,placeHolder: Appearance.inputPlaceHolder)
     }()
+    
+    private var touchFrame = CGRect.zero
     
     /// Chatroom view init method.
     /// - Parameters:
@@ -77,17 +79,18 @@ import UIKit
     ///   - menus: Array<ChatBottomItemProtocol>
     ///   - showGiftBarrage: `Bool` showGiftBarrage value
     ///   - hiddenChat: `Bool` hiddenChat value
-    @objc public required convenience init(frame: CGRect,bottom menus: [ChatBottomItemProtocol] = [],showGiftBarrage: Bool = true,hiddenChat: Bool = false) {
+    @objc public required convenience init(respondTouch frame: CGRect,bottom menus: [ChatBottomItemProtocol] = [],showGiftBarrage: Bool = true,hiddenChat: Bool = false) {
         if showGiftBarrage {
-            if frame.height < 206 {
+            if frame.height < 236 {
                 assert(false,"The lower limit of the entire view height must not be less than 206.")
             }
         } else {
-            if frame.height < 354 {
+            if frame.height < 384 {
                 assert(false,"The lower limit of the entire view height must not be less than 354.")
             }
         }
-        self.init(frame: frame)
+        self.init(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: ScreenHeight))
+        self.touchFrame = frame
         self.giftContainers = giftContainers
         self.giftContainerTitles = giftContainerTitles
         self.showGiftBarrage = showGiftBarrage
@@ -108,7 +111,7 @@ import UIKit
             return
         }
         self.service = service
-        self.service?.enterRoom(completion: { [weak self] error in
+        service.enterRoom(completion: { [weak self] error in
             if error == nil {
                 self?.service?.fetchMuteUsers(pageSize: 100, completion: { _, error in
                     if error != nil {
@@ -146,6 +149,8 @@ import UIKit
     @objc public func removeEventHandler(actionHandler: ChatroomViewActionEventsDelegate) {
         self.eventHandlers.remove(actionHandler)
     }
+    
+
 }
 
 //MARK: - GiftsBarrageListDataSource

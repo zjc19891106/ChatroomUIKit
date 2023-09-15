@@ -13,37 +13,35 @@ open class ParticipantsController: UITableViewController {
     public private(set) var roomService = RoomService(roomId: ChatroomContext.shared?.roomId ?? "")
     
     public private(set) var users = [UserInfoProtocol]()
-    
-    public private(set) var searchResults = [UserInfoProtocol]()
-    
+        
     public private(set) var pageSize: UInt = 15
     
     public private(set) var fetchFinish = true
     
     public private(set) var muteTab = false
     
-    public private(set) lazy var searchContainer: UISearchController = {
-        let searchController = UISearchController(searchResultsController: self)
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        definesPresentationContext = true
-        searchController.searchBar.placeholder = "Search"
-        return searchController
+    lazy var searchField: SearchBar = {
+        SearchBar(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 44))
     }()
     
     /// ParticipantsController init method.
     /// - Parameters:
-    ///   - muteTab: `Bool` value
+    ///   - muteTab: `Bool` value,Indicate that is member list or mute list
     ///   - moreClosure: Callback,when click more.
-    @objc required public convenience init(muteTab:Bool = false,moreClosure: (UserInfoProtocol) -> Void) {
+    @objc required public convenience init(muteTab:Bool = false,moreClosure: @escaping (UserInfoProtocol) -> Void) {
         self.init()
         self.muteTab = muteTab
     }
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-            
-        self.tableView.tableHeaderView = self.searchContainer.searchBar
+        self.view.backgroundColor = .clear
+        self.tableView.backgroundColor = .clear
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.tableHeaderView = self.searchField
+        self.tableView.registerCell(ChatroomParticipantsCell.self, forCellReuseIdentifier: "ChatroomParticipantsCell")
+        self.tableView.rowHeight = 60
         self.tableView.separatorColor(UIColor.theme.neutralColor9)
         self.tableView.tableFooterView(UIView())
         Theme.registerSwitchThemeViews(view: self)
@@ -65,6 +63,9 @@ open class ParticipantsController: UITableViewController {
             self.roomService.fetchParticipants(pageSize: self.pageSize) { [weak self] datas, error in
                 self?.fetchFinish = true
                 if error == nil {
+                    if self?.users.count ?? 0 == 0 {
+                        self?.users.append(ChatroomContext.shared?.currentUser ?? User())
+                    }
                     self?.users.append(contentsOf: datas ?? [])
                     self?.tableView.reloadData()
                 }
@@ -75,16 +76,12 @@ open class ParticipantsController: UITableViewController {
     // MARK: - Table view data source
     open override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     open override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        if self.searchContainer.isActive {
-            return self.searchResults.count
-        } else {
-            return self.users.count
-        }
+        return self.users.count
     }
     
     open override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -93,21 +90,18 @@ open class ParticipantsController: UITableViewController {
             cell = ChatroomParticipantsCell(style: .default, reuseIdentifier: "ChatroomParticipantsCell")
         }
         // Configure the cell...
-        let datas = (self.searchContainer.isActive ? self.searchResults:self.users)
-        if let user = datas[safe: indexPath.row] {
+        if let user = self.users[safe: indexPath.row] {
             cell?.refresh(user: user)
         }
-        
+        cell?.more.isHidden = !(ChatroomContext.shared?.owner ?? false)
         cell?.selectionStyle = .none
         return cell ?? ChatroomParticipantsCell()
     }
     
     open override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if !self.searchContainer.isActive {
-            if UInt(self.users.count)%self.pageSize == 0,self.users.count - 3 == indexPath.row,self.fetchFinish {
-                self.fetchFinish = false
-                self.fetchUsers()
-            }
+        if UInt(self.users.count)%self.pageSize == 0,self.users.count - 3 == indexPath.row,self.fetchFinish {
+            self.fetchFinish = false
+            self.fetchUsers()
         }
     }
 }
@@ -125,11 +119,3 @@ extension ParticipantsController: ThemeSwitchProtocol {
     
 }
 
-extension ParticipantsController: UISearchResultsUpdating {
-    public func updateSearchResults(for searchController: UISearchController) {
-        if let searchText = searchController.searchBar.text {
-            self.searchResults = self.users.filter({ $0.nickName.contains(searchText) })
-            self.tableView.reloadData()
-        }
-    }
-}

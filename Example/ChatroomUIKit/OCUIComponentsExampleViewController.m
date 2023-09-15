@@ -6,18 +6,19 @@
 //  Copyright © 2023 CocoaPods. All rights reserved.
 //
 
-#import "OCExampleViewController.h"
+#import "OCUIComponentsExampleViewController.h"
 #import <ChatroomUIKit-Swift.h>
 
-@interface OCExampleViewController ()
+@interface OCUIComponentsExampleViewController ()
 
 @end
 
-@implementation OCExampleViewController
+@implementation OCUIComponentsExampleViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = UIColor.whiteColor;
     ActionSheet *sheet = [[ActionSheet alloc] initWithItems:@[[[ActionSheetItem alloc] initWithTitle:@"Normal" type:ActionSheetItemTypeNormal tag:@"" action:^(id<ActionSheetItemProtocol> _Nonnull item) {
         
     }]] title:nil message:nil];

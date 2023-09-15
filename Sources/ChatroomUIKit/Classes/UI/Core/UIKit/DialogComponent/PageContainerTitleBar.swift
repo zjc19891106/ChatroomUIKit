@@ -48,6 +48,7 @@ import UIKit
      */
     @objc public convenience init(frame: CGRect, choices: [String], selectedClosure: @escaping (Int)->()) {
         self.init(frame: frame)
+        self.backgroundColor = UIColor.theme.neutralColor98
         self.chooseClosure = selectedClosure
         self.datas = choices
         self.addSubViews([self.indicator,self.choicesBar])
@@ -152,9 +153,16 @@ extension PageContainerTitleBar: ThemeSwitchProtocol {
     public override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         //Calculate per item center
         let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+        let width = collectionView?.frame.width ?? 0
         attributes.size = self.itemSize
         if self.rows == 1 {
             attributes.center = self.center
+        } else if self.rows == 2 {
+            if indexPath.row == 0 {
+                attributes.center = CGPoint(x: self.center.x-attributes.size.width/2.0-self.minimumInteritemSpacing/2.0, y: self.center.y)
+            } else {
+                attributes.center = CGPoint(x: self.center.x+attributes.size.width/2.0+self.minimumInteritemSpacing/2.0, y: self.center.y)
+            }
         }
         return attributes
     }

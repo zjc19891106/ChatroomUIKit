@@ -17,14 +17,17 @@ import UIKit
     }
     
     @objc public func showParticipantsDialog(moreClosure: @escaping (UserInfoProtocol) -> Void,muteMoreClosure: @escaping (UserInfoProtocol) -> Void) {
-        let participants = ParticipantsController(muteTab: false, moreClosure: moreClosure)
-        let mutes = ParticipantsController(muteTab: true, moreClosure: muteMoreClosure)
+        let participants = ComponentsRegister
+            .shared.ParticipantsViewController.init(muteTab: false, moreClosure: moreClosure)
+        let mutes = ComponentsRegister
+            .shared.ParticipantsViewController.init(muteTab: true, moreClosure: muteMoreClosure)
         let container = PageContainersDialogController(pageTitles: ["participant_list_title".chatroom.localize,"Ban List".chatroom.localize], childControllers: [participants,mutes],constraintsSize: Appearance.pageContainerConstraintsSize)
         UIViewController.currentController?.presentViewController(container)
     }
     
     @objc public func showReportDialog(message: ChatMessage) {
-        let report = ReportOptionsController(message: message)
+        let report = ComponentsRegister
+            .shared.ReportViewController.init(message: message)
         let vc = PageContainersDialogController(pageTitles: ["barrage_long_press_menu_report".chatroom.localize], childControllers: [report], constraintsSize: Appearance.pageContainerConstraintsSize)
         UIViewController.currentController?.presentViewController(vc)
     }

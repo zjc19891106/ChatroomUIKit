@@ -23,7 +23,7 @@ import UIKit
     private var childControllers = [UIViewController]()
 
     lazy var container: PageContainer = {
-        PageContainer(frame: CGRect(x: 0, y: 0, width: self.presentedViewComponent?.contentSize.width ?? 0, height: self.presentedViewComponent?.contentSize.height ?? 0), viewControllers: self.childControllers, indicators: self.pageTitles).cornerRadius(.medium, [.topLeft,.topRight], .clear, 0)
+        PageContainer(frame: CGRect(x: 0, y: 0, width: self.presentedViewComponent?.contentSize.width ?? 0, height: self.presentedViewComponent?.contentSize.height ?? 0), viewControllers: self.childControllers, indicators: self.pageTitles).cornerRadius(.medium, [.topLeft,.topRight], .clear, 0).backgroundColor(UIColor.theme.neutralColor98)
     }()
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -46,25 +46,33 @@ import UIKit
      */
     @objc public required convenience init(pageTitles:[String],childControllers: [UIViewController],constraintsSize: CGSize = .zero) {
         self.init()
+        if pageTitles.count != childControllers.count {
+            assert(false,"Titles count isn't equal child controllers count.")
+        }
         if constraintsSize != .zero {
             self.presentedViewComponent?.contentSize = constraintsSize
         }
         self.pageTitles = pageTitles
         self.childControllers = childControllers
+        Theme.registerSwitchThemeViews(view: self)
     }
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor(.clear)
         self.view.addSubview(self.container)
     }
 }
 
-extension PageContainersDialogController {
-    @objc private func keyboardWillShow(notification: Notification) {
-        guard let keyboardFrame = notification.keyboardEndFrame else { return }
-        let duration = notification.keyboardAnimationDuration!
-        UIView.animate(withDuration: duration) {
-            self.container.frame = CGRect(x: 0, y: ScreenHeight-keyboardFrame.height - self.container.frame.height, width: self.container.frame.width, height: self.container.frame.height)
-        }
+
+extension PageContainersDialogController: ThemeSwitchProtocol {
+    public func switchTheme(style: ThemeStyle) {
+        self.container.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
     }
+    
+    public func switchHues() {
+        self.switchTheme(style: .light)
+    }
+    
+    
 }

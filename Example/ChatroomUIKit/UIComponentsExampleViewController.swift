@@ -9,7 +9,7 @@
 import UIKit
 import ChatroomUIKit
 
-final class ExampleViewController: UIViewController {
+final class UIComponentsExampleViewController: UIViewController {
     
     lazy var background: UIImageView = {
         UIImageView(frame: self.view.frame).image(UIImage(named: "bg_img_of_dark_mode"))
@@ -39,7 +39,7 @@ final class ExampleViewController: UIViewController {
         GiftsViewController(gifts: self.gifts(), result: self)
     }()
     
-    lazy var animationView: HorizontalTextCarousel = {
+    lazy var carouselTextView: HorizontalTextCarousel = {
         HorizontalTextCarousel(originPoint: CGPoint(x: 20, y: 60), width: self.view.frame.width-40, font: .systemFont(ofSize: 20, weight: .semibold), textColor: UIColor.theme.neutralColor98).cornerRadius(.large)
     }()
 
@@ -63,26 +63,31 @@ final class ExampleViewController: UIViewController {
             self.barrageList.showNewMessage(message: self.startMessage($0))
         }
 
-        let button = UIButton(type: .custom).frame(CGRect(x: 100, y: 120, width: 150, height: 20)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title("Add Global Notify", .normal).addTargetFor(self, action: #selector(switchTheme), for: .touchUpInside)
+        let button = UIButton(type: .custom).frame(CGRect(x: 100, y: 120, width: 150, height: 20)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title("Add Global Notify", .normal).addTargetFor(self, action: #selector(addCarouselTask), for: .touchUpInside)
         self.view.addSubview(button)
-        self.view.addSubview(self.animationView)
-        self.animationView.alpha = 0
+        self.view.addSubview(self.carouselTextView)
+        
+        self.carouselTextView.alpha = 0
+        
+        let switchTheme = UIButton(type: .custom).frame(CGRect(x: 100, y: 160, width: 150, height: 20)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title("Switch Theme", .normal).addTargetFor(self, action: #selector(switchTheme), for: .touchUpInside)
+        self.view.addSubview(switchTheme)
+        
+        self.carouselTextView.alpha = 0
         
     }
 
     
-    
 }
 
 
-extension ExampleViewController: GiftToChannelResultDelegate {
+extension UIComponentsExampleViewController: GiftToChannelResultDelegate {
     
     func giftResult(gift: ChatroomUIKit.GiftEntityProtocol, error: ChatroomUIKit.ChatError?) {
         print("user can report to service.")
     }
 }
 
-extension ExampleViewController: ChatBottomFunctionBarActionEvents {
+extension UIComponentsExampleViewController: ChatBottomFunctionBarActionEvents {
     func onBottomItemClicked(item: ChatroomUIKit.ChatBottomItemProtocol) {
         switch item.type {
         case 2:
@@ -99,11 +104,14 @@ extension ExampleViewController: ChatBottomFunctionBarActionEvents {
     
 }
 
-extension ExampleViewController {
+extension UIComponentsExampleViewController {
+    
+    @objc func addCarouselTask() {
+        self.carouselTextView.addTask(text: ["123123adadsasjdaklsdjaskldjakdjakldsjkadjkasldjalksjdlkjasdklsajdl","99999999999999999999999999999999","66666666666666666666666666666"].randomElement()!)
+    }
+    
     @objc func switchTheme() {
-        self.animationView.addTask(text: ["123123adadsasjdaklsdjaskldjakdjakldsjkadjkasldjalksjdlkjasdklsajdl","99999999999999999999999999999999","66666666666666666666666666666"].randomElement()!)
-        
-//        Theme.switchTheme(style: .dark)
+        Theme.switchTheme(style: .dark)
 //        Theme.switchHues()
     }
     
@@ -157,7 +165,6 @@ class ChatBottomItem:NSObject, ChatBottomItemProtocol {
     
     var type: Int = 0
    
-    
 }
 
 

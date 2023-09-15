@@ -8,7 +8,7 @@
 import UIKit
 
 /// A wrapper class for some options when initializing ChatroomUIKit.ChatroomView.
-@objc open class RoomUIKitInitialOptions: NSObject {
+@objc open class ChatroomUIKitInitialOptions: NSObject {
     
     /// Is there a gift barrage?
     @objc public var hasGiftsBarrage = false
@@ -24,9 +24,9 @@ import UIKit
 }
 
 /// ChatroomUIKit initialize class.
-@objcMembers final public class RoomUIKitClient: NSObject {
+@objcMembers final public class ChatroomUIKitClient: NSObject {
     
-    static public let shared = RoomUIKitClient()
+    static public let shared = ChatroomUIKitClient()
     
     /// User related protocol implementation class
     public private(set) lazy var userImplement: UserServiceProtocol? = nil
@@ -34,7 +34,7 @@ import UIKit
     /// Chat room related protocol implementation class
     public private(set) lazy var roomService: RoomService? = nil
     
-    public private(set) lazy var option: RoomUIKitInitialOptions = RoomUIKitInitialOptions()
+    public private(set) lazy var option: ChatroomUIKitInitialOptions = ChatroomUIKitInitialOptions()
     
     public private(set) var roomId = ""
     
@@ -42,7 +42,10 @@ import UIKit
     /// - Parameter appKey: Application key.(https://docs.agora.io/en/agora-chat/get-started/enable?platform=ios)
     /// - Returns: Result error that nil  result indicates success, otherwise it fails.
     @objc public func setup(with appKey: String) -> ChatError? {
-        ChatClient.shared().initializeSDK(with: Options(appkey: appKey))
+        let option = Options(appkey: appKey)
+        option.enableConsoleLog = true
+        option.isAutoLogin = false
+        return ChatClient.shared().initializeSDK(with: option)
     }
     
     /// Login method
@@ -69,6 +72,12 @@ import UIKit
         self.userImplement = UserServiceImplement(userInfo: user, token: token, use: false, completion: completion)
     }
     
+    @objc public func logout() {
+        self.userImplement?.logout(completion: { _, _ in
+            
+        })
+    }
+    
     /// Launch a chatroom view of ChatroomUIKit.
     /// - Parameters:
     ///   - roomId: Chatroom id
@@ -76,14 +85,15 @@ import UIKit
     ///   - owner: Whether judge current user is owner or not.
     ///   - options: `RoomUIKitInitialOptions`
     /// - Returns: ChatroomUIKit.ChatroomView
-    @objc public func launchRoomViewWithOptions(roomId: String,frame: CGRect, is owner: Bool, options: RoomUIKitInitialOptions = RoomUIKitInitialOptions()) -> ChatroomView {
+    @objc public func launchRoomViewWithOptions(roomId: String,frame: CGRect, is owner: Bool, options: ChatroomUIKitInitialOptions = ChatroomUIKitInitialOptions()) -> ChatroomView {
         self.roomId = roomId
+        ChatroomContext.shared?.roomId = roomId
         ChatroomContext.shared?.owner = owner
         self.option.bottomDataSource = options.bottomDataSource
         self.option.hasGiftsBarrage = options.hasGiftsBarrage
         self.option.hiddenChatRaise = options.hiddenChatRaise
-        let room = ChatroomView(frame: frame,bottom: options.bottomDataSource,showGiftBarrage: options.hasGiftsBarrage,hiddenChat: options.hiddenChatRaise)
-        let service = RoomService(roomId: self.roomId)
+        let room = ChatroomView(respondTouch: frame,bottom: options.bottomDataSource,showGiftBarrage: options.hasGiftsBarrage,hiddenChat: options.hiddenChatRaise)
+        let service = RoomService(roomId: roomId)
         self.roomService = service
         room.connectService(service: service)
         return room
@@ -108,7 +118,7 @@ import UIKit
     }
 }
 
-extension RoomUIKitClient: UserStateChangedListener {
+extension ChatroomUIKitClient: UserStateChangedListener {
     
     public func onUserLoginOtherDevice(device: String) {
         //User will be kick by UIKit.
