@@ -176,7 +176,7 @@ extension UIWithBusinessViewController: RoomEventsListener {
     
     func onUserTokenDidExpired() {
         //SDK will auto enter current chatroom of `ChatroomContext` on reconnect success.
-        ChatroomUIKitClient.shared.login(with: YourAppUser(), token: ChatroomUIKitConfig.chatToken, use: true) { error in
+        ChatroomUIKitClient.shared.login(with: ExampleRequiredConfig.YourAppUser(), token: ExampleRequiredConfig.chatToken, use: true) { error in
             if error == nil {
 
             }
@@ -186,7 +186,7 @@ extension UIWithBusinessViewController: RoomEventsListener {
     }
     
     func onUserTokenWillExpired() {
-        ChatroomUIKitClient.shared.refreshToken(token: ChatroomUIKitConfig.chatToken)
+        ChatroomUIKitClient.shared.refreshToken(token: ExampleRequiredConfig.chatToken)
     }
     
     func onUserLoginOtherDevice(device: String) {

@@ -150,7 +150,7 @@ public extension ChatMessage {
         default:
             break
         }
-        return UILabel(frame: CGRect(x: CGFloat(originX), y: 7, width: self.container.frame.width - 20, height: self.container.frame.height - 18)).backgroundColor(.clear).numberOfLines(0).lineBreakMode(.byCharWrapping)
+        return UILabel(frame: CGRect(x: 10, y: 7, width: self.container.frame.width - 20, height: self.container.frame.height - 18)).backgroundColor(.clear).numberOfLines(0).lineBreakMode(.byCharWrapping)
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -167,7 +167,7 @@ public extension ChatMessage {
         self.init(style: .default, reuseIdentifier: reuseIdentifier)
         self.style = barrageStyle
         self.contentView.addSubview(self.container)
-        switch style {
+        switch barrageStyle {
         case .all:
             self.container.addSubViews([self.time,self.userIdentify,self.avatar,self.content])
         case .excludeTime:
