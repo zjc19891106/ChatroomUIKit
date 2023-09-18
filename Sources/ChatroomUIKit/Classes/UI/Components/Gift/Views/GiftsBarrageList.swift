@@ -45,6 +45,14 @@ import UIKit
     public lazy var giftList: UITableView = {
         UITableView(frame: CGRect(x: 5, y: 0, width: self.frame.width - 20, height: self.frame.height), style: .plain).tableFooterView(UIView()).separatorStyle(.none).showsVerticalScrollIndicator(false).showsHorizontalScrollIndicator(false).delegate(self).dataSource(self).backgroundColor(.clear).isUserInteractionEnabled(false)
     }()
+    
+    private lazy var gradientLayer: CAGradientLayer = {
+        CAGradientLayer().startPoint(CGPoint(x: 0, y: 0)).endPoint(CGPoint(x: 0, y: 0.1)).colors([UIColor.clear.withAlphaComponent(0).cgColor, UIColor.clear.withAlphaComponent(1).cgColor]).locations([NSNumber(0), NSNumber(1)]).rasterizationScale(UIScreen.main.scale).frame(self.blurView.frame)
+    }()
+    
+    private lazy var blurView: UIView = {
+        UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)).backgroundColor(.clear)
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -58,7 +66,7 @@ import UIKit
         self.init(frame: frame)
         self.dataSource = source
         self.backgroundColor = .clear
-        self.addSubview(self.giftList)
+        self.addSubViews([self.blurView,self.giftList])
         self.giftList.isScrollEnabled = false
         self.giftList.isUserInteractionEnabled = false
     }

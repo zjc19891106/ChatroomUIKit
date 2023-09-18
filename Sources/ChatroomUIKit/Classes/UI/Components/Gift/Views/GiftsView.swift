@@ -75,7 +75,6 @@ extension GiftsView: UICollectionViewDelegate,UICollectionViewDataSource {
     }
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let type = ComponentsRegister.shared.GiftsCell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GiftEntityCell", for: indexPath) as? GiftEntityCell
         cell?.refresh(item: self.gifts[safe: indexPath.row])
         cell?.sendCallback = { [weak self] in

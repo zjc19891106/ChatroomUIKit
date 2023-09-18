@@ -37,6 +37,14 @@ final class UIWithBusinessViewController: UIViewController {
         UIButton(type: .custom).frame(CGRect(x: 100, y: 160, width: 150, height: 20)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title("Participants", .normal).addTargetFor(self, action: #selector(showParticipants), for: .touchUpInside)
     }()
     
+    lazy var gift1: GiftsViewController = {
+        GiftsViewController(gifts: self.gifts(), result: self, eventsDelegate: self)
+    }()
+    
+    lazy var gift2: GiftsViewController = {
+        GiftsViewController(gifts: self.gifts(), result: self,eventsDelegate: self)
+    }()
+    
     @objc public required convenience init(chatroomId: String) {
         self.init()
         self.roomId = chatroomId
@@ -46,6 +54,7 @@ final class UIWithBusinessViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.view.addSubViews([self.background,self.roomView,self.carouselTextView,self.members])
+        self.roomView.addActionHandler(actionHandler: self)
         ChatroomUIKitClient.shared.registerRoomEventsListener(listener: self)
     }
         
@@ -92,6 +101,47 @@ extension UIWithBusinessViewController {
         }
         return []
     }
+}
+
+extension UIWithBusinessViewController: GiftToChannelResultDelegate,GiftsViewActionEventsDelegate {
+    
+    func onGiftSendClick(item: ChatroomUIKit.GiftEntityProtocol) {
+        //It can be called after completing the interaction related to the gift sending interface with the server.
+        self.gift1.onUserServerHandleSentGiftComplete(gift: item)
+    }
+    
+    func onGiftSelected(item: ChatroomUIKit.GiftEntityProtocol) {
+        //When user click a gift.
+    }
+    
+    
+    func giftResult(gift: ChatroomUIKit.GiftEntityProtocol, error: ChatroomUIKit.ChatError?) {
+        consoleLogInfo(error==nil ? "Sent to channel successful!":"\(error?.errorDescription ?? "")", type: .debug)
+    }
+    
+    
+}
+
+extension UIWithBusinessViewController : ChatroomViewActionEventsDelegate {
+    func onMessageBarrageClicked(message: ChatroomUIKit.ChatMessage) {
+        
+    }
+    
+    func onMessageListBarrageLongPressed(message: ChatroomUIKit.ChatMessage) {
+        
+    }
+    
+    func onKeyboardRaiseClicked() {
+        
+    }
+    
+    func onExtensionBottomItemClicked(item: ChatroomUIKit.ChatBottomItemProtocol) {
+        if item.type == 2 {
+            DialogManager.shared.showGiftsDialog(titles: ["Gifts","1231232"], gifts: [self.gift1,self.gift2])
+        }
+    }
+    
+    
 }
 
 extension UIWithBusinessViewController: RoomEventsListener {

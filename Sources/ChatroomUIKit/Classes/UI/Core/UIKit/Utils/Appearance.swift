@@ -54,8 +54,11 @@ import UIKit
     /// language code mirror type.
     public static var targetLanguage: LanguageType = .English
     
-    /// ActionSheet data source.
+    /// ActionSheet data source on message long pressed.
     public static var defaultMessageActions: [ActionSheetItemProtocol] = [ActionSheetItem(title: "barrage_long_press_menu_translate".chatroom.localize, type: .normal,tag: "Translate"),ActionSheetItem(title: "barrage_long_press_menu_delete".chatroom.localize, type: .normal,tag: "Delete"),ActionSheetItem(title: "barrage_long_press_menu_mute".chatroom.localize, type: .normal,tag: "Mute"),ActionSheetItem(title: "barrage_long_press_menu_report".chatroom.localize, type: .destructive,tag: "Report")]
+    
+    /// ActionSheet data source on participants list cell more button clicked.
+    public static var defaultOperationUserActions: [ActionSheetItemProtocol] = [ActionSheetItem(title: "barrage_long_press_menu_mute".chatroom.localize, type: .normal,tag: "Mute"),ActionSheetItem(title: "participant_list_button_click_menu_remove".chatroom.localize, type: .destructive,tag: "Remove")]
     
     /// ActionSheet row height.
     public static var actionSheetRowHeight: CGFloat = 56

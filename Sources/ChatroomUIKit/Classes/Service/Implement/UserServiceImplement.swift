@@ -66,7 +66,6 @@ extension UserServiceImplement:UserServiceProtocol {
             for userId in userIds {
                 if let info = dic[userId] {
                     if let user = self?.convertToUser(info: info) {
-                        ChatroomContext.shared?.usersMap?[userId] = user
                         users.append(user)
                     }
                 }

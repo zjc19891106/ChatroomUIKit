@@ -187,6 +187,8 @@ import UIKit
         self.roomService?.operatingUser(roomId: self.roomId, userId: userId, type: .kick, completion: { [weak self] success, error in
             if error != nil {
                 self?.handleError(type: .kick, error: error!)
+            } else {
+                ChatroomContext.shared?.usersMap?.removeValue(forKey: userId)
             }
             completion(error)
         })

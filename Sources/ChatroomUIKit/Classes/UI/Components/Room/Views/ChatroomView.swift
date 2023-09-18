@@ -191,7 +191,7 @@ extension ChatroomView: ChatBarrageActionEventsHandler {
     }
     
     private func showLongPressDialog(message: ChatMessage) {
-        DialogManager.shared.showMessageActions(message: message,actions: Appearance.defaultMessageActions) { [weak self] item in
+        DialogManager.shared.showMessageActions(actions: Appearance.defaultMessageActions) { [weak self] item in
             switch item.tag {
             case "Translate":
                 self?.service?.translate(message: message, completion: { _ in })

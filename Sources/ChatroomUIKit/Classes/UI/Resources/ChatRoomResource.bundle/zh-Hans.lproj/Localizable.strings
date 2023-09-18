@@ -52,3 +52,5 @@
 "violation_reason_7" = "自杀或自残";
 "violation_reason_8" = "虚假信息";
 "violation_reason_9" = "其他";
+"Search" = "搜索";
+"participant_list_button_click_menu_remove" = "移除"

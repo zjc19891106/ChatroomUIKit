@@ -9,6 +9,8 @@ import UIKit
 
 @objc open class ChatroomParticipantsCell: UITableViewCell {
     
+    @objc public var moreClosure: ((UserInfoProtocol) -> Void)?
+    
     private var moreImage = UIImage(named: "more", in: .chatroomBundle, with: nil)
 
     private var user: UserInfoProtocol?
@@ -30,7 +32,7 @@ import UIKit
     }()
     
     lazy var more: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: self.contentView.frame.width-40, y: (self.contentView.frame.height-28)/2.0, width: 28, height: 28)).backgroundColor(.clear).image(self.moreImage, .normal)
+        UIButton(type: .custom).frame(CGRect(x: self.contentView.frame.width-40, y: (self.contentView.frame.height-28)/2.0, width: 28, height: 28)).backgroundColor(.clear).image(self.moreImage, .normal).addTargetFor(self, action: #selector(moreAction), for: .touchUpInside)
     }()
     
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -58,6 +60,12 @@ import UIKit
             self.userName.frame = CGRect(x: self.userAvatar.frame.maxX+12, y: self.userAvatar.frame.minY+10, width: self.contentView.frame.width-self.userAvatar.frame.maxX-36-28, height: 20)
         } else {
             self.userName.frame = CGRect(x: self.userAvatar.frame.maxX+12, y: self.userAvatar.frame.minY, width: self.contentView.frame.width-self.userAvatar.frame.maxX-36-28, height: 20)
+        }
+    }
+    
+    @objc private func moreAction() {
+        if let user = self.user {
+            self.moreClosure?(user)
         }
     }
 }

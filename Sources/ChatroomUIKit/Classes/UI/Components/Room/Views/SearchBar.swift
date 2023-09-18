@@ -7,10 +7,29 @@
 
 import UIKit
 
+
+/// SearchBar action events
+@objc public protocol SearchBarActionEvents: NSObjectProtocol {
+    func onSearchBarClicked()
+}
+
 @objc open class SearchBar: UIView {
     
+    private var eventHandlers: NSHashTable<SearchBarActionEvents> = NSHashTable<SearchBarActionEvents>.weakObjects()
+    
+    @objc public func addActionHandler(handler: SearchBarActionEvents) {
+        if self.eventHandlers.contains(handler) {
+            return
+        }
+        self.eventHandlers.add(handler)
+    }
+    
+    public func removeEventHandler(actionHandler: SearchBarActionEvents) {
+        self.eventHandlers.remove(actionHandler)
+    }
+    
     lazy var searchField: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 16, y: 4, width: self.frame.width-32, height: self.frame.height-8)).backgroundColor(UIColor.theme.neutralColor95).textColor(UIColor.theme.neutralColor6, .normal).cornerRadius(.large).title(" Search", .normal).image(UIImage(named: "search", in: .chatroomBundle, with: nil), .normal)
+        UIButton(type: .custom).frame(CGRect(x: 16, y: 4, width: self.frame.width-32, height: self.frame.height-8)).backgroundColor(UIColor.theme.neutralColor95).textColor(UIColor.theme.neutralColor6, .normal).cornerRadius(.large).title(" Search", .normal).image(UIImage(named: "search", in: .chatroomBundle, with: nil), .normal).addTargetFor(self, action: #selector(clickSearch), for: .touchUpInside)
     }()
 
     public override init(frame: CGRect) {
@@ -23,6 +42,11 @@ import UIKit
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc private func clickSearch() {
+        for handler in self.eventHandlers.allObjects {
+            handler.onSearchBarClicked()
+        }
+    }
 }
 
 extension SearchBar: ThemeSwitchProtocol {

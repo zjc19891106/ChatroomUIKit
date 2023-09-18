@@ -51,7 +51,7 @@ import UIKit
         self.giftsView.addActionHandler(actionHandler: self)
     }
     
-    @objc public func onUserHandleSentGiftComplete(gift: GiftEntityProtocol)  {
+    @objc public func onUserServerHandleSentGiftComplete(gift: GiftEntityProtocol)  {
         self.giftService.sendGift(gift: gift) { [weak self] error in
             self?.resultDelegate?.giftResult(gift: gift, error: error)
         }

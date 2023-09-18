@@ -7,18 +7,7 @@
 
 import UIKit
 
-public protocol SearchDisplayProtocol {
-    var searchKeyword: String {set get}
-}
-
-public protocol SearchDriver {
-    
-    var action: ((SearchDisplayProtocol) -> Void)? {set get}
-    
-    func refresh(item: SearchDisplayProtocol)
-}
-
-public class SearchViewController<SearchResultCell:UITableViewCell&SearchDriver>: UITableViewController,UISearchResultsUpdating {
+@objc public class SearchViewController: UITableViewController,UISearchResultsUpdating {
         
     public private(set) lazy var searchController: UISearchController = {
         let search = UISearchController(searchResultsController: nil)
@@ -28,23 +17,48 @@ public class SearchViewController<SearchResultCell:UITableViewCell&SearchDriver>
         return search
     }()
     
-    public private(set) var rawSources = [SearchDisplayProtocol]()
+    public private(set) var rawSources = [UserInfoProtocol]() {
+        didSet {
+            if !self.searchController.isActive {
+                if self.rawSources.count <= 0  {
+                    self.tableView.backgroundView = self.empty
+                } else {
+                    self.tableView.backgroundView = nil
+                }
+            }
+        }
+    }
     
-    public private(set) var searchResults = [SearchDisplayProtocol]()
+    public private(set) var searchResults = [UserInfoProtocol]() {
+        didSet {
+            if self.searchController.isActive {
+                if self.searchResults.count <= 0 {
+                    self.tableView.backgroundView = self.empty
+                } else {
+                    self.tableView.backgroundView = nil
+                }
+            }
+        }
+    }
     
-    public private(set) var action: ((SearchDisplayProtocol) -> Void)?
+    public private(set) var action: ((UserInfoProtocol) -> Void)?
     
-    convenience init(rawSources: [SearchDisplayProtocol] = [SearchDisplayProtocol](),cellExtenAction: @escaping ((SearchDisplayProtocol) -> Void),didSelect: @escaping ((SearchDisplayProtocol) -> Void)) {
+    public private(set) lazy var empty: EmptyStateView = {
+        EmptyStateView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: self.tableView.frame.height),emptyImage: UIImage(named: "empty",in: .chatroomBundle, with: nil))
+    }()
+    
+    @objc public convenience init(rawSources: [UserInfoProtocol],cellExtensionAction: @escaping ((UserInfoProtocol) -> Void),didSelect: @escaping ((UserInfoProtocol) -> Void)) {
         self.init()
-        self.action = cellExtenAction
+        self.action = cellExtensionAction
         self.rawSources = rawSources
+        self.searchResults = rawSources
     }
     
     open override func viewDidLoad() {
         super.viewDidLoad()
                 
         self.tableView.tableHeaderView = self.searchController.searchBar
-        self.tableView.register(SearchResultCell.self, forCellReuseIdentifier: "SearchResultCell")
+        self.tableView.register(ChatroomParticipantsCell.self, forCellReuseIdentifier: "SearchResultCell")
         self.definesPresentationContext = true
         _ = self.searchController.publisher(for: \.isActive).sink { [weak self] status in
             if !status {
@@ -61,24 +75,24 @@ public class SearchViewController<SearchResultCell:UITableViewCell&SearchDriver>
     }
     
     open override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell", for: indexPath) as? SearchResultCell
+        var cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell", for: indexPath) as? ChatroomParticipantsCell
         if cell == nil {
-            cell = SearchResultCell(style: .default, reuseIdentifier: "SearchResultCell")
+            cell = ChatroomParticipantsCell(style: .default, reuseIdentifier: "SearchResultCell")
         }
         if self.searchController.isActive && !self.searchResults.isEmpty {
             if let item = self.searchResults[safe: indexPath.row] {
-                cell?.refresh(item: item)
+                cell?.refresh(user: item)
             }
         } else {
             if let item = self.rawSources[safe: indexPath.row] {
-                cell?.refresh(item: item)
+                cell?.refresh(user: item)
             }
         }
-        cell?.action = { [weak self] in
+        cell?.moreClosure = { [weak self] in
             self?.action?($0)
         }
         cell?.selectionStyle = .none
-        return cell ?? SearchResultCell()
+        return cell ?? ChatroomParticipantsCell()
     }
     
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -96,8 +110,8 @@ public class SearchViewController<SearchResultCell:UITableViewCell&SearchDriver>
     }
     
     public func updateSearchResults(for searchController: UISearchController) {
-        if let searchText = searchController.searchBar.text {
-            self.searchResults = self.rawSources.filter({ $0.searchKeyword == searchText })
+        if let searchText = searchController.searchBar.text,!searchText.isEmpty {
+            self.searchResults = self.rawSources.filter({ $0.nickName.contains(searchText) })
             self.tableView.reloadData()
         }
     }

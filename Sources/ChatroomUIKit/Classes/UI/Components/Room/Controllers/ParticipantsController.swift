@@ -10,9 +10,19 @@ import UIKit
 /// Chatroom participants list
 open class ParticipantsController: UITableViewController {
     
+    public private(set) var style: ThemeStyle = .light
+    
     public private(set) var roomService = RoomService(roomId: ChatroomContext.shared?.roomId ?? "")
     
-    public private(set) var users = [UserInfoProtocol]()
+    public private(set) var users = [UserInfoProtocol]() {
+        didSet {
+            if self.users.count <= 0 {
+                self.tableView.backgroundView = self.empty
+            } else {
+                self.tableView.backgroundView = nil
+            }
+        }
+    }
         
     public private(set) var pageSize: UInt = 15
     
@@ -22,6 +32,10 @@ open class ParticipantsController: UITableViewController {
     
     lazy var searchField: SearchBar = {
         SearchBar(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 44))
+    }()
+    
+    lazy var empty: EmptyStateView = {
+        EmptyStateView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: self.tableView.frame.height),emptyImage: UIImage(named: "empty",in: .chatroomBundle, with: nil))
     }()
     
     /// ParticipantsController init method.
@@ -44,6 +58,7 @@ open class ParticipantsController: UITableViewController {
         self.tableView.rowHeight = 60
         self.tableView.separatorColor(UIColor.theme.neutralColor9)
         self.tableView.tableFooterView(UIView())
+        self.searchField.addActionHandler(handler: self)
         Theme.registerSwitchThemeViews(view: self)
         // Uncomment the following line to preserve selection between presentations
         self.fetchFinish = false
@@ -94,6 +109,9 @@ open class ParticipantsController: UITableViewController {
             cell?.refresh(user: user)
         }
         cell?.more.isHidden = !(ChatroomContext.shared?.owner ?? false)
+        cell?.moreClosure = { [weak self] in
+            self?.operationUser(user: $0)
+        }
         cell?.selectionStyle = .none
         return cell ?? ChatroomParticipantsCell()
     }
@@ -104,11 +122,81 @@ open class ParticipantsController: UITableViewController {
             self.fetchUsers()
         }
     }
+    
+    private func operationUser(user: UserInfoProtocol) {
+        if let map = ChatroomContext.shared?.muteMap {
+            let mute = map[user.userId] ?? false
+            if mute {
+                if let index = Appearance.defaultOperationUserActions.firstIndex(where: { $0.tag == "Mute"
+                }) {
+                    Appearance.defaultOperationUserActions[index] = ActionSheetItem(title: "barrage_long_press_menu_unmute".chatroom.localize, type: .normal, tag: "unmute")
+                }
+            } else {
+                if let index = Appearance.defaultOperationUserActions.firstIndex(where: { $0.tag == "unmute"
+                }) {
+                    Appearance.defaultOperationUserActions[index] = ActionSheetItem(title: "barrage_long_press_menu_mute".chatroom.localize, type: .normal, tag: "Mute")
+                }
+            }
+        }
+        DialogManager.shared.showMessageActions(actions: Appearance.defaultOperationUserActions) { item in
+            switch item.tag {
+            case "Mute":
+                self.roomService.mute(userId: user.userId, completion: { [weak self] error in
+                    guard let `self` = self else { return }
+                    if error == nil {
+                        self.users.removeAll { $0.userId == user.userId }
+                        self.tableView.reloadData()
+                    } else {
+                        self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",style: self.style == .light ? .light:.dark,duration: 2)
+                    }
+                })
+            case "unmute":
+                self.roomService.unmute(userId: user.userId, completion: { [weak self] error in
+                    guard let `self` = self else { return }
+                    if error == nil {
+                        self.users.removeAll { $0.userId == user.userId }
+                        self.tableView.reloadData()
+                    } else {
+                        self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",style: self.style == .light ? .light:.dark,duration: 2)
+                    }
+                })
+            case "Remove":
+                self.roomService.kick(userId: user.userId) { [weak self] error in
+                    guard let `self` = self else { return }
+                    self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",style: self.style == .light ? .light:.dark,duration: 2)
+                }
+            default:
+                item.action?(item)
+            }
+        }
+    }
+}
+
+extension ParticipantsController: SearchBarActionEvents {
+    
+    public func onSearchBarClicked() {
+        let search = SearchViewController(rawSources: self.rawSources()) { [weak self] user in
+            self?.operationUser(user: user)
+        } didSelect: { user in
+            
+        }
+        self.present(search, animated: true)
+    }
+    
+    private func rawSources() -> [UserInfoProtocol] {
+        var sources = [UserInfoProtocol]()
+        for user in self.users {
+            sources.append(user)
+        }
+        return sources
+    }
+    
 }
 
 extension ParticipantsController: ThemeSwitchProtocol {
     
     public func switchTheme(style: ThemeStyle) {
+        self.style = style
         self.tableView.separatorColor(style == .dark ? UIColor.theme.neutralColor2:UIColor.theme.neutralColor9)
         self.tableView.backgroundColor(style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1)
     }

@@ -72,6 +72,7 @@ import UIKit
         self.userImplement = UserServiceImplement(userInfo: user, token: token, use: false, completion: completion)
     }
     
+    /// Logout user
     @objc public func logout() {
         self.userImplement?.logout(completion: { _, _ in
             
