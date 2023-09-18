@@ -117,8 +117,10 @@ import UIKit
         }
     }
     
+    /// ``ChatroomView``  UI driver.
     public private(set) weak var chatDriver: IChatBarrageListDriver?
     
+    /// ``GiftsBarrageList`` UI driver
     public private(set) weak var giftDriver: IGiftsBarrageListDriver?
     
     public required init(roomId: String) {
@@ -216,61 +218,6 @@ import UIKit
         })
     }
     
-//    @objc public func block(userId: String,completion: @escaping (ChatError?) -> Void) {
-//        self.roomService?.operatingUser(roomId: self.roomId, userId: userId, type: .block, completion: { success, error in
-//            completion(error)
-//        })
-//    }
-//
-//    @objc public func unblock(userId: String,completion: @escaping (ChatError?) -> Void) {
-//        self.roomService?.operatingUser(roomId: self.roomId, userId: userId, type: .unblock, completion: { success, error in
-//            completion(error)
-//        })
-//    }
-//
-//    @objc public func addAdmin(userId: String,completion: @escaping (ChatError?) -> Void) {
-//        self.roomService?.operatingUser(roomId: self.roomId, userId: userId, type: .addAdministrator, completion: { success, error in
-//            completion(error)
-//        })
-//    }
-//
-//    @objc public func removeAdmin(userId: String,completion: @escaping (ChatError?) -> Void) {
-//        self.roomService?.operatingUser(roomId: self.roomId, userId: userId, type: .removeAdministrator, completion: { success, error in
-//            completion(error)
-//        })
-//    }
-    
-    @objc public func translate(message: ChatMessage,completion: @escaping (ChatError?) -> Void) {
-        self.roomService?.translateMessage(message: message, completion: { [weak self] translateResult, error in
-            if error == nil,let translation = translateResult {
-                self?.chatDriver?.refreshMessage(message: translation)
-            } else {
-                self?.handleError(type: .translate, error: error!)
-            }
-            completion(error)
-        })
-    }
-    
-    @objc public func recall(message: ChatMessage,completion: @escaping (ChatError?) -> Void) {
-        self.roomService?.recall(messageId: message.messageId, completion: { [weak self] error in
-            if error != nil {
-                self?.handleError(type: .recall, error: error!)
-            } else {
-                self?.chatDriver?.removeMessage(message: message)
-            }
-            completion(error)
-        })
-    }
-    
-    @objc public func report(message: ChatMessage,tag: String, reason: String,completion: @escaping (ChatError?) -> Void) {
-        self.roomService?.report(messageId: message.messageId, tag: tag, reason: reason, completion: { [weak self] error in
-            if error != nil {
-                self?.handleError(type: .report, error: error!)
-            }
-            completion(error)
-        })
-    }
-    
     @objc public func fetchParticipants(pageSize: UInt, completion: @escaping (([UserInfoProtocol]?,ChatError?)->Void)) {
         self.roomService?.fetchParticipants(roomId: self.roomId, pageSize: pageSize, completion: { [weak self] userIds, error in
             if let ids = userIds {
@@ -360,6 +307,61 @@ import UIKit
                     self?.handleError(type: .fetchMutes, error: error!)
                 }
             }
+        })
+    }
+    
+//    @objc public func block(userId: String,completion: @escaping (ChatError?) -> Void) {
+//        self.roomService?.operatingUser(roomId: self.roomId, userId: userId, type: .block, completion: { success, error in
+//            completion(error)
+//        })
+//    }
+//
+//    @objc public func unblock(userId: String,completion: @escaping (ChatError?) -> Void) {
+//        self.roomService?.operatingUser(roomId: self.roomId, userId: userId, type: .unblock, completion: { success, error in
+//            completion(error)
+//        })
+//    }
+//
+//    @objc public func addAdmin(userId: String,completion: @escaping (ChatError?) -> Void) {
+//        self.roomService?.operatingUser(roomId: self.roomId, userId: userId, type: .addAdministrator, completion: { success, error in
+//            completion(error)
+//        })
+//    }
+//
+//    @objc public func removeAdmin(userId: String,completion: @escaping (ChatError?) -> Void) {
+//        self.roomService?.operatingUser(roomId: self.roomId, userId: userId, type: .removeAdministrator, completion: { success, error in
+//            completion(error)
+//        })
+//    }
+    //MARK: - Message operation
+    @objc public func translate(message: ChatMessage,completion: @escaping (ChatError?) -> Void) {
+        self.roomService?.translateMessage(message: message, completion: { [weak self] translateResult, error in
+            if error == nil,let translation = translateResult {
+                self?.chatDriver?.refreshMessage(message: translation)
+            } else {
+                self?.handleError(type: .translate, error: error!)
+            }
+            completion(error)
+        })
+    }
+    
+    @objc public func recall(message: ChatMessage,completion: @escaping (ChatError?) -> Void) {
+        self.roomService?.recall(messageId: message.messageId, completion: { [weak self] error in
+            if error != nil {
+                self?.handleError(type: .recall, error: error!)
+            } else {
+                self?.chatDriver?.removeMessage(message: message)
+            }
+            completion(error)
+        })
+    }
+    
+    @objc public func report(message: ChatMessage,tag: String, reason: String,completion: @escaping (ChatError?) -> Void) {
+        self.roomService?.report(messageId: message.messageId, tag: tag, reason: reason, completion: { [weak self] error in
+            if error != nil {
+                self?.handleError(type: .report, error: error!)
+            }
+            completion(error)
         })
     }
 }

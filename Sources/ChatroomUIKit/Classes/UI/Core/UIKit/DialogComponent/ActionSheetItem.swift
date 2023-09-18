@@ -22,7 +22,7 @@ public typealias ActionClosure = ((ActionSheetItemProtocol) -> Void)
     /// The title of the action sheet item.
     var title: String {set get}
     
-    /// The type of the action sheet item.
+    /// The type of the action sheet item.``ActionSheetItemType``
     var type: ActionSheetItemType {set get}
     
     /// The tag of the action sheet item.

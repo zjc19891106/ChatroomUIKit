@@ -9,8 +9,6 @@ import UIKit
 
 @objc open class ReportOptionsController: UIViewController {
     
-    public private(set) var style = ThemeStyle.light
-    
     public private(set) var items: [Bool] = []
     
     public private(set) var reportMessage: ChatMessage = ChatMessage()
@@ -41,6 +39,7 @@ import UIKit
         self.items = Appearance.reportTags.map({ $0 == "Adult" })
         self.view.backgroundColor(.clear)
         self.view.addSubViews([self.optionsList,self.cancel,self.confirm])
+        self.switchTheme(style: Theme.style)
     }
 
 }
@@ -77,7 +76,7 @@ extension ReportOptionsController: UITableViewDelegate,UITableViewDataSource {
     @objc private func report() {
         ChatClient.shared().chatManager?.reportMessage(withId: self.reportMessage.messageId, tag: Appearance.reportTags[safe: self.selectIndex] ?? "", reason: "",completion: { error in
             if error != nil {
-                UIViewController.currentController?.makeToast(toast: error?.errorDescription ?? "",style: self.style == .light ? .light:.dark,duration: 2)
+                UIViewController.currentController?.makeToast(toast: error?.errorDescription ?? "",style: Theme.style == .light ? .light:.dark,duration: 2)
             }
         })
     }
@@ -89,7 +88,6 @@ extension ReportOptionsController: UITableViewDelegate,UITableViewDataSource {
 
 extension ReportOptionsController: ThemeSwitchProtocol {
     public func switchTheme(style: ThemeStyle) {
-        self.style = style
         self.optionsList.reloadData()
     }
     

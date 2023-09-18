@@ -10,10 +10,10 @@ import UIKit
 /// An object containing visual configuration for whole application.
 @objcMembers final public class Appearance: NSObject {
         
-    /// You can change the width of a single option with `PageContainerTitleBar` in the popup container by setting the current property
+    /// You can change the width of a single option with ``PageContainerTitleBar`` in the popup container by setting the current property
     public static var pageContainerTitleBarItemWidth: CGFloat = ScreenWidth/2.0
     
-    /// PageContainersDialogController constraints size.
+    /// ``PageContainersDialogController`` constraints size.
     public static var pageContainerConstraintsSize = CGSizeMake(ScreenWidth, ScreenHeight*(3/5.0))
     
     /// Gifts dialog controllers constraints size.
@@ -44,7 +44,7 @@ import UIKit
     /// You can modify this value to change the value of all gradient end colors.
     public static var gradientEndHue: CGFloat = 233/360.0
     
-    /// Replace emoji resource
+    /// Replace emoji resource.``ChatEmojiConvertor``
     /// - Parameters:
     ///   - map: Emoji map.Key is String type .Use as follows sorted keys .
     ///   `["U+1F600", "U+1F604", "U+1F609", "U+1F62E", "U+1F92A", "U+1F60E", "U+1F971", "U+1F974", "U+263A", "U+1F641", "U+1F62D", "U+1F610", "U+1F607", "U+1F62C", "U+1F913", "U+1F633", "U+1F973", "U+1F620", "U+1F644", "U+1F910", "U+1F97A", "U+1F928", "U+1F62B", "U+1F637", "U+1F912", "U+1F631", "U+1F618", "U+1F60D", "U+1F922", "U+1F47F", "U+1F92C", "U+1F621", "U+1F44D", "U+1F44E", "U+1F44F", "U+1F64C", "U+1F91D", "U+1F64F", "U+2764", "U+1F494", "U+1F495", "U+1F4A9", "U+1F48B", "U+2600", "U+1F31C", "U+1F308", "U+2B50", "U+1F31F", "U+1F389", "U+1F490", "U+1F382", "U+1F381"]`
@@ -54,7 +54,7 @@ import UIKit
     /// language code mirror type.
     public static var targetLanguage: LanguageType = .English
     
-    /// ActionSheet data source on message long pressed.
+    /// ActionSheet data source on message long pressed.``ActionSheetItemProtocol``
     public static var defaultMessageActions: [ActionSheetItemProtocol] = [ActionSheetItem(title: "barrage_long_press_menu_translate".chatroom.localize, type: .normal,tag: "Translate"),ActionSheetItem(title: "barrage_long_press_menu_delete".chatroom.localize, type: .normal,tag: "Delete"),ActionSheetItem(title: "barrage_long_press_menu_mute".chatroom.localize, type: .normal,tag: "Mute"),ActionSheetItem(title: "barrage_long_press_menu_report".chatroom.localize, type: .destructive,tag: "Report")]
     
     /// ActionSheet data source on participants list cell more button clicked.
@@ -63,28 +63,31 @@ import UIKit
     /// ActionSheet row height.
     public static var actionSheetRowHeight: CGFloat = 56
     
-    /// Gift list `GiftEntityCell` cell's gift image view placeholder image.
-    public static var giftPlaceHolder: UIImage? = UIImage(systemName: "gift")
+    /// Gift list ``GiftEntityCell`` cell's gift image view placeholder image.
+    public static var giftPlaceHolder: UIImage? = UIImage(named: "sendgift", in: .chatroomBundle, with: nil)
     
-    /// `ChatBarrageCell` avatar image view placeholder image.
+    /// ``ChatBarrageCell`` avatar image view placeholder image.
     public static var avatarPlaceHolder: UIImage? = UIImage(named: "default_avatar", in: .chatroomBundle, with: nil)
     
-    /// `ChatBarrageCell` user level image view placeholder image.
+    /// ``HorizontalTextCarousel`` default icon.
+    public static var notifyMessageIcon: UIImage? = UIImage(systemName: "speaker.3.fill")
+    
+    /// ``ChatBarrageCell`` user level image view placeholder image.
     public static var userIdentifyPlaceHolder: UIImage? = nil
     
-    /// `ChatInputBar` Input box height limit.
+    /// ``ChatInputBar`` Input box height limit.
     public static var maxInputHeight: CGFloat = 88
     
-    /// `ChatInputBar` placeholder text.
+    /// ``ChatInputBar`` placeholder text.
     public static var inputPlaceHolder = "Aa"
     
-    /// `ChatInputBar` corner radius.
+    /// ``ChatInputBar`` corner radius.
     public static var inputBarCorner: CornerRadius = .medium
     
-    /// `ChatBarrageCell` avatar image view corner radius.
+    /// ``ChatInputBar`` avatar image view corner radius.
     public static var avatarRadius: CornerRadius = .large
     
-    /// `ChatBarrageCell` default height.
+    /// ``ChatBarrageCell`` default height.
     public static var giftBarrageRowHeight: CGFloat = 64
     
     /// You can set label for report types.

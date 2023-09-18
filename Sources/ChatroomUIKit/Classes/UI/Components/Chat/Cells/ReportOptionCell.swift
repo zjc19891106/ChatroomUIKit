@@ -25,6 +25,7 @@ import UIKit
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.addSubViews([self.content,self.stateView])
         Theme.registerSwitchThemeViews(view: self)
+        self.switchTheme(style: Theme.style)
     }
     
     required public init?(coder: NSCoder) {

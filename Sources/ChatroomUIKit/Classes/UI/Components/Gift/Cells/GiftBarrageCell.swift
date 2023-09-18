@@ -57,6 +57,7 @@ import UIKit
         self.container.addSubViews([self.blur,self.avatar, self.userName, self.giftName, self.giftIcon, self.giftNumbers])
         
         Theme.registerSwitchThemeViews(view: self)
+        self.switchTheme(style: Theme.style)
     }
     
 

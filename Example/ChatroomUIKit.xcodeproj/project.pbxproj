@@ -12,7 +12,7 @@
 		05B7D8852AB3F079000F25DF /* UIWithBusinessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7D8842AB3F079000F25DF /* UIWithBusinessViewController.swift */; };
 		05B7D8872AB3F091000F25DF /* ExamplesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7D8862AB3F091000F25DF /* ExamplesViewController.swift */; };
 		05B7D88A2AB3F5A8000F25DF /* OCBusinessUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05B7D8892AB3F5A8000F25DF /* OCBusinessUIViewController.m */; };
-		05B7D88C2AB4024E000F25DF /* ChatroomUIKitConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7D88B2AB4024E000F25DF /* ChatroomUIKitConfig.swift */; };
+		05B7D88C2AB4024E000F25DF /* ExampleRequiredConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7D88B2AB4024E000F25DF /* ExampleRequiredConfig.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* UIComponentsExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* UIComponentsExampleViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -30,7 +30,7 @@
 		05B7D8862AB3F091000F25DF /* ExamplesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamplesViewController.swift; sourceTree = "<group>"; };
 		05B7D8882AB3F5A8000F25DF /* OCBusinessUIViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCBusinessUIViewController.h; sourceTree = "<group>"; };
 		05B7D8892AB3F5A8000F25DF /* OCBusinessUIViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCBusinessUIViewController.m; sourceTree = "<group>"; };
-		05B7D88B2AB4024E000F25DF /* ChatroomUIKitConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomUIKitConfig.swift; sourceTree = "<group>"; };
+		05B7D88B2AB4024E000F25DF /* ExampleRequiredConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleRequiredConfig.swift; sourceTree = "<group>"; };
 		23F2D4F753FAA56DA969CBB6 /* Pods-ChatroomUIKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatroomUIKit_Tests.release.xcconfig"; path = "Target Support Files/Pods-ChatroomUIKit_Tests/Pods-ChatroomUIKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		4CEC7506381B6D1C68085723 /* Pods_ChatroomUIKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatroomUIKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* ChatroomUIKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatroomUIKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,7 +83,7 @@
 		607FACD21AFB9204008FA782 /* Example for ChatroomUIKit */ = {
 			isa = PBXGroup;
 			children = (
-				05B7D88B2AB4024E000F25DF /* ChatroomUIKitConfig.swift */,
+				05B7D88B2AB4024E000F25DF /* ExampleRequiredConfig.swift */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				05B7D8862AB3F091000F25DF /* ExamplesViewController.swift */,
 				607FACD71AFB9204008FA782 /* UIComponentsExampleViewController.swift */,
@@ -283,7 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACD81AFB9204008FA782 /* UIComponentsExampleViewController.swift in Sources */,
-				05B7D88C2AB4024E000F25DF /* ChatroomUIKitConfig.swift in Sources */,
+				05B7D88C2AB4024E000F25DF /* ExampleRequiredConfig.swift in Sources */,
 				05B7D8872AB3F091000F25DF /* ExamplesViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				05B7D8852AB3F079000F25DF /* UIWithBusinessViewController.swift in Sources */,

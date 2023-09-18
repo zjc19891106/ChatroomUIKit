@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import HyphenateChat
 import KakaJSON
 
 fileprivate let chatroom_UIKit_user_join = "chatroom_UIKit_user_join"
@@ -114,7 +113,7 @@ extension ChatroomServiceImplement: ChatroomService {
     
     public func sendMessage(text: String, roomId: String, completion: @escaping (Bool, ChatError?) -> Void) {
         let user = ChatroomContext.shared?.currentUser as? User
-        let message = ChatMessage(conversationID: roomId, body: EMTextMessageBody(text: text), ext: user?.kj.JSONObject())
+        let message = ChatMessage(conversationID: roomId, body: ChatTextMessageBody(text: text), ext: user?.kj.JSONObject())
         message.chatType = .chatRoom
         ChatClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
             completion(error == nil,error)
@@ -123,7 +122,7 @@ extension ChatroomServiceImplement: ChatroomService {
     
     public func sendMessage(to userIds: [String], roomId: String, content: String, completion: @escaping (Bool, ChatError?) -> Void) {
         let user = ChatroomContext.shared?.currentUser as? User
-        let message = ChatMessage(conversationID: roomId, body: EMTextMessageBody(text: content), ext: user?.kj.JSONObject())
+        let message = ChatMessage(conversationID: roomId, body: ChatTextMessageBody(text: content), ext: user?.kj.JSONObject())
         message.chatType = .chatRoom
         message.receiverList = userIds
         ChatClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
@@ -133,7 +132,7 @@ extension ChatroomServiceImplement: ChatroomService {
     
     public func sendCustomMessage(to userIds: [String], roomId: String, eventType: String, infoMap: [String : String], completion: @escaping (Bool, ChatError?) -> Void) {
         let user = ChatroomContext.shared?.currentUser as? User
-        let message = ChatMessage(conversationID: roomId, body: EMCustomMessageBody(event: eventType, customExt: infoMap), ext: user?.kj.JSONObject())
+        let message = ChatMessage(conversationID: roomId, body: ChatCustomMessageBody(event: eventType, customExt: infoMap), ext: user?.kj.JSONObject())
         message.chatType = .chatRoom
         message.receiverList = userIds
         ChatClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
@@ -149,7 +148,7 @@ extension ChatroomServiceImplement: ChatroomService {
     
     private func sendJoinMessage(roomId: String, completion: @escaping (ChatError?) -> Void) {
         let user = ChatroomContext.shared?.currentUser as? User
-        let message = ChatMessage(conversationID: roomId, body: EMCustomMessageBody(event: chatroom_UIKit_user_join, customExt: nil), ext: user?.kj.JSONObject())
+        let message = ChatMessage(conversationID: roomId, body: ChatCustomMessageBody(event: chatroom_UIKit_user_join, customExt: nil), ext: user?.kj.JSONObject())
         message.chatType = .chatRoom
         ChatClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
             completion(error)

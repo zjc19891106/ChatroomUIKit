@@ -55,6 +55,7 @@ import UIKit
         self.pageTitles = pageTitles
         self.childControllers = childControllers
         Theme.registerSwitchThemeViews(view: self)
+        self.switchTheme(style: Theme.style)
     }
 
     override public func viewDidLoad() {

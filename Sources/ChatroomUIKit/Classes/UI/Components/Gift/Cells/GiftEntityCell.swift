@@ -22,7 +22,7 @@ import UIKit
     
 
     lazy var cover: UIView = {
-        UIView(frame:CGRect(x: 1, y: 5, width: self.contentView.frame.width-2, height: self.contentView.frame.height - 5)).cornerRadius(.small).layerProperties(UIColor.theme.primaryColor5, 1).backgroundColor(UIColor.theme.primaryColor9)
+        UIView(frame:CGRect(x: 1, y: 5, width: self.contentView.frame.width-2, height: self.contentView.frame.height - 5)).cornerRadius(.small).layerProperties(UIColor.theme.primaryColor5, 1).backgroundColor(UIColor.theme.primaryColor95)
     }()
     
     lazy var send: UIButton = {
@@ -49,6 +49,7 @@ import UIKit
         self.displayValue.imageEdgeInsets(UIEdgeInsets(top: self.displayValue.imageEdgeInsets.top, left: -10, bottom: self.displayValue.imageEdgeInsets.bottom, right: self.displayValue.imageEdgeInsets.right))
         
         Theme.registerSwitchThemeViews(view: self)
+        self.switchTheme(style: Theme.style)
     }
     
     public override func layoutSubviews() {
@@ -94,6 +95,7 @@ import UIKit
 
 extension GiftEntityCell: ThemeSwitchProtocol {
     public func switchTheme(style: ThemeStyle) {
+        self.cover.backgroundColor(style == .dark ? UIColor.theme.primaryColor2:UIColor.theme.primaryColor95)
         self.cover.layerProperties(style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5, 1)
         self.send.backgroundColor(style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5)
         self.name.textColor(style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1)

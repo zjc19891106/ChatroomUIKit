@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 
-/// 动画上下文
 public struct AnimationContext {
     
     public let containerView: UIView
@@ -32,7 +31,6 @@ public struct AnimationContext {
     public let animatingView: UIView?
 }
 
-/// 转场动画类，可继承此类自定转场动画
 open class PresentationAnimation: NSObject {
     public var options: AnimationOptions
     public var origin: PresentationOrigin?
@@ -42,12 +40,6 @@ open class PresentationAnimation: NSObject {
         self.origin = origin
     }
 
-    /// 计算动画view初始Frame
-    ///
-    /// - Parameters:
-    ///   - containerFrame: 容器view的frame
-    ///   - finalFrame: 动画view最终frame
-    /// - Returns: 动画view初始Frame
     open func transformInitialFrame(containerFrame: CGRect, finalFrame: CGRect) -> CGRect {
         guard let origin = origin else { return finalFrame }
         var initialFrame = finalFrame
@@ -68,9 +60,7 @@ open class PresentationAnimation: NSObject {
         return initialFrame
     }
 
-    /// 动画开始前（做动画开始前的准备工作，子类可覆写）
-    ///
-    /// - Parameter animationContext: 动画上下文
+
     open func beforeAnimation(animationContext: AnimationContext) {
         var initialFrame = animationContext.finalFrame
         if animationContext.isPresenting {
@@ -79,9 +69,7 @@ open class PresentationAnimation: NSObject {
         animationContext.animatingView?.frame = initialFrame
     }
 
-    /// 动画执行（做动画的具体执行动作，子类可覆写）
-    ///
-    /// - Parameter animationContext:  动画上下文
+
     open func performAnimation(animationContext: AnimationContext) {
         var finalFrame = animationContext.finalFrame
         if !animationContext.isPresenting {
@@ -97,7 +85,6 @@ open class PresentationAnimation: NSObject {
 }
 
 // MARK: - UIViewControllerAnimatedTransitioning
-
 extension PresentationAnimation: UIViewControllerAnimatedTransitioning {
     public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return options.duration

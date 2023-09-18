@@ -48,6 +48,7 @@ import UIKit
         self.contentView.backgroundColor = .clear
         self.contentView.addSubViews([self.container,self.redDot,self.icon])
         Theme.registerSwitchThemeViews(view: self)
+        self.switchTheme(style: Theme.style)
     }
 
     @available(*, unavailable)

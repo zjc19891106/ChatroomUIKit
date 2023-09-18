@@ -11,6 +11,8 @@ import ChatroomUIKit
 
 final class UIWithBusinessViewController: UIViewController {
     
+    var style: ThemeStyle = .light
+    
     var roomId = ""
     
     var option: ChatroomUIKitInitialOptions {
@@ -37,6 +39,23 @@ final class UIWithBusinessViewController: UIViewController {
         UIButton(type: .custom).frame(CGRect(x: 100, y: 160, width: 150, height: 20)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title("Participants", .normal).addTargetFor(self, action: #selector(showParticipants), for: .touchUpInside)
     }()
     
+    private lazy var modeSegment: UISegmentedControl = {
+        let segment = UISegmentedControl(items: ["Light","Dark"])
+        segment.frame = CGRect(x: 100, y: 195, width: 96, height: 46)
+        segment.setImage(UIImage(named: "sun"), forSegmentAt: 0)
+        segment.setImage(UIImage(named: "moon"), forSegmentAt: 1)
+        segment.tintColor = UIColor(0x009EFF)
+        segment.tag = 12
+        segment.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
+        segment.selectedSegmentIndex = self.style == .light ? 0:1
+        
+        segment.selectedSegmentTintColor = UIColor(0x009EFF)
+        segment.setTitleTextAttributes([NSAttributedStringKey.foregroundColor : UIColor.white,NSAttributedStringKey.font:UIFont.systemFont(ofSize: 18, weight: .medium)], for: .selected)
+        segment.setTitleTextAttributes([NSAttributedStringKey.foregroundColor : UIColor.white,NSAttributedStringKey.font:UIFont.systemFont(ofSize: 16, weight: .regular)], for: .normal)
+        segment.addTarget(self, action: #selector(onChanged(sender:)), for: .valueChanged)
+        return segment
+    }()
+    
     lazy var gift1: GiftsViewController = {
         GiftsViewController(gifts: self.gifts(), result: self, eventsDelegate: self)
     }()
@@ -53,7 +72,7 @@ final class UIWithBusinessViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.view.addSubViews([self.background,self.roomView,self.carouselTextView,self.members])
+        self.view.addSubViews([self.background,self.roomView,self.carouselTextView,self.members,self.modeSegment])
         self.roomView.addActionHandler(actionHandler: self)
         ChatroomUIKitClient.shared.registerRoomEventsListener(listener: self)
     }
@@ -62,6 +81,11 @@ final class UIWithBusinessViewController: UIViewController {
 }
 
 extension UIWithBusinessViewController {
+    
+    @objc private func onChanged(sender: UISegmentedControl) {
+        self.style = ThemeStyle(rawValue: UInt(sender.selectedSegmentIndex)) ?? .light
+        Theme.switchTheme(style: self.style)
+    }
     
     @objc func showParticipants() {
         DialogManager.shared.showParticipantsDialog { user in

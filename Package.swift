@@ -17,10 +17,11 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/kakaopensource/KakaJSON", from: "1.1.2"),
+        .package(url: "https://github.com/AgoraIO/AgoraChat_iOS", from: "1.1.0"),
     ],
     targets: [
             .target(
                 name: "ChatroomUIKit",
-                dependencies: [])
+                dependencies: ["KakaJSON"])
         ]
 )

@@ -41,6 +41,7 @@ import UIKit
         self.contentView.backgroundColor(.clear)
         self.contentView.addSubViews([self.userLevel,self.userAvatar,self.userName,self.userDetail,self.more])
         Theme.registerSwitchThemeViews(view: self)
+        self.switchTheme(style: Theme.style)
     }
     
     required public init?(coder: NSCoder) {

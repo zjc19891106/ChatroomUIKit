@@ -22,7 +22,9 @@ import UIKit
 @objcMembers open class GiftsView: UIView {
         
     private var eventHandlers: NSHashTable<GiftsViewActionEventsDelegate> = NSHashTable<GiftsViewActionEventsDelegate>.weakObjects()
-        
+    
+    /// Add UI action handler.
+    /// - Parameter actionHandler: ``GiftsViewActionEventsDelegate``
     public func addActionHandler(actionHandler: GiftsViewActionEventsDelegate) {
         if self.eventHandlers.contains(actionHandler) {
             return
@@ -30,6 +32,8 @@ import UIKit
         self.eventHandlers.add(actionHandler)
     }
 
+    /// Remove UI action handler.
+    /// - Parameter actionHandler: ``GiftsViewActionEventsDelegate``
     public func removeEventHandler(actionHandler: GiftsViewActionEventsDelegate) {
         self.eventHandlers.remove(actionHandler)
     }

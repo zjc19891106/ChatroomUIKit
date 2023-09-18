@@ -34,6 +34,8 @@ import Foundation
 /// Only one of the above two methods can be called.
 @objcMembers open class Theme: NSObject {
     
+    public static var style: ThemeStyle = .light
+    
     private static var registerViews = NSMutableSet()
     
     /// Register some user's own views that Implement with the ThemeSwitchProtocol protocol.
@@ -52,6 +54,7 @@ import Foundation
     /// How to use?
     /// `Theme.switchTheme(style: .dark)`
     @MainActor public static func switchTheme(style: ThemeStyle) {
+        self.style = style
         for view in registerViews {
             if let themeView = view as? ThemeSwitchProtocol {
                 themeView.switchTheme(style: style)

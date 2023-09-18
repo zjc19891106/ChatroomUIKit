@@ -36,6 +36,7 @@ import UIKit
         super.init(frame: frame)
         self.addSubview(self.searchField)
         Theme.registerSwitchThemeViews(view: self)
+        self.switchTheme(style: Theme.style)
     }
     
     required public init?(coder: NSCoder) {

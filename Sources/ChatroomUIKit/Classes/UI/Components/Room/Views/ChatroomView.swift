@@ -44,13 +44,6 @@ import UIKit
     /// Whether display raise keyboard button or not.
     public private(set) var hiddenChat = false
     
-    /// Gift dialog child view controllers.You can integrate this Controller for business expansion and event response processing.
-    /// - Example `DialogManager.shared.showGiftsDialog(titles: ["Gifts","Gifts1"], gifts: [vc1,vc2])`
-    public private(set) var giftContainers = [GiftsViewController]()
-    
-    /// The `DialogManager.shared.showGiftsDialog(titles: ["Gifts","Gifts1"], gifts: [vc1,vc2])` method param titles.
-    public private(set) var giftContainerTitles = [String]()
-    
     /// Gift list on receive gift.
     public private(set) lazy var giftBarrages: GiftsBarrageList = {
         GiftsBarrageList(frame: CGRect(x: 10, y: 0, width: self.frame.width-100, height: Appearance.giftBarrageRowHeight*2+20),source:self)
@@ -91,8 +84,6 @@ import UIKit
         }
         self.init(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: ScreenHeight))
         self.touchFrame = frame
-        self.giftContainers = giftContainers
-        self.giftContainerTitles = giftContainerTitles
         self.showGiftBarrage = showGiftBarrage
         self.menus = menus
         if showGiftBarrage {

@@ -29,25 +29,29 @@ var chatViewWidth: CGFloat = 0
 @objc public protocol ChatBarrageActionEventsHandler: NSObjectProtocol {
     
     /// The method called on message barrage long pressed.
-    /// - Parameter message: ChatBarrage
+    /// - Parameter message: ``ChatMessage``
     func onMessageBarrageLongPressed(message: ChatMessage)
     
     /// The method called on message barrage clicked.
-    /// - Parameter message: ChatBarrage
+    /// - Parameter message: ``ChatMessage``
     func onMessageClicked(message: ChatMessage)
 }
 
 @objcMembers open class ChatBarrageList: UIView {
     
     private var eventHandlers: NSHashTable<ChatBarrageActionEventsHandler> = NSHashTable<ChatBarrageActionEventsHandler>.weakObjects()
-        
+    
+    /// Add UI actions handler.
+    /// - Parameter actionHandler: ``ChatBarrageActionEventsHandler``
     public func addActionHandler(actionHandler: ChatBarrageActionEventsHandler) {
         if self.eventHandlers.contains(actionHandler) {
             return
         }
         self.eventHandlers.add(actionHandler)
     }
-
+    
+    /// Remove UI action handler.
+    /// - Parameter actionHandler: ``ChatBarrageActionEventsHandler``
     public func removeEventHandler(actionHandler: ChatBarrageActionEventsHandler) {
         self.eventHandlers.remove(actionHandler)
     }
@@ -87,7 +91,7 @@ var chatViewWidth: CGFloat = 0
     @available(*, unavailable)
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    } /// 渐变蒙层
+    }
 
 }
 

@@ -85,6 +85,7 @@ public final class PageContainer:  UIView {
         self.toolBar.backgroundColor(UIColor.theme.neutralColor98)
         self.backgroundColor(UIColor.theme.neutralColor98)
         Theme.registerSwitchThemeViews(view: self)
+        self.switchTheme(style: Theme.style)
     }
 
     @available(*, unavailable)

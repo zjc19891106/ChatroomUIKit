@@ -8,9 +8,7 @@
 import UIKit
 
 @objcMembers open class ChatEmojiView: UIView {
-    
-    private var theme: ThemeStyle = .light
-    
+        
     @objc public var deleteClosure: (() -> Void)?
 
     @objc public var emojiClosure: ((String) -> Void)?
@@ -36,7 +34,7 @@ import UIKit
         UIButton(type: .custom).frame(CGRect(x: self.frame.width - 48, y: self.frame.height - 56, width: 40, height: 40)).addTargetFor(self, action: #selector(deleteAction), for: .touchUpInside).isEnabled(false).isUserInteractionEnabled(false).backgroundColor(.clear)
     }()
 
-    required override public init(frame: CGRect) {
+    @objc required override public init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubViews([self.emojiList, self.deleteEmoji, self.separaLine])
         self.deleteEmoji.setImage(UIImage(named: "delete_emoji_light", in: .chatroomBundle, with: nil), for: .normal)
@@ -49,6 +47,7 @@ import UIKit
         layer0.shadowOffset = CGSize(width: 0, height: 1)
         
         Theme.registerSwitchThemeViews(view: self)
+        self.switchTheme(style: Theme.style)
     }
 
     @available(*, unavailable)

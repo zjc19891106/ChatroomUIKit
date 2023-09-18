@@ -84,8 +84,8 @@ import UIKit
     ///   - roomId: Chatroom id
     ///   - frame: Frame
     ///   - owner: Whether judge current user is owner or not.
-    ///   - options: `RoomUIKitInitialOptions`
-    /// - Returns: ChatroomUIKit.ChatroomView
+    ///   - options: ``RoomUIKitInitialOptions``
+    /// - Returns: ``ChatroomView``
     @objc public func launchRoomViewWithOptions(roomId: String,frame: CGRect, is owner: Bool, options: ChatroomUIKitInitialOptions = ChatroomUIKitInitialOptions()) -> ChatroomView {
         self.roomId = roomId
         ChatroomContext.shared?.roomId = roomId
@@ -101,13 +101,13 @@ import UIKit
     }
     
     /// Register chatroom events listener
-    /// - Parameter listener: RoomEventsListener
+    /// - Parameter listener: ``RoomEventsListener``
     @objc public func registerRoomEventsListener(listener: RoomEventsListener) {
         self.roomService?.registerListener(listener: listener)
     }
     
     /// Unregister chatroom events listener
-    /// - Parameter listener: RoomEventsListener
+    /// - Parameter listener: ``RoomEventsListener``
     @objc public func unregisterRoomEventsListener(listener: RoomEventsListener) {
         self.roomService?.unregisterListener(listener: listener)
     }

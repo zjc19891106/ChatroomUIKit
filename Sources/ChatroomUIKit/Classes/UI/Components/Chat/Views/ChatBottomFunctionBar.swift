@@ -43,13 +43,17 @@ import UIKit
     private var eventHandlers: NSHashTable<ChatBottomFunctionBarActionEvents> = NSHashTable<ChatBottomFunctionBarActionEvents>.weakObjects()
     
     
+    /// Add UI action handler.
+    /// - Parameter actionHandler: ``ChatBottomFunctionBarActionEvents``
     public func addActionHandler(actionHandler: ChatBottomFunctionBarActionEvents) {
         if self.eventHandlers.contains(actionHandler) {
             return
         }
         self.eventHandlers.add(actionHandler)
     }
-
+    
+    /// Remove UI action handler.
+    /// - Parameter actionHandler: ``ChatBottomFunctionBarActionEvents``
     public func removeEventHandler(actionHandler: ChatBottomFunctionBarActionEvents) {
         self.eventHandlers.remove(actionHandler)
     }
@@ -94,6 +98,7 @@ import UIKit
         self.chatRaiser.contentHorizontalAlignment = .left
         self.backgroundColor = .clear
         Theme.registerSwitchThemeViews(view: self)
+        self.switchTheme(style: Theme.style)
     }
     
     private func refreshToolBar(datas: [ChatBottomItemProtocol]) {

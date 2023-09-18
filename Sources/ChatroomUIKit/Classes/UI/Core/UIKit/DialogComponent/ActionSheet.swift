@@ -17,9 +17,7 @@ import UIKit
  */
 
 @objc open class ActionSheet: UIView {
-    
-    private var style: ThemeStyle = .light
-    
+        
     public var items: [ActionSheetItemProtocol] = []
     
     lazy var indicator: UIView = {
@@ -103,6 +101,7 @@ import UIKit
         }
         
         Theme.registerSwitchThemeViews(view: self)
+        self.switchTheme(style: Theme.style)
     }
     
     @objc private func cancelAction() {
@@ -117,7 +116,6 @@ import UIKit
 
 extension ActionSheet: ThemeSwitchProtocol {
     public func switchTheme(style: ThemeStyle) {
-        self.style = style
         self.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
         self.titleContainer.textColor(style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1)
         self.messageContainer.textColor(style == .dark ? UIColor.theme.neutralColor6:UIColor.theme.neutralColor5)
@@ -145,8 +143,8 @@ extension ActionSheet: UITableViewDelegate,UITableViewDataSource {
         if cell == nil {
             cell = ActionSheetCell(style: .default, reuseIdentifier: "ActionSheetCell")
         }
-        cell?.backgroundColor(self.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
-        cell?.contentView.backgroundColor(self.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
+        cell?.backgroundColor(Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
+        cell?.contentView.backgroundColor(Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
         let item = self.items[indexPath.row]
         cell?.textLabel?.text = item.title
         cell?.textLabel?.font = .systemFont(ofSize: 16, weight: .regular)
@@ -154,7 +152,7 @@ extension ActionSheet: UITableViewDelegate,UITableViewDataSource {
         cell?.imageView?.image = item.image
         cell?.textLabel?.numberOfLines = 2
         cell?.textLabel?.backgroundColor = .clear
-        if self.style == .light {
+        if Theme.style == .light {
             cell?.textLabel?.textColor = self.items[indexPath.row].type == .destructive ? UIColor.theme.errorColor5 : UIColor.theme.primaryColor5
         } else {
             cell?.textLabel?.textColor = self.items[indexPath.row].type == .destructive ? UIColor.theme.errorColor6 : UIColor.theme.primaryColor6

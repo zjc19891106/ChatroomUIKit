@@ -87,6 +87,7 @@ import UIKit
         
         
         Theme.registerSwitchThemeViews(view: self)
+        self.switchTheme(style: Theme.style)
     }
     
     deinit {

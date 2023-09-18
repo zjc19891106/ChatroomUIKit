@@ -12,9 +12,7 @@ import UIKit
     var datas: [String] = []
     
     var chooseClosure: ((Int)->())?
-    
-    private var theme: ThemeStyle = .light
-    
+        
     lazy var indicator: UIView = {
         UIView(frame: CGRect(x: 16+Appearance.pageContainerTitleBarItemWidth/2.0-8, y: self.frame.height-4, width: 16, height: 4)).cornerRadius(2).backgroundColor(UIColor.theme.primaryColor5)
     }()
@@ -54,6 +52,7 @@ import UIKit
         self.addSubViews([self.indicator,self.choicesBar])
         self.choicesBar.bounces = false
         Theme.registerSwitchThemeViews(view: self)
+        self.switchTheme(style: Theme.style)
     }
     
     required public init?(coder: NSCoder) {
@@ -73,7 +72,7 @@ extension PageContainerTitleBar: UICollectionViewDataSource, UICollectionViewDel
             return ChoiceItemCell()
         }
         cell.refresh(text: self.datas[indexPath.row])
-        cell.content.textColor(self.theme == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1)
+        cell.content.textColor(Theme.style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1)
         return cell
     }
     

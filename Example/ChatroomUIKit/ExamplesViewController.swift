@@ -28,15 +28,11 @@ final class ExamplesViewController: UIViewController {
     @IBAction func push_component_UI(_ sender: UIButton) {
         self.navigationController?.pushViewController(UIComponentsExampleViewController(), animated: true)
     }
-    /*
-     Follow the following process to create a chat room on console.
-     ProjectManager->Operation Manager->Chat Room->Create Chat Room.Then fill in the `chatroomId` parameter below.
-     **/
+
     @IBAction func push_business_UI(_ sender: Any) {
-        // You can visit`ChatroomUIKitConfig.generateTemporaryTokenURL` website.Create application then generate temporary token.
-        ChatroomUIKitClient.shared.login(with: YourAppUser(), token: ChatroomUIKitConfig.chatToken, use: true) { error in
+        ChatroomUIKitClient.shared.login(with: ExampleRequiredConfig.YourAppUser(), token: ExampleRequiredConfig.chatToken, use: true) { error in
             if error == nil || error?.code == .errorUserAlreadyLoginSame {
-                self.navigationController?.pushViewController(UIWithBusinessViewController(chatroomId: ChatroomUIKitConfig.chatroomId), animated: true)
+                self.navigationController?.pushViewController(UIWithBusinessViewController(chatroomId: ExampleRequiredConfig.chatroomId), animated: true)
             } else {
                 consoleLogInfo("ChatroomUIKitClient login failed!\nError:\(error?.errorDescription ?? "")", type: .debug)
             }
@@ -47,8 +43,7 @@ final class ExamplesViewController: UIViewController {
         self.navigationController?.pushViewController(OCUIComponentsExampleViewController(), animated: true)
     }
     @IBAction func push_OC_Business_UI(_ sender: UIButton) {
-        // You can visit`ChatroomUIKitConfig.generateTemporaryTokenURL` website.Create application then generate temporary token.
-        ChatroomUIKitClient.shared.login(with: YourAppUser(), token: ChatroomUIKitConfig.chatToken, use: true) { error in
+        ChatroomUIKitClient.shared.login(with: ExampleRequiredConfig.YourAppUser(), token: ExampleRequiredConfig.chatToken, use: true) { error in
             if error == nil {
                 self.navigationController?.pushViewController(OCBusinessUIViewController(), animated: true)
             } else {
@@ -62,18 +57,5 @@ final class ExamplesViewController: UIViewController {
     }
 }
 
-final class YourAppUser: NSObject,UserInfoProtocol {
-    
-    var userId: String = "18811508760"
-    
-    var nickName: String = "Jack"
-    
-    var avatarURL: String = "https://accktvpic.oss-cn-beijing.aliyuncs.com/pic/sample_avatar/sample_avatar_1.png"
-    
-    var gender: Int = 1
-    
-    var identify: String = "https://accktvpic.oss-cn-beijing.aliyuncs.com/pic/sample_avatar/sample_avatar_2.png"
-    
-    
-}
+
 

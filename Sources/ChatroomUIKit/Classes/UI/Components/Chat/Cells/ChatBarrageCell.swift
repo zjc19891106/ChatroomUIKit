@@ -16,6 +16,7 @@ import UIKit
     case excludeTimeAndLevel
     case excludeTimeAndAvatar
     case excludeLevelAndAvatar
+    case excludeTimeLevelAvatar
 }
 
 /// A class that represents a chat entity, which includes a message, a timestamp, attributed text, height, and width.
@@ -70,6 +71,7 @@ import UIKit
         case .all: distance = 88
         case .excludeTime: distance = 48
         case .excludeLevelAndAvatar: distance = 44
+        case .excludeTimeLevelAvatar: distance = 76
         case .excludeAvatar,.excludeLevel: distance = 62
         case .excludeTimeAndLevel,.excludeTimeAndAvatar: distance = 26
         }
@@ -141,12 +143,14 @@ public extension ChatMessage {
             originX += Int(self.avatar.frame.maxX)
         case .excludeTimeAndAvatar,.excludeAvatar:
             originX += Int(self.userIdentify.frame.maxX)
+        case .excludeTimeLevelAvatar:
+            originX = 8
         case .excludeLevelAndAvatar:
             originX += Int(self.time.frame.maxX)
         default:
             break
         }
-        return UILabel(frame: CGRect(x: 10, y: 7, width: self.container.frame.width - 20, height: self.container.frame.height - 18)).backgroundColor(.clear).numberOfLines(0).lineBreakMode(.byCharWrapping)
+        return UILabel(frame: CGRect(x: CGFloat(originX), y: 7, width: self.container.frame.width - 20, height: self.container.frame.height - 18)).backgroundColor(.clear).numberOfLines(0).lineBreakMode(.byCharWrapping)
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -178,6 +182,8 @@ public extension ChatMessage {
             self.container.addSubViews([self.userIdentify,self.content])
         case .excludeLevelAndAvatar:
             self.container.addSubViews([self.time,self.content])
+        case .excludeTimeLevelAvatar:
+            self.container.addSubview(self.content)
         default:
             break
         }

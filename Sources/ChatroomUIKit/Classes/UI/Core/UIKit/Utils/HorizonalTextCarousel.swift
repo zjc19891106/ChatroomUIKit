@@ -16,7 +16,7 @@ import UIKit
     private var originContentOffset = CGPoint.zero
         
     lazy var voiceIcon: UIImageView = {
-        UIImageView(frame: CGRect(x: 4, y: 2, width: (self.frame.height-4), height: (self.frame.height-4))).image(UIImage(systemName: "speaker.3.fill"))
+        UIImageView(frame: CGRect(x: 4, y: 2, width: (self.frame.height-4), height: (self.frame.height-4))).image(UIImage(systemName: "speaker.3.fill")).contentMode(.scaleAspectFit)
     }()
     
     lazy var scroll: UIScrollView = {

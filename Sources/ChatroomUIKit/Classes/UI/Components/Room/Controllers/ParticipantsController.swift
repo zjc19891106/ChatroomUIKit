@@ -9,9 +9,7 @@ import UIKit
 
 /// Chatroom participants list
 open class ParticipantsController: UITableViewController {
-    
-    public private(set) var style: ThemeStyle = .light
-    
+        
     public private(set) var roomService = RoomService(roomId: ChatroomContext.shared?.roomId ?? "")
     
     public private(set) var users = [UserInfoProtocol]() {
@@ -147,7 +145,7 @@ open class ParticipantsController: UITableViewController {
                         self.users.removeAll { $0.userId == user.userId }
                         self.tableView.reloadData()
                     } else {
-                        self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",style: self.style == .light ? .light:.dark,duration: 2)
+                        self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",style: Theme.style == .light ? .light:.dark,duration: 2)
                     }
                 })
             case "unmute":
@@ -157,13 +155,13 @@ open class ParticipantsController: UITableViewController {
                         self.users.removeAll { $0.userId == user.userId }
                         self.tableView.reloadData()
                     } else {
-                        self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",style: self.style == .light ? .light:.dark,duration: 2)
+                        self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",style: Theme.style == .light ? .light:.dark,duration: 2)
                     }
                 })
             case "Remove":
                 self.roomService.kick(userId: user.userId) { [weak self] error in
                     guard let `self` = self else { return }
-                    self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",style: self.style == .light ? .light:.dark,duration: 2)
+                    self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",style: Theme.style == .light ? .light:.dark,duration: 2)
                 }
             default:
                 item.action?(item)
@@ -196,7 +194,6 @@ extension ParticipantsController: SearchBarActionEvents {
 extension ParticipantsController: ThemeSwitchProtocol {
     
     public func switchTheme(style: ThemeStyle) {
-        self.style = style
         self.tableView.separatorColor(style == .dark ? UIColor.theme.neutralColor2:UIColor.theme.neutralColor9)
         self.tableView.backgroundColor(style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1)
     }
