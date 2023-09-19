@@ -51,7 +51,7 @@ import UIKit
     ///   Value is UIImage instance.
     public static var emojiMap: Dictionary<String,UIImage> = Dictionary<String,UIImage>()
     
-    /// language code mirror type.
+    /// language code mirror type.``LanguageType``
     public static var targetLanguage: LanguageType = .English
     
     /// ActionSheet data source on message long pressed.``ActionSheetItemProtocol``
