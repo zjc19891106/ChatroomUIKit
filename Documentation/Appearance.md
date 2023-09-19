@@ -55,12 +55,12 @@ Appearance.swift is a class file that configures some UI options before launchRo
 ![Schematic diagram](giftPlaceHolder.png).
 
 
-12. ``Appearance.avatarPlaceHolder``.
+12. [``Appearance.avatarPlaceHolder``](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Chat/Cells/ChatBarrageCell.swift).
 
 ![Schematic diagram](avatarPlaceHolder.png)
 
 
-13. ``Appearance.userIdentifyPlaceHolder``.
+13. [``Appearance.userIdentifyPlaceHolder``]((https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Chat/Cells/ChatBarrageCell.swift)).
 
 ![Schematic diagram](userIdentifyPlaceHolder.png)
 
@@ -70,17 +70,17 @@ Appearance.swift is a class file that configures some UI options before launchRo
 ![Schematic diagram](notifyMessageIcon.png)
 
 
-15. ``Appearance.maxInputHeight``.
+15. [``Appearance.maxInputHeight``](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Input/Views/ChatInputBar.swift).
 
 ![Schematic diagram](maxInputHeight.png)
 
 
-16. ``Appearance.inputPlaceHolder``.
+16. [``Appearance.inputPlaceHolder``](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Input/Views/ChatInputBar.swift).
 
 ![Schematic diagram](inputCorner.png) default is Aa.
 
 
-17. ``Appearance.inputBarCorner``.
+17. [``Appearance.inputBarCorner``](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Input/Views/ChatInputBar.swift).
 
 ![Schematic diagram](inputCorner.png) radius corner default is large.
 
