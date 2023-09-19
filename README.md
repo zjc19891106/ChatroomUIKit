@@ -183,7 +183,7 @@ Let me give three examples below
 # Customize
 
 ### 1.Modify configurable items
-For example,[example picture](./Documentation/custom chat barrage.png)
+For example,[example picture](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/custom%20chat%20barrage.png)
 ```Swift
         // You can change the overall cell layout style of the barrage area by setting the properties.
         Appearance.barrageCellStyle = .excludeLevel
