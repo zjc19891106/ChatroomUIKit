@@ -84,8 +84,12 @@ ChatroomUIKit
 
 # Documentation
 
- [Document](https://github.com/zjc19891106/ChatroomUIKit/tree/main/Documentation/ChatroomUIKit.doccarchive)
+ 1.[Document](https://github.com/zjc19891106/ChatroomUIKit/tree/main/Documentation/ChatroomUIKit.doccarchive)
  You can use Xcode to open the ChatroomUIKit.doccarchive file to view the document in Xcode deploy it to your homepage for viewing.
+ 
+ 2.[Appearance](https://github.com/zjc19891106/ChatroomUIKit/tree/main/Documentation/Appearance.md).Detailed illustrations of available items in the UI part.
+ 
+ 3. [ComponentRegister](https://github.com/zjc19891106/ChatroomUIKit/tree/main/Documentation/ComponentRegister.md).UI components can be inherited to add specific illustrations of custom business parts.
 
 # QuickStart
 
