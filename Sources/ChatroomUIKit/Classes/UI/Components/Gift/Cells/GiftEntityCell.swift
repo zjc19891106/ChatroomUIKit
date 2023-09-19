@@ -7,6 +7,10 @@
 
 import UIKit
 
+@objc public protocol GiftEntityCellActionEvents: NSObjectProtocol {
+    func onSendClicked(item:GiftEntityProtocol)
+}
+
 /**
  A UICollectionViewCell subclass that displays a gift entity with an icon, name, and price. It also has a "Send" button that triggers a callback when tapped.
  
@@ -17,7 +21,8 @@ import UIKit
 @objcMembers open class GiftEntityCell: UICollectionViewCell {
     
     private var gift: GiftEntityProtocol?
-   
+    
+    var eventsDelegate: GiftEntityCellActionEvents?
     public var sendCallback: ((GiftEntityProtocol?)->Void)?
     
 
@@ -77,9 +82,11 @@ import UIKit
     }
     
     @objc private func sendAction() {
-        if self.gift?.selected ?? false == true {
-            self.sendCallback?(self.gift)
+//        self.sendCallback?(self.gift)
+        if let item = self.gift {
+            self.eventsDelegate?.onSendClicked(item: item)
         }
+        
     }
     
     func ossPictureCrop(url: String) -> String {

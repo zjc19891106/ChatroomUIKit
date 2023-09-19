@@ -40,7 +40,7 @@ import UIKit
 
 @objcMembers open class ChatBottomFunctionBar: UIView {
 
-    private var eventHandlers: NSHashTable<ChatBottomFunctionBarActionEvents> = NSHashTable<ChatBottomFunctionBarActionEvents>.weakObjects()
+    lazy private var eventHandlers: NSHashTable<ChatBottomFunctionBarActionEvents> = NSHashTable<ChatBottomFunctionBarActionEvents>.weakObjects()
     
     
     /// Add UI action handler.

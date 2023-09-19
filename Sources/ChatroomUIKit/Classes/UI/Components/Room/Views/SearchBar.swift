@@ -15,7 +15,7 @@ import UIKit
 
 @objc open class SearchBar: UIView {
     
-    private var eventHandlers: NSHashTable<SearchBarActionEvents> = NSHashTable<SearchBarActionEvents>.weakObjects()
+    lazy private var eventHandlers: NSHashTable<SearchBarActionEvents> = NSHashTable<SearchBarActionEvents>.weakObjects()
     
     @objc public func addActionHandler(handler: SearchBarActionEvents) {
         if self.eventHandlers.contains(handler) {

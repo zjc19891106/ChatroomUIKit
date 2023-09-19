@@ -39,7 +39,7 @@ var chatViewWidth: CGFloat = 0
 
 @objcMembers open class ChatBarrageList: UIView {
     
-    private var eventHandlers: NSHashTable<ChatBarrageActionEventsHandler> = NSHashTable<ChatBarrageActionEventsHandler>.weakObjects()
+    lazy private var eventHandlers: NSHashTable<ChatBarrageActionEventsHandler> = NSHashTable<ChatBarrageActionEventsHandler>.weakObjects()
     
     /// Add UI actions handler.
     /// - Parameter actionHandler: ``ChatBarrageActionEventsHandler``
@@ -113,7 +113,7 @@ extension ChatBarrageList:UITableViewDelegate, UITableViewDataSource {
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "ChatBarrageCell") as? ChatBarrageCell
+        var cell = tableView.dequeueReusableCell(with: ComponentsRegister.shared.ChatBarragesCell, reuseIdentifier: "ChatBarragesCell")
         if cell == nil {
             cell = ComponentsRegister.shared.ChatBarragesCell.init(barrageStyle: Appearance.barrageCellStyle, reuseIdentifier: "ChatBarrageCell")
         }
@@ -204,5 +204,16 @@ extension ChatBarrageList: IChatBarrageListDriver {
         entity.width = entity.width
         entity.height = entity.height
         return entity
+    }
+}
+
+extension UITableView {
+    /// Dequeues a UICollectionView Cell with a generic type and indexPath
+    /// - Parameters:
+    ///   - type: A generic cell type
+    ///   - indexPath: The indexPath of the row in the UICollectionView
+    /// - Returns: A Cell from the type passed through
+    func dequeueReusableCell<Cell: UITableViewCell>(with type: Cell.Type, reuseIdentifier: String) -> Cell? {
+        dequeueReusableCell(withIdentifier: reuseIdentifier) as? Cell
     }
 }

@@ -36,32 +36,32 @@ import UIKit
     /// Bottom bar extension view's data source.
     public private(set) var menus = [ChatBottomItemProtocol]()
     
-    private var eventHandlers: NSHashTable<ChatroomViewActionEventsDelegate> = NSHashTable<ChatroomViewActionEventsDelegate>.weakObjects()
+    lazy private var eventHandlers: NSHashTable<ChatroomViewActionEventsDelegate> = NSHashTable<ChatroomViewActionEventsDelegate>.weakObjects()
     
     /// Whether display gift barrages or not on receive gifts.
     public private(set) var showGiftBarrage = true
     
     /// Whether display raise keyboard button or not.
     public private(set) var hiddenChat = false
-    
+        
     /// Gift list on receive gift.
     public private(set) lazy var giftBarrages: GiftsBarrageList = {
-        GiftsBarrageList(frame: CGRect(x: 10, y: 0, width: self.frame.width-100, height: Appearance.giftBarrageRowHeight*2+20),source:self)
+        GiftsBarrageList(frame: CGRect(x: 10, y: self.touchFrame.minY, width: self.touchFrame.width-100, height: Appearance.giftBarrageRowHeight*2+20),source:self)
     }()
     
     /// Chat barrages list.
     public private(set) lazy var barrageList: ChatBarrageList = {
-        ChatBarrageList(frame: CGRect(x: 0, y: self.showGiftBarrage ? self.giftBarrages.frame.maxY:0, width: self.frame.width-50, height: 200))
+        ChatBarrageList(frame: CGRect(x: 0, y: self.showGiftBarrage ? self.giftBarrages.frame.maxY:self.touchFrame.minY, width: self.touchFrame.width-50, height: 200))
     }()
     
     /// Bottom function bar below chat barrages list.
     public private(set) lazy var bottomBar: ChatBottomFunctionBar = {
-        ChatBottomFunctionBar(frame: CGRect(x: 0, y: self.frame.height-54-BottomBarHeight, width: self.frame.width, height: 54), datas: self.menus, hiddenChat: self.hiddenChat)
+        ChatBottomFunctionBar(frame: CGRect(x: 0, y: self.frame.height-54-BottomBarHeight, width: self.touchFrame.width, height: 54), datas: self.menus, hiddenChat: self.hiddenChat)
     }()
     
     /// Input text menu bar.
     public private(set) lazy var inputBar: ChatInputBar = {
-        ChatInputBar(frame: CGRect(x: 0, y: self.frame.height, width: self.frame.width, height: 52),text: nil,placeHolder: Appearance.inputPlaceHolder)
+        ChatInputBar(frame: CGRect(x: 0, y: self.frame.height, width: self.touchFrame.width, height: 52),text: nil,placeHolder: Appearance.inputPlaceHolder)
     }()
     
     private var touchFrame = CGRect.zero
@@ -93,6 +93,17 @@ import UIKit
         }
         self.barrageList.addActionHandler(actionHandler: self)
         self.bottomBar.addActionHandler(actionHandler: self)
+        self.inputBar.sendClosure = { [weak self] in
+            guard let `self` = self else { return }
+            self.service?.roomService?.sendMessage(text: $0, roomId: ChatroomContext.shared?.roomId ?? "", completion: { message, error in
+                if error == nil {
+                    self.barrageList.showNewMessage(message: message)
+                } else {
+                    consoleLogInfo("Send message failure!\n\(error?.errorDescription ?? "")", type: .debug)
+                }
+            })
+        }
+
     }
     
     /// This method binds your view to the model it serves. A ChatroomView can only call it once. There is judgment in this method. Calling it multiple times is invalid.

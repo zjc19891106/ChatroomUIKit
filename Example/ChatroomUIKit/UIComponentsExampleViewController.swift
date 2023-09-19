@@ -9,7 +9,26 @@
 import UIKit
 import ChatroomUIKit
 
-final class UIComponentsExampleViewController: UIViewController {
+final class UIComponentsExampleViewController: UIViewController, UIContextMenuInteractionDelegate {
+        func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+            UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (_) -> UIMenu? in
+                // 创建菜单
+                let action1 = UIAction(title: "Action 1", image: UIImage(systemName: "star.fill")) { (_) in
+                    print("Action 1 selected")
+                }
+                let action2 = UIAction(title: "Action 2", image: UIImage(systemName: "heart.fill")) { (_) in
+                    print("Action 2 selected")
+                }
+                let action3 = UIAction(title: "Action 3", image: UIImage(systemName: "bookmark.fill")) { (_) in
+                    print("Action 3 selected")
+                }
+                let menu = UIMenu(title: "", children: [action1, action2, action3])
+                
+                return menu
+            }
+        }
+    
+    
     
     lazy var background: UIImageView = {
         UIImageView(frame: self.view.frame).image(UIImage(named: "bg_img_of_dark_mode"))
@@ -69,10 +88,13 @@ final class UIComponentsExampleViewController: UIViewController {
         
         self.carouselTextView.alpha = 0
         
-        let switchTheme = UIButton(type: .custom).frame(CGRect(x: 100, y: 160, width: 150, height: 20)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title("Switch Theme", .normal).addTargetFor(self, action: #selector(switchTheme), for: .touchUpInside)
-        self.view.addSubview(switchTheme)
+        let switchThemeStyle = UIButton(type: .custom).frame(CGRect(x: 100, y: 160, width: 150, height: 20)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title("Switch Theme", .normal).addTargetFor(self, action: #selector(switchTheme), for: .touchUpInside)
+        self.view.addSubview(switchThemeStyle)
         
         self.carouselTextView.alpha = 0
+        
+        let switchCellStyle = UIButton(type: .custom).frame(CGRect(x: 100, y: 195, width: 150, height: 40)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title(".all", .normal).addTargetFor(self, action: #selector(switchStyle(sender:)), for: .touchUpInside)
+        self.view.addSubview(switchCellStyle)
         
     }
 
@@ -114,6 +136,12 @@ extension UIComponentsExampleViewController {
         Theme.switchTheme(style: .dark)
 //        Theme.switchHues()
     }
+    
+    @objc func switchStyle(sender:UIButton) {
+        sender.addInteraction(UIContextMenuInteraction(delegate: self))
+        
+    }
+
     
     func bottomBarDatas() -> [ChatBottomItemProtocol] {
         var entities = [ChatBottomItemProtocol]()

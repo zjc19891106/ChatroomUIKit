@@ -21,7 +21,7 @@ import UIKit
 
 @objcMembers open class GiftsView: UIView {
         
-    private var eventHandlers: NSHashTable<GiftsViewActionEventsDelegate> = NSHashTable<GiftsViewActionEventsDelegate>.weakObjects()
+    lazy private var eventHandlers: NSHashTable<GiftsViewActionEventsDelegate> = NSHashTable<GiftsViewActionEventsDelegate>.weakObjects()
     
     /// Add UI action handler.
     /// - Parameter actionHandler: ``GiftsViewActionEventsDelegate``
@@ -50,19 +50,23 @@ import UIKit
     }()
 
     lazy var giftList: UICollectionView = {
-        UICollectionView(frame: CGRect(x: 15, y: 10, width: self.frame.width - 30, height: self.frame.height), collectionViewLayout: self.flowLayout).registerCell(ComponentsRegister.shared.GiftsCell, forCellReuseIdentifier: "GiftEntityCell").delegate(self).dataSource(self).showsHorizontalScrollIndicator(false).backgroundColor(.clear).showsVerticalScrollIndicator(false).backgroundColor(.clear).registerView(UICollectionReusableView.self, UICollectionView.elementKindSectionFooter , "GiftsFooter")
+        UICollectionView(frame: CGRect(x: 15, y: 10, width: self.frame.width - 30, height: self.frame.height), collectionViewLayout: self.flowLayout).registerCell(ComponentsRegister.shared.GiftsCell.self, forCellReuseIdentifier: "GiftEntityCell").delegate(self).dataSource(self).showsHorizontalScrollIndicator(false).backgroundColor(.clear).showsVerticalScrollIndicator(false).backgroundColor(.clear).registerView(UICollectionReusableView.self, UICollectionView.elementKindSectionFooter , "GiftsFooter")
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
-    @objc public convenience init(frame: CGRect, gifts: [GiftEntityProtocol]) {
+    @objc required public convenience init(frame: CGRect, gifts: [GiftEntityProtocol]) {
         self.init(frame: frame)
         self.gifts = gifts
         self.giftList.bounces = false
         self.addSubViews([self.giftList])
         self.backgroundColor = .clear
+        _ = self.eventHandlers.publisher(for: \.count).sink { [weak self] count in
+            if (count != 0) {
+            }
+        }
     }
 
     @available(*, unavailable)
@@ -73,23 +77,25 @@ import UIKit
 
 }
 
-extension GiftsView: UICollectionViewDelegate,UICollectionViewDataSource {
+extension GiftsView: UICollectionViewDelegate,UICollectionViewDataSource,GiftEntityCellActionEvents {
+    public func onSendClicked(item: GiftEntityProtocol) {
+        consoleLogInfo("self.eventHandlers.allObjects.count:\(self.eventHandlers.allObjects.count)", type: .debug)
+        
+        for handler in self.eventHandlers.allObjects {
+            handler.onGiftSendClick(item: item)
+        }
+    }
+    
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         self.gifts.count
     }
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GiftEntityCell", for: indexPath) as? GiftEntityCell
-        cell?.refresh(item: self.gifts[safe: indexPath.row])
-        cell?.sendCallback = { [weak self] in
-            guard let `self` = self else { return }
-            if let gift = $0 {
-                for handler in self.eventHandlers.allObjects {
-                    handler.onGiftSendClick(item: gift)
-                }
-            }
-        }
-        return cell ?? GiftEntityCell()
+        let cell = collectionView.dequeueReusableCell(with: ComponentsRegister.shared.GiftsCell, for: indexPath, reuseIdentifier: "GiftEntityCell")
+        cell.refresh(item: self.gifts[safe: indexPath.row])
+        cell.eventsDelegate = self
+        consoleLogInfo("self.eventHandlers.allObjects.count:\(self.eventHandlers.allObjects.count)", type: .debug)
+        return cell
     }
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

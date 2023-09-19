@@ -100,7 +100,7 @@ extension GiftsBarrageList: UITableViewDelegate, UITableViewDataSource {
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "GiftBarrageCell") as? GiftBarrageCell
+        var cell = tableView.dequeueReusableCell(with: ComponentsRegister.shared.GiftBarragesViewCell, reuseIdentifier: "GiftBarrageCell")
         if cell == nil {
             cell = ComponentsRegister.shared.GiftBarragesViewCell.init(style: .default, reuseIdentifier: "GiftBarrageCell")
         }

@@ -10,7 +10,7 @@ import UIKit
 
 public typealias PresentationViewController = UIViewController & PresentedViewType
 
-extension UIViewController {
+public extension UIViewController {
     
     static var currentController: UIViewController? {
         if let vc = UIApplication.shared.chatroom.keyWindow?.rootViewController {

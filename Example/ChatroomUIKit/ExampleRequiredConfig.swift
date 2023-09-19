@@ -15,17 +15,17 @@ import ChatroomUIKit
  **/
 public class ExampleRequiredConfig {
     // https://docs.agora.io/en/agora-chat/get-started/enable?platform=ios
-    static let appKey: String = <#T##String#>
+    static let appKey: String = "1182230915209398#chatroomuikit-test"
     //  ProjectManager->Operation Manager->User->Create User.Then Basic Information->Application Info->Chat User temp token.Next,fill below param.Move on,fill user id.
-    static let chatToken: String = <#T##String#>
+    static let chatToken: String = "YWMtxgbdola8Ee6UGq1IimamaZGgQVxu0koxi-vGtfdnugRF312QU4sR7p1bEc5SYULxAwMAAAGKrE5MVDeeSAB1UEl0Bc9XdBkrsYRzBt9H-88RwQgDZyJc6YEmtvbSlg"
     //    Follow the following process to create a chat room on console.
     //    ProjectManager->Operation Manager->Chat Room->Create Chat Room.Then fill in the `chatroomId` parameter below.
-    static let chatroomId: String = <#T##String#>
+    static let chatroomId: String = "225820856614915"
     
     /// `YourAppUser` means that you application project's user class.
     public final class YourAppUser: NSObject,UserInfoProtocol {
         
-        public var userId: String = <#T##String#>
+        public var userId: String = "18811508760"
         
         public var nickName: String = "Jack"
         

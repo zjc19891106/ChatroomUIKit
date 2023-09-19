@@ -111,12 +111,12 @@ extension ChatroomServiceImplement: ChatroomService {
         }
     }
     
-    public func sendMessage(text: String, roomId: String, completion: @escaping (Bool, ChatError?) -> Void) {
+    public func sendMessage(text: String, roomId: String, completion: @escaping (ChatMessage, ChatError?) -> Void) {
         let user = ChatroomContext.shared?.currentUser as? User
         let message = ChatMessage(conversationID: roomId, body: ChatTextMessageBody(text: text), ext: user?.kj.JSONObject())
         message.chatType = .chatRoom
         ChatClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
-            completion(error == nil,error)
+            completion(chatMessage ?? ChatMessage(),error)
         })
     }
     

@@ -131,7 +131,18 @@ extension UIWithBusinessViewController: GiftToChannelResultDelegate,GiftsViewAct
     
     func onGiftSendClick(item: ChatroomUIKit.GiftEntityProtocol) {
         //It can be called after completing the interaction related to the gift sending interface with the server.
-        self.gift1.onUserServerHandleSentGiftComplete(gift: item)
+        if item.sentThenClose {
+            UIViewController.currentController?.dismiss(animated: true)
+        }
+        //If you need the server to process the deduction logic before sending the gift message after clicking send, set it to `false`, and after the processing is completed, you need to call `sendGift` method send gift message to channel.
+        ChatroomUIKitClient.shared.sendGift(gift: item, completion: { [weak self] error in
+            if error != nil {
+                consoleLogInfo("Send gift message to channel failure!\nError:\(error?.errorDescription ?? "")", type: .debug)
+            } else {
+                self?.roomView.giftBarrages.gifts.append(item)
+            }
+        })
+        
     }
     
     func onGiftSelected(item: ChatroomUIKit.GiftEntityProtocol) {
@@ -140,7 +151,10 @@ extension UIWithBusinessViewController: GiftToChannelResultDelegate,GiftsViewAct
     
     
     func giftResult(gift: ChatroomUIKit.GiftEntityProtocol, error: ChatroomUIKit.ChatError?) {
-        consoleLogInfo(error==nil ? "Sent to channel successful!":"\(error?.errorDescription ?? "")", type: .debug)
+        if error == nil {
+            self.roomView.giftBarrages.gifts.append(gift)
+            consoleLogInfo(error==nil ? "Sent to channel successful!":"\(error?.errorDescription ?? "")", type: .debug)
+        }
     }
     
     

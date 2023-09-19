@@ -35,10 +35,11 @@ import UIKit
     /// - Parameters:
     ///   - gifts: `Array<GiftEntityProtocol>` data source.
     ///   - delegate: `GiftToChannelResultDelegate`
-    ///   - eventsDelegate: `GiftsViewActionEventsDelegate`
+    ///   - eventsDelegate: `GiftsViewActionEventsDelegate` is gifts view item click events delegate.
     @objc required public convenience init(gifts: [GiftEntityProtocol],result delegate: GiftToChannelResultDelegate,eventsDelegate: GiftsViewActionEventsDelegate? = nil) {
         self.init()
         self.gifts = gifts
+        _ = self.giftsView
         if let events = eventsDelegate {
             self.giftsView.addActionHandler(actionHandler: events)
         }
@@ -48,26 +49,8 @@ import UIKit
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.view.addSubview(self.giftsView)
-        self.giftsView.addActionHandler(actionHandler: self)
     }
     
-    @objc public func onUserServerHandleSentGiftComplete(gift: GiftEntityProtocol)  {
-        self.giftService.sendGift(gift: gift) { [weak self] error in
-            self?.resultDelegate?.giftResult(gift: gift, error: error)
-        }
-    }
 }
 
-extension GiftsViewController: GiftsViewActionEventsDelegate {
-    public func onGiftSendClick(item: GiftEntityProtocol) {
-        if item.sentThenClose {
-            self.dismiss(animated: true)
-        }
-    }
-    
-    public func onGiftSelected(item: GiftEntityProtocol) {
-        
-    }
-    
-}
 

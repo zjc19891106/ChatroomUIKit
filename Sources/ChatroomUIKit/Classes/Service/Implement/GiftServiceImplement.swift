@@ -94,7 +94,7 @@ extension GiftServiceImplement: ChatManagerDelegate {
     
     public var selected: Bool = false
     
-    public var sentThenClose: Bool = false
+    public var sentThenClose: Bool = true
     
     public var sendUser: UserInfoProtocol?
     

@@ -110,6 +110,10 @@ import UIKit
         })
     }
     
+    @objc public func sendGift(gift: GiftEntityProtocol, completion: @escaping (ChatError?) -> Void) {
+        self.roomService?.giftService?.sendGift(gift: gift, completion: completion)
+    }
+    
     /// Register chatroom events listener
     /// - Parameter listener: ``RoomEventsListener``
     @objc public func registerRoomEventsListener(listener: RoomEventsListener) {
