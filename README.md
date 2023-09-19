@@ -84,7 +84,7 @@ ChatroomUIKit
 
 # Documentation
 
- [Document](https://github.com/zjc19891106/ChatroomUIKit/tree/main/ChatroomUIKit.doccarchive)
+ [Document](https://github.com/zjc19891106/ChatroomUIKit/tree/main/Documentation/ChatroomUIKit.doccarchive)
  You can use Xcode to open the ChatroomUIKit.doccarchive file to view the document in Xcode deploy it to your homepage for viewing.
 
 # QuickStart
@@ -183,7 +183,7 @@ Let me give three examples below
 # Customize
 
 ### 1.Modify configurable items
-For example
+For example,[example picture](./Documentation/custom chat barrage.png)
 ```Swift
         // You can change the overall cell layout style of the barrage area by setting the properties.
         Appearance.barrageCellStyle = .excludeLevel
