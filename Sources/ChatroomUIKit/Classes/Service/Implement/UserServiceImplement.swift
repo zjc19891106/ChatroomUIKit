@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import HyphenateChat
 import KakaJSON
 
 @objc public final class UserServiceImplement: NSObject {

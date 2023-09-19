@@ -7,7 +7,6 @@
 
 import UIKit
 import KakaJSON
-import HyphenateChat
 
 let chatroom_UIKit_gift = "chatroom_UIKit_gift"
 
@@ -29,9 +28,9 @@ extension GiftServiceImplement: GiftService {
     public func sendGift(gift: GiftEntityProtocol, completion: @escaping (ChatError?) -> Void) {
         let gift = gift as? GiftEntity
         let user = ChatroomContext.shared?.currentUser as? User
-        let message = EMChatMessage(conversationID: self.currentRoomId, body: EMCustomMessageBody(event: chatroom_UIKit_gift, customExt: ["gift" : gift?.kj.JSONString() ?? ""]), ext: user?.kj.JSONObject())
+        let message = ChatMessage(conversationID: self.currentRoomId, body: ChatCustomMessageBody(event: chatroom_UIKit_gift, customExt: ["gift" : gift?.kj.JSONString() ?? ""]), ext: user?.kj.JSONObject())
         message.chatType = .chatRoom
-        EMClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
+        ChatClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
             completion(error)
         })
     }
@@ -50,9 +49,9 @@ extension GiftServiceImplement: GiftService {
     }
 }
 //MARK: - EMChatManagerDelegate
-extension GiftServiceImplement: EMChatManagerDelegate {
+extension GiftServiceImplement: ChatManagerDelegate {
     
-    public func messagesDidReceive(_ aMessages: [EMChatMessage]) {
+    public func messagesDidReceive(_ aMessages: [ChatMessage]) {
         for message in aMessages {
             for response in self.responseDelegates.allObjects {
                 switch message.body.type {

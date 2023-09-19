@@ -100,6 +100,16 @@ import UIKit
         return room
     }
     
+    /// Update user information.When you user the `login(with user: UserInfoProtocol,token: String,use userProperties: Bool = true,completion: @escaping (ChatError?) -> Void)` method login.
+    /// - Parameters:
+    ///   - info: Conform ``UserInfoProtocol`` instance.
+    ///   - completion: Callback
+    @objc public func updateUserInfo(info: UserInfoProtocol,completion: @escaping (ChatError?) -> Void) {
+        self.userImplement?.updateUserInfo(userInfo: info, completion: { success, error in
+            completion(error)
+        })
+    }
+    
     /// Register chatroom events listener
     /// - Parameter listener: ``RoomEventsListener``
     @objc public func registerRoomEventsListener(listener: RoomEventsListener) {

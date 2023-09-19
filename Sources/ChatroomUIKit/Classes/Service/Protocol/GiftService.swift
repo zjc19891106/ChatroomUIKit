@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import HyphenateChat
 
 @objc public protocol GiftEntityProtocol: NSObjectProtocol {
     var giftId: String {set get}
