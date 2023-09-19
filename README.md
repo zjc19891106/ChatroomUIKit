@@ -216,7 +216,7 @@ For example
         ComponentsRegister.shared.GiftBarragesViewCell = CustomGiftBarragesViewCell.self
 ```
 
-For details, please refer to [Appearance](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/ComponentsRegister.md).
+For details, please refer to [ComponentsRegister](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/ComponentsRegister.md).
 
 ### 3.Switch original or custom theme
 
