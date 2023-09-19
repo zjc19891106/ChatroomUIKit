@@ -183,7 +183,7 @@ Let me give three examples below
 # Customize
 
 ### 1.Modify configurable items
-For example,[example picture](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/custom%20chat%20barrage.png)
+For example
 ```Swift
         // You can change the overall cell layout style of the barrage area by setting the properties.
         Appearance.barrageCellStyle = .excludeLevel
@@ -191,7 +191,7 @@ For example,[example picture](https://github.com/zjc19891106/ChatroomUIKit/blob/
         let roomView = ChatroomUIKitClient.shared.launchRoomView(roomId: "chatroom Id", frame: <#T##CGRect#>)
         self.view.addSubView(roomView)
 ```
-For details, please refer to [Appearance](https://github.com/zjc19891106/ChatroomUIKit/blob/main/ChatroomUIKit/Classes/UI/Core/UIKit/Utils/Appearance.swift).
+For details, please refer to [Appearance](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/Appearance.md).
 
 ### 2.Custom components
 For example
@@ -215,6 +215,9 @@ For example
         //Note that before creating a ChatroomView or using other UI components, use.
         ComponentsRegister.shared.GiftBarragesViewCell = CustomGiftBarragesViewCell.self
 ```
+
+For details, please refer to [Appearance](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/ComponentsRegister.md).
+
 ### 3.Switch original or custom theme
 
 - Switch original theme
@@ -248,6 +251,8 @@ For example
         Appearance.neutralSpecialHue = 199/360.0
         Theme.switchHues()
 ```
+
+For details, please refer to [UIDesign](https://www.figma.com/file/OX2dUdilAKHahAh9VwX8aI/Streamuikit?node-id=137%3A38589&mode=dev).
 
 Please note that custom themes and native themes are mutually exclusive and do not support simultaneous switching.
 
