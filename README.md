@@ -249,6 +249,8 @@ For example
         Theme.switchHues()
 ```
 
+Please note that custom themes and native themes are mutually exclusive and do not support simultaneous switching.
+
 # Contributing
 
 Contributions and feedback are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
