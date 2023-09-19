@@ -4,7 +4,7 @@ Appearance.swift is a class file that configures some UI options before launchRo
 
 ## Available options
 
-1. [`Appearance.pageContainerTitleBarItemWidth`](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Core/UIKit/Utils/Appearance.swift). It can be used to modify the single content width of the titleBar in the pageContainer. [Schematic diagram](./pageContainerTitleBarItemWidth.png).
+1. [`Appearance.pageContainerTitleBarItemWidth`](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Core/UIKit/Utils/Appearance.swift). It can be used to modify the single content width of the titleBar in the pageContainer. https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/pageContainerTitleBarItemWidth.png.
 
 
 2. [`Appearance.pageContainerConstraintsSize`](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Core/UIKit/Utils/Appearance.swift).It can change the height of the container pop-up window in the [schematic diagram](pageContainerTitleBarItemWidth.png).
