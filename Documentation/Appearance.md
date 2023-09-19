@@ -39,36 +39,36 @@ Appearance.swift is a class file that configures some UI options before launchRo
 
 
 10. ``Appearance.actionSheetRowHeight``.The height of a single item in all ActionSheets.
-[Schematic diagram](messageActions.png).
+![Schematic diagram](messageActions.png).
 
 
 11. ``Appearance.giftPlaceHolder``.
-[Schematic diagram](giftPlaceHolder.png).
+![Schematic diagram](giftPlaceHolder.png).
 
 
 12. ``Appearance.avatarPlaceHolder``.
-[Schematic diagram](avatarPlaceHolder.png)
+![Schematic diagram](avatarPlaceHolder.png)
 
 
 13. ``Appearance.userIdentifyPlaceHolder``.
-[Schematic diagram](userIdentifyPlaceHolder.png)
+![Schematic diagram](userIdentifyPlaceHolder.png)
 
 
 14. ``Appearance.notifyMessageIcon``.
-[Schematic diagram](notifyMessageIcon.png)
+![Schematic diagram](notifyMessageIcon.png)
 
 
 15. ``Appearance.maxInputHeight``.
-[Schematic diagram](maxInputHeight.png)
+![Schematic diagram](maxInputHeight.png)
 
 
 16. ``Appearance.inputPlaceHolder``.
-[Schematic diagram](inputCorner.png) default is Aa.
+![Schematic diagram](inputCorner.png) default is Aa.
 
 
 17. ``Appearance.inputBarCorner``.
-[Schematic diagram](inputCorner.png) radius corner default is large.
+![Schematic diagram](inputCorner.png) radius corner default is large.
 
 
 18. ``Appearance.reportTags``.
-[Schematic diagram](report.png)
+![Schematic diagram](report.png)
