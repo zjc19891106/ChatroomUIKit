@@ -99,23 +99,21 @@ import UIKit
     /// Participants list request page number
     public private(set)var pageNum = 15
     
-    public private(set) lazy var giftService: GiftService? = nil {
-        willSet {
-            newValue?.unbindGiftResponseListener(listener: self)
-            if newValue != nil {
-                newValue?.bindGiftResponseListener(listener: self)
-            }
+    public private(set) lazy var giftService: GiftService? = {
+        let newValue = GiftServiceImplement(roomId: self.roomId)
+        newValue.unbindGiftResponseListener(listener: self)
+        if newValue != nil {
+            newValue.bindGiftResponseListener(listener: self)
         }
-    }
+        return newValue
+    }()
     
-    public private(set) lazy var roomService: ChatroomService? = ChatroomServiceImplement() {
-        willSet {
-            if newValue != nil {
-                newValue?.unbindResponse(response: self)
-                newValue?.bindResponse(response: self)
-            }
-        }
-    }
+    public private(set) lazy var roomService: ChatroomService? =  {
+        let implement = ChatroomServiceImplement()
+        implement.unbindResponse(response: self)
+        implement.bindResponse(response: self)
+        return implement
+    }()
     
     /// ``ChatroomView``  UI driver.
     public private(set) weak var chatDriver: IChatBarrageListDriver?
@@ -162,13 +160,6 @@ import UIKit
                 if !success {
                     consoleLogInfo("Joined chatroom error:\(error?.errorDescription ?? "")", type: .debug)
                     self.handleError(type: .join, error: error!)
-                } else {
-                    if self.roomService == nil {
-                        self.roomService = ChatroomServiceImplement()
-                    }
-                    if self.giftService == nil {
-                        self.giftService = GiftServiceImplement(roomId: self.roomId)
-                    }
                 }
                 completion(error)
             }
@@ -399,9 +390,14 @@ extension RoomService: ChatroomResponseListener {
         }
     }
         
-    public func onUserJoined(roomId: String, user: UserInfoProtocol) {
+    public func onUserJoined(roomId: String, message: ChatMessage) {
+        if roomId == self.roomId {
+            self.chatDriver?.showNewMessage(message: message)
+        }
         for listener in self.eventsListener.allObjects {
-            listener.onUserJoined(roomId: roomId, user: user)
+            if let user = message.user {
+                listener.onUserJoined(roomId: roomId, user: user)
+            }
         }
     }
     

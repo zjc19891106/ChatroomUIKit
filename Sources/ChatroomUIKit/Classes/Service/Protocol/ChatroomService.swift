@@ -147,8 +147,8 @@ import Foundation
     /// When a user joins a chatroom.The method carry user info for display.
     /// - Parameters:
     ///   - roomId: chatroom id
-    ///   - user: UserInfoProtocol
-    func onUserJoined(roomId: String, user: UserInfoProtocol)
+    ///   - message: ``ChatMessage``
+    func onUserJoined(roomId: String, message: ChatMessage)
     
     /// When some user leave chatroom.
     /// - Parameters:

@@ -8,7 +8,7 @@
 import UIKit
 import KakaJSON
 
-fileprivate let chatroom_UIKit_user_join = "chatroom_UIKit_user_join"
+let chatroom_UIKit_user_join = "chatroom_UIKit_user_join"
 
 @objc public final class ChatroomServiceImplement: NSObject {
     
@@ -147,10 +147,22 @@ extension ChatroomServiceImplement: ChatroomService {
     }
     
     private func sendJoinMessage(roomId: String, completion: @escaping (ChatError?) -> Void) {
-        let user = ChatroomContext.shared?.currentUser as? User
-        let message = ChatMessage(conversationID: roomId, body: ChatCustomMessageBody(event: chatroom_UIKit_user_join, customExt: nil), ext: user?.kj.JSONObject())
+        let user = ChatroomContext.shared?.currentUser.map({
+            let user = User()
+            user.userId = $0.userId
+            user.nickName = $0.nickName
+            user.avatarURL = $0.avatarURL
+            user.identify = $0.identify
+            user.gender = $0.gender
+            return user
+        })
+        let user_json = user?.kj.JSONObject()
+        let message = ChatMessage(conversationID: roomId, body: ChatCustomMessageBody(event: chatroom_UIKit_user_join, customExt: nil), ext: user_json)
         message.chatType = .chatRoom
-        ChatClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
+        ChatClient.shared().chatManager?.send(message, progress: nil,completion: { [weak self] chatMessage, error in
+            if error == nil {
+                self?.notifyJoin(message: message, response: nil)
+            }
             completion(error)
         })
     }
@@ -253,14 +265,7 @@ extension ChatroomServiceImplement: ChatManagerDelegate {
                     }
                     response.onMessageReceived(roomId: message.to, message: message)
                 case .custom:
-                    if let body = message.body as? ChatCustomMessageBody {
-                        if body.event == chatroom_UIKit_user_join,let json = message.ext as? [String:Any] {
-                            if let user = model(from: json, type: User.self) as? User {
-                                ChatroomContext.shared?.usersMap?[user.userId] = user
-                                response.onUserJoined(roomId: message.to, user: user)
-                            }
-                        }
-                    }
+                    self.notifyJoin(message: message, response: response)
                 default:
                     if message.broadcast {
                         if let json = message.ext as? [String:Any] {
@@ -271,6 +276,23 @@ extension ChatroomServiceImplement: ChatManagerDelegate {
                         response.onGlobalNotifyReceived(roomId: message.to, notifyMessage: message)
                     }
                     break
+                }
+            }
+        }
+    }
+    
+    private func notifyJoin(message: ChatMessage, response: ChatroomResponseListener?) {
+        if let body = message.body as? ChatCustomMessageBody{
+            if body.event == chatroom_UIKit_user_join,let json = message.ext as? [String:Any] {
+                if let user = model(from: json, type: User.self) as? User {
+                    ChatroomContext.shared?.usersMap?[user.userId] = user
+                    if response != nil {
+                        response?.onUserJoined(roomId: message.to, message: message)
+                    } else {
+                        for response in self.responseDelegates.allObjects {
+                            response.onUserJoined(roomId: message.to, message: message)
+                        }
+                    }
                 }
             }
         }

@@ -39,18 +39,36 @@ import UIKit
     
     /// The width of the chat entity, calculated based on the attributed text and the width of the chat view.
     lazy public var width: CGFloat = UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).width
-        
+    
     /// Converts the message text into an attributed string, including the user's nickname, message text, and emojis.
     func convertAttribute() -> NSAttributedString {
         var text = NSMutableAttributedString {
-            AttributedText((self.message.user?.nickName ?? "") + " : ").foregroundColor(Color.theme.primaryColor8).font(UIFont.theme.labelMedium).paragraphStyle(self.paragraphStyle())
-            AttributedText(self.message.text).foregroundColor(Color.theme.neutralColor98).font(UIFont.theme.bodyMedium).paragraphStyle(self.paragraphStyle())
+            AttributedText((self.message.user?.nickName ?? "")).foregroundColor(Color.theme.primaryColor8).font(UIFont.theme.labelMedium).paragraphStyle(self.paragraphStyle())
         }
-        let string = text.string as NSString
-        for symbol in ChatEmojiConvertor.shared.emojis {
-            if string.range(of: symbol).location != NSNotFound {
-                let ranges = text.string.chatroom.rangesOfString(symbol)
-                text = ChatEmojiConvertor.shared.convertEmoji(input: text, ranges: ranges, symbol: symbol)
+        if self.message.body.type == .custom,let body = self.message.body as? ChatCustomMessageBody {
+            switch body.event {
+            case chatroom_UIKit_gift:
+                text.append(NSMutableAttributedString {
+                    AttributedText(" "+"Joined".chatroom.localize).foregroundColor(Color.theme.secondaryColor7).font(UIFont.theme.labelMedium).paragraphStyle(self.paragraphStyle())
+                })
+            case chatroom_UIKit_user_join:
+                text.append(NSMutableAttributedString {
+                    AttributedText(" "+"Joined".chatroom.localize).foregroundColor(Color.theme.secondaryColor7).font(UIFont.theme.labelMedium).paragraphStyle(self.paragraphStyle())
+                })
+            default:
+                break
+            }
+            
+        } else {
+            text.append(NSAttributedString {
+                AttributedText(" : "+self.message.text).foregroundColor(Color.theme.neutralColor98).font(UIFont.theme.bodyMedium).paragraphStyle(self.paragraphStyle())
+            })
+            let string = text.string as NSString
+            for symbol in ChatEmojiConvertor.shared.emojis {
+                if string.range(of: symbol).location != NSNotFound {
+                    let ranges = text.string.chatroom.rangesOfString(symbol)
+                    text = ChatEmojiConvertor.shared.convertEmoji(input: text, ranges: ranges, symbol: symbol)
+                }
             }
         }
         return text

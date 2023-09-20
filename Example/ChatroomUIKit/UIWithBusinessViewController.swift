@@ -58,8 +58,8 @@ final class UIWithBusinessViewController: UIViewController {
         return segment
     }()
     
-    lazy var gift1: MineGiftsViewController = {
-        MineGiftsViewController(gifts: self.gifts())
+    lazy var gift1: GiftsViewController = {
+        GiftsViewController(gifts: self.gifts())
     }()
     
     lazy var gift2: GiftsViewController = {
