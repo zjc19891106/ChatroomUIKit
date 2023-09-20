@@ -57,11 +57,11 @@ final class UIWithBusinessViewController: UIViewController {
     }()
     
     lazy var gift1: GiftsViewController = {
-        GiftsViewController(gifts: self.gifts(), result: self, eventsDelegate: self)
+        GiftsViewController(gifts: self.gifts())
     }()
     
     lazy var gift2: GiftsViewController = {
-        GiftsViewController(gifts: self.gifts(), result: self,eventsDelegate: self)
+        GiftsViewController(gifts: self.gifts())
     }()
     
     @objc public required convenience init(chatroomId: String) {
@@ -127,38 +127,6 @@ extension UIWithBusinessViewController {
     }
 }
 
-extension UIWithBusinessViewController: GiftToChannelResultDelegate,GiftsViewActionEventsDelegate {
-    
-    func onGiftSendClick(item: ChatroomUIKit.GiftEntityProtocol) {
-        //It can be called after completing the interaction related to the gift sending interface with the server.
-        if item.sentThenClose {
-            UIViewController.currentController?.dismiss(animated: true)
-        }
-        //If you need the server to process the deduction logic before sending the gift message after clicking send, set it to `false`, and after the processing is completed, you need to call `sendGift` method send gift message to channel.
-        ChatroomUIKitClient.shared.sendGift(gift: item, completion: { [weak self] error in
-            if error != nil {
-                consoleLogInfo("Send gift message to channel failure!\nError:\(error?.errorDescription ?? "")", type: .debug)
-            } else {
-                self?.roomView.giftBarrages.gifts.append(item)
-            }
-        })
-        
-    }
-    
-    func onGiftSelected(item: ChatroomUIKit.GiftEntityProtocol) {
-        //When user click a gift.
-    }
-    
-    
-    func giftResult(gift: ChatroomUIKit.GiftEntityProtocol, error: ChatroomUIKit.ChatError?) {
-        if error == nil {
-            self.roomView.giftBarrages.gifts.append(gift)
-            consoleLogInfo(error==nil ? "Sent to channel successful!":"\(error?.errorDescription ?? "")", type: .debug)
-        }
-    }
-    
-    
-}
 
 extension UIWithBusinessViewController : ChatroomViewActionEventsDelegate {
     func onMessageBarrageClicked(message: ChatroomUIKit.ChatMessage) {

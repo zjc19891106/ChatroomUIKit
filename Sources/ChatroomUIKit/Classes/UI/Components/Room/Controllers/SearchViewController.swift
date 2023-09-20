@@ -58,6 +58,7 @@ import UIKit
         super.viewDidLoad()
                 
         self.tableView.tableHeaderView = self.searchController.searchBar
+        self.tableView.rowHeight = Appearance.membersRowHeight
         self.tableView.register(ChatroomParticipantsCell.self, forCellReuseIdentifier: "SearchResultCell")
         self.definesPresentationContext = true
         _ = self.searchController.publisher(for: \.isActive).sink { [weak self] status in
@@ -68,7 +69,7 @@ import UIKit
     }
         
     open override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.searchController.isActive && !self.searchResults.isEmpty {
+        if self.searchController.isActive {
             return self.searchResults.count
         }
         return self.rawSources.count
@@ -79,7 +80,7 @@ import UIKit
         if cell == nil {
             cell = ChatroomParticipantsCell(style: .default, reuseIdentifier: "SearchResultCell")
         }
-        if self.searchController.isActive && !self.searchResults.isEmpty {
+        if self.searchController.isActive {
             if let item = self.searchResults[safe: indexPath.row] {
                 cell?.refresh(user: item)
             }
@@ -97,7 +98,7 @@ import UIKit
     
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if self.searchController.isActive && !self.searchResults.isEmpty {
+        if self.searchController.isActive {
             if let item = self.searchResults[safe: indexPath.row] {
                 self.action?(item)
             }
@@ -111,7 +112,17 @@ import UIKit
     
     public func updateSearchResults(for searchController: UISearchController) {
         if let searchText = searchController.searchBar.text,!searchText.isEmpty {
-            self.searchResults = self.rawSources.filter({ $0.nickName.contains(searchText) })
+            for user in self.rawSources {
+                if (user.nickName as NSString).range(of: searchText).location != NSNotFound, (user.nickName as NSString).range(of: searchText).length >= 0 {
+                    if !self.searchResults.contains(where: { $0.nickName == user.nickName
+                    }) {
+                        self.searchResults.append(user)
+                    }
+                }
+            }
+            if self.searchResults.count <= 0 {
+                self.tableView.backgroundView = self.empty
+            }
             self.tableView.reloadData()
         }
     }

@@ -53,7 +53,7 @@ open class ParticipantsController: UITableViewController {
         self.tableView.dataSource = self
         self.tableView.tableHeaderView = self.searchField
         self.tableView.registerCell(ChatroomParticipantsCell.self, forCellReuseIdentifier: "ChatroomParticipantsCell")
-        self.tableView.rowHeight = 60
+        self.tableView.rowHeight = Appearance.membersRowHeight
         self.tableView.separatorColor(UIColor.theme.neutralColor9)
         self.tableView.tableFooterView(UIView())
         self.searchField.addActionHandler(handler: self)

@@ -7,25 +7,11 @@
 
 import UIKit
 
-///  The result of sending a gift message to the channel
-@objc public protocol GiftToChannelResultDelegate: NSObjectProtocol {
-    
-    /// The result of sending a gift message to the channel。
-    /// - Parameters:
-    ///   - gift: `GiftEntityProtocol`
-    ///   - error: `ChatError`
-    func giftResult(gift:GiftEntityProtocol, error: ChatError?)
-}
-
 @objcMembers open class GiftsViewController: UIViewController {
     
     private var gifts = [GiftEntityProtocol]()
     
-    private var resultDelegate: GiftToChannelResultDelegate?
-        
-    lazy var giftService: GiftService = {
-        GiftServiceImplement(roomId: ChatroomContext.shared?.roomId ?? "")
-    }()
+    lazy var giftService: GiftService? = ChatroomUIKitClient.shared.roomService?.giftService
         
     lazy var giftsView: GiftsView = {
         GiftsView(frame: self.view.frame, gifts: self.gifts)
@@ -34,23 +20,45 @@ import UIKit
     /// GiftsViewController init method.
     /// - Parameters:
     ///   - gifts: `Array<GiftEntityProtocol>` data source.
-    ///   - delegate: `GiftToChannelResultDelegate`
-    ///   - eventsDelegate: `GiftsViewActionEventsDelegate` is gifts view item click events delegate.
-    @objc required public convenience init(gifts: [GiftEntityProtocol],result delegate: GiftToChannelResultDelegate,eventsDelegate: GiftsViewActionEventsDelegate? = nil) {
+    @objc required public convenience init(gifts: [GiftEntityProtocol]) {
         self.init()
         self.gifts = gifts
-        _ = self.giftsView
-        if let events = eventsDelegate {
-            self.giftsView.addActionHandler(actionHandler: events)
-        }
     }
 
     open override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.view.addSubview(self.giftsView)
+        self.giftsView.addActionHandler(actionHandler: self)
     }
     
 }
 
-
+extension GiftsViewController: GiftsViewActionEventsDelegate {
+    /// Send button click
+    /// - Parameter item: `GiftEntityProtocol`
+    public func onGiftSendClick(item: GiftEntityProtocol) {
+        //It can be called after completing the interaction related to the gift sending interface with the server.
+        if item.sentThenClose {
+            UIViewController.currentController?.dismiss(animated: true)
+        }
+        //If you need the server to process the deduction logic before sending the gift message after clicking send, set it to `false`, and after the processing is completed, you need to call `sendGift` method send gift message to channel.
+        self.giftService?.sendGift(gift: item) { [weak self] error in
+            if error != nil {
+                consoleLogInfo("Send gift message to channel failure!\nError:\(error?.errorDescription ?? "")", type: .debug)
+            } else {
+                item.sendUser = ChatroomContext.shared?.currentUser
+                item.giftCount = "1"
+                if let implement = self?.giftService as? GiftServiceImplement {
+                    implement.notifyGiftDriverShowSelfSend(gift: item)
+                }
+            }
+        }
+    }
+    
+    /// Select a gift item.
+    /// - Parameter item: `GiftEntityProtocol`
+    public func onGiftSelected(item: GiftEntityProtocol) {
+        
+    }
+}

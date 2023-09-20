@@ -78,9 +78,7 @@ import UIKit
 }
 
 extension GiftsView: UICollectionViewDelegate,UICollectionViewDataSource,GiftEntityCellActionEvents {
-    public func onSendClicked(item: GiftEntityProtocol) {
-        consoleLogInfo("self.eventHandlers.allObjects.count:\(self.eventHandlers.allObjects.count)", type: .debug)
-        
+    public func onSendClicked(item: GiftEntityProtocol) {        
         for handler in self.eventHandlers.allObjects {
             handler.onGiftSendClick(item: item)
         }

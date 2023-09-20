@@ -14,12 +14,18 @@ let chatroom_UIKit_gift = "chatroom_UIKit_gift"
     
     private var currentRoomId: String = ""
         
-    private var responseDelegates: NSHashTable<GiftResponseListener> = NSHashTable<GiftResponseListener>.weakObjects()
+    public private(set) var responseDelegates: NSHashTable<GiftResponseListener> = NSHashTable<GiftResponseListener>.weakObjects()
 
     @objc public init(roomId: String) {
         self.currentRoomId = roomId
         super.init()
         ChatClient.shared().chatManager?.add(self, delegateQueue: .main)
+    }
+    
+    @objc public func notifyGiftDriverShowSelfSend(gift: GiftEntityProtocol) {
+        for response in self.responseDelegates.allObjects {
+            response.receiveGift(gift: gift)
+        }
     }
 }
 //MARK: - GiftService
@@ -86,7 +92,7 @@ extension GiftServiceImplement: ChatManagerDelegate {
     
     public var giftPrice: String = ""
     
-    public var giftCount: String = ""
+    public var giftCount: String = "1"
     
     public var giftIcon: String = ""
     

@@ -113,6 +113,10 @@ import UIKit
             return
         }
         self.service = service
+        service.bindChatDriver(driver: self.barrageList)
+        if self.showGiftBarrage {
+            service.bindGiftDriver(driver: self.giftBarrages)
+        }
         service.enterRoom(completion: { [weak self] error in
             if error == nil {
                 self?.service?.fetchMuteUsers(pageSize: 100, completion: { _, error in

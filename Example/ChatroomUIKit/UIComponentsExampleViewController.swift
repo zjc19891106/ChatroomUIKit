@@ -51,11 +51,11 @@ final class UIComponentsExampleViewController: UIViewController, UIContextMenuIn
     }()
     
     lazy var gift1: GiftsViewController = {
-        GiftsViewController(gifts: self.gifts(), result: self)
+        GiftsViewController(gifts: self.gifts())
     }()
     
     lazy var gift2: GiftsViewController = {
-        GiftsViewController(gifts: self.gifts(), result: self)
+        GiftsViewController(gifts: self.gifts())
     }()
     
     lazy var carouselTextView: HorizontalTextCarousel = {
@@ -99,14 +99,6 @@ final class UIComponentsExampleViewController: UIViewController, UIContextMenuIn
     }
 
     
-}
-
-
-extension UIComponentsExampleViewController: GiftToChannelResultDelegate {
-    
-    func giftResult(gift: ChatroomUIKit.GiftEntityProtocol, error: ChatroomUIKit.ChatError?) {
-        print("user can report to service.")
-    }
 }
 
 extension UIComponentsExampleViewController: ChatBottomFunctionBarActionEvents {
