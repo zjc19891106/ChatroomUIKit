@@ -24,7 +24,7 @@ public class ExampleRequiredConfig {
     /// `YourAppUser` means that you application project's user class.
     public final class YourAppUser: NSObject,UserInfoProtocol {
         
-        public var userId: String = <#T##String#>
+        public var userId: String = "18811508760"
         
         public var nickName: String = "Jack"
         

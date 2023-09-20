@@ -14,6 +14,7 @@
 		05B7D88A2AB3F5A8000F25DF /* OCBusinessUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05B7D8892AB3F5A8000F25DF /* OCBusinessUIViewController.m */; };
 		05B7D88C2AB4024E000F25DF /* ExampleRequiredConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7D88B2AB4024E000F25DF /* ExampleRequiredConfig.swift */; };
 		05BA09742ABA912A00EF646C /* ChatroomListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BA09732ABA912A00EF646C /* ChatroomListViewController.swift */; };
+		05BA09762ABA9C8100EF646C /* MineGiftsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BA09752ABA9C8100EF646C /* MineGiftsViewController.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* UIComponentsExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* UIComponentsExampleViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -33,6 +34,7 @@
 		05B7D8892AB3F5A8000F25DF /* OCBusinessUIViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCBusinessUIViewController.m; sourceTree = "<group>"; };
 		05B7D88B2AB4024E000F25DF /* ExampleRequiredConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleRequiredConfig.swift; sourceTree = "<group>"; };
 		05BA09732ABA912A00EF646C /* ChatroomListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomListViewController.swift; sourceTree = "<group>"; };
+		05BA09752ABA9C8100EF646C /* MineGiftsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineGiftsViewController.swift; sourceTree = "<group>"; };
 		23F2D4F753FAA56DA969CBB6 /* Pods-ChatroomUIKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatroomUIKit_Tests.release.xcconfig"; path = "Target Support Files/Pods-ChatroomUIKit_Tests/Pods-ChatroomUIKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		4CEC7506381B6D1C68085723 /* Pods_ChatroomUIKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatroomUIKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* ChatroomUIKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatroomUIKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,6 +103,7 @@
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
+				05BA09752ABA9C8100EF646C /* MineGiftsViewController.swift */,
 			);
 			name = "Example for ChatroomUIKit";
 			path = ChatroomUIKit;
@@ -293,6 +296,7 @@
 				05B7D88A2AB3F5A8000F25DF /* OCBusinessUIViewController.m in Sources */,
 				05BA09742ABA912A00EF646C /* ChatroomListViewController.swift in Sources */,
 				054EA71B2AA072D200C716A4 /* OCUIComponentsExampleViewController.m in Sources */,
+				05BA09762ABA9C8100EF646C /* MineGiftsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

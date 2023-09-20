@@ -92,7 +92,6 @@ extension GiftsView: UICollectionViewDelegate,UICollectionViewDataSource,GiftEnt
         let cell = collectionView.dequeueReusableCell(with: ComponentsRegister.shared.GiftsCell, for: indexPath, reuseIdentifier: "GiftEntityCell")
         cell.refresh(item: self.gifts[safe: indexPath.row])
         cell.eventsDelegate = self
-        consoleLogInfo("self.eventHandlers.allObjects.count:\(self.eventHandlers.allObjects.count)", type: .debug)
         return cell
     }
     

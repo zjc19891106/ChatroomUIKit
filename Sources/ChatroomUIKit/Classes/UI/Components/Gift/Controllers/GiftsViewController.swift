@@ -37,7 +37,7 @@ import UIKit
 extension GiftsViewController: GiftsViewActionEventsDelegate {
     /// Send button click
     /// - Parameter item: `GiftEntityProtocol`
-    public func onGiftSendClick(item: GiftEntityProtocol) {
+    open func onGiftSendClick(item: GiftEntityProtocol) {
         //It can be called after completing the interaction related to the gift sending interface with the server.
         if item.sentThenClose {
             UIViewController.currentController?.dismiss(animated: true)
@@ -58,7 +58,7 @@ extension GiftsViewController: GiftsViewActionEventsDelegate {
     
     /// Select a gift item.
     /// - Parameter item: `GiftEntityProtocol`
-    public func onGiftSelected(item: GiftEntityProtocol) {
+    open func onGiftSelected(item: GiftEntityProtocol) {
         
     }
 }
