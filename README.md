@@ -93,6 +93,9 @@ Detailed illustrations of available items in the UI part.
 ## [ComponentRegister](https://github.com/zjc19891106/ChatroomUIKit/tree/main/Documentation/ComponentRegister.md).
 UI components can be inherited to add specific illustrations of custom business parts.
 
+## [GiftsViewController](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/GiftsViewController.md)
+This is a container containing a gift list. You can inherit this class to implement additional UI definitions and business processing. After clicking the Send button, decide whether to close the gift pop-up window after a gift is delivered to display some animation effects and display special effects. It is recommended to use Tencent libpag, or go to the server to call the gift interface in your business, and then send the gift message to the chat room after the call is successful.
+
 # QuickStart
 
 This guide provides several usage examples for different ChatroomUIKit components. Refer to the Examples folder for detailed code snippets and projects showcasing various use cases.
