@@ -1,20 +1,11 @@
-/* 
-  Localizable.strings
-  AgoraScene_iOS
-
-  Created by 朱继超 on 2022/9/19.
-  
-*/
 "Sent "="Sent ";
 "Joined"="Joined";
 
 
 "Post Success" = "Post Success";
 "Post Failed" = "Post Failed";
-"Lau" = "CN";
 
 
-"host" = "host";
 
 "Welcome to" = "Welcome to";
 
@@ -27,7 +18,7 @@
 
 "Content prohibited" = "Content prohibited";
 
-"Let's Chat!" = "Let's Chat!";
+"StartChat" = "Let's chat";
 
 "Violation options" = "Violation options";
 

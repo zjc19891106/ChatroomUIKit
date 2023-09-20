@@ -37,14 +37,13 @@ public enum LanguageType: String {
      - Returns: The localized string for the given key.
      */
     private func localValue(_ key: String) -> String {
-        let bundle = Bundle.chatroomBundle
         guard var lang = NSLocale.preferredLanguages.first else { return Bundle.main.bundlePath }
         if lang.contains("zh") {
             lang = "zh-Hans"
         } else {
             lang = "en"
         }
-        let path = bundle.path(forResource: lang, ofType: "lproj") ?? ""
+        let path = Bundle.chatroomBundle.path(forResource: lang, ofType: "lproj") ?? ""
         let pathBundle = Bundle(path: path) ?? .main
         return pathBundle.localizedString(forKey: key, value: nil, table: nil)
     }
