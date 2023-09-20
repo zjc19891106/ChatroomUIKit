@@ -23,7 +23,10 @@ import UIKit
         }
     }
     
-    public var owner: Bool = false
+    public var owner: Bool {
+        let chatroom = ChatRoom(id: self.roomId ?? "")
+        return chatroom?.owner == ChatClient.shared().currentUsername
+    }
     
     /// The cache mute users map.Key is user id.
     public var muteMap: Dictionary<String,Bool>?

@@ -20,7 +20,6 @@ public class ExampleRequiredConfig {
     static let chatToken: String = "YWMtxgbdola8Ee6UGq1IimamaZGgQVxu0koxi-vGtfdnugRF312QU4sR7p1bEc5SYULxAwMAAAGKrE5MVDeeSAB1UEl0Bc9XdBkrsYRzBt9H-88RwQgDZyJc6YEmtvbSlg"
     //    Follow the following process to create a chat room on console.
     //    ProjectManager->Operation Manager->Chat Room->Create Chat Room.Then fill in the `chatroomId` parameter below.
-    static let chatroomId: String = "225820856614915"
     
     /// `YourAppUser` means that you application project's user class.
     public final class YourAppUser: NSObject,UserInfoProtocol {

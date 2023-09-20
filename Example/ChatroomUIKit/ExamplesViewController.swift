@@ -32,7 +32,7 @@ final class ExamplesViewController: UIViewController {
     @IBAction func push_business_UI(_ sender: Any) {
         ChatroomUIKitClient.shared.login(with: ExampleRequiredConfig.YourAppUser(), token: ExampleRequiredConfig.chatToken, use: true) { error in
             if error == nil || error?.code == .errorUserAlreadyLoginSame {
-                self.navigationController?.pushViewController(UIWithBusinessViewController(chatroomId: ExampleRequiredConfig.chatroomId), animated: true)
+                self.navigationController?.pushViewController(ChatroomListViewController(), animated: true)
             } else {
                 consoleLogInfo("ChatroomUIKitClient login failed!\nError:\(error?.errorDescription ?? "")", type: .debug)
             }

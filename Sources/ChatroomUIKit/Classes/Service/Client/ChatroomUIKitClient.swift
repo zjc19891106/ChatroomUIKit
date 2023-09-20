@@ -89,7 +89,6 @@ import UIKit
     @objc public func launchRoomViewWithOptions(roomId: String,frame: CGRect, is owner: Bool, options: ChatroomUIKitInitialOptions = ChatroomUIKitInitialOptions()) -> ChatroomView {
         self.roomId = roomId
         ChatroomContext.shared?.roomId = roomId
-        ChatroomContext.shared?.owner = owner
         self.option.bottomDataSource = options.bottomDataSource
         self.option.hasGiftsBarrage = options.hasGiftsBarrage
         self.option.hiddenChatRaise = options.hiddenChatRaise

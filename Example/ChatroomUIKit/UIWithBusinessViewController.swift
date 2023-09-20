@@ -15,6 +15,8 @@ final class UIWithBusinessViewController: UIViewController {
     
     var roomId = ""
     
+    var owner = false
+    
     var option: ChatroomUIKitInitialOptions {
         let options  = ChatroomUIKitInitialOptions()
         options.bottomDataSource = self.bottomBarDatas()
@@ -28,7 +30,7 @@ final class UIWithBusinessViewController: UIViewController {
     }()
     
     lazy var roomView: ChatroomUIKit.ChatroomView = {
-        ChatroomUIKitClient.shared.launchRoomViewWithOptions(roomId: self.roomId, frame: CGRect(x: 0, y: ScreenHeight/2.0, width: ScreenWidth, height: ScreenHeight/2.0), is: true, options: self.option)
+        ChatroomUIKitClient.shared.launchRoomViewWithOptions(roomId: self.roomId, frame: CGRect(x: 0, y: ScreenHeight/2.0, width: ScreenWidth, height: ScreenHeight/2.0), is: ChatroomContext.shared?.owner ?? false, options: self.option)
     }()
     
     lazy var carouselTextView: HorizontalTextCarousel = {
