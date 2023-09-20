@@ -52,6 +52,7 @@ import UIKit
         self.action = cellExtensionAction
         self.rawSources = rawSources
         self.searchResults = rawSources
+        Theme.registerSwitchThemeViews(view: self)
     }
     
     open override func viewDidLoad() {
@@ -66,6 +67,7 @@ import UIKit
                 self?.searchResults.removeAll()
             }
         }
+        self.switchTheme(style: Theme.style)
     }
         
     open override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -129,3 +131,17 @@ import UIKit
 }
 
 
+extension SearchViewController: ThemeSwitchProtocol {
+    public func switchTheme(style: ThemeStyle) {
+        self.searchController.view.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
+        self.searchController.searchBar.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
+        self.searchController.searchBar.barStyle = style == .dark ? .black:.default
+        self.tableView.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
+    }
+    
+    public func switchHues() {
+        self.switchTheme(style: .light)
+    }
+    
+    
+}

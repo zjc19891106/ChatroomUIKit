@@ -107,8 +107,8 @@ open class ParticipantsController: UITableViewController {
             cell?.refresh(user: user)
         }
         cell?.more.isHidden = !(ChatroomContext.shared?.owner ?? false)
-        cell?.moreClosure = { [weak self] in
-            self?.operationUser(user: $0)
+        cell?.moreClosure = { [weak self] user in
+            self?.operationUser(user: user)
         }
         cell?.selectionStyle = .none
         return cell ?? ChatroomParticipantsCell()
@@ -136,7 +136,7 @@ open class ParticipantsController: UITableViewController {
                 }
             }
         }
-        DialogManager.shared.showMessageActions(actions: Appearance.defaultOperationUserActions) { item in
+        DialogManager.shared.showUserActions(actions: Appearance.defaultOperationUserActions) { item in
             switch item.tag {
             case "Mute":
                 self.roomService.mute(userId: user.userId, completion: { [weak self] error in

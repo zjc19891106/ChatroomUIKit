@@ -105,7 +105,7 @@ import UIKit
     }
     
     @objc private func cancelAction() {
-        
+        UIViewController.currentController?.dismiss(animated: true)
     }
     
     required public init?(coder: NSCoder) {

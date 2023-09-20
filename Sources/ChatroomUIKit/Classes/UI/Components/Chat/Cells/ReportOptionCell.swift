@@ -24,12 +24,20 @@ import UIKit
     @objc public required override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.addSubViews([self.content,self.stateView])
+        self.contentView.backgroundColor = .clear
+        self.backgroundColor = .clear
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
     }
     
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        self.content.frame = CGRect(x: 16, y: (self.contentView.frame.height-22)/2.0, width: self.contentView.frame.width-72, height: 22)
+        self.stateView.frame = CGRect(x: self.contentView.frame.width-44, y: (self.contentView.frame.height-32)/2.0, width: 32, height: 32)
     }
     
     @objc public func refresh(select: Bool ,title: String) {

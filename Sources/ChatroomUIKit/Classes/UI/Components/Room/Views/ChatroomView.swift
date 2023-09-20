@@ -191,6 +191,7 @@ extension ChatroomView: ChatBarrageActionEventsHandler {
                 Appearance.defaultMessageActions.remove(at: index)
             }
         }
+        self.showLongPressDialog(message: message)
         for delegate in self.eventHandlers.allObjects {
             delegate.onMessageListBarrageLongPressed(message: message)
         }
@@ -202,7 +203,7 @@ extension ChatroomView: ChatBarrageActionEventsHandler {
             case "Translate":
                 self?.service?.translate(message: message, completion: { _ in })
             case "Delete":
-                self?.service?.roomService?.recall(messageId: message.messageId, completion: { _ in })
+                self?.service?.recall(message: message, completion: { _ in })
             case "Mute":
                 self?.service?.mute(userId: message.from, completion: { _ in })
             case "unmute":

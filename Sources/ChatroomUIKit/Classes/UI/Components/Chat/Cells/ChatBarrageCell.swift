@@ -189,6 +189,7 @@ public extension ChatMessage {
         }
         
         Theme.registerSwitchThemeViews(view: self)
+        self.switchTheme(style: Theme.style)
     }
 
     @available(*, unavailable)

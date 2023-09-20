@@ -198,7 +198,7 @@ extension ChatInputBar: UITextViewDelegate {
         let duration = notification.chatroom.keyboardAnimationDuration
         self.keyboardHeight = frame!.height
         self.frame = CGRect(x: 0, y: self.frame.origin.y, width: self.frame.width, height: self.keyboardHeight + 60)
-        let emoji = ChatEmojiView(frame: CGRect(x: 0, y: self.inputField.frame.maxY+8, width: self.frame.width, height: self.keyboardHeight)).tag(124).backgroundColor(UIColor.theme.neutralColor98)
+        let emoji = ChatEmojiView(frame: CGRect(x: 0, y: self.inputField.frame.maxY+8, width: self.frame.width, height: self.keyboardHeight)).tag(124)
         self.emoji = emoji
         self.addSubview(emoji)
         self.updateHeight()
@@ -289,6 +289,7 @@ extension ChatInputBar: ThemeSwitchProtocol {
         self.inputField.tintColor = style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5
         self.inputField.placeHolderColor = style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor6
         self.inputField.textColor = style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1
+        self.emoji?.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
         self.backgroundColor = style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98
     }
     

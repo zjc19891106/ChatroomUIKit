@@ -52,9 +52,7 @@ final class ExamplesViewController: UIViewController {
         }
     }
     
-    deinit {
-        ChatroomUIKitClient.shared.logout()
-    }
+    
 }
 
 

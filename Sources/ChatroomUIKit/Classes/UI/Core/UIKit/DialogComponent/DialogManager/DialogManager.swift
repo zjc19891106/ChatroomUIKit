@@ -33,14 +33,32 @@ import UIKit
     }
     
     @objc public func showMessageActions(actions: [ActionSheetItemProtocol],action: @escaping ActionClosure) {
-        let actionSheet = ActionSheet(items: actions).cornerRadius(.small, [.topLeft,.topRight], .clear, 0)
-        let vc = DialogContainerViewController(custom: actionSheet)
+        let actionSheet = ActionSheet(items: actions)
+        actionSheet.frame = CGRect(x: 0, y: 0, width: actionSheet.frame.width, height: actionSheet.frame.height)
+        let vc = DialogContainerViewController(custom: actionSheet,constraintsSize: actionSheet.frame.size)
         for item in actionSheet.items {
-            item.action = {
+            item.action = { choice in
                 vc.dismiss(animated: true)
-                action($0)
+                DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+                    action(choice)
+                }
             }
         }
         UIViewController.currentController?.presentViewController(vc)
+    }
+    
+    @objc public func showUserActions(actions: [ActionSheetItemProtocol],action: @escaping ActionClosure) {
+        let actionSheet = ActionSheet(items: actions)
+        actionSheet.frame = CGRect(x: 0, y: 0, width: actionSheet.frame.width, height: actionSheet.frame.height)
+        let vc = DialogContainerViewController(custom: actionSheet,constraintsSize: actionSheet.frame.size)
+        for item in actionSheet.items {
+            item.action = { choice in
+                vc.dismiss(animated: true)
+                DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+                    action(choice)
+                }
+            }
+        }
+        UIViewController.currentController?.presentingViewController?.presentViewController(vc)
     }
 }

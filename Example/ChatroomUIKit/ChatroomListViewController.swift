@@ -56,6 +56,10 @@ final class ChatroomListViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         self.navigationController?.pushViewController(UIWithBusinessViewController(chatroomId: self.chatrooms[indexPath.row].chatroomId ?? ""), animated: true)
     }
+    
+    deinit {
+        ChatroomUIKitClient.shared.logout()
+    }
     /*
     
     */

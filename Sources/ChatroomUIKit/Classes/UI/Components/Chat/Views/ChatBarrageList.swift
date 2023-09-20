@@ -63,7 +63,7 @@ var chatViewWidth: CGFloat = 0
     public var messages: [ChatEntity]? = [ChatEntity]()
 
     public lazy var chatView: UITableView = {
-        UITableView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height), style: .plain).delegate(self).dataSource(self).separatorStyle(.none).tableFooterView(UIView()).backgroundColor(.clear).showsVerticalScrollIndicator(false).isUserInteractionEnabled(false)
+        UITableView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height), style: .plain).delegate(self).dataSource(self).separatorStyle(.none).tableFooterView(UIView()).backgroundColor(.clear).showsVerticalScrollIndicator(false).isUserInteractionEnabled(true)
     }()
 
     private lazy var gradientLayer: CAGradientLayer = {
@@ -71,12 +71,12 @@ var chatViewWidth: CGFloat = 0
     }()
 
     private lazy var blurView: UIView = {
-        UIView(frame: CGRect(x: 0, y: 0, width: chatViewWidth, height: self.frame.height)).backgroundColor(.clear)
+        UIView(frame: CGRect(x: 0, y: 0, width: chatViewWidth, height: self.frame.height)).backgroundColor(.clear).isUserInteractionEnabled(true)
     }()
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
-        self.isUserInteractionEnabled = false
+        self.isUserInteractionEnabled = true
         chatViewWidth = frame.width
         self.addSubViews([self.blurView])
         self.blurView.layer.mask = self.gradientLayer
@@ -84,7 +84,7 @@ var chatViewWidth: CGFloat = 0
         self.chatView.bounces = false
         self.chatView.allowsSelection = false
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longGesture(gesture:)))
-        longGesture.minimumPressDuration = 2.0
+        longGesture.minimumPressDuration = 1.0
         self.chatView.addGestureRecognizer(longGesture)
     }
     

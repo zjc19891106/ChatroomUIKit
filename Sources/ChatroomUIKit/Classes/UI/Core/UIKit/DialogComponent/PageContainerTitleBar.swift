@@ -18,7 +18,7 @@ import UIKit
     }()
     
     lazy var layout: UICollectionViewFlowLayout = {
-        let flow = UICollectionViewFlowLayout()
+        let flow = self.datas.count > 1 ? UICollectionViewFlowLayout():ChoiceItemLayout()
         flow.scrollDirection = .horizontal
         flow.itemSize = CGSize(width: Appearance.pageContainerTitleBarItemWidth, height: self.frame.height-16)
         flow.minimumInteritemSpacing = 0
@@ -53,6 +53,9 @@ import UIKit
         self.choicesBar.bounces = false
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
+        if choices.count == 1 {
+            self.indicator.center = CGPoint(x: self.center.x, y: self.indicator.center.y)
+        }
     }
     
     required public init?(coder: NSCoder) {
@@ -152,16 +155,9 @@ extension PageContainerTitleBar: ThemeSwitchProtocol {
     public override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         //Calculate per item center
         let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-        let width = collectionView?.frame.width ?? 0
         attributes.size = self.itemSize
         if self.rows == 1 {
             attributes.center = self.center
-        } else if self.rows == 2 {
-            if indexPath.row == 0 {
-                attributes.center = CGPoint(x: self.center.x-attributes.size.width/2.0-self.minimumInteritemSpacing/2.0, y: self.center.y)
-            } else {
-                attributes.center = CGPoint(x: self.center.x+attributes.size.width/2.0+self.minimumInteritemSpacing/2.0, y: self.center.y)
-            }
         }
         return attributes
     }
@@ -200,38 +196,38 @@ extension PageContainerTitleBar: ThemeSwitchProtocol {
         self.insertIndexPaths = nil
     }
     
-    public override func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        //Appear animation
-        var attributes = super.initialLayoutAttributesForAppearingItem(at: itemIndexPath)
-        
-        if self.insertIndexPaths?.contains(itemIndexPath) ?? false {
-            if attributes != nil {
-                attributes = self.layoutAttributesForItem(at: itemIndexPath)
-                attributes?.alpha = 0.0
-                attributes?.center = CGPointMake(self.center.x, self.center.y)
-            }
-        }
-        
-        
-        return attributes
-    }
-    
-    public override func finalLayoutAttributesForDisappearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        // Disappear animation
-        var attributes = super.finalLayoutAttributesForDisappearingItem(at: itemIndexPath)
-        
-        if self.deleteIndexPaths?.contains(itemIndexPath) ?? false {
-            if attributes != nil {
-                attributes = self.layoutAttributesForItem(at: itemIndexPath)
-                
-                attributes?.alpha = 0.0
-                attributes?.center = CGPointMake(self.center.x, self.center.y)
-                attributes?.transform3D = CATransform3DMakeScale(0.1, 0.1, 1.0)
-            }
-        }
-        
-        return attributes
-    }
+//    public override func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+//        //Appear animation
+//        var attributes = super.initialLayoutAttributesForAppearingItem(at: itemIndexPath)
+//        
+//        if self.insertIndexPaths?.contains(itemIndexPath) ?? false {
+//            if attributes != nil {
+//                attributes = self.layoutAttributesForItem(at: itemIndexPath)
+//                attributes?.alpha = 0.0
+//                attributes?.center = CGPointMake(self.center.x, self.center.y)
+//            }
+//        }
+//        
+//        
+//        return attributes
+//    }
+//    
+//    public override func finalLayoutAttributesForDisappearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+//        // Disappear animation
+//        var attributes = super.finalLayoutAttributesForDisappearingItem(at: itemIndexPath)
+//        
+//        if self.deleteIndexPaths?.contains(itemIndexPath) ?? false {
+//            if attributes != nil {
+//                attributes = self.layoutAttributesForItem(at: itemIndexPath)
+//                
+//                attributes?.alpha = 0.0
+//                attributes?.center = CGPointMake(self.center.x, self.center.y)
+//                attributes?.transform3D = CATransform3DMakeScale(0.1, 0.1, 1.0)
+//            }
+//        }
+//        
+//        return attributes
+//    }
     
     
 

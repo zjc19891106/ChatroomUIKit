@@ -31,20 +31,13 @@ import UIKit
     }()
 
     public lazy var deleteEmoji: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: self.frame.width - 48, y: self.frame.height - 56, width: 40, height: 40)).addTargetFor(self, action: #selector(deleteAction), for: .touchUpInside).isEnabled(false).isUserInteractionEnabled(false).backgroundColor(.clear)
+        UIButton(type: .custom).frame(CGRect(x: self.frame.width - 48, y: self.frame.height - 56, width: 36, height: 36)).addTargetFor(self, action: #selector(deleteAction), for: .touchUpInside).isEnabled(false).isUserInteractionEnabled(false).cornerRadius(.large)
     }()
 
     @objc required override public init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubViews([self.emojiList, self.deleteEmoji, self.separaLine])
         self.deleteEmoji.setImage(UIImage(named: "delete_emoji_light", in: .chatroomBundle, with: nil), for: .normal)
-        let shadowPath0 = UIBezierPath(roundedRect: self.deleteEmoji.bounds, cornerRadius: 24)
-        let layer0 = self.deleteEmoji.layer
-        layer0.shadowPath = shadowPath0.cgPath
-        layer0.shadowColor = UIColor(red: 0.275, green: 0.306, blue: 0.325, alpha: 0.15).cgColor
-        layer0.shadowOpacity = 1
-        layer0.shadowRadius = 3
-        layer0.shadowOffset = CGSize(width: 0, height: 1)
         
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
@@ -79,7 +72,7 @@ extension ChatEmojiView: UICollectionViewDelegate, UICollectionViewDataSource {
 
 extension ChatEmojiView: ThemeSwitchProtocol {
     public func switchTheme(style: ThemeStyle) {
-        self.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
+        self.deleteEmoji.backgroundColor = style == .dark ? UIColor.theme.neutralColor3:UIColor.theme.neutralColor98
         self.deleteEmoji.setImage(UIImage(named: style == .dark ? "delete_emoji_dark":"delete_emoji_light", in: .chatroomBundle, with: nil), for: .normal)
     }
     

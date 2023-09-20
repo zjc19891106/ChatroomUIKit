@@ -18,7 +18,7 @@ import UIKit
 @objc final public class DialogContainerViewController:  UIViewController, PresentedViewType {
     
    
-    public var presentedViewComponent: PresentedViewComponent? = PresentedViewComponent(contentSize: Appearance.giftContainerConstraintsSize)
+    public var presentedViewComponent: PresentedViewComponent? = PresentedViewComponent(contentSize: Appearance.giftContainerConstraintsSize,destination: .bottomBaseline)
 
     var customView: UIView?
 
