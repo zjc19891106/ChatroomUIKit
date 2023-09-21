@@ -28,6 +28,8 @@ open class ParticipantsController: UITableViewController {
     
     public private(set) var muteTab = false
     
+    private var search: SearchViewController?
+    
     lazy var searchField: SearchBar = {
         SearchBar(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 44))
     }()
@@ -161,6 +163,7 @@ open class ParticipantsController: UITableViewController {
             case "Remove":
                 self.roomService.kick(userId: user.userId) { [weak self] error in
                     guard let `self` = self else { return }
+//                    self.search?.removeUser(userId: user.userId)
                     self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",style: Theme.style == .light ? .light:.dark,duration: 2)
                 }
             default:
@@ -173,12 +176,12 @@ open class ParticipantsController: UITableViewController {
 extension ParticipantsController: SearchBarActionEvents {
     
     public func onSearchBarClicked() {
-        let search = SearchViewController(rawSources: self.rawSources()) { [weak self] user in
+        self.search = SearchViewController(rawSources: self.rawSources()) { [weak self] user in
             self?.operationUser(user: user)
         } didSelect: { user in
             
         }
-        self.present(search, animated: true)
+        self.present(self.search!, animated: true)
     }
     
     private func rawSources() -> [UserInfoProtocol] {

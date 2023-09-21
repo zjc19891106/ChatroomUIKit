@@ -13,18 +13,16 @@ import UIKit
         let search = UISearchController(searchResultsController: nil)
         search.searchResultsUpdater = self
         search.searchBar.placeholder = "Search".chatroom.localize
-        search.obscuresBackgroundDuringPresentation = true
+        search.obscuresBackgroundDuringPresentation = false
         return search
     }()
     
     public private(set) var rawSources = [UserInfoProtocol]() {
         didSet {
-            if !self.searchController.isActive {
-                if self.rawSources.count <= 0  {
-                    self.tableView.backgroundView = self.empty
-                } else {
-                    self.tableView.backgroundView = nil
-                }
+            if self.rawSources.count <= 0  {
+                self.tableView.backgroundView = self.empty
+            } else {
+                self.tableView.backgroundView = nil
             }
         }
     }
@@ -55,19 +53,31 @@ import UIKit
         Theme.registerSwitchThemeViews(view: self)
     }
     
+    @objc public func removeUser(userId: String) {
+        if self.searchController.isActive {
+            self.searchResults.removeAll { $0.userId == userId }
+        } else {
+            self.rawSources.removeAll { $0.userId == userId }
+        }
+    }
+
     open override func viewDidLoad() {
         super.viewDidLoad()
-                
-        self.tableView.tableHeaderView = self.searchController.searchBar
-        self.tableView.rowHeight = Appearance.membersRowHeight
-        self.tableView.register(ChatroomParticipantsCell.self, forCellReuseIdentifier: "SearchResultCell")
         self.definesPresentationContext = true
+        self.tableView.rowHeight = Appearance.membersRowHeight
+        self.tableView.tableHeaderView = self.searchController.searchBar
+        self.tableView.register(ChatroomParticipantsCell.self, forCellReuseIdentifier: "ChatroomParticipantsCellSearchResultCell")
         _ = self.searchController.publisher(for: \.isActive).sink { [weak self] status in
             if !status {
                 self?.searchResults.removeAll()
             }
         }
+        Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
+    }
+    
+    public override func numberOfSections(in tableView: UITableView) -> Int {
+        1
     }
         
     open override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -78,9 +88,9 @@ import UIKit
     }
     
     open override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell", for: indexPath) as? ChatroomParticipantsCell
+        var cell = tableView.dequeueReusableCell(withIdentifier: "ChatroomParticipantsCellSearchResultCell", for: indexPath) as? ChatroomParticipantsCell
         if cell == nil {
-            cell = ChatroomParticipantsCell(style: .default, reuseIdentifier: "SearchResultCell")
+            cell = ChatroomParticipantsCell(style: .default, reuseIdentifier: "ChatroomParticipantsCellSearchResultCell")
         }
         if self.searchController.isActive {
             if let item = self.searchResults[safe: indexPath.row] {
@@ -112,31 +122,24 @@ import UIKit
         
     }
     
-    public func updateSearchResults(for searchController: UISearchController) {
-        if let searchText = searchController.searchBar.text,!searchText.isEmpty {
-            for user in self.rawSources {
-                if (user.nickName as NSString).range(of: searchText).location != NSNotFound, (user.nickName as NSString).range(of: searchText).length >= 0 {
-                    if !self.searchResults.contains(where: { $0.nickName == user.nickName
-                    }) {
-                        self.searchResults.append(user)
-                    }
-                }
-            }
-            if self.searchResults.count <= 0 {
-                self.tableView.backgroundView = self.empty
-            }
-            self.tableView.reloadData()
+    public func updateSearchResults(for searchController: UISearchController) { searchController.searchResultsController?.view.isHidden = false
+        if let searchText = searchController.searchBar.text {
+            self.searchResults = self.rawSources.filter({ user in
+                (user.nickName as NSString).range(of: searchText).location != NSNotFound && (user.nickName as NSString).range(of: searchText).length >= 0
+            })
         }
+        self.tableView.reloadData()
     }
+    
 }
 
 
 extension SearchViewController: ThemeSwitchProtocol {
     public func switchTheme(style: ThemeStyle) {
-        self.searchController.view.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
         self.searchController.searchBar.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
         self.searchController.searchBar.barStyle = style == .dark ? .black:.default
         self.tableView.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
+        self.tableView.reloadData()
     }
     
     public func switchHues() {

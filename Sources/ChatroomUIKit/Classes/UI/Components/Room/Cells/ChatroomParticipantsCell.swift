@@ -74,6 +74,8 @@ import UIKit
 extension ChatroomParticipantsCell: ThemeSwitchProtocol {
     
     public func switchTheme(style: ThemeStyle) {
+        self.userName.textColor(style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1)
+        self.userDetail.textColor(style == .dark ? UIColor.theme.neutralColor6:UIColor.theme.neutralColor5)
         self.moreImage?.withTintColor(style == .dark ? UIColor.theme.neutralColor6:UIColor.theme.neutralColor5, renderingMode: .automatic)
         self.more.setImage(self.moreImage, for: .normal)
     }
