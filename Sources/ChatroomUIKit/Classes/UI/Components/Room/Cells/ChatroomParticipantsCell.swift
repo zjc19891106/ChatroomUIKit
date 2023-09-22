@@ -35,6 +35,10 @@ import UIKit
         UIButton(type: .custom).frame(CGRect(x: self.contentView.frame.width-40, y: (self.contentView.frame.height-28)/2.0, width: 28, height: 28)).backgroundColor(.clear).image(self.moreImage, .normal).addTargetFor(self, action: #selector(moreAction), for: .touchUpInside)
     }()
     
+//    lazy var separateLine: UIView = {
+//        UIView(frame: CGRect(x: 0, y: self.contentView.frame.height-1, width: self.contentView.frame.width, height: 1))
+//    }()
+    
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor(.clear)
@@ -49,6 +53,14 @@ import UIKit
     }
     
     open override func layoutSubviews() {
+        super.layoutSubviews()
+        self.userLevel.frame = CGRect(x: 12, y: self.contentView.center.y-13, width: 26, height: 26)
+        self.userAvatar.frame = CGRect(x: self.userLevel.frame.maxX+12, y: self.contentView.center.y-20, width: 40, height: 40)
+        if self.userDetail.text == nil {
+            self.userName.frame = CGRect(x: self.userAvatar.frame.maxX+12, y: self.userAvatar.frame.minY+10, width: self.contentView.frame.width-self.userAvatar.frame.maxX-36-28, height: 20)
+        } else {
+            self.userName.frame = CGRect(x: self.userAvatar.frame.maxX+12, y: self.userAvatar.frame.minY, width: self.contentView.frame.width-self.userAvatar.frame.maxX-36-28, height: 20)
+        }
         self.more.frame = CGRect(x: self.contentView.frame.width-40, y: (self.contentView.frame.height-28)/2.0, width: 28, height: 28)
     }
     
@@ -57,11 +69,6 @@ import UIKit
         self.userLevel.image(with: user.identify, placeHolder: Appearance.userIdentifyPlaceHolder)
         self.userAvatar.image(with: user.avatarURL, placeHolder: Appearance.avatarPlaceHolder)
         self.userName.text = user.nickName
-        if self.userDetail.text == nil {
-            self.userName.frame = CGRect(x: self.userAvatar.frame.maxX+12, y: self.userAvatar.frame.minY+10, width: self.contentView.frame.width-self.userAvatar.frame.maxX-36-28, height: 20)
-        } else {
-            self.userName.frame = CGRect(x: self.userAvatar.frame.maxX+12, y: self.userAvatar.frame.minY, width: self.contentView.frame.width-self.userAvatar.frame.maxX-36-28, height: 20)
-        }
     }
     
     @objc private func moreAction() {
@@ -78,6 +85,7 @@ extension ChatroomParticipantsCell: ThemeSwitchProtocol {
         self.userDetail.textColor(style == .dark ? UIColor.theme.neutralColor6:UIColor.theme.neutralColor5)
         self.moreImage?.withTintColor(style == .dark ? UIColor.theme.neutralColor6:UIColor.theme.neutralColor5, renderingMode: .automatic)
         self.more.setImage(self.moreImage, for: .normal)
+//        self.separateLine.backgroundColor(Theme.style == .dark ? UIColor.theme.neutralColor2:UIColor.theme.neutralColor9)
     }
     
     public func switchHues() {

@@ -79,7 +79,7 @@ final class UIComponentsExampleViewController: UIViewController, UIContextMenuIn
         self.bottomBar.addActionHandler(actionHandler: self)
         self.inputBar.sendClosure = { [weak self] in
             guard let `self` = self else { return }
-            self.barrageList.showNewMessage(message: self.startMessage($0))
+            self.barrageList.showNewMessage(message: self.startMessage($0),gift: nil)
         }
 
         let button = UIButton(type: .custom).frame(CGRect(x: 100, y: 120, width: 150, height: 20)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title("Add Global Notify", .normal).addTargetFor(self, action: #selector(addCarouselTask), for: .touchUpInside)
@@ -93,7 +93,8 @@ final class UIComponentsExampleViewController: UIViewController, UIContextMenuIn
         
         self.carouselTextView.alpha = 0
         
-        let switchCellStyle = UIButton(type: .custom).frame(CGRect(x: 100, y: 195, width: 150, height: 40)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title(".all", .normal).addTargetFor(self, action: #selector(switchStyle(sender:)), for: .touchUpInside)
+        let switchCellStyle = UIButton(type: .custom).frame(CGRect(x: 100, y: 195, width: 150, height: 40)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title(".all", .normal)
+        switchCellStyle.addInteraction(UIContextMenuInteraction(delegate: self))
         self.view.addSubview(switchCellStyle)
         
     }
@@ -129,10 +130,6 @@ extension UIComponentsExampleViewController {
 //        Theme.switchHues()
     }
     
-    @objc func switchStyle(sender:UIButton) {
-        sender.addInteraction(UIContextMenuInteraction(delegate: self))
-        
-    }
 
     
     func bottomBarDatas() -> [ChatBottomItemProtocol] {

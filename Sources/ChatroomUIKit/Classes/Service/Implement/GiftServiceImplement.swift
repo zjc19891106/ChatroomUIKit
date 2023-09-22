@@ -8,7 +8,7 @@
 import UIKit
 import KakaJSON
 
-let chatroom_UIKit_gift = "chatroom_UIKit_gift"
+let chatroom_UIKit_gift = "CHATROOMUIKITGIFT"
 
 @objc public final class GiftServiceImplement: NSObject {
     
@@ -22,22 +22,26 @@ let chatroom_UIKit_gift = "chatroom_UIKit_gift"
         ChatClient.shared().chatManager?.add(self, delegateQueue: .main)
     }
     
-    @objc public func notifyGiftDriverShowSelfSend(gift: GiftEntityProtocol) {
+    @objc public func notifyGiftDriverShowSelfSend(gift: GiftEntityProtocol,message: ChatMessage) {
         for response in self.responseDelegates.allObjects {
-            response.receiveGift(gift: gift)
+            if ChatroomUIKitClient.shared.option.chatBarrageContainGift {
+                response.receiveGift(gift: gift, message: message)
+            } else {
+                response.receiveGift(gift: gift)
+            }
         }
     }
 }
 //MARK: - GiftService
 extension GiftServiceImplement: GiftService {
     
-    public func sendGift(gift: GiftEntityProtocol, completion: @escaping (ChatError?) -> Void) {
+    public func sendGift(gift: GiftEntityProtocol, completion: @escaping (ChatMessage?,ChatError?) -> Void) {
         let gift = gift as? GiftEntity
         let user = ChatroomContext.shared?.currentUser as? User
         let message = ChatMessage(conversationID: self.currentRoomId, body: ChatCustomMessageBody(event: chatroom_UIKit_gift, customExt: ["gift" : gift?.kj.JSONString() ?? ""]), ext: user?.kj.JSONObject())
         message.chatType = .chatRoom
         ChatClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
-            completion(error)
+            completion(chatMessage,error)
         })
     }
     
@@ -70,7 +74,7 @@ extension GiftServiceImplement: ChatManagerDelegate {
                                 let model = model(from: json, type: GiftEntity.self)
                                 if let gift = model as? GiftEntityProtocol {
                                     gift.sendUser = userInfo
-                                    response.receiveGift(gift: gift)
+                                    response.receiveGift(gift: gift,message: message)
                                 }
 
                             }

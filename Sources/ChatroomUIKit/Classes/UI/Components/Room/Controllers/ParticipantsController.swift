@@ -14,15 +14,15 @@ open class ParticipantsController: UITableViewController {
     
     public private(set) var users = [UserInfoProtocol]() {
         didSet {
-            if self.users.count <= 0 {
-                self.tableView.backgroundView = self.empty
-            } else {
-                self.tableView.backgroundView = nil
+            DispatchQueue.main.async {
+                if self.users.count <= 0 {
+                    self.tableView.backgroundView = self.empty
+                } else {
+                    self.tableView.backgroundView = nil
+                }
             }
         }
     }
-        
-    public private(set) var pageSize: UInt = 15
     
     public private(set) var fetchFinish = true
     
@@ -30,8 +30,12 @@ open class ParticipantsController: UITableViewController {
     
     private var search: SearchViewController?
     
+    lazy var loadingView: LoadingView = {
+        LoadingView(frame: CGRect(x: self.tableView.frame.width/2.0 - 50, y: self.tableView.frame.height/2.0 - 50, width: 100, height: 100))
+    }()
+    
     lazy var searchField: SearchBar = {
-        SearchBar(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 44))
+        SearchBar(frame: CGRect(x: 0, y: 0, width: Appearance.pageContainerConstraintsSize.width, height: 44))
     }()
     
     lazy var empty: EmptyStateView = {
@@ -59,6 +63,7 @@ open class ParticipantsController: UITableViewController {
         self.tableView.separatorColor(UIColor.theme.neutralColor9)
         self.tableView.tableFooterView(UIView())
         self.searchField.addActionHandler(handler: self)
+        self.tableView.addSubview(self.loadingView)
         Theme.registerSwitchThemeViews(view: self)
         // Uncomment the following line to preserve selection between presentations
         self.fetchFinish = false
@@ -66,33 +71,33 @@ open class ParticipantsController: UITableViewController {
     }
     
     func fetchUsers() {
+        self.loadingView.startAnimating()
         if self.muteTab {
-            self.roomService.fetchMuteUsers(pageSize: self.pageSize) { [weak self] datas, error in
-                self?.fetchFinish = true
-                if error == nil {
-                    self?.users.append(contentsOf: datas ?? [])
-                    self?.tableView.reloadData()
+            self.roomService.fetchMuteUsers(pageSize: Appearance.membersPageSize) { [weak self] datas, error in
+                DispatchQueue.main.async {
+                    self?.loadingView.stopAnimating()
+                    self?.fetchFinish = true
+                    if error == nil {
+                        self?.users.append(contentsOf: datas ?? [])
+                        self?.tableView.reloadData()
+                    }
                 }
             }
         } else {
-            self.roomService.fetchParticipants(pageSize: self.pageSize) { [weak self] datas, error in
-                self?.fetchFinish = true
-                if error == nil {
-                    if self?.users.count ?? 0 == 0 {
-                        self?.users.append(ChatroomContext.shared?.currentUser ?? User())
+            self.roomService.fetchParticipants(pageSize: Appearance.membersPageSize) { [weak self] datas, error in
+                DispatchQueue.main.async {
+                    self?.loadingView.stopAnimating()
+                    self?.fetchFinish = true
+                    if error == nil {
+                        self?.users.append(contentsOf: datas ?? [])
+                        self?.tableView.reloadData()
                     }
-                    self?.users.append(contentsOf: datas ?? [])
-                    self?.tableView.reloadData()
                 }
             }
         }
     }
 
     // MARK: - Table view data source
-    open override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
 
     open override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
@@ -117,13 +122,13 @@ open class ParticipantsController: UITableViewController {
     }
     
     open override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if UInt(self.users.count)%self.pageSize == 0,self.users.count - 3 == indexPath.row,self.fetchFinish {
+        if UInt(self.users.count)%Appearance.membersPageSize == 0,self.users.count - 3 == indexPath.row,self.fetchFinish {
             self.fetchFinish = false
             self.fetchUsers()
         }
     }
     
-    private func operationUser(user: UserInfoProtocol) {
+    private func filterItems(user: UserInfoProtocol) {
         if let map = ChatroomContext.shared?.muteMap {
             let mute = map[user.userId] ?? false
             if mute {
@@ -138,6 +143,10 @@ open class ParticipantsController: UITableViewController {
                 }
             }
         }
+    }
+    
+    private func operationUser(user: UserInfoProtocol) {
+        self.filterItems(user: user)
         DialogManager.shared.showUserActions(actions: Appearance.defaultOperationUserActions) { item in
             switch item.tag {
             case "Mute":
@@ -145,7 +154,7 @@ open class ParticipantsController: UITableViewController {
                     guard let `self` = self else { return }
                     if error == nil {
                         self.users.removeAll { $0.userId == user.userId }
-                        self.tableView.reloadData()
+                        self.tableView.reloadDataSafe()
                     } else {
                         self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",style: Theme.style == .light ? .light:.dark,duration: 2)
                     }
@@ -155,17 +164,21 @@ open class ParticipantsController: UITableViewController {
                     guard let `self` = self else { return }
                     if error == nil {
                         self.users.removeAll { $0.userId == user.userId }
-                        self.tableView.reloadData()
+                        self.tableView.reloadDataSafe()
                     } else {
                         self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",style: Theme.style == .light ? .light:.dark,duration: 2)
                     }
                 })
             case "Remove":
-                self.roomService.kick(userId: user.userId) { [weak self] error in
+                DialogManager.shared.showAlert(content: "Remove `\(user.nickName.isEmpty ? user.userId:user.nickName)`.Are you sure?", showCancel: true, showConfirm: true) { [weak self] in
                     guard let `self` = self else { return }
-//                    self.search?.removeUser(userId: user.userId)
-                    self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",style: Theme.style == .light ? .light:.dark,duration: 2)
+                    self.roomService.kick(userId: user.userId) { [weak self] error in
+                        guard let `self` = self else { return }
+                        self.search?.removeUser(userId: user.userId)
+                        self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",style: Theme.style == .light ? .light:.dark,duration: 2)
+                    }
                 }
+                
             default:
                 item.action?(item)
             }

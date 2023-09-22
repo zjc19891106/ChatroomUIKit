@@ -34,7 +34,6 @@ import UIKit
     public var gifts = [GiftEntityProtocol]() {
         didSet {
             if self.gifts.count > 0 {
-                self.isHidden = false
                 self.cellAnimation()
             }
         }
@@ -111,28 +110,42 @@ extension GiftsBarrageList: UITableViewDelegate, UITableViewDataSource {
     }
 
     internal func cellAnimation() {
-        self.alpha = 1
-        self.giftList.reloadData()
-        var indexPath = IndexPath(row: 0, section: 0)
-        if self.gifts.count >= 2 {
-            indexPath = IndexPath(row: self.gifts.count - 2, section: 0)
-        }
-        if self.gifts.count > 1{
-            let cell = self.giftList.cellForRow(at: indexPath) as? GiftBarrageCell
-            guard let gift = self.gifts[safe: indexPath.row] else { return }
-            cell?.refresh(item: gift)
-            UIView.animate(withDuration: 0.3) {
-                cell?.alpha = 0.35
-                cell?.contentView.transform = CGAffineTransform(scaleX: self.dataSource?.zoomScaleX?() ?? 0.75, y: self.dataSource?.zoomScaleY?() ?? 0.75)
-                self.giftList.scrollToRow(at: IndexPath(row: self.gifts.count - 1, section: 0), at: .top, animated: false)
+        DispatchQueue.main.async {
+            self.alpha = 1
+            self.isHidden = false
+            self.giftList.reloadData()
+            var indexPath = IndexPath(row: 0, section: 0)
+            if self.gifts.count >= 2 {
+                indexPath = IndexPath(row: self.gifts.count - 2, section: 0)
             }
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            UIView.animate(withDuration: 0.3, delay: 1, options: .curveEaseInOut) {
-                self.alpha = 0
-                self.isHidden = true
-            } completion: { _ in
-                self.gifts.removeAll()
+            if self.gifts.count > 1 {
+                let cell = self.giftList.cellForRow(at: indexPath) as? GiftBarrageCell
+                guard let gift = self.gifts[safe: indexPath.row] else { return }
+                UIView.animate(withDuration: 0.3) {
+                    cell?.alpha = 0.35
+                    cell?.contentView.transform = CGAffineTransform(scaleX: self.dataSource?.zoomScaleX?() ?? 0.75, y: self.dataSource?.zoomScaleY?() ?? 0.75)
+                    self.giftList.scrollToRow(at: IndexPath(row: self.gifts.count - 1, section: 0), at: .top, animated: false)
+                } completion: { finished in
+                    if finished {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            UIView.animate(withDuration: 0.3, delay: 1, options: .curveEaseInOut) {
+                                self.alpha = 0
+                                self.isHidden = true
+                            } completion: { _ in
+                                self.gifts.removeAll()
+                            }
+                        }
+                    }
+                }
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    UIView.animate(withDuration: 0.3, delay: 1, options: .curveEaseInOut) {
+                        self.alpha = 0
+                        self.isHidden = true
+                    } completion: { _ in
+                        self.gifts.removeAll()
+                    }
+                }
             }
         }
     }

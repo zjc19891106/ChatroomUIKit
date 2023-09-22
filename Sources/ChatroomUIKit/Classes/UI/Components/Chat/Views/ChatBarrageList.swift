@@ -13,15 +13,16 @@ var chatViewWidth: CGFloat = 0
 @objc public protocol IChatBarrageListDriver: NSObjectProtocol {
     
     /// When you receive or will send a message.
-    /// - Parameter message: ChatMessage
-    func showNewMessage(message: ChatMessage)
+    /// - Parameter message: ``ChatMessage``
+    ///   - gift: ``GiftEntityProtocol``
+    func showNewMessage(message: ChatMessage,gift: GiftEntityProtocol?)
     
     /// When you want modify or translate a message.
-    /// - Parameter message: ChatMessage
+    /// - Parameter message: ``ChatMessage``
     func refreshMessage(message: ChatMessage)
     
     /// When you want delete message.
-    /// - Parameter message: ChatMessage
+    /// - Parameter message: ``ChatMessage``
     func removeMessage(message: ChatMessage)
 }
 
@@ -186,20 +187,24 @@ extension ChatBarrageList: IChatBarrageListDriver {
     
     public func refreshMessage(message: ChatMessage) {
         if let index = self.messages?.firstIndex(where: { $0.message.messageId == message.messageId }),let count = self.messages?.count,count > 0,index < count - 1 {
-            self.messages?[index] = self.convertMessageToRender(message: message)
+            let entity = self.messages?[index]
+            self.messages?[index] = self.convertMessageToRender(message: message,gift: entity?.gift)
             self.chatView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
         }
     }
     
-    public func showNewMessage(message: ChatMessage) {
-        self.messages?.append(self.convertMessageToRender(message: message))
-        self.chatView.reloadData()
-        self.scrollTableViewToBottom()
+    public func showNewMessage(message: ChatMessage,gift: GiftEntityProtocol?) {
+        self.messages?.append(self.convertMessageToRender(message: message, gift: gift))
+        self.chatView.reloadDataSafe()
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
+            self.scrollTableViewToBottom()
+        }
     }
     
-    private func convertMessageToRender(message: ChatMessage) -> ChatEntity {
+    private func convertMessageToRender(message: ChatMessage,gift: GiftEntityProtocol?) -> ChatEntity {
         let entity = ChatEntity()
         entity.message = message
+        entity.gift = gift
         entity.attributeText = entity.attributeText
         entity.width = entity.width
         entity.height = entity.height
@@ -215,5 +220,11 @@ extension UITableView {
     /// - Returns: A Cell from the type passed through
     func dequeueReusableCell<Cell: UITableViewCell>(with type: Cell.Type, reuseIdentifier: String) -> Cell? {
         dequeueReusableCell(withIdentifier: reuseIdentifier) as? Cell
+    }
+    
+    @objc public func reloadDataSafe() {
+        DispatchQueue.main.async {
+            self.reloadData()
+        }
     }
 }

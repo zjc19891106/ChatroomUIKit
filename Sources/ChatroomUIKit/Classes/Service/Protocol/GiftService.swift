@@ -36,9 +36,9 @@ import Foundation
  
     /// Send gift.
     /// - Parameters:
-    ///   - gift: GiftEntityProtocol
+    ///   - gift: ``GiftEntityProtocol``
     ///   - completion: Callback,what if success or error.
-    func sendGift(gift: GiftEntityProtocol,completion: @escaping (ChatError?) -> Void)
+    func sendGift(gift: GiftEntityProtocol,completion: @escaping (ChatMessage?,ChatError?) -> Void)
 }
 
 @objc public protocol GiftResponseListener: NSObjectProtocol {
@@ -46,4 +46,10 @@ import Foundation
     /// Some one send gift to chatroom
     /// - Parameter gift: GiftEntityProtocol
     func receiveGift(gift: GiftEntityProtocol)
+    
+    
+    /// Some one send gift to chatroom
+    /// - Parameter gift: GiftEntityProtocol
+    ///   - message: ``ChatMessage``
+    func receiveGift(gift: GiftEntityProtocol,message: ChatMessage)
 }

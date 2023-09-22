@@ -102,9 +102,7 @@ import UIKit
     public private(set) lazy var giftService: GiftService? = {
         let newValue = GiftServiceImplement(roomId: self.roomId)
         newValue.unbindGiftResponseListener(listener: self)
-        if newValue != nil {
-            newValue.bindGiftResponseListener(listener: self)
-        }
+        newValue.bindGiftResponseListener(listener: self)
         return newValue
     }()
     
@@ -386,13 +384,13 @@ extension RoomService: ChatroomResponseListener {
     
     public func onMessageReceived(roomId: String, message: ChatMessage) {
         if roomId == self.roomId {
-            self.chatDriver?.showNewMessage(message: message)
+            self.chatDriver?.showNewMessage(message: message, gift: nil)
         }
     }
         
     public func onUserJoined(roomId: String, message: ChatMessage) {
         if roomId == self.roomId {
-            self.chatDriver?.showNewMessage(message: message)
+            self.chatDriver?.showNewMessage(message: message, gift: nil)
         }
         for listener in self.eventsListener.allObjects {
             if let user = message.user {
@@ -434,5 +432,10 @@ extension RoomService: GiftResponseListener {
     public func receiveGift(gift: GiftEntityProtocol) {
         self.giftDriver?.receiveGift(gift: gift)
     }
+    
+    public func receiveGift(gift: GiftEntityProtocol, message: ChatMessage) {
+        self.chatDriver?.showNewMessage(message: message,gift: gift)
+    }
+    
     
 }

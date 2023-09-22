@@ -61,4 +61,18 @@ import UIKit
         }
         UIViewController.currentController?.presentingViewController?.presentViewController(vc)
     }
+    
+    @objc public func showAlert(content: String,showCancel: Bool,showConfirm: Bool,confirmClosure: @escaping () -> Void) {
+        let alert = AlertView().background(color: Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98).content(content: content)
+        if showCancel {
+            alert.leftButton(color: Theme.style == .dark ? UIColor.theme.neutralColor95:UIColor.theme.neutralColor3).leftButtonBorder(color: Theme.style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor7)
+        }
+        if showConfirm {
+            alert.rightButtonBackground(color: Theme.style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5).rightButton(color: UIColor.theme.neutralColor98).rightButtonTapClosure { _ in
+                
+            }
+        }
+        let alertVC = AlertViewController(custom: alert)
+        UIViewController.currentController?.presentViewController(alertVC)
+    }
 }

@@ -43,14 +43,14 @@ extension GiftsViewController: GiftsViewActionEventsDelegate {
             UIViewController.currentController?.dismiss(animated: true)
         }
         //If you need the server to process the deduction logic before sending the gift message after clicking send, set it to `false`, and after the processing is completed, you need to call `sendGift` method send gift message to channel.
-        self.giftService?.sendGift(gift: item) { [weak self] error in
+        self.giftService?.sendGift(gift: item) { [weak self] message,error in
             if error != nil {
                 consoleLogInfo("Send gift message to channel failure!\nError:\(error?.errorDescription ?? "")", type: .debug)
             } else {
                 item.sendUser = ChatroomContext.shared?.currentUser
                 item.giftCount = "1"
-                if let implement = self?.giftService as? GiftServiceImplement {
-                    implement.notifyGiftDriverShowSelfSend(gift: item)
+                if let implement = self?.giftService as? GiftServiceImplement,let giftMessage = message {
+                    implement.notifyGiftDriverShowSelfSend(gift: item,message: giftMessage)
                 }
             }
         }

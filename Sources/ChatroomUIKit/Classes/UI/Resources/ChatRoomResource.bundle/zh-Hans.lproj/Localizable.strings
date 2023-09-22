@@ -29,6 +29,8 @@
 "barrage_long_press_menu_report" = "举报";
 "barrage_long_press_menu_cancel" = "取消";
 "report_button_click_menu_button_cancel" = "取消";
+"Confirm" = "确定";
+
 
 "participant_list_title" = "成员列表";
 

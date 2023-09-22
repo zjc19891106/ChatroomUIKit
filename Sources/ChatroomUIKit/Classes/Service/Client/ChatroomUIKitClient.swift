@@ -21,6 +21,9 @@ import UIKit
     
     /// Whether to use user attributes
     var useProperties: Bool = true
+    
+    /// Whether chat barrage show gift info or not.
+    var chatBarrageContainGift = false
 }
 
 /// ChatroomUIKit initialize class.
@@ -107,10 +110,6 @@ import UIKit
         self.userImplement?.updateUserInfo(userInfo: info, completion: { success, error in
             completion(error)
         })
-    }
-    
-    @objc public func sendGift(gift: GiftEntityProtocol, completion: @escaping (ChatError?) -> Void) {
-        self.roomService?.giftService?.sendGift(gift: gift, completion: completion)
     }
     
     /// Register chatroom events listener

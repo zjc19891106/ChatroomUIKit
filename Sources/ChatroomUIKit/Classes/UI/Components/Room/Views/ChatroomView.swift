@@ -97,7 +97,7 @@ import UIKit
             guard let `self` = self else { return }
             self.service?.roomService?.sendMessage(text: $0, roomId: ChatroomContext.shared?.roomId ?? "", completion: { message, error in
                 if error == nil {
-                    self.barrageList.showNewMessage(message: message)
+                    self.barrageList.showNewMessage(message: message, gift: nil)
                 } else {
                     consoleLogInfo("Send message failure!\n\(error?.errorDescription ?? "")", type: .debug)
                 }

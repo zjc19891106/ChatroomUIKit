@@ -14,10 +14,15 @@ import UIKit
     public static var pageContainerTitleBarItemWidth: CGFloat = ScreenWidth/2.0
     
     /// ``PageContainersDialogController`` constraints size.
-    public static var pageContainerConstraintsSize = CGSizeMake(ScreenWidth, ScreenHeight*(3/5.0))
+    public static var pageContainerConstraintsSize = CGSize(width: ScreenWidth, height: ScreenHeight*(3/5.0))
     
     /// Gifts dialog controllers constraints size.
-    public static var giftContainerConstraintsSize = CGSizeMake(ScreenWidth, ScreenHeight/2.0)
+    public static var giftContainerConstraintsSize = CGSize(width: ScreenWidth, height: ScreenHeight/2.0)
+    
+    /// Alert constraints size
+    public static var alertContainerConstraintsSize = CGSize(width: ScreenWidth-50, height: ScreenHeight/3.0)
+    
+    public static var alertCornerRadius: CGFloat = 36
     
     /// You can change the overall cell layout style of the barrage area by setting the current properties.
     public static var barrageCellStyle: ChatBarrageCellStyle = .all
@@ -73,7 +78,7 @@ import UIKit
     public static var notifyMessageIcon: UIImage? = UIImage(systemName: "speaker.3.fill")
     
     /// ``ChatBarrageCell`` user level image view placeholder image.
-    public static var userIdentifyPlaceHolder: UIImage? = nil
+    public static var userIdentifyPlaceHolder: UIImage? = UIImage(systemName: "star.circle.fill")
     
     /// ``ChatInputBar`` Input box height limit.
     public static var maxInputHeight: CGFloat = 88
@@ -93,5 +98,7 @@ import UIKit
     /// You can set label for report types.
     public static var reportTags: [String] = ["violation_reason_1".chatroom.localize,"violation_reason_2".chatroom.localize,"violation_reason_3".chatroom.localize,"violation_reason_5".chatroom.localize,"violation_reason_5".chatroom.localize,"violation_reason_6".chatroom.localize,"violation_reason_7".chatroom.localize,"violation_reason_8".chatroom.localize,"violation_reason_9".chatroom.localize]
     
-    public static var membersRowHeight: CGFloat = 60
+    public static var membersRowHeight: CGFloat = 62
+    
+    public static var membersPageSize: UInt = 10
 }

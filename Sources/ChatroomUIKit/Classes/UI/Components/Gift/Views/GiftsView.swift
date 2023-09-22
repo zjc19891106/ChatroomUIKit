@@ -63,10 +63,6 @@ import UIKit
         self.giftList.bounces = false
         self.addSubViews([self.giftList])
         self.backgroundColor = .clear
-        _ = self.eventHandlers.publisher(for: \.count).sink { [weak self] count in
-            if (count != 0) {
-            }
-        }
     }
 
     @available(*, unavailable)

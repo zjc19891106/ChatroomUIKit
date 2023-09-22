@@ -19,21 +19,25 @@ import UIKit
     
     public private(set) var rawSources = [UserInfoProtocol]() {
         didSet {
-            if self.rawSources.count <= 0  {
-                self.tableView.backgroundView = self.empty
-            } else {
-                self.tableView.backgroundView = nil
+            DispatchQueue.main.async {
+                if self.rawSources.count <= 0  {
+                    self.tableView.backgroundView = self.empty
+                } else {
+                    self.tableView.backgroundView = nil
+                }
             }
         }
     }
     
     public private(set) var searchResults = [UserInfoProtocol]() {
         didSet {
-            if self.searchController.isActive {
-                if self.searchResults.count <= 0 {
-                    self.tableView.backgroundView = self.empty
-                } else {
-                    self.tableView.backgroundView = nil
+            DispatchQueue.main.async {
+                if self.searchController.isActive {
+                    if self.searchResults.count <= 0 {
+                        self.tableView.backgroundView = self.empty
+                    } else {
+                        self.tableView.backgroundView = nil
+                    }
                 }
             }
         }

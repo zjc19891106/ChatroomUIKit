@@ -8,7 +8,7 @@
 import UIKit
 import KakaJSON
 
-let chatroom_UIKit_user_join = "chatroom_UIKit_user_join"
+let chatroom_UIKit_user_join = "CHATROOMUIKITUSERJOIN"
 
 @objc public final class ChatroomServiceImplement: NSObject {
     

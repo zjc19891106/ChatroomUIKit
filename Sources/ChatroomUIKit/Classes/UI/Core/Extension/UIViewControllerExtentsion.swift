@@ -58,7 +58,7 @@ extension UIViewController {
             toastView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50)
         ])
         
-        let label = UILabel().text(content).textColor(style == .light ? UIColor.theme.neutralColor3:UIColor.theme.neutralColor98).textAlignment(.center).numberOfLines(0)
+        let label = UILabel().text(content).textColor(style == .light ? UIColor.theme.neutralColor3:UIColor.theme.neutralColor98).textAlignment(.center).numberOfLines(0).backgroundColor(.clear)
         label.translatesAutoresizingMaskIntoConstraints = false
         toastView.contentView.addSubview(label)
         

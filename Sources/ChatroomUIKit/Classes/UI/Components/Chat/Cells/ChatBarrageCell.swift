@@ -7,6 +7,8 @@
 
 import UIKit
 
+fileprivate let gift_tail_indent: CGFloat = 26
+
 /// An enumeration that represents the different styles of a chat barrage cell.
 @objc public enum ChatBarrageCellStyle: UInt {
     case all = 1
@@ -38,7 +40,9 @@ import UIKit
     lazy public var height: CGFloat =  UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).height + 26
     
     /// The width of the chat entity, calculated based on the attributed text and the width of the chat view.
-    lazy public var width: CGFloat = UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).width
+    lazy public var width: CGFloat = UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).width+gift_tail_indent
+    
+    lazy public var gift: GiftEntityProtocol? = nil
     
     /// Converts the message text into an attributed string, including the user's nickname, message text, and emojis.
     func convertAttribute() -> NSAttributedString {
@@ -48,9 +52,11 @@ import UIKit
         if self.message.body.type == .custom,let body = self.message.body as? ChatCustomMessageBody {
             switch body.event {
             case chatroom_UIKit_gift:
-                text.append(NSMutableAttributedString {
-                    AttributedText(" "+"Joined".chatroom.localize).foregroundColor(Color.theme.secondaryColor7).font(UIFont.theme.labelMedium).paragraphStyle(self.paragraphStyle())
-                })
+                if let item = self.gift {
+                    text.append(NSMutableAttributedString {
+                        AttributedText(" "+item.giftName+" "+"X \(item.giftCount)").foregroundColor(Color.theme.neutralColor98).font(UIFont.theme.labelMedium).paragraphStyle(self.paragraphStyle())
+                    })
+                }
             case chatroom_UIKit_user_join:
                 text.append(NSMutableAttributedString {
                     AttributedText(" "+"Joined".chatroom.localize).foregroundColor(Color.theme.secondaryColor7).font(UIFont.theme.labelMedium).paragraphStyle(self.paragraphStyle())
@@ -79,6 +85,11 @@ import UIKit
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.firstLineHeadIndent = self.firstLineHeadIndent()
         paragraphStyle.lineHeightMultiple = 1.08
+        if self.gift != nil {
+            paragraphStyle.tailIndent = self.lastLineHeadIndent()
+        } else {
+            paragraphStyle.tailIndent = 0
+        }
         return paragraphStyle
     }
     
@@ -94,6 +105,11 @@ import UIKit
         case .excludeTimeAndLevel,.excludeTimeAndAvatar: distance = 26
         }
         return distance
+    }
+    
+    /// Returns the distance of the last line head indent based on the appearance of the chat cell.
+    func lastLineHeadIndent() -> CGFloat {
+        26
     }
 }
 
@@ -117,7 +133,7 @@ public extension ChatMessage {
 @objcMembers open class ChatBarrageCell: UITableViewCell {
     
     public private(set) var style: ChatBarrageCellStyle = Appearance.barrageCellStyle
-
+    
     lazy var container: UIView = {
         UIView(frame: CGRect(x: 15, y: 6, width: self.contentView.frame.width - 30, height: self.frame.height - 6)).backgroundColor( UIColor.theme.barrageLightColor2).cornerRadius(.small)
     }()
@@ -153,7 +169,7 @@ public extension ChatMessage {
         }
         return ImageView(frame: CGRect(x: originX, y: 11, width: 18, height: 18)).backgroundColor(.clear).cornerRadius(Appearance.avatarRadius)
     }()
-
+    
     lazy var content: UILabel = {
         var originX = 4
         switch self.style {
@@ -170,7 +186,11 @@ public extension ChatMessage {
         }
         return UILabel(frame: CGRect(x: 10, y: 7, width: self.container.frame.width - 20, height: self.container.frame.height - 18)).backgroundColor(.clear).numberOfLines(0).lineBreakMode(.byCharWrapping)
     }()
-
+    
+    lazy var giftIcon: ImageView = {
+        ImageView(frame: CGRect(x: self.content.frame.width-26, y: self.content.frame.height-10, width: 18, height: 18)).backgroundColor(.clear)
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .clear
@@ -205,16 +225,17 @@ public extension ChatMessage {
         default:
             break
         }
-        
+        self.container.addSubview(self.giftIcon)
+        self.giftIcon.isHidden = true
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
     }
-
+    
     @available(*, unavailable)
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     
     /// Refresh the entity that renders the chat barrage, which contains height, width and rich text cache.
     /// - Parameter chat: ChatEntity
@@ -226,6 +247,10 @@ public extension ChatMessage {
         self.content.attributedText = chat.attributeText
         self.content.preferredMaxLayoutWidth =  self.container.frame.width - 24
         self.content.frame = CGRect(x: self.content.frame.minX, y: self.content.frame.minY, width:  self.container.frame.width - 24, height:  self.container.frame.height - 16)
+        self.giftIcon.isHidden = chat.gift == nil
+        if let item = chat.gift {
+            self.giftIcon.image(with: item.giftIcon, placeHolder: Appearance.giftPlaceHolder)
+        }
     }
 }
 
