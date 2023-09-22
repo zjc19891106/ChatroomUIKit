@@ -9,7 +9,7 @@ import UIKit
 
 @objc open class AlertViewController: UIViewController , PresentedViewType {
     
-    public var presentedViewComponent: PresentedViewComponent? = PresentedViewComponent(contentSize: Appearance.alertContainerConstraintsSize,destination: .center)
+    public var presentedViewComponent: PresentedViewComponent? = PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: ScreenHeight),destination: .center)
 
     var customView: UIView?
 
@@ -26,15 +26,10 @@ import UIKit
 
      - Parameters:
         - custom: The custom view to be displayed in the dialog container.
-        - constraintsSize: The size of the constraints to be applied to the alert container's content view. Defaults to `.zero`.
-
      - Returns: A new `AlertViewController` instance.
      */
-    @objc public required convenience init(custom: UIView,constraintsSize:CGSize = .zero) {
+    @objc public required convenience init(custom: UIView) {
         self.init()
-        if constraintsSize != .zero {
-            self.presentedViewComponent?.contentSize = constraintsSize
-        }
         self.customView = custom
     }
 
