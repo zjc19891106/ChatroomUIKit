@@ -145,11 +145,10 @@ public extension ChatMessage {
     lazy var userIdentify: ImageView = {
         var originX = 6
         switch self.style {
-        case .all:
+        case .all,.excludeAvatar:
             originX += Int(self.time.frame.maxX)
-        case .excludeTimeAndAvatar,.excludeTime:
-            originX = originX
         default:
+            originX = originX
             break
         }
         return ImageView(frame: CGRect(x: originX, y: 10, width: 18, height: 18)).backgroundColor(.clear).cornerRadius(Appearance.avatarRadius)
