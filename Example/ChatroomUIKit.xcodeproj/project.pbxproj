@@ -11,7 +11,6 @@
 		054EA71B2AA072D200C716A4 /* OCUIComponentsExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 054EA71A2AA072D200C716A4 /* OCUIComponentsExampleViewController.m */; };
 		05B7D8852AB3F079000F25DF /* UIWithBusinessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7D8842AB3F079000F25DF /* UIWithBusinessViewController.swift */; };
 		05B7D8872AB3F091000F25DF /* ExamplesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7D8862AB3F091000F25DF /* ExamplesViewController.swift */; };
-		05B7D88A2AB3F5A8000F25DF /* OCBusinessUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05B7D8892AB3F5A8000F25DF /* OCBusinessUIViewController.m */; };
 		05B7D88C2AB4024E000F25DF /* ExampleRequiredConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7D88B2AB4024E000F25DF /* ExampleRequiredConfig.swift */; };
 		05BA09742ABA912A00EF646C /* ChatroomListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BA09732ABA912A00EF646C /* ChatroomListViewController.swift */; };
 		05BA09762ABA9C8100EF646C /* MineGiftsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BA09752ABA9C8100EF646C /* MineGiftsViewController.swift */; };
@@ -30,8 +29,6 @@
 		054EA71A2AA072D200C716A4 /* OCUIComponentsExampleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCUIComponentsExampleViewController.m; sourceTree = "<group>"; };
 		05B7D8842AB3F079000F25DF /* UIWithBusinessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWithBusinessViewController.swift; sourceTree = "<group>"; };
 		05B7D8862AB3F091000F25DF /* ExamplesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamplesViewController.swift; sourceTree = "<group>"; };
-		05B7D8882AB3F5A8000F25DF /* OCBusinessUIViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCBusinessUIViewController.h; sourceTree = "<group>"; };
-		05B7D8892AB3F5A8000F25DF /* OCBusinessUIViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCBusinessUIViewController.m; sourceTree = "<group>"; };
 		05B7D88B2AB4024E000F25DF /* ExampleRequiredConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleRequiredConfig.swift; sourceTree = "<group>"; };
 		05BA09732ABA912A00EF646C /* ChatroomListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomListViewController.swift; sourceTree = "<group>"; };
 		05BA09752ABA9C8100EF646C /* MineGiftsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineGiftsViewController.swift; sourceTree = "<group>"; };
@@ -95,8 +92,6 @@
 				05B7D8842AB3F079000F25DF /* UIWithBusinessViewController.swift */,
 				054EA7192AA072D200C716A4 /* OCUIComponentsExampleViewController.h */,
 				054EA71A2AA072D200C716A4 /* OCUIComponentsExampleViewController.m */,
-				05B7D8882AB3F5A8000F25DF /* OCBusinessUIViewController.h */,
-				05B7D8892AB3F5A8000F25DF /* OCBusinessUIViewController.m */,
 				054EA7182AA072D100C716A4 /* ChatroomUIKit_Example-Bridging-Header.h */,
 				0545440F2AA9BEFC0079C260 /* Gifts.json */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
@@ -293,7 +288,6 @@
 				05B7D8872AB3F091000F25DF /* ExamplesViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				05B7D8852AB3F079000F25DF /* UIWithBusinessViewController.swift in Sources */,
-				05B7D88A2AB3F5A8000F25DF /* OCBusinessUIViewController.m in Sources */,
 				05BA09742ABA912A00EF646C /* ChatroomListViewController.swift in Sources */,
 				054EA71B2AA072D200C716A4 /* OCUIComponentsExampleViewController.m in Sources */,
 				05BA09762ABA9C8100EF646C /* MineGiftsViewController.swift in Sources */,
@@ -432,7 +426,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.chatroomuikit.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ChatroomUIKit/ChatroomUIKit_Example-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -452,7 +446,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.chatroomuikit.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ChatroomUIKit/ChatroomUIKit_Example-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;

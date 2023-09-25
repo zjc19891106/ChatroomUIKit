@@ -17,8 +17,6 @@ final class ExamplesViewController: UIViewController {
     
     @IBOutlet weak var component_UI_OC: UIButton!
     
-    @IBOutlet weak var business_UI_OC: UIButton!
-        
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "ChatroomUIKit Examples"
@@ -42,18 +40,14 @@ final class ExamplesViewController: UIViewController {
     @IBAction func push_OC_UI_component(_ sender: Any) {
         self.navigationController?.pushViewController(OCUIComponentsExampleViewController(), animated: true)
     }
-    @IBAction func push_OC_Business_UI(_ sender: UIButton) {
-        ChatroomUIKitClient.shared.login(with: ExampleRequiredConfig.YourAppUser(), token: ExampleRequiredConfig.chatToken, use: true) { error in
-            if error == nil {
-                self.navigationController?.pushViewController(OCBusinessUIViewController(), animated: true)
-            } else {
-                consoleLogInfo("ChatroomUIKitClient login failed!\nError:\(error?.errorDescription ?? "")", type: .debug)
-            }
-        }
-    }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
     
 }
 
 
-
+extension ExamplesViewController: UITextFieldDelegate {
+    
+}

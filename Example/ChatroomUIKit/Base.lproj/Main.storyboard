@@ -36,52 +36,40 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oe4-5d-LXM">
-                                <rect key="frame" x="96" y="173" width="201" height="35"/>
+                                <rect key="frame" x="96" y="325" width="201" height="35"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="UIComponent"/>
                                 <connections>
                                     <action selector="push_component_UI:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="hT2-v9-hiz"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3JH-z3-doP">
-                                <rect key="frame" x="96" y="310" width="201" height="35"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="UI&amp;Business"/>
-                                <connections>
-                                    <action selector="push_business_UI:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="xnm-NV-R2H"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ee0-xb-9fF">
-                                <rect key="frame" x="96" y="435" width="201" height="35"/>
+                                <rect key="frame" x="96" y="592" width="201" height="35"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="UIComponent_OC"/>
                                 <connections>
                                     <action selector="push_OC_UI_component:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="qjb-W5-NVv"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wpe-3i-brR">
-                                <rect key="frame" x="96" y="573" width="201" height="35"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3JH-z3-doP">
+                                <rect key="frame" x="96" y="458" width="201" height="35"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="UI&amp;Business_OC"/>
+                                <buttonConfiguration key="configuration" style="filled" title="UI&amp;Business"/>
                                 <connections>
-                                    <action selector="push_OC_Business_UI:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="P5I-Jj-yFg"/>
+                                    <action selector="push_business_UI:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="xnm-NV-R2H"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="3JH-z3-doP" firstAttribute="top" secondItem="Oe4-5d-LXM" secondAttribute="bottom" constant="102" id="BUx-EC-pSv"/>
-                            <constraint firstItem="wpe-3i-brR" firstAttribute="top" secondItem="ee0-xb-9fF" secondAttribute="bottom" constant="103" id="Buh-VF-voD"/>
+                            <constraint firstItem="3JH-z3-doP" firstAttribute="top" secondItem="Oe4-5d-LXM" secondAttribute="bottom" constant="98" id="BUx-EC-pSv"/>
                             <constraint firstItem="Oe4-5d-LXM" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="80" id="EX6-v6-SwM"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="wpe-3i-brR" secondAttribute="trailing" constant="80" id="GJ2-cY-tRr"/>
-                            <constraint firstItem="3JH-z3-doP" firstAttribute="top" secondItem="Oe4-5d-LXM" secondAttribute="bottom" constant="102" id="HrV-si-gC6"/>
-                            <constraint firstItem="Oe4-5d-LXM" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="70" id="T3g-Wo-mjz"/>
+                            <constraint firstItem="3JH-z3-doP" firstAttribute="top" secondItem="Oe4-5d-LXM" secondAttribute="bottom" constant="98" id="HrV-si-gC6"/>
+                            <constraint firstItem="Oe4-5d-LXM" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="222" id="T3g-Wo-mjz"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Oe4-5d-LXM" secondAttribute="trailing" constant="80" id="TeU-vs-aGk"/>
-                            <constraint firstItem="ee0-xb-9fF" firstAttribute="top" secondItem="3JH-z3-doP" secondAttribute="bottom" constant="90" id="ZVi-Pu-ohS"/>
-                            <constraint firstItem="wpe-3i-brR" firstAttribute="top" secondItem="ee0-xb-9fF" secondAttribute="bottom" constant="103" id="Zfq-lD-EEr"/>
+                            <constraint firstItem="ee0-xb-9fF" firstAttribute="top" secondItem="3JH-z3-doP" secondAttribute="bottom" constant="99" id="ZVi-Pu-ohS"/>
                             <constraint firstItem="3JH-z3-doP" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="80" id="aeu-dE-bBh"/>
-                            <constraint firstItem="ee0-xb-9fF" firstAttribute="top" secondItem="3JH-z3-doP" secondAttribute="bottom" constant="90" id="cqS-Iw-Sl8"/>
-                            <constraint firstItem="wpe-3i-brR" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="80" id="eWr-wU-OVe"/>
+                            <constraint firstItem="ee0-xb-9fF" firstAttribute="top" secondItem="3JH-z3-doP" secondAttribute="bottom" constant="99" id="cqS-Iw-Sl8"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ee0-xb-9fF" secondAttribute="trailing" constant="80" id="vG7-Ph-bNo"/>
                             <constraint firstAttribute="trailingMargin" secondItem="3JH-z3-doP" secondAttribute="trailing" constant="80" id="w9Y-zI-24m"/>
                             <constraint firstItem="ee0-xb-9fF" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="80" id="wO5-P0-SSZ"/>
@@ -90,7 +78,6 @@
                     <navigationItem key="navigationItem" id="cO3-Az-WQM"/>
                     <connections>
                         <outlet property="business_UI" destination="3JH-z3-doP" id="qT9-Yy-OZK"/>
-                        <outlet property="business_UI_OC" destination="wpe-3i-brR" id="5LE-1L-tTq"/>
                         <outlet property="component_UI" destination="Oe4-5d-LXM" id="gdc-XH-xfs"/>
                         <outlet property="component_UI_OC" destination="ee0-xb-9fF" id="DZr-ZT-lbL"/>
                     </connections>
