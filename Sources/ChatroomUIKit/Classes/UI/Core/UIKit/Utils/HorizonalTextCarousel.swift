@@ -53,6 +53,7 @@ import UIKit
         self.scroll.addSubview(self.textCarousel)
         self.originContentOffset = self.scroll.contentOffset
         self.textCarousel.font(font)
+        self.textCarousel.textColor = textColor
     }
     
     private func textAnimation() {
@@ -60,7 +61,7 @@ import UIKit
         self.scroll.setContentOffset(self.originContentOffset, animated: false)
 
         let text = self.animationContext.first ?? ""
-        let width = text.chatroom.sizeWithText(font: .systemFont(ofSize: 12, weight: .semibold), size: CGSize(width: 999, height: self.frame.height)).width
+        let width = text.chatroom.sizeWithText(font: self.textCarousel.font, size: CGSize(width: 999, height: self.frame.height)).width
         var duration: CGFloat = 2
         duration += CGFloat(text.count)*0.1
         if width > self.frame.width {

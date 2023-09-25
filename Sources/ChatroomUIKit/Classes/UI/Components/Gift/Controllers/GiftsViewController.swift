@@ -11,9 +11,9 @@ import UIKit
     
     private var gifts = [GiftEntityProtocol]()
     
-    lazy var giftService: GiftService? = ChatroomUIKitClient.shared.roomService?.giftService
+    public private(set) lazy var giftService: GiftService? = ChatroomUIKitClient.shared.roomService?.giftService
         
-    lazy var giftsView: GiftsView = {
+    public private(set) lazy var giftsView: GiftsView = {
         GiftsView(frame: self.view.frame, gifts: self.gifts)
     }()
     

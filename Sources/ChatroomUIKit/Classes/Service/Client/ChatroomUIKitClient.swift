@@ -10,8 +10,8 @@ import UIKit
 /// A wrapper class for some options when initializing ChatroomUIKit.ChatroomView.
 @objc open class ChatroomUIKitInitialOptions: NSObject {
     
-    /// Is there a gift barrage?
-    @objc public var hasGiftsBarrage = false
+    /// Whether show a gift barrage?
+    @objc public var showGiftsBarrage = false
     
     /// ChatBottomBar data source.
     @objc public var bottomDataSource: [ChatBottomItemProtocol] = []
@@ -23,7 +23,7 @@ import UIKit
     var useProperties: Bool = true
     
     /// Whether chat barrage show gift info or not.
-    var chatBarrageContainGift = false
+    var chatBarrageShowGift = false
 }
 
 /// ChatroomUIKit initialize class.
@@ -93,9 +93,9 @@ import UIKit
         self.roomId = roomId
         ChatroomContext.shared?.roomId = roomId
         self.option.bottomDataSource = options.bottomDataSource
-        self.option.hasGiftsBarrage = options.hasGiftsBarrage
+        self.option.showGiftsBarrage = options.showGiftsBarrage
         self.option.hiddenChatRaise = options.hiddenChatRaise
-        let room = ChatroomView(respondTouch: frame,bottom: options.bottomDataSource,showGiftBarrage: options.hasGiftsBarrage,hiddenChat: options.hiddenChatRaise)
+        let room = ChatroomView(respondTouch: frame,bottom: options.bottomDataSource,showGiftBarrage: options.showGiftsBarrage,hiddenChat: options.hiddenChatRaise)
         let service = RoomService(roomId: roomId)
         self.roomService = service
         room.connectService(service: service)

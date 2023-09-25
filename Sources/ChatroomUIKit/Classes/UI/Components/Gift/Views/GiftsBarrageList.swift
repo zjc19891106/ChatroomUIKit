@@ -120,7 +120,6 @@ extension GiftsBarrageList: UITableViewDelegate, UITableViewDataSource {
             }
             if self.gifts.count > 1 {
                 let cell = self.giftList.cellForRow(at: indexPath) as? GiftBarrageCell
-                guard let gift = self.gifts[safe: indexPath.row] else { return }
                 UIView.animate(withDuration: 0.3) {
                     cell?.alpha = 0.35
                     cell?.contentView.transform = CGAffineTransform(scaleX: self.dataSource?.zoomScaleX?() ?? 0.75, y: self.dataSource?.zoomScaleY?() ?? 0.75)

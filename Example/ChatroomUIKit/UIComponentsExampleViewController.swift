@@ -9,26 +9,9 @@
 import UIKit
 import ChatroomUIKit
 
-final class UIComponentsExampleViewController: UIViewController, UIContextMenuInteractionDelegate {
-        func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-            UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (_) -> UIMenu? in
-                // 创建菜单
-                let action1 = UIAction(title: "Action 1", image: UIImage(systemName: "star.fill")) { (_) in
-                    print("Action 1 selected")
-                }
-                let action2 = UIAction(title: "Action 2", image: UIImage(systemName: "heart.fill")) { (_) in
-                    print("Action 2 selected")
-                }
-                let action3 = UIAction(title: "Action 3", image: UIImage(systemName: "bookmark.fill")) { (_) in
-                    print("Action 3 selected")
-                }
-                let menu = UIMenu(title: "", children: [action1, action2, action3])
-                
-                return menu
-            }
-        }
+final class UIComponentsExampleViewController: UIViewController {
     
-    
+    var style: ThemeStyle = .light
     
     lazy var background: UIImageView = {
         UIImageView(frame: self.view.frame).image(UIImage(named: "bg_img_of_dark_mode"))
@@ -59,7 +42,24 @@ final class UIComponentsExampleViewController: UIViewController, UIContextMenuIn
     }()
     
     lazy var carouselTextView: HorizontalTextCarousel = {
-        HorizontalTextCarousel(originPoint: CGPoint(x: 20, y: 60), width: self.view.frame.width-40, font: .systemFont(ofSize: 20, weight: .semibold), textColor: UIColor.theme.neutralColor98).cornerRadius(.large)
+        HorizontalTextCarousel(originPoint: CGPoint(x: 20, y: 80), width: self.view.frame.width-40, font: .systemFont(ofSize: 16, weight: .semibold), textColor: UIColor.theme.neutralColor98).cornerRadius(.large)
+    }()
+    
+    private lazy var modeSegment: UISegmentedControl = {
+        let segment = UISegmentedControl(items: ["Light","Dark"])
+        segment.frame = CGRect(x: 100, y: 170, width: 96, height: 46)
+        segment.setImage(UIImage(named: "sun"), forSegmentAt: 0)
+        segment.setImage(UIImage(named: "moon"), forSegmentAt: 1)
+        segment.tintColor = UIColor(0x009EFF)
+        segment.tag = 12
+        segment.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
+        segment.selectedSegmentIndex = self.style == .light ? 0:1
+        
+        segment.selectedSegmentTintColor = UIColor(0x009EFF)
+        segment.setTitleTextAttributes([NSAttributedStringKey.foregroundColor : UIColor.white,NSAttributedStringKey.font:UIFont.systemFont(ofSize: 18, weight: .medium)], for: .selected)
+        segment.setTitleTextAttributes([NSAttributedStringKey.foregroundColor : UIColor.white,NSAttributedStringKey.font:UIFont.systemFont(ofSize: 16, weight: .regular)], for: .normal)
+        segment.addTarget(self, action: #selector(switchTheme(sender:)), for: .valueChanged)
+        return segment
     }()
 
     override func viewDidLoad() {
@@ -81,19 +81,17 @@ final class UIComponentsExampleViewController: UIViewController, UIContextMenuIn
             guard let `self` = self else { return }
             self.barrageList.showNewMessage(message: self.startMessage($0),gift: nil)
         }
-
-        let button = UIButton(type: .custom).frame(CGRect(x: 100, y: 120, width: 150, height: 20)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title("Add Global Notify", .normal).addTargetFor(self, action: #selector(addCarouselTask), for: .touchUpInside)
+        let button = UIButton(type: .custom).frame(CGRect(x: 100, y: 140, width: 150, height: 20)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title("Add Global Notify", .normal).addTargetFor(self, action: #selector(addCarouselTask), for: .touchUpInside)
         self.view.addSubview(button)
         self.view.addSubview(self.carouselTextView)
         
         self.carouselTextView.alpha = 0
-        
-        let switchThemeStyle = UIButton(type: .custom).frame(CGRect(x: 100, y: 160, width: 150, height: 20)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title("Switch Theme", .normal).addTargetFor(self, action: #selector(switchTheme), for: .touchUpInside)
-        self.view.addSubview(switchThemeStyle)
+
+        self.view.addSubview(self.modeSegment)
         
         self.carouselTextView.alpha = 0
         
-        let switchCellStyle = UIButton(type: .custom).frame(CGRect(x: 100, y: 195, width: 150, height: 40)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title(".all", .normal)
+        let switchCellStyle = UIButton(type: .custom).frame(CGRect(x: 100, y: 220, width: 150, height: 40)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.small).title(".all", .normal).title("Long Presse Switch", .normal).font(.systemFont(ofSize: 16, weight: .semibold))
         switchCellStyle.addInteraction(UIContextMenuInteraction(delegate: self))
         self.view.addSubview(switchCellStyle)
         
@@ -102,11 +100,82 @@ final class UIComponentsExampleViewController: UIViewController, UIContextMenuIn
     
 }
 
-extension UIComponentsExampleViewController: ChatBottomFunctionBarActionEvents {
+extension UIComponentsExampleViewController: UIContextMenuInteractionDelegate {
+
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (_) -> UIMenu? in
+            // 创建菜单
+            let action1 = UIAction(title: ".all", image: UIImage(systemName: "bookmark.fill")) { (_) in
+                Appearance.barrageCellStyle = .all
+                self.barrageList.messages?.removeAll()
+                self.barrageList.removeFromSuperview()
+                self.view.addSubview(self.barrageList)
+            }
+            let action2 = UIAction(title: ".excludeTime", image: UIImage(systemName: "bookmark.fill")) { (_) in
+                Appearance.barrageCellStyle = .excludeTime
+                self.barrageList.messages?.removeAll()
+                self.barrageList.removeFromSuperview()
+                self.view.addSubview(self.barrageList)
+            }
+            let action3 = UIAction(title: ".excludeLevel", image: UIImage(systemName: "bookmark.fill")) { (_) in
+                Appearance.barrageCellStyle = .excludeLevel
+                self.barrageList.messages?.removeAll()
+                self.barrageList.removeFromSuperview()
+                self.view.addSubview(self.barrageList)
+            }
+            let action4 = UIAction(title: ".excludeAvatar", image: UIImage(systemName: "bookmark.fill")) { (_) in
+                Appearance.barrageCellStyle = .excludeAvatar
+                self.barrageList.messages?.removeAll()
+                self.barrageList.removeFromSuperview()
+                self.view.addSubview(self.barrageList)
+            }
+            let action5 = UIAction(title: ".excludeTimeAndLevel", image: UIImage(systemName: "bookmark.fill")) { (_) in
+                Appearance.barrageCellStyle = .excludeTimeAndLevel
+                self.barrageList.messages?.removeAll()
+                self.barrageList.removeFromSuperview()
+                self.view.addSubview(self.barrageList)
+            }
+            let action6 = UIAction(title: ".excludeTimeAndAvatar", image: UIImage(systemName: "bookmark.fill")) { (_) in
+                Appearance.barrageCellStyle = .excludeTimeAndAvatar
+                self.barrageList.messages?.removeAll()
+                self.barrageList.removeFromSuperview()
+                self.view.addSubview(self.barrageList)
+            }
+            let action7 = UIAction(title: ".excludeLevelAndAvatar", image: UIImage(systemName: "bookmark.fill")) { (_) in
+                Appearance.barrageCellStyle = .excludeLevelAndAvatar
+                self.barrageList.messages?.removeAll()
+                self.barrageList.removeFromSuperview()
+                self.view.addSubview(self.barrageList)
+            }
+            let action8 = UIAction(title: ".excludeTimeLevelAvatar", image: UIImage(systemName: "bookmark.fill")) { (_) in
+                Appearance.barrageCellStyle = .excludeTimeLevelAvatar
+                self.barrageList.messages?.removeAll()
+                self.barrageList.removeFromSuperview()
+                self.view.addSubview(self.barrageList)
+            }
+            let menu = UIMenu(title: "", children: [action1, action2, action3, action4, action5, action6,action7, action8])
+            
+            return menu
+        }
+    }
+}
+
+extension UIComponentsExampleViewController: ChatBottomFunctionBarActionEvents,GiftsViewActionEventsDelegate {
+    func onGiftSendClick(item: ChatroomUIKit.GiftEntityProtocol) {
+        let gift = item
+        gift.sendUser = ChatroomContext.shared?.currentUser
+        self.giftBarrages.gifts.append(item)
+    }
+    
+    func onGiftSelected(item: ChatroomUIKit.GiftEntityProtocol) {
+        
+    }
+    
     func onBottomItemClicked(item: ChatroomUIKit.ChatBottomItemProtocol) {
         switch item.type {
         case 2:
             DialogManager.shared.showGiftsDialog(titles: ["Gifts","1231232"], gifts: [self.gift1,self.gift2])
+            self.gift1.giftsView.addActionHandler(actionHandler: self)
         default:
             break
         }
@@ -125,8 +194,9 @@ extension UIComponentsExampleViewController {
         self.carouselTextView.addTask(text: ["123123adadsasjdaklsdjaskldjakdjakldsjkadjkasldjalksjdlkjasdklsajdl","99999999999999999999999999999999","66666666666666666666666666666"].randomElement()!)
     }
     
-    @objc func switchTheme() {
-        Theme.switchTheme(style: .dark)
+    @objc func switchTheme(sender: UISegmentedControl) {
+        self.style = ThemeStyle(rawValue: UInt(sender.selectedSegmentIndex)) ?? .light
+        Theme.switchTheme(style: self.style)
 //        Theme.switchHues()
     }
     

@@ -40,7 +40,7 @@ fileprivate let gift_tail_indent: CGFloat = 26
     lazy public var height: CGFloat =  UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).height + 26
     
     /// The width of the chat entity, calculated based on the attributed text and the width of the chat view.
-    lazy public var width: CGFloat = UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).width+gift_tail_indent
+    lazy public var width: CGFloat = UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).width+(self.gift != nil ? gift_tail_indent:0)
     
     lazy public var gift: GiftEntityProtocol? = nil
     
@@ -100,9 +100,9 @@ fileprivate let gift_tail_indent: CGFloat = 26
         case .all: distance = 88
         case .excludeTime: distance = 48
         case .excludeLevelAndAvatar: distance = 44
-        case .excludeTimeLevelAvatar: distance = 76
-        case .excludeAvatar,.excludeLevel: distance = 62
-        case .excludeTimeAndLevel,.excludeTimeAndAvatar: distance = 26
+        case .excludeTimeLevelAvatar: distance = 6
+        case .excludeAvatar,.excludeLevel: distance = 66
+        case .excludeTimeAndLevel,.excludeTimeAndAvatar: distance = 22
         }
         return distance
     }
@@ -139,11 +139,11 @@ public extension ChatMessage {
     }()
     
     lazy var time: UILabel = {
-        UILabel(frame: CGRect(x: 10, y: 12, width: 40, height: 18)).font(UIFont.theme.bodyMedium).textColor(UIColor.theme.secondaryColor8).textAlignment(.center).backgroundColor(.clear)
+        UILabel(frame: CGRect(x: 8, y: 10, width: 40, height: 18)).font(UIFont.theme.bodyMedium).textColor(UIColor.theme.secondaryColor8).textAlignment(.center).backgroundColor(.clear)
     }()
     
     lazy var userIdentify: ImageView = {
-        var originX = 4
+        var originX = 6
         switch self.style {
         case .all:
             originX += Int(self.time.frame.maxX)
@@ -152,11 +152,11 @@ public extension ChatMessage {
         default:
             break
         }
-        return ImageView(frame: CGRect(x: originX, y: 11, width: 18, height: 18)).backgroundColor(.clear).cornerRadius(Appearance.avatarRadius)
+        return ImageView(frame: CGRect(x: originX, y: 10, width: 18, height: 18)).backgroundColor(.clear).cornerRadius(Appearance.avatarRadius)
     }()
     
     lazy var avatar: ImageView = {
-        var originX = 4
+        var originX = 6
         switch self.style {
         case .all,.excludeTime:
             originX += Int(self.userIdentify.frame.maxX)
@@ -167,7 +167,7 @@ public extension ChatMessage {
         default:
             break
         }
-        return ImageView(frame: CGRect(x: originX, y: 11, width: 18, height: 18)).backgroundColor(.clear).cornerRadius(Appearance.avatarRadius)
+        return ImageView(frame: CGRect(x: originX, y: 10, width: 18, height: 18)).backgroundColor(.clear).cornerRadius(Appearance.avatarRadius)
     }()
     
     lazy var content: UILabel = {

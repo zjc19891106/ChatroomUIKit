@@ -20,7 +20,7 @@ final class UIWithBusinessViewController: UIViewController {
     var option: ChatroomUIKitInitialOptions {
         let options  = ChatroomUIKitInitialOptions()
         options.bottomDataSource = self.bottomBarDatas()
-        options.hasGiftsBarrage = true
+        options.showGiftsBarrage = true
         options.hiddenChatRaise = false
         return options
     }
