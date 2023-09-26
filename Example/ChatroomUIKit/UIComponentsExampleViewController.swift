@@ -61,6 +61,14 @@ final class UIComponentsExampleViewController: UIViewController {
         segment.addTarget(self, action: #selector(switchTheme(sender:)), for: .valueChanged)
         return segment
     }()
+    
+    lazy var showGiftInChatArea: UISwitch = {
+        let mySwitch = UISwitch()
+        mySwitch.frame = CGRect(x: 100, y: 270, width: 60, height: 20)
+        mySwitch.setOn(true, animated: false)
+        mySwitch.addTarget(self, action: #selector(switchValueChanged(sender:)), for: .valueChanged)
+        return mySwitch
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -200,7 +208,9 @@ extension UIComponentsExampleViewController {
 //        Theme.switchHues()
     }
     
-
+    @objc func switchValueChanged(sender: UISwitch) {
+        ChatroomUIKitClient.shared.option.chatBarrageShowGift = sender.isOn
+    }
     
     func bottomBarDatas() -> [ChatBottomItemProtocol] {
         var entities = [ChatBottomItemProtocol]()

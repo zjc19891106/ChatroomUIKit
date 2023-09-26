@@ -24,6 +24,9 @@ var chatViewWidth: CGFloat = 0
     /// When you want delete message.
     /// - Parameter message: ``ChatMessage``
     func removeMessage(message: ChatMessage)
+    
+    /// Clean data source.
+    func cleanMessages()
 }
 
 /// ChatBarrageList action events handler.
@@ -179,6 +182,11 @@ extension ChatBarrageList:UITableViewDelegate, UITableViewDataSource {
 
 
 extension ChatBarrageList: IChatBarrageListDriver {
+    public func cleanMessages() {
+        self.messages?.removeAll()
+        self.chatView.reloadData()
+    }
+    
     public func removeMessage(message: ChatMessage) {
         if let index = self.messages?.firstIndex(where: { $0.message.messageId == message.messageId }),let count = self.messages?.count,count > 0,index < count - 1 {
             self.messages?.remove(at: index)

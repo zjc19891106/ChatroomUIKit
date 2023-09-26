@@ -20,10 +20,10 @@ import UIKit
     @objc public var hiddenChatRaise = false
     
     /// Whether to use user attributes
-    var useProperties: Bool = true
+    @objc public var useProperties: Bool = true
     
     /// Whether chat barrage show gift info or not.
-    var chatBarrageShowGift = false
+    @objc public var chatBarrageShowGift = false
 }
 
 /// ChatroomUIKit initialize class.

@@ -44,6 +44,10 @@ import UIKit
     /// Whether display raise keyboard button or not.
     public private(set) var hiddenChat = false
         
+    public private(set) lazy var carouselTextView: HorizontalTextCarousel = {
+        HorizontalTextCarousel(originPoint: Appearance.notifyMessageOriginPoint, width: self.frame.width-40, font: UIFont.theme.headlineExtraSmall, textColor: UIColor.theme.neutralColor98).cornerRadius(.large)
+    }()
+        
     /// Gift list on receive gift.
     public private(set) lazy var giftBarrages: GiftsBarrageList = {
         GiftsBarrageList(frame: CGRect(x: 10, y: self.touchFrame.minY, width: self.touchFrame.width-100, height: Appearance.giftBarrageRowHeight*2+20),source:self)
@@ -87,10 +91,11 @@ import UIKit
         self.showGiftBarrage = showGiftBarrage
         self.menus = menus
         if showGiftBarrage {
-            self.addSubViews([self.giftBarrages,self.barrageList,self.bottomBar,self.inputBar])
+            self.addSubViews([self.giftBarrages,self.barrageList,self.bottomBar,self.inputBar,self.carouselTextView])
         } else {
-            self.addSubViews([self.barrageList,self.bottomBar,self.inputBar])
+            self.addSubViews([self.barrageList,self.bottomBar,self.inputBar,self.carouselTextView])
         }
+        self.carouselTextView.alpha = 0
         self.barrageList.addActionHandler(actionHandler: self)
         self.bottomBar.addActionHandler(actionHandler: self)
         self.inputBar.sendClosure = { [weak self] in

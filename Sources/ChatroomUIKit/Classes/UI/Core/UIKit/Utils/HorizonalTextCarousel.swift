@@ -7,6 +7,13 @@
 
 import UIKit
 
+@objc public protocol IHorizontalTextCarouselDriver: NSObjectProtocol {
+    
+    /// Display text on received global notify message.
+    /// - Parameter text: show text
+    func showNewNotify(text: String)
+}
+
 @objc public class HorizontalTextCarousel: UIView {
         
     private var queue: AnimationQueue = AnimationQueue()
@@ -137,6 +144,12 @@ import UIKit
         fatalError("init(coder:) has not been implemented")
     }
     
+}
+
+extension HorizontalTextCarousel: IHorizontalTextCarouselDriver {
+    public func showNewNotify(text: String) {
+        self.addTask(text: text)
+    }
 }
 
 final class AnimationQueue {

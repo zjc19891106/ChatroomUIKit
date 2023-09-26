@@ -77,6 +77,9 @@ import UIKit
     /// ``HorizontalTextCarousel`` default icon.
     public static var notifyMessageIcon: UIImage? = UIImage(systemName: "speaker.3.fill")
     
+    /// Global notify message origin point.
+    public static var notifyMessageOriginPoint: CGPoint = CGPoint(x: 20, y: 100)
+        
     /// ``ChatBarrageCell`` user level image view placeholder image.
     public static var userIdentifyPlaceHolder: UIImage? = UIImage(systemName: "star.circle.fill")
     

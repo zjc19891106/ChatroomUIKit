@@ -33,10 +33,6 @@ final class UIWithBusinessViewController: UIViewController {
         ChatroomUIKitClient.shared.launchRoomViewWithOptions(roomId: self.roomId, frame: CGRect(x: 0, y: ScreenHeight/2.0, width: ScreenWidth, height: ScreenHeight/2.0), is: ChatroomContext.shared?.owner ?? false, options: self.option)
     }()
     
-    lazy var carouselTextView: HorizontalTextCarousel = {
-        HorizontalTextCarousel(originPoint: CGPoint(x: 20, y: 100), width: self.view.frame.width-40, font: .systemFont(ofSize: 20, weight: .semibold), textColor: UIColor.theme.neutralColor98).cornerRadius(.large)
-    }()
-    
     lazy var members: UIButton = {
         UIButton(type: .custom).frame(CGRect(x: 100, y: 160, width: 150, height: 20)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title("Participants", .normal).addTargetFor(self, action: #selector(showParticipants), for: .touchUpInside)
     }()
@@ -74,8 +70,10 @@ final class UIWithBusinessViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.view.addSubViews([self.background,self.roomView,self.carouselTextView,self.members,self.modeSegment])
+        self.view.addSubViews([self.background,self.roomView,self.members,self.modeSegment])
+        //Not necessary.When you want to receive chatroom view's click events.
         self.roomView.addActionHandler(actionHandler: self)
+        //Not necessary.But when you want to receive room events,you can call as follows.
         ChatroomUIKitClient.shared.registerRoomEventsListener(listener: self)
     }
         
@@ -129,7 +127,7 @@ extension UIWithBusinessViewController {
     }
 }
 
-
+//MARK: - When you called `self.roomView.addActionHandler(actionHandler: self)`.You'll receive chatroom view's click action events callback.
 extension UIWithBusinessViewController : ChatroomViewActionEventsDelegate {
     func onMessageBarrageClicked(message: ChatroomUIKit.ChatMessage) {
         
@@ -151,7 +149,7 @@ extension UIWithBusinessViewController : ChatroomViewActionEventsDelegate {
     
     
 }
-
+//MARK: - When you called `ChatroomUIKitClient.shared.registerRoomEventsListener(listener: self)`.You'll implement these method.
 extension UIWithBusinessViewController: RoomEventsListener {
     
     func onSocketConnectionStateChanged(state: ChatroomUIKit.ConnectionState) {
@@ -194,9 +192,7 @@ extension UIWithBusinessViewController: RoomEventsListener {
     }
     
     func onReceiveGlobalNotify(message: ChatroomUIKit.ChatMessage) {
-        if let body = message.body as? ChatTextMessageBody {
-            self.carouselTextView.addTask(text: body.text)
-        }
+        
     }
     
     func onAnnouncementUpdate(roomId: String, announcement: String) {

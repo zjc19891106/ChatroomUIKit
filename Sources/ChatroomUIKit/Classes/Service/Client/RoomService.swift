@@ -58,6 +58,12 @@ import UIKit
     ///   - user: UserInfoProtocol
     func onUserJoined(roomId: String, user: UserInfoProtocol)
     
+    /// You'll receive the callback on user left,
+    /// - Parameters:
+    ///   - roomId: chatroom id
+    ///   - userId: user id
+    func onUserLeave(roomId: String, userId: String)
+    
     /// The method called on user kicked out chatroom.
     /// - Parameters:
     ///   - roomId: Chatroom id
@@ -119,16 +125,23 @@ import UIKit
     /// ``GiftsBarrageList`` UI driver
     public private(set) weak var giftDriver: IGiftsBarrageListDriver?
     
+    /// ``HorizontalTextCarousel`` UI driver
+    public private(set) weak var notifyDriver: IHorizontalTextCarouselDriver?
+    
     public required init(roomId: String) {
         self.roomId = roomId
     }
     
-    @objc public func bindChatDriver(driver: IChatBarrageListDriver) {
+    private func bindChatDriver(driver: IChatBarrageListDriver) {
         self.chatDriver = driver
     }
     
-    @objc public func bindGiftDriver(driver: IGiftsBarrageListDriver) {
+    private func bindGiftDriver(driver: IGiftsBarrageListDriver) {
         self.giftDriver = driver
+    }
+    
+    private func bindGlobalNotifyDriver(driver: IHorizontalTextCarouselDriver) {
+        self.notifyDriver = driver
     }
     
     @objc public func registerListener(listener: RoomEventsListener) {
@@ -151,6 +164,24 @@ import UIKit
     }
     
     //MARK: - Room operation
+    /// Switch to another chatroom.Notice,SDK'll clean users cache.Then fetch users&mute list.Will cause a lot of network io.Restricted to non-owner permissions.
+    /// - Parameters:
+    ///   - roomId: Chatroom id
+    ///   - completion: switch result
+    @objc public func switchChatroom(roomId: String,completion: @escaping (ChatError?) -> Void) {
+        self.leaveRoom { _ in }
+        self.roomId = roomId
+        ChatroomContext.shared?.roomId = self.roomId
+        ChatroomContext.shared?.usersMap?.removeAll()
+        ChatroomContext.shared?.muteMap?.removeAll()
+        self.enterRoom(completion: { [weak self] in
+            if $0 == nil {
+                self?.chatDriver?.cleanMessages()
+            }
+            completion($0)
+        })
+    }
+    
     @objc public func enterRoom(completion: @escaping (ChatError?) -> Void) {
         if let userId = ChatroomContext.shared?.currentUser?.userId  {
             self.roomService?.chatroomOperating(roomId: self.roomId, userId: userId, type: .join) { [weak self] success, error in
@@ -216,20 +247,30 @@ import UIKit
                         unknownUserIds.append(userId)
                     }
                 }
-                if unknownUserIds.count > 0,ChatroomUIKitClient.shared.option.useProperties {
-                    ChatroomUIKitClient.shared.userImplement?.userInfos(userIds: unknownUserIds, completion: { infos, error in
-                        if error == nil {
-                            var users = [UserInfoProtocol]()
-                            for userId in ids {
-                                if let user = ChatroomContext.shared?.usersMap?[userId] {
-                                    users.append(user)
+                if ChatroomUIKitClient.shared.option.useProperties {
+                    if unknownUserIds.count > 0 {
+                        ChatroomUIKitClient.shared.userImplement?.userInfos(userIds: unknownUserIds, completion: { infos, error in
+                            if error == nil {
+                                var users = [UserInfoProtocol]()
+                                for userId in ids {
+                                    if let user = ChatroomContext.shared?.usersMap?[userId] {
+                                        users.append(user)
+                                    }
                                 }
+                                completion(users,error)
+                            } else {
+                                completion(nil,error)
                             }
-                            completion(users,error)
-                        } else {
-                            completion(nil,error)
+                        })
+                    } else {
+                        var users = [UserInfoProtocol]()
+                        for userId in ids {
+                            if let user = ChatroomContext.shared?.usersMap?[userId] {
+                                users.append(user)
+                            }
                         }
-                    })
+                        completion(users,error)
+                    }
                 } else {
                     var users = [UserInfoProtocol]()
                     for userId in ids {
@@ -377,6 +418,11 @@ extension RoomService: ChatroomResponseListener {
     }
     
     public func onGlobalNotifyReceived(roomId: String, notifyMessage: ChatMessage) {
+        if self.roomId == roomId {
+            if let body = notifyMessage.body as? ChatTextMessageBody {
+                self.notifyDriver?.showNewNotify(text: body.text)
+            }
+        }
         for listener in self.eventsListener.allObjects {
             listener.onReceiveGlobalNotify(message: notifyMessage)
         }
@@ -400,8 +446,8 @@ extension RoomService: ChatroomResponseListener {
     }
     
     public func onUserLeave(roomId: String, userId: String) {
-        if roomId == self.roomId {
-            ChatroomContext.shared?.usersMap?.removeValue(forKey: userId)
+        for listener in self.eventsListener.allObjects {
+            listener.onUserLeave(roomId: roomId, userId: userId)
         }
     }
     
@@ -422,7 +468,11 @@ extension RoomService: ChatroomResponseListener {
         self.giftService = nil
         self.chatDriver = nil
         self.giftDriver = nil
+        self.notifyDriver = nil
         self.roomId = ""
+        ChatroomContext.shared?.roomId = nil
+        ChatroomContext.shared?.usersMap?.removeAll()
+        ChatroomContext.shared?.muteMap?.removeAll()
     }
 }
 
