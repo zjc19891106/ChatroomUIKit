@@ -54,6 +54,16 @@ final class UIWithBusinessViewController: UIViewController {
         return segment
     }()
     
+    
+    
+    lazy var showGiftInChatArea: UISwitch = {
+        let mySwitch = UISwitch()
+        mySwitch.frame = CGRect(x: 100, y: 230, width: 60, height: 20)
+        mySwitch.setOn(true, animated: false)
+        mySwitch.addTarget(self, action: #selector(switchValueChanged(sender:)), for: .valueChanged)
+        return mySwitch
+    }()
+    
     lazy var gift1: GiftsViewController = {
         GiftsViewController(gifts: self.gifts())
     }()
@@ -70,7 +80,7 @@ final class UIWithBusinessViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.view.addSubViews([self.background,self.roomView,self.members,self.modeSegment])
+        self.view.addSubViews([self.background,self.roomView,self.members,self.modeSegment,self.showGiftInChatArea])
         //Not necessary.When you want to receive chatroom view's click events.
         self.roomView.addActionHandler(actionHandler: self)
         //Not necessary.But when you want to receive room events,you can call as follows.
@@ -85,6 +95,10 @@ extension UIWithBusinessViewController {
     @objc private func onChanged(sender: UISegmentedControl) {
         self.style = ThemeStyle(rawValue: UInt(sender.selectedSegmentIndex)) ?? .light
         Theme.switchTheme(style: self.style)
+    }
+    
+    @objc func switchValueChanged(sender: UISwitch) {
+        ChatroomUIKitClient.shared.option.chatBarrageShowGift = sender.isOn
     }
     
     @objc func showParticipants() {
@@ -151,6 +165,9 @@ extension UIWithBusinessViewController : ChatroomViewActionEventsDelegate {
 }
 //MARK: - When you called `ChatroomUIKitClient.shared.registerRoomEventsListener(listener: self)`.You'll implement these method.
 extension UIWithBusinessViewController: RoomEventsListener {
+    func onUserLeave(roomId: String, userId: String) {
+    }
+    
     
     func onSocketConnectionStateChanged(state: ChatroomUIKit.ConnectionState) {
         

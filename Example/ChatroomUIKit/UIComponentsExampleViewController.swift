@@ -61,14 +61,6 @@ final class UIComponentsExampleViewController: UIViewController {
         segment.addTarget(self, action: #selector(switchTheme(sender:)), for: .valueChanged)
         return segment
     }()
-    
-    lazy var showGiftInChatArea: UISwitch = {
-        let mySwitch = UISwitch()
-        mySwitch.frame = CGRect(x: 100, y: 270, width: 60, height: 20)
-        mySwitch.setOn(true, animated: false)
-        mySwitch.addTarget(self, action: #selector(switchValueChanged(sender:)), for: .valueChanged)
-        return mySwitch
-    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,54 +104,45 @@ extension UIComponentsExampleViewController: UIContextMenuInteractionDelegate {
 
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
         UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (_) -> UIMenu? in
-            // 创建菜单
             let action1 = UIAction(title: ".all", image: UIImage(systemName: "bookmark.fill")) { (_) in
                 Appearance.barrageCellStyle = .all
                 self.barrageList.messages?.removeAll()
-                self.barrageList.removeFromSuperview()
-                self.view.addSubview(self.barrageList)
+                self.barrageList.chatView.reloadData()
             }
             let action2 = UIAction(title: ".excludeTime", image: UIImage(systemName: "bookmark.fill")) { (_) in
                 Appearance.barrageCellStyle = .excludeTime
                 self.barrageList.messages?.removeAll()
-                self.barrageList.removeFromSuperview()
-                self.view.addSubview(self.barrageList)
+                self.barrageList.chatView.reloadData()
             }
             let action3 = UIAction(title: ".excludeLevel", image: UIImage(systemName: "bookmark.fill")) { (_) in
                 Appearance.barrageCellStyle = .excludeLevel
                 self.barrageList.messages?.removeAll()
-                self.barrageList.removeFromSuperview()
-                self.view.addSubview(self.barrageList)
+                self.barrageList.chatView.reloadData()
             }
             let action4 = UIAction(title: ".excludeAvatar", image: UIImage(systemName: "bookmark.fill")) { (_) in
                 Appearance.barrageCellStyle = .excludeAvatar
                 self.barrageList.messages?.removeAll()
-                self.barrageList.removeFromSuperview()
-                self.view.addSubview(self.barrageList)
+                self.barrageList.chatView.reloadData()
             }
             let action5 = UIAction(title: ".excludeTimeAndLevel", image: UIImage(systemName: "bookmark.fill")) { (_) in
                 Appearance.barrageCellStyle = .excludeTimeAndLevel
                 self.barrageList.messages?.removeAll()
-                self.barrageList.removeFromSuperview()
-                self.view.addSubview(self.barrageList)
+                self.barrageList.chatView.reloadData()
             }
             let action6 = UIAction(title: ".excludeTimeAndAvatar", image: UIImage(systemName: "bookmark.fill")) { (_) in
                 Appearance.barrageCellStyle = .excludeTimeAndAvatar
                 self.barrageList.messages?.removeAll()
-                self.barrageList.removeFromSuperview()
-                self.view.addSubview(self.barrageList)
+                self.barrageList.chatView.reloadData()
             }
             let action7 = UIAction(title: ".excludeLevelAndAvatar", image: UIImage(systemName: "bookmark.fill")) { (_) in
                 Appearance.barrageCellStyle = .excludeLevelAndAvatar
                 self.barrageList.messages?.removeAll()
-                self.barrageList.removeFromSuperview()
-                self.view.addSubview(self.barrageList)
+                self.barrageList.chatView.reloadData()
             }
             let action8 = UIAction(title: ".excludeTimeLevelAvatar", image: UIImage(systemName: "bookmark.fill")) { (_) in
                 Appearance.barrageCellStyle = .excludeTimeLevelAvatar
                 self.barrageList.messages?.removeAll()
-                self.barrageList.removeFromSuperview()
-                self.view.addSubview(self.barrageList)
+                self.barrageList.chatView.reloadData()
             }
             let menu = UIMenu(title: "", children: [action1, action2, action3, action4, action5, action6,action7, action8])
             
@@ -208,9 +191,6 @@ extension UIComponentsExampleViewController {
 //        Theme.switchHues()
     }
     
-    @objc func switchValueChanged(sender: UISwitch) {
-        ChatroomUIKitClient.shared.option.chatBarrageShowGift = sender.isOn
-    }
     
     func bottomBarDatas() -> [ChatBottomItemProtocol] {
         var entities = [ChatBottomItemProtocol]()

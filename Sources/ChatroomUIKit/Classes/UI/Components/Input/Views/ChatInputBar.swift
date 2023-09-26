@@ -135,6 +135,7 @@ extension ChatInputBar: UITextViewDelegate {
             self.rightView.frame = CGRect(x: self.frame.width-87, y: self.inputField.frame.maxY-30, width: 30, height: 30)
             self.send.frame = CGRect(x: self.frame.width - 49, y: self.inputField.frame.maxY-30, width: 30, height: 30)
             self.emoji?.frame = CGRect(x: 0, y: self.inputField.frame.maxY+8, width: self.frame.width, height: self.keyboardHeight)
+            self.emoji?.backgroundColor(self.backgroundColor ?? UIColor.theme.neutralColor98)
         }
     }
     
@@ -198,31 +199,33 @@ extension ChatInputBar: UITextViewDelegate {
         let duration = notification.chatroom.keyboardAnimationDuration
         self.keyboardHeight = frame!.height
         self.frame = CGRect(x: 0, y: self.frame.origin.y, width: self.frame.width, height: self.keyboardHeight + 60)
-        let emoji = ChatEmojiView(frame: CGRect(x: 0, y: self.inputField.frame.maxY+8, width: self.frame.width, height: self.keyboardHeight)).tag(124)
-        self.emoji = emoji
-        self.addSubview(emoji)
+        if self.emoji == nil {
+            let emoji = ChatEmojiView(frame: CGRect(x: 0, y: self.inputField.frame.maxY+8, width: self.frame.width, height: self.keyboardHeight)).tag(124)
+            self.emoji = emoji
+            self.addSubview(emoji)
+        }
         self.updateHeight()
-        emoji.emojiClosure = { [weak self] in
+        self.emoji?.emojiClosure = { [weak self] in
             guard let self = self else { return }
-            emoji.deleteEmoji.isEnabled = true
-            emoji.deleteEmoji.isUserInteractionEnabled = true
+            self.emoji?.deleteEmoji.isEnabled = true
+            self.emoji?.deleteEmoji.isUserInteractionEnabled = true
             self.inputField.attributedText = self.convertText(text: self.inputField.attributedText, key: $0)
             self.updateHeight()
         }
-        emoji.deleteClosure = { [weak self] in
+        self.emoji?.deleteClosure = { [weak self] in
             if self?.inputField.text?.count ?? 0 > 0 {
                 self?.inputField.deleteBackward()
-                emoji.deleteEmoji.isEnabled = true
-                emoji.deleteEmoji.isUserInteractionEnabled = true
+                self?.emoji?.deleteEmoji.isEnabled = true
+                self?.emoji?.deleteEmoji.isUserInteractionEnabled = true
             } else {
-                emoji.deleteEmoji.isEnabled = false
-                emoji.deleteEmoji.isUserInteractionEnabled = false
+                self?.emoji?.deleteEmoji.isEnabled = false
+                self?.emoji?.deleteEmoji.isUserInteractionEnabled = false
             }
             self?.updateHeight()
         }
-        emoji.isHidden = true
+        self.emoji?.isHidden = true
         UIView.animate(withDuration: duration!) {
-            emoji.isHidden = false
+            self.emoji?.isHidden = false
         }
     }
     
@@ -231,7 +234,6 @@ extension ChatInputBar: UITextViewDelegate {
         UIView.animate(withDuration: 0.3) {
             self.frame = CGRect(x: 0, y: ScreenHeight, width: self.frame.width, height: self.keyboardHeight + 60)
         }
-        self.emoji?.removeFromSuperview()
         self.rightView.isSelected = false
     }
     

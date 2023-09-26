@@ -58,7 +58,7 @@ extension GiftServiceImplement: GiftService {
         }
     }
 }
-//MARK: - EMChatManagerDelegate
+//MARK: - ChatManagerDelegate
 extension GiftServiceImplement: ChatManagerDelegate {
     
     public func messagesDidReceive(_ aMessages: [ChatMessage]) {

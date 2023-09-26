@@ -132,15 +132,15 @@ import UIKit
         self.roomId = roomId
     }
     
-    private func bindChatDriver(driver: IChatBarrageListDriver) {
+    func bindChatDriver(driver: IChatBarrageListDriver) {
         self.chatDriver = driver
     }
     
-    private func bindGiftDriver(driver: IGiftsBarrageListDriver) {
+    func bindGiftDriver(driver: IGiftsBarrageListDriver) {
         self.giftDriver = driver
     }
     
-    private func bindGlobalNotifyDriver(driver: IHorizontalTextCarouselDriver) {
+    func bindGlobalNotifyDriver(driver: IHorizontalTextCarouselDriver) {
         self.notifyDriver = driver
     }
     
