@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 
 public enum consoleLogType : String {
     case error   = "ERROR"
@@ -45,7 +46,37 @@ private func consoleLog<T> (
     time.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
     let timeString = time.string(from: Date())
     let fileName = (file.description as NSString).lastPathComponent
-    print("\(timeString) \(type.rawValue) \(fileName):\(line) logResult is :\(message)")
+    debugPrint("\(timeString) \(type.rawValue) \(fileName):\(line) ChatroomUIKit Log:\(message)")
     #else
+    Log.saveLog(" ChatroomUIKit Log:\(message)",file: file,function: function,line: line)
     #endif
+}
+
+final class Log {
+    static let logFileURL: URL = {
+        let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return documentsDirectoryURL.appendingPathComponent("ChatroomUIKit.log")
+    }()
+    
+    static func saveLog(_ message: String, file: String = #file, function: String = #function, line: Int = #line) {
+        let logMessage = "[\(sourceFileName(file))]:\(function), line \(line) - \(message)"
+        writeToFile(logMessage)
+    }
+    
+    private static func sourceFileName(_ filePath: String) -> String {
+        let components = filePath.components(separatedBy: "/")
+        return components.isEmpty ? "" : components.last!
+    }
+    
+    private static func writeToFile(_ message: String) {
+        let fileHandle = try? FileHandle(forWritingTo: logFileURL)
+        if fileHandle == nil {
+            try? message.write(to: logFileURL, atomically: false, encoding: .utf8)
+        } else {
+            let data = message.data(using: .utf8)!
+            fileHandle!.seekToEndOfFile()
+            fileHandle!.write(data)
+            fileHandle!.closeFile()
+        }
+    }
 }

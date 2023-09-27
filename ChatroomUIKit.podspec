@@ -54,5 +54,5 @@ A chat room UIKit that is easy to use, efficient, innovative and rich in custom 
 #  s.source_files = 'Sources/ChatroomUIKit/Classes/**/*'
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-   s.frameworks = 'UIKit', 'Foundation','Combine'
+   s.frameworks = 'UIKit', 'Foundation','Combine','OSLog'
 end
