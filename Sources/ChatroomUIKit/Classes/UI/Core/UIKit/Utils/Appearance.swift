@@ -22,6 +22,7 @@ import UIKit
     /// Alert constraints size
     public static var alertContainerConstraintsSize = CGSize(width: ScreenWidth-50, height: ScreenHeight/3.0)
     
+    /// Alert view corner radius.``AlertView``
     public static var alertCornerRadius: CGFloat = 36
     
     /// You can change the overall cell layout style of the barrage area by setting the current properties.

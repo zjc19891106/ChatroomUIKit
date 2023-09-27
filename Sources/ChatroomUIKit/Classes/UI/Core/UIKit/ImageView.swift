@@ -30,7 +30,9 @@ import Combine
         guard let imageURL = URL(string: url) else { return }
         ImageLoader.shared.loadImage(from: imageURL)
             .sink(receiveValue: { [weak self] url_image in
-                self?.image = url_image
+                if url_image != nil {
+                    self?.image = url_image
+                }
             })
             .store(in: &self.cancellables)
     }
