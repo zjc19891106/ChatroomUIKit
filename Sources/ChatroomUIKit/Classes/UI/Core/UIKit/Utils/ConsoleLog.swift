@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import OSLog
 
 public enum consoleLogType : String {
     case error   = "ERROR"
