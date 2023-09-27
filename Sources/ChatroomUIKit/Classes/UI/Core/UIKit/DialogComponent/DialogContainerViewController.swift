@@ -8,11 +8,7 @@
 import UIKit
  /**
      A view controller that manages the presentation of a dialog container view and its content.
-     
-     - FILEPATH: /Users/zhujichao_1/Desktop/ChatroomUIKit/ChatroomUIKit/Classes/UI/Core/UIKit/DialogComponent/DialogContainerViewController.swift
-     
      - `presentedViewComponent`: An optional `PresentedViewComponent` object that represents the content view to be presented.
-     
      - `customView`: An optional `UIView` object that represents a custom view to be presented.
      */
 @objc final public class DialogContainerViewController:  UIViewController, PresentedViewType {

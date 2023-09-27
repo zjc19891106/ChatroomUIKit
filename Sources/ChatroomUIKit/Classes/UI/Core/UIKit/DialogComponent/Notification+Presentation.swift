@@ -8,12 +8,12 @@
 import Foundation
 
 public extension Notification {
-    /// 键盘frame
+    /// frame
     var keyboardEndFrame: CGRect? {
         return (userInfo?[UIApplication.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
     }
 
-    /// 键盘动画时间
+    /// animation duration
     var keyboardAnimationDuration: TimeInterval? {
         return (userInfo?[UIApplication.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue
     }

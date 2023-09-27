@@ -7,7 +7,7 @@
 
 import UIKit
 
-@objc public class LoadingView: UIView {
+@objc class LoadingView: UIView {
     
     let lightEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
     
@@ -53,12 +53,14 @@ import UIKit
         ])
     }
     
+    /// Start loading animation
     @MainActor func startAnimating() {
         self.isHidden = false
         self.alpha = 1
         self.activityIndicatorView.startAnimating()
     }
     
+    /// Stop loading animation
     @MainActor func stopAnimating() {
         self.isHidden = true
         self.alpha = 0

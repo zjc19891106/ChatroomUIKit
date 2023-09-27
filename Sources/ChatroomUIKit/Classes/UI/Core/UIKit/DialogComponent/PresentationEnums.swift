@@ -162,10 +162,10 @@ public enum AnimationOptions {
     }
 }
 
-/// 键盘出现的平移方式
+/// Keyboard appearance type
 ///
-/// - unabgeschirmt: 不遮挡PresentedView，compress: 键盘是否贴近PresentedView
-/// - compressInputView: 贴近输入框
+/// - unabgeschirmt: discover PresentedView，compress: keyboard nearly present view
+/// - compressInputView: Nearly system keyboard
 public enum KeyboardTranslationType {
     case unabgeschirmt(compress: Bool)
     case compressInputView

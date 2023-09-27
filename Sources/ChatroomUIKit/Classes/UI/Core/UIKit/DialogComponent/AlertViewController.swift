@@ -55,7 +55,7 @@ import UIKit
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    private lazy var titleLabelContaniner: UIView = {
+    private lazy var titleLabelContainer: UIView = {
         let view = UIView()
         view.isHidden = true
         return view
@@ -155,7 +155,7 @@ import UIKit
         return self
     }
     public func title(title: String?) -> AlertView {
-        titleLabelContaniner.isHidden = title == nil
+        titleLabelContainer.isHidden = title == nil
         titleLabel.text = title
         return self
     }
@@ -172,12 +172,12 @@ import UIKit
         contentLabel.text = content
         return self
     }
-    public func contentTextAligment(textAlignment: NSTextAlignment) -> AlertView {
+    public func contentTextAlignment(textAlignment: NSTextAlignment) -> AlertView {
         contentLabel.textAlignment = textAlignment
         return self
     }
     
-    public func contentAttrs(content: NSAttributedString?) -> AlertView {
+    public func contentAttributes(content: NSAttributedString?) -> AlertView {
         contentLabel.isHidden = content == nil
         contentLabel.attributedText = content
         return self
@@ -350,9 +350,9 @@ import UIKit
     
     private func setupUI() {
         addSubview(stackView)
-        titleLabelContaniner.addSubview(titleLabel)
+        titleLabelContainer.addSubview(titleLabel)
         addSubview(closeButton)
-        stackView.addArrangedSubview(titleLabelContaniner)
+        stackView.addArrangedSubview(titleLabelContainer)
         stackView.addArrangedSubview(contentLabel)
         stackView.addArrangedSubview(textField)
         textField.addSubview(textFieldLineView)
@@ -375,9 +375,9 @@ import UIKit
         stackView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         stackView.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
         
-        titleLabel.topAnchor.constraint(equalTo: titleLabelContaniner.topAnchor).isActive = true
-        titleLabel.centerXAnchor.constraint(equalTo: titleLabelContaniner.centerXAnchor).isActive = true
-        titleLabel.bottomAnchor.constraint(equalTo: titleLabelContaniner.bottomAnchor, constant: -16).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: titleLabelContainer.topAnchor).isActive = true
+        titleLabel.centerXAnchor.constraint(equalTo: titleLabelContainer.centerXAnchor).isActive = true
+        titleLabel.bottomAnchor.constraint(equalTo: titleLabelContainer.bottomAnchor, constant: -16).isActive = true
         
         closeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
         closeButton.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true

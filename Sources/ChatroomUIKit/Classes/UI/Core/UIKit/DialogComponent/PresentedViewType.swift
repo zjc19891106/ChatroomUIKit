@@ -7,47 +7,47 @@
 
 import Foundation
 
-/// presentedView的设置
+/// presentedView setting
 public struct PresentedViewComponent {
     /// presentedView的size
     public var contentSize: CGSize
 
-    /// presentedView最终展示位置
+    /// presentedView destination point.
     public var destination: PresentationDestination = .bottomBaseline
 
-    /// present转场动画，为nil则基于destination使用
+    /// present transition animation type.
     public var presentTransitionType: TransitionType?
 
-    /// dismiss转场动画，为nil则基于destination使用
+    /// dismiss transition animation type.
     public var dismissTransitionType: TransitionType?
 
-    /// 是否开启点击背景dismiss
+    /// Whether tap background dismiss self or not.
     public var canTapBGDismiss: Bool = true
 
-    /// 是否开启pan手势dismiss
+    /// Whether pan gesture dismiss self or not.
     public var canPanDismiss: Bool = true
 
-    /// pan手势方向，为nil则基于destination使用
+    /// Pan gesture direction
     public var panDismissDirection: PanDismissDirection?
 
-    /// 键盘出现的平移方式，默认贴近PresentedView
+    /// ``KeyboardTranslationType``
     public var keyboardTranslationType: KeyboardTranslationType = .unabgeschirmt(compress: true)
 
-    /// 键盘间隔，默认0
+    /// Keyboard padding
     public var keyboardPadding: CGFloat = 0
 
-    /// 初始化方法
+    /// Init method
     ///
     /// - Parameters:
     ///   - contentSize: presentedView的size
-    ///   - destination: presentedView最终展示位置
-    ///   - presentTransitionType: present转场动画
-    ///   - dismissTransitionType: dismiss转场动画
-    ///   - canTapBGDismiss:  是否开启点击背景dismiss
-    ///   - canPanDismiss: 是否开启pan手势dismiss
-    ///   - panDismissDirection: pan手势方向
-    ///   - keyboardTranslationType: 键盘出现的平移方式，默认贴近PresentedView
-    ///   - keyboardPadding: 键盘间隔，默认20
+    ///   - destination: presentedView destination
+    ///   - presentTransitionType: present transition type.
+    ///   - dismissTransitionType: dismiss transition type.
+    ///   - canTapBGDismiss:  ``true`` or ``false``
+    ///   - canPanDismiss: ``true`` or ``false``
+    ///   - panDismissDirection: pan getsture dismiss direction
+    ///   - keyboardTranslationType: keyboardTranslationType
+    ///   - keyboardPadding: `default` is 20.
     public init(contentSize: CGSize,
                 destination: PresentationDestination = .bottomBaseline,
                 presentTransitionType: TransitionType? = nil,
@@ -70,9 +70,7 @@ public struct PresentedViewComponent {
     }
 }
 
-/// presentedView必须遵守此协议
 public protocol PresentedViewType {
-    /// presentedView的设置
     var presentedViewComponent: PresentedViewComponent? { get set }
 }
 
