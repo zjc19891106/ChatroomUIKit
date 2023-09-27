@@ -13,8 +13,8 @@ import UIKit
     
     /// Gifts list dialog will show on call the method.
     /// - Parameters:
-    ///   - titles: `[```String```]`
-    ///   - gifts: `[```GiftsViewController```]`
+    ///   - titles: `[String]`
+    ///   - gifts: ``GiftsViewController`` array
     @objc public func showGiftsDialog(titles: [String],gifts: [GiftsViewController]) {
         let gift = PageContainersDialogController(pageTitles: titles, childControllers: gifts,constraintsSize: Appearance.giftContainerConstraintsSize)
         UIViewController.currentController?.presentViewController(gift)
