@@ -191,7 +191,8 @@ extension UIComponentsExampleViewController {
 //        Theme.switchHues()
     }
     
-    
+    /// Constructor of ``ChatBottomFunctionBar`` data source.
+    /// - Returns: Conform ``ChatBottomItemProtocol`` class instance array.
     func bottomBarDatas() -> [ChatBottomItemProtocol] {
         var entities = [ChatBottomItemProtocol]()
         let names = ["ellipsis.circle","mic.slash","gift"]

@@ -108,6 +108,8 @@ extension UIWithBusinessViewController {
 
     }
     
+    /// Constructor of ``ChatBottomFunctionBar`` data source.
+    /// - Returns: Conform ``ChatBottomItemProtocol`` class instance array.
     func bottomBarDatas() -> [ChatBottomItemProtocol] {
         var entities = [ChatBottomItemProtocol]()
         let names = ["ellipsis.circle","mic.slash","gift"]
@@ -123,6 +125,8 @@ extension UIWithBusinessViewController {
         return entities
     }
     
+    /// Simulate fetch json from server .
+    /// - Returns: Conform ``GiftEntityProtocol`` class instance.
     private func gifts() -> [GiftEntityProtocol] {
         if let path = Bundle.main.url(forResource: "Gifts", withExtension: "json") {
             var data = Dictionary<String,Any>()
