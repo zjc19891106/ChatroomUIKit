@@ -93,7 +93,7 @@ import UIKit
         }
         if showConfirm {
             alert.rightButtonBackground(color: Theme.style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5).rightButton(color: UIColor.theme.neutralColor98).rightButtonTapClosure { _ in
-                
+                confirmClosure()
             }
         }
         let alertVC = AlertViewController(custom: alert)
