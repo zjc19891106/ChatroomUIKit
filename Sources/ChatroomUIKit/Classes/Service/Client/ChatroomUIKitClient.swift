@@ -37,8 +37,10 @@ import UIKit
     /// Chat room related protocol implementation class
     public private(set) lazy var roomService: RoomService? = nil
     
+    /// Options function wrapper.
     public private(set) lazy var option: ChatroomUIKitInitialOptions = ChatroomUIKitInitialOptions()
     
+    /// chatroom id
     public private(set) var roomId = ""
     
     /// Initialize chat room UIKit.
@@ -77,9 +79,7 @@ import UIKit
     
     /// Logout user
     @objc public func logout() {
-        self.userImplement?.logout(completion: { _, _ in
-            
-        })
+        self.userImplement?.logout(completion: { _, _ in })
     }
     
     /// Launch a chatroom view of ChatroomUIKit.

@@ -42,6 +42,7 @@ fileprivate let gift_tail_indent: CGFloat = 26
     /// The width of the chat entity, calculated based on the attributed text and the width of the chat view.
     lazy public var width: CGFloat = UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).width+(self.gift != nil ? gift_tail_indent:0)
     
+    /// Chat barrage display gift info.Need to set it.
     lazy public var gift: GiftEntityProtocol? = nil
     
     /// Converts the message text into an attributed string, including the user's nickname, message text, and emojis.
@@ -108,9 +109,7 @@ fileprivate let gift_tail_indent: CGFloat = 26
     }
     
     /// Returns the distance of the last line head indent based on the appearance of the chat cell.
-    func lastLineHeadIndent() -> CGFloat {
-        26
-    }
+    func lastLineHeadIndent() -> CGFloat { 26 }
 }
 
 public extension ChatMessage {

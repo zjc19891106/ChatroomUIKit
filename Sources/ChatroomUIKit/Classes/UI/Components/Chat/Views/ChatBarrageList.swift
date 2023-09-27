@@ -124,7 +124,7 @@ extension ChatBarrageList:UITableViewDelegate, UITableViewDataSource {
         guard let entity = self.messages?[safe: indexPath.row] else { return ChatBarrageCell() }
         cell?.refresh(chat: entity)
         cell?.selectionStyle = .none
-        return cell!
+        return cell ?? UITableViewCell()
     }
 
     public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {

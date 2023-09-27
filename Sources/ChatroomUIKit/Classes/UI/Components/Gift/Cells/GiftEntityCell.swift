@@ -71,7 +71,7 @@ import UIKit
         self.gift = item
         self.contentView.isHidden = (item == nil)
 
-        let url = self.ossPictureCrop(url: item?.giftIcon ?? "")
+        let url = item?.giftIcon ?? ""
         self.icon.image(with: url, placeHolder: Appearance.giftPlaceHolder)
         self.name.text = item?.giftName
         self.displayValue.setImage(UIImage(named: "dollagora", in: .chatroomBundle, with: nil), for: .normal)
@@ -88,15 +88,6 @@ import UIKit
         
     }
     
-    func ossPictureCrop(url: String) -> String {
-        var text = url
-        if text.contains("?") {
-            text += "x-oss-process=image/resize,w_\(Int(UIScreen.main.scale*self.icon.frame.width)),h_\(Int(UIScreen.main.scale*self.icon.frame.height))"
-        } else {
-            text += "?x-oss-process=image/resize,w_\(Int(UIScreen.main.scale*self.icon.frame.width)),h_\(Int(UIScreen.main.scale*self.icon.frame.height))"
-        }
-        return text
-    }
 }
 
 extension GiftEntityCell: ThemeSwitchProtocol {

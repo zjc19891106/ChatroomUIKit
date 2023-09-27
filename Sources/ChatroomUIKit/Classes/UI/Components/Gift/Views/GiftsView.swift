@@ -57,6 +57,10 @@ import UIKit
         super.init(frame: frame)
     }
     
+    /// Gifts view init method.
+    /// - Parameters:
+    ///   - frame: frame
+    ///   - gifts: Conform ``GiftEntityProtocol`` class instance array.
     @objc required public convenience init(frame: CGRect, gifts: [GiftEntityProtocol]) {
         self.init(frame: frame)
         self.gifts = gifts
