@@ -491,7 +491,7 @@ public extension UIColor {
         public var barrageDarkColor7: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .seven)
         }
-        var barrageDarkColor8: UIColor {
+        public var barrageDarkColor8: UIColor {
             UIColor.ColorTheme.barrageColor(lightness: .oneHundred, alpha: .eight)
         }
         public var barrageDarkColor9: UIColor {
