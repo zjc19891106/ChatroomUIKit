@@ -11,7 +11,19 @@ import ChatroomUIKit
 
 final class ChatroomListViewController: UITableViewController {
     
-    private var chatrooms = [ChatRoom]()
+    private var chatrooms = [ChatRoom]() {
+        didSet {
+            if self.chatrooms.count <= 0 {
+                self.tableView.backgroundView = self.empty
+            } else {
+                self.tableView.backgroundView = nil
+            }
+        }
+    }
+    
+    lazy var empty: EmptyStateView = {
+        EmptyStateView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: self.tableView.frame.height),emptyImage: UIImage(named: "empty",in: .chatroomBundle, with: nil))
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()

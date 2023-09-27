@@ -75,6 +75,8 @@ final class UIComponentsExampleViewController: UIViewController {
         self.view.addSubview(self.barrageList)
         self.view.addSubview(self.bottomBar)
         self.view.addSubview(self.inputBar)
+        self.view.addSubview(self.carouselTextView)
+        self.view.addSubview(self.modeSegment)
         
         self.bottomBar.addActionHandler(actionHandler: self)
         self.inputBar.sendClosure = { [weak self] in
@@ -83,13 +85,8 @@ final class UIComponentsExampleViewController: UIViewController {
         }
         let button = UIButton(type: .custom).frame(CGRect(x: 100, y: 140, width: 150, height: 20)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title("Add Global Notify", .normal).addTargetFor(self, action: #selector(addCarouselTask), for: .touchUpInside)
         self.view.addSubview(button)
-        self.view.addSubview(self.carouselTextView)
-        
         self.carouselTextView.alpha = 0
-
-        self.view.addSubview(self.modeSegment)
         
-        self.carouselTextView.alpha = 0
         
         let switchCellStyle = UIButton(type: .custom).frame(CGRect(x: 100, y: 220, width: 150, height: 40)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.small).title(".all", .normal).title("Long Presse Switch", .normal).font(.systemFont(ofSize: 16, weight: .semibold))
         switchCellStyle.addInteraction(UIContextMenuInteraction(delegate: self))
