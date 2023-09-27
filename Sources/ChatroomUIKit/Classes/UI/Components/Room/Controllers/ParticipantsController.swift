@@ -122,7 +122,7 @@ open class ParticipantsController: UITableViewController {
     }
     
     open override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if UInt(self.users.count)%Appearance.membersPageSize == 0,self.users.count - 3 == indexPath.row,self.fetchFinish {
+        if UInt(self.users.count)%Appearance.membersPageSize == 0,self.users.count - 2 == indexPath.row,self.fetchFinish {
             self.fetchFinish = false
             self.fetchUsers()
         }
@@ -178,7 +178,6 @@ open class ParticipantsController: UITableViewController {
                         self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",style: Theme.style == .light ? .light:.dark,duration: 2)
                     }
                 }
-                
             default:
                 item.action?(item)
             }

@@ -49,7 +49,13 @@ import UIKit
         EmptyStateView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: self.tableView.frame.height),emptyImage: UIImage(named: "empty",in: .chatroomBundle, with: nil))
     }()
     
-    @objc public convenience init(rawSources: [UserInfoProtocol],cellExtensionAction: @escaping ((UserInfoProtocol) -> Void),didSelect: @escaping ((UserInfoProtocol) -> Void)) {
+    
+    /// `SearchViewController` init method.
+    /// - Parameters:
+    ///   - rawSources: Data source
+    ///   - cellExtensionAction: `...` action on click.
+    ///   - didSelect: Cell did select callback.
+    @objc public required convenience init(rawSources: [UserInfoProtocol],cellExtensionAction: @escaping ((UserInfoProtocol) -> Void),didSelect: @escaping ((UserInfoProtocol) -> Void)) {
         self.init()
         self.action = cellExtensionAction
         self.rawSources = rawSources
