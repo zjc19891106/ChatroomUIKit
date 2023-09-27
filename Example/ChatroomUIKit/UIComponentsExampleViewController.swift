@@ -211,7 +211,9 @@ extension UIComponentsExampleViewController {
         let user = ChatroomContext.shared?.currentUser as? User
         return ChatMessage(conversationID: "test", from: "12323123123", to: "test",body: ChatTextMessageBody(text: text == nil ? "Welcome":text), ext: user?.kj.JSONObject())
     }
-
+    
+    /// Simulate fetch json from server .
+    /// - Returns: Conform ``GiftEntityProtocol`` class instance.
     private func gifts() -> [GiftEntityProtocol] {
         if let path = Bundle.main.url(forResource: "Gifts", withExtension: "json") {
             var data = Dictionary<String,Any>()
