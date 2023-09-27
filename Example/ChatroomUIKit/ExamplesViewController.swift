@@ -41,13 +41,5 @@ final class ExamplesViewController: UIViewController {
         self.navigationController?.pushViewController(OCUIComponentsExampleViewController(), animated: true)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    
-}
-
-
-extension ExamplesViewController: UITextFieldDelegate {
     
 }
