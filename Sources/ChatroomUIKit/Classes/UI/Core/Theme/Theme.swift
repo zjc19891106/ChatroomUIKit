@@ -17,7 +17,7 @@ import Foundation
 @objc public protocol ThemeSwitchProtocol: NSObjectProtocol {
     
     /// When some view Implement the protocol method,you can use `Theme.switchTheme(style: .dark)` to switch theme.
-    /// - Parameter style: ThemeStyle
+    /// - Parameter style: ``ThemeStyle``
     func switchTheme(style: ThemeStyle)
     
     /// After the custom view implements this protocol method, you can use this method to switch the custom theme color, which includes the following five hue values: primary, secondary, error, neutral, and neutral special. The designer recommends that the hue values of primary and neutral are the same. The hue values ​​of neutral and neutral special are similar.
@@ -43,10 +43,10 @@ import Foundation
     /// How to use?
     /// `Theme.registerSwitchThemeViews(view: Some view implement ThemeSwitchProtocol)`
     public static func registerSwitchThemeViews(view: ThemeSwitchProtocol) {
-        if registerViews.contains(view) {
+        if self.registerViews.contains(view) {
             return
         }
-        registerViews.add(view)
+        self.registerViews.add(view)
     }
     
     /// The method
@@ -55,7 +55,7 @@ import Foundation
     /// `Theme.switchTheme(style: .dark)`
     @MainActor public static func switchTheme(style: ThemeStyle) {
         self.style = style
-        for view in registerViews {
+        for view in self.registerViews {
             if let themeView = view as? ThemeSwitchProtocol {
                 themeView.switchTheme(style: style)
             }
@@ -64,7 +64,7 @@ import Foundation
     /// After the custom view implements this protocol method, you can use this method to switch the custom theme color, which includes the following five hue values: primary, secondary, error, neutral, and neutral special. The designer recommends that the hue values of primary and neutral are the same. The hue values ​​of neutral and neutral special are similar.
     @MainActor public static func switchHues() {
         UIColor.ColorTheme.switchHues(hues: Appearance.colorHues)
-        for view in registerViews {
+        for view in self.registerViews {
             if let themeView = view as? ThemeSwitchProtocol {
                 themeView.switchHues()
             }
