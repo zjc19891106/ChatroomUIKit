@@ -12,7 +12,6 @@ import ChatroomUIKit
 class MineGiftsViewController: GiftsViewController {
     
     override func onGiftSendClick(item: GiftEntityProtocol) {
-        consoleLogInfo("666666666", type: .debug)
 //        super.onGiftSendClick(item: item)
     }
 

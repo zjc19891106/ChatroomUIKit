@@ -109,7 +109,7 @@ import UIKit
             if error == nil {
                 self?.barrageList.showNewMessage(message: message, gift: nil)
             } else {
-                consoleLogInfo("Send message failure!\n\(error?.errorDescription ?? "")", type: .debug)
+                consoleLogInfo("Send message failure!\n\(error?.errorDescription ?? "")", type: .error)
             }
         })
     }
@@ -129,7 +129,7 @@ import UIKit
             if error == nil {
                 self?.service?.fetchMuteUsers(pageSize: 100, completion: { _, error in
                     if error != nil {
-                        consoleLogInfo("SDK fetch mute users failure!\nError:\(error?.errorDescription ?? "")", type: .debug)
+                        consoleLogInfo("SDK fetch mute users failure!\nError:\(error?.errorDescription ?? "")", type: .error)
                     }
                 })
             }
@@ -143,7 +143,7 @@ import UIKit
             if error == nil {
                 self?.service = nil
             } else {
-                consoleLogInfo("SDK leave chatroom failure!\nError:\(error?.errorDescription ?? "")", type: .debug)
+                consoleLogInfo("SDK leave chatroom failure!\nError:\(error?.errorDescription ?? "")", type: .error)
             }
         })
     }

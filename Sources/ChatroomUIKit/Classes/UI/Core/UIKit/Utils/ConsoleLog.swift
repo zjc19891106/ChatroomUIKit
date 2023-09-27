@@ -47,7 +47,9 @@ private func consoleLog<T> (
     let fileName = (file.description as NSString).lastPathComponent
     debugPrint("\(timeString) \(type.rawValue) \(fileName):\(line) ChatroomUIKit Log:\(message)")
     #else
-    Log.saveLog(" ChatroomUIKit Log:\(message)",file: file,function: function,line: line)
+    if type == .error {
+        Log.saveLog(" ChatroomUIKit Log:\(message)",file: file,function: function,line: line)
+    }
     #endif
 }
 

@@ -187,7 +187,7 @@ import UIKit
             self.roomService?.chatroomOperating(roomId: self.roomId, userId: userId, type: .join) { [weak self] success, error in
                 guard let `self` = self else { return  }
                 if !success {
-                    consoleLogInfo("Joined chatroom error:\(error?.errorDescription ?? "")", type: .debug)
+                    consoleLogInfo("Joined chatroom error:\(error?.errorDescription ?? "")", type: .error)
                     self.handleError(type: .join, error: error!)
                 }
                 completion(error)

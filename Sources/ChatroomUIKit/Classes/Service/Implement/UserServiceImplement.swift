@@ -17,12 +17,12 @@ import KakaJSON
         super.init()
         self.login(userId: userInfo.userId, token: token) { [weak self] success, error in
             if !success {
-                consoleLogInfo(error?.errorDescription ?? "", type: .debug)
+                consoleLogInfo(error?.errorDescription ?? "", type: .error)
             } else {
                 if userProperty {
                     self?.updateUserInfo(userInfo: userInfo, completion: { success, error in
                         if !success {
-                            consoleLogInfo("update user info failure:\(error?.errorDescription ?? "")", type: .debug)
+                            consoleLogInfo("update user info failure:\(error?.errorDescription ?? "")", type: .error)
                         }
                     })
                 }

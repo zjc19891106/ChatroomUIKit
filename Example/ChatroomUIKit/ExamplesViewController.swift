@@ -32,7 +32,7 @@ final class ExamplesViewController: UIViewController {
             if error == nil || error?.code == .errorUserAlreadyLoginSame {
                 self.navigationController?.pushViewController(ChatroomListViewController(), animated: true)
             } else {
-                consoleLogInfo("ChatroomUIKitClient login failed!\nError:\(error?.errorDescription ?? "")", type: .debug)
+                consoleLogInfo("ChatroomUIKitClient login failed!\nError:\(error?.errorDescription ?? "")", type: .error)
             }
         }
     }
