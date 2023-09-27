@@ -39,7 +39,7 @@ import UIKit
 //        UIView(frame: CGRect(x: 0, y: self.contentView.frame.height-1, width: self.contentView.frame.width, height: 1))
 //    }()
     
-    public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    public required override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor(.clear)
         self.contentView.backgroundColor(.clear)

@@ -34,4 +34,6 @@ fileprivate let component = ComponentsRegister()
     /// Member list page&Banned list page
     public var ParticipantsViewController: ParticipantsController.Type = ParticipantsController.self
     
+    public var ChatroomParticipantCell: ChatroomParticipantsCell.Type = ChatroomParticipantsCell.self
+    
 }

@@ -58,7 +58,7 @@ open class ParticipantsController: UITableViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.tableHeaderView = self.searchField
-        self.tableView.registerCell(ChatroomParticipantsCell.self, forCellReuseIdentifier: "ChatroomParticipantsCell")
+        self.tableView.registerCell(ComponentsRegister.shared.ChatroomParticipantCell, forCellReuseIdentifier: "ChatroomParticipantsCell")
         self.tableView.rowHeight = Appearance.membersRowHeight
         self.tableView.separatorColor(UIColor.theme.neutralColor9)
         self.tableView.tableFooterView(UIView())
@@ -105,9 +105,9 @@ open class ParticipantsController: UITableViewController {
     }
     
     open override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "ChatroomParticipantsCell", for: indexPath) as? ChatroomParticipantsCell
+        var cell = tableView.dequeueReusableCell(with: ComponentsRegister.shared.ChatroomParticipantCell, reuseIdentifier: "ChatroomParticipantsCell")
         if cell == nil {
-            cell = ChatroomParticipantsCell(style: .default, reuseIdentifier: "ChatroomParticipantsCell")
+            cell = ComponentsRegister.shared.ChatroomParticipantCell.init(style: .default, reuseIdentifier: "ChatroomParticipantsCell")
         }
         // Configure the cell...
         if let user = self.users[safe: indexPath.row] {
