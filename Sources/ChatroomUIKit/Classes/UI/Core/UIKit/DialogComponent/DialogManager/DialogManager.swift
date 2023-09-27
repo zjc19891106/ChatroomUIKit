@@ -11,11 +11,19 @@ import UIKit
     
     public static let shared = DialogManager()
     
+    /// Gifts list dialog will show on call the method.
+    /// - Parameters:
+    ///   - titles: `[```String```]`
+    ///   - gifts: `[```GiftsViewController```]`
     @objc public func showGiftsDialog(titles: [String],gifts: [GiftsViewController]) {
         let gift = PageContainersDialogController(pageTitles: titles, childControllers: gifts,constraintsSize: Appearance.giftContainerConstraintsSize)
         UIViewController.currentController?.presentViewController(gift)
     }
     
+    /// Participants list dialog will show on call the method.
+    /// - Parameters:
+    ///   - moreClosure: Callback you want to operator user info on click `...`.
+    ///   - muteMoreClosure: Callback you want to operator user  info  on click `...`.
     @objc public func showParticipantsDialog(moreClosure: @escaping (UserInfoProtocol) -> Void,muteMoreClosure: @escaping (UserInfoProtocol) -> Void) {
         let participants = ComponentsRegister
             .shared.ParticipantsViewController.init(muteTab: false, moreClosure: moreClosure)
@@ -25,6 +33,8 @@ import UIKit
         UIViewController.currentController?.presentViewController(container)
     }
     
+    /// Message report dialog will show on call the method.
+    /// - Parameter message: ``ChatMessage``
     @objc public func showReportDialog(message: ChatMessage) {
         let report = ComponentsRegister
             .shared.ReportViewController.init(message: message)
@@ -32,6 +42,10 @@ import UIKit
         UIViewController.currentController?.presentViewController(vc)
     }
     
+    /// Message operation list dialog will show on call the method.General use on message long pressed.
+    /// - Parameters:
+    ///   - actions: ``ActionSheetItemProtocol`` array.
+    ///   - action: Choice touched callback.
     @objc public func showMessageActions(actions: [ActionSheetItemProtocol],action: @escaping ActionClosure) {
         let actionSheet = ActionSheet(items: actions)
         actionSheet.frame = CGRect(x: 0, y: 0, width: actionSheet.frame.width, height: actionSheet.frame.height)
@@ -47,6 +61,10 @@ import UIKit
         UIViewController.currentController?.presentViewController(vc)
     }
     
+    /// User operation list dialog will show on call the method.
+    /// - Parameters:
+    ///   - actions: ``ActionSheetItemProtocol`` array.
+    ///   - action: Choice touched callback.
     @objc public func showUserActions(actions: [ActionSheetItemProtocol],action: @escaping ActionClosure) {
         let actionSheet = ActionSheet(items: actions)
         actionSheet.frame = CGRect(x: 0, y: 0, width: actionSheet.frame.width, height: actionSheet.frame.height)
@@ -62,6 +80,12 @@ import UIKit
         UIViewController.currentController?.presentingViewController?.presentViewController(vc)
     }
     
+    /// Alert view will show on call the method.
+    /// - Parameters:
+    ///   - content: You want to display content.
+    ///   - showCancel: Whether display cancel button or not.
+    ///   - showConfirm: Whether display confirm button or not.
+    ///   - confirmClosure: Callback on click confirm button.
     @objc public func showAlert(content: String,showCancel: Bool,showConfirm: Bool,confirmClosure: @escaping () -> Void) {
         let alert = AlertView().background(color: Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98).content(content: content)
         if showCancel {

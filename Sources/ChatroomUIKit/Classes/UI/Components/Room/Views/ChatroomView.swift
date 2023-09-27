@@ -30,7 +30,7 @@ import UIKit
 /// ChatroomUIKit's ChatroomView UI component.
 @objc open class ChatroomView: UIView {
     
-    /// `RoomService`
+    /// ``RoomService``
     public private(set) var service: RoomService?
     
     /// Bottom bar extension view's data source.
@@ -99,16 +99,19 @@ import UIKit
         self.barrageList.addActionHandler(actionHandler: self)
         self.bottomBar.addActionHandler(actionHandler: self)
         self.inputBar.sendClosure = { [weak self] in
-            guard let `self` = self else { return }
-            self.service?.roomService?.sendMessage(text: $0, roomId: ChatroomContext.shared?.roomId ?? "", completion: { message, error in
-                if error == nil {
-                    self.barrageList.showNewMessage(message: message, gift: nil)
-                } else {
-                    consoleLogInfo("Send message failure!\n\(error?.errorDescription ?? "")", type: .debug)
-                }
-            })
+            self?.sendTextMessage(text: $0)
         }
 
+    }
+    
+    private func sendTextMessage(text: String) {
+        self.service?.roomService?.sendMessage(text: text, roomId: ChatroomContext.shared?.roomId ?? "", completion: { [weak self] message, error in
+            if error == nil {
+                self?.barrageList.showNewMessage(message: message, gift: nil)
+            } else {
+                consoleLogInfo("Send message failure!\n\(error?.errorDescription ?? "")", type: .debug)
+            }
+        })
     }
     
     /// This method binds your view to the model it serves. A ChatroomView can only call it once. There is judgment in this method. Calling it multiple times is invalid.

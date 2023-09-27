@@ -54,8 +54,6 @@ final class UIWithBusinessViewController: UIViewController {
         return segment
     }()
     
-    
-    
     lazy var showGiftInChatArea: UISwitch = {
         let mySwitch = UISwitch()
         mySwitch.frame = CGRect(x: 100, y: 230, width: 60, height: 20)

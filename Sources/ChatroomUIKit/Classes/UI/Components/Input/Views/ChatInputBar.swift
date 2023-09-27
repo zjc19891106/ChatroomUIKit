@@ -83,7 +83,6 @@ import UIKit
         }
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIApplication.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIApplication.keyboardWillHideNotification, object: nil)
-        self.backgroundColor = UIColor.theme.neutralColor98
         
         
         Theme.registerSwitchThemeViews(view: self)

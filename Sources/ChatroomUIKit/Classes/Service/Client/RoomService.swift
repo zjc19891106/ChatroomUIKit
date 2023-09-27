@@ -413,7 +413,7 @@ extension RoomService: ChatroomResponseListener {
     
     public func onMessageRecalled(roomId: String, message: ChatMessage, by userId: String) {
         if roomId == self.roomId {
-            self.chatDriver?.refreshMessage(message: message)
+            self.chatDriver?.removeMessage(message: message)
         }
     }
     

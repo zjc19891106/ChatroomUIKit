@@ -190,6 +190,7 @@ extension ChatBarrageList: IChatBarrageListDriver {
     public func removeMessage(message: ChatMessage) {
         if let index = self.messages?.firstIndex(where: { $0.message.messageId == message.messageId }),let count = self.messages?.count,count > 0,index < count - 1 {
             self.messages?.remove(at: index)
+            self.chatView.reloadData()
         }
     }
     

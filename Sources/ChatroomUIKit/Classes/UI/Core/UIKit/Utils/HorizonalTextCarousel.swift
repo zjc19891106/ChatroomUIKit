@@ -129,6 +129,8 @@ import UIKit
         }
     }
     
+    /// Add text animation task.
+    /// - Parameter text: Display text.
     @objc public func addTask(text: String) {
         self.animationContext.append(text)
         self.queue.addAnimation(animation: {

@@ -82,7 +82,6 @@ import UIKit
     }
     
     @objc private func sendAction() {
-//        self.sendCallback?(self.gift)
         if let item = self.gift {
             self.eventsDelegate?.onSendClicked(item: item)
         }
