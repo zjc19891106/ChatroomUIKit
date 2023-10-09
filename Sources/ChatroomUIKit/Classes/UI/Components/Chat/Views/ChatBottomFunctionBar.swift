@@ -90,11 +90,11 @@ import UIKit
         self.datas = datas
         self.chatRaiser.isHidden = hiddenChat
         self.addSubViews([self.chatRaiser, self.toolBar])
-        self.refreshToolBar(datas: datas)
         self.chatRaiser.setImage(UIImage(named: "chatraise",in: .chatroomBundle,with: nil), for: .normal)
         self.chatRaiser.setTitle(" " + "StartChat".chatroom.localize, for: .normal)
         self.chatRaiser.titleEdgeInsets = UIEdgeInsets(top: self.chatRaiser.titleEdgeInsets.top, left: 10, bottom: self.chatRaiser.titleEdgeInsets.bottom, right: 10)
         self.chatRaiser.imageEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 80)
+        self.refreshToolBar(datas: datas)
         self.chatRaiser.contentHorizontalAlignment = .left
         self.backgroundColor = .clear
         Theme.registerSwitchThemeViews(view: self)
@@ -104,11 +104,11 @@ import UIKit
     private func refreshToolBar(datas: [ChatBottomItemProtocol]) {
         self.datas.removeAll()
         self.datas = datas
-        let toolBarWidth = self.frame.width - (40 * CGFloat(self.datas.count)) - (CGFloat(self.datas.count) - 1) * 8 - 32 - 30
+        let toolBarWidth = (40 * CGFloat(datas.count)) + (CGFloat(datas.count) - 1) * 8 + 32
+        self.toolBar.frame = CGRect(x: self.frame.width-toolBarWidth, y: 0, width: toolBarWidth, height: self.frame.height)
         if !self.chatRaiser.isHidden {
-            self.chatRaiser.frame = CGRect(x: 15, y: 5, width: 120, height: self.frame.height - 10)
+            self.chatRaiser.frame = CGRect(x: 15, y: 5, width: self.frame.width-31-toolBarWidth, height: self.frame.height - 10)
         }
-        self.toolBar.frame = CGRect(x: self.frame.width - toolBarWidth, y: 0, width: 40 * CGFloat(self.datas.count) + (CGFloat(self.datas.count) - 1) * 8 + 25, height: self.frame.height)
         self.toolBar.reloadData()
     }
 

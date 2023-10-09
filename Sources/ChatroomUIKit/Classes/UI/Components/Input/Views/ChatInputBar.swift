@@ -28,7 +28,7 @@ import UIKit
     public var changeEmojiClosure: ((Bool) -> Void)?
     
     public private(set) lazy var rightView: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: self.frame.width-87, y: self.inputField.frame.maxY-30, width: 30, height: 30)).addTargetFor(self, action: #selector(changeToEmoji), for: .touchUpInside).backgroundColor(.clear)
+        UIButton(type: .custom).frame(CGRect(x: self.frame.width-84, y: self.inputField.frame.maxY-32, width: 30, height: 30)).addTargetFor(self, action: #selector(changeToEmoji), for: .touchUpInside).backgroundColor(.clear)
     }()
     
     public private(set) lazy var inputField: PlaceHolderTextView = {
@@ -36,7 +36,7 @@ import UIKit
     }()
     
     public private(set) lazy var send: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: self.frame.width - 49, y: self.inputField.frame.maxY-30, width: 30, height: 30)).backgroundColor(.clear).image(UIImage(named: "airplane", in: .chatroomBundle, with: nil), .normal).addTargetFor(self, action: #selector(sendMessage), for: .touchUpInside)
+        UIButton(type: .custom).frame(CGRect(x: self.frame.width - 42, y: self.inputField.frame.maxY-32, width: 30, height: 30)).backgroundColor(.clear).image(UIImage(named: "airplane", in: .chatroomBundle, with: nil), .normal).addTargetFor(self, action: #selector(sendMessage), for: .touchUpInside)
     }()
     
     private var limitCount: Int {
@@ -70,7 +70,8 @@ import UIKit
         
         self.inputField.cornerRadius(Appearance.inputBarCorner)
         self.inputField.placeHolder = Appearance.inputPlaceHolder.chatroom.localize
-        self.inputField.textContainerInset = UIEdgeInsets(top: 7, left: CGFloat(Appearance.inputBarCorner.rawValue), bottom: 7, right: CGFloat(Appearance.inputBarCorner.rawValue))
+        let verticalOffset = (self.inputField.frame.size.height - self.inputField.contentSize.height * self.inputField.zoomScale)
+        self.inputField.contentInset = UIEdgeInsets(top: max(0, verticalOffset), left: 16, bottom: 0, right: 16)
         self.inputField.tintColor = UIColor.theme.primaryColor5
         self.inputField.placeHolderColor = UIColor.theme.neutralColor6
         self.inputField.textColor = UIColor.theme.neutralColor1
@@ -108,14 +109,24 @@ extension ChatInputBar: UITextViewDelegate {
     
     
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        textView.font = UIFont.theme.bodyLarge
         if text == "\n" {
             self.sendMessage()
             return false
         } else {
-            self.updateHeight()
+            if textView.text.isEmpty {
+                self.recoverInputState()
+            } else {
+                self.updateHeight()
+            }
             return true
         }
     }
+    
+    public func textViewDidChangeSelection(_ textView: UITextView) {
+        self.rightView.isSelected = false
+    }
+    
     
     /// Update subviews height on text input content changed.
     private func updateHeight() {
@@ -131,8 +142,9 @@ extension ChatInputBar: UITextViewDelegate {
                 self.frame = CGRect(x: 0, y: ScreenHeight - self.rawHeight - self.keyboardHeight, width: self.frame.width, height: self.rawHeight)
                 self.inputField.frame = CGRect(x: 12, y: 8, width: self.frame.width-111, height: self.rawTextHeight)
             }
-            self.rightView.frame = CGRect(x: self.frame.width-87, y: self.inputField.frame.maxY-30, width: 30, height: 30)
-            self.send.frame = CGRect(x: self.frame.width - 49, y: self.inputField.frame.maxY-30, width: 30, height: 30)
+            
+            self.rightView.frame = CGRect(x: self.frame.width-84, y: self.inputField.frame.maxY-32, width: 30, height: 30)
+            self.send.frame = CGRect(x: self.frame.width - 42, y: self.inputField.frame.maxY-32, width: 30, height: 30)
             self.emoji?.frame = CGRect(x: 0, y: self.inputField.frame.maxY+8, width: self.frame.width, height: self.keyboardHeight)
             self.emoji?.backgroundColor(self.backgroundColor ?? UIColor.theme.neutralColor98)
         }
@@ -150,11 +162,15 @@ extension ChatInputBar: UITextViewDelegate {
         self.inputField.text = nil
         self.inputField.attributedText = nil
         self.frame = self.rawFrame
+        self.recoverInputState()
+    }
+    
+    private func recoverInputState() {
         self.rawHeight = self.rawFrame.height
         self.rawTextHeight = self.rawHeight-16
         self.inputField.frame = CGRect(x: 12, y: 8, width: self.frame.width-111, height: self.rawTextHeight)
-        self.rightView.frame = CGRect(x: self.frame.width-87, y: self.inputField.frame.maxY-30, width: 30, height: 30)
-        self.send.frame = CGRect(x: self.frame.width - 49, y: self.inputField.frame.maxY-30, width: 30, height: 30)
+        self.rightView.frame = CGRect(x: self.frame.width-84, y: self.inputField.frame.maxY-32, width: 30, height: 30)
+        self.send.frame = CGRect(x: self.frame.width - 42, y: self.inputField.frame.maxY-32, width: 30, height: 30)
     }
     
     public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -257,6 +273,7 @@ extension ChatInputBar: UITextViewDelegate {
      */
     func convertText(text: NSAttributedString?, key: String) -> NSAttributedString {
         let attribute = NSMutableAttributedString(attributedString: text!)
+        attribute.addAttributes([.foregroundColor:Theme.style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1,.font:UIFont.theme.bodyLarge], range: NSMakeRange(0, attribute.length))
         let attachment = NSTextAttachment()
         attachment.image = ChatEmojiConvertor.shared.emojiMap.isEmpty ? UIImage(named: key, in: .chatroomBundle, with: nil):ChatEmojiConvertor.shared.emojiMap[key]
         attachment.bounds = CGRect(x: 0, y: -3.5, width: 18, height: 18)

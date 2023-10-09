@@ -28,7 +28,7 @@ open class ParticipantsController: UITableViewController {
     
     public private(set) var muteTab = false
     
-    private var search: SearchViewController?
+    private var search: SearchParticipantsViewController?
     
     lazy var loadingView: LoadingView = {
         LoadingView(frame: CGRect(x: self.tableView.frame.width/2.0 - 50, y: self.tableView.frame.height/2.0 - 50, width: 100, height: 100))
@@ -188,7 +188,7 @@ open class ParticipantsController: UITableViewController {
 extension ParticipantsController: SearchBarActionEvents {
     
     public func onSearchBarClicked() {
-        self.search = SearchViewController(rawSources: self.rawSources()) { [weak self] user in
+        self.search = SearchParticipantsViewController(rawSources: self.rawSources()) { [weak self] user in
             self?.operationUser(user: user)
         } didSelect: { user in
             

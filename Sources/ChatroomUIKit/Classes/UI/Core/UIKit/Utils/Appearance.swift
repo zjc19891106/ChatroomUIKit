@@ -11,13 +11,13 @@ import UIKit
 @objcMembers final public class Appearance: NSObject {
         
     /// You can change the width of a single option with ``PageContainerTitleBar`` in the popup container by setting the current property
-    public static var pageContainerTitleBarItemWidth: CGFloat = ScreenWidth/2.0
+    public static var pageContainerTitleBarItemWidth: CGFloat = (ScreenWidth-32)/2.0
     
     /// ``PageContainersDialogController`` constraints size.
-    public static var pageContainerConstraintsSize = CGSize(width: ScreenWidth, height: ScreenHeight*(3/5.0))
+    public static var pageContainerConstraintsSize = CGSize(width: ScreenWidth, height: ScreenHeight*(3.0/5.0))
     
     /// Gifts dialog controllers constraints size.
-    public static var giftContainerConstraintsSize = CGSize(width: ScreenWidth, height: ScreenHeight/2.0)
+    public static var giftDialogContainerConstraintsSize = CGSize(width: ScreenWidth, height: ScreenHeight/2.0)
     
     /// Alert constraints size
     public static var alertContainerConstraintsSize = CGSize(width: ScreenWidth-50, height: ScreenHeight/3.0)
@@ -76,13 +76,13 @@ import UIKit
     public static var avatarPlaceHolder: UIImage? = UIImage(named: "default_avatar", in: .chatroomBundle, with: nil)
     
     /// ``HorizontalTextCarousel`` default icon.
-    public static var notifyMessageIcon: UIImage? = UIImage(systemName: "speaker.3.fill")
+    public static var notifyMessageIcon: UIImage? = UIImage(named: "speaker", in: .chatroomBundle, with: nil)
     
     /// Global notify message origin point.
     public static var notifyMessageOriginPoint: CGPoint = CGPoint(x: 20, y: 100)
         
     /// ``ChatBarrageCell`` user level image view placeholder image.
-    public static var userIdentifyPlaceHolder: UIImage? = UIImage(systemName: "star.circle.fill")
+    public static var userIdentifyPlaceHolder: UIImage? = UIImage(named: "achievement", in: .chatroomBundle, with: nil)
     
     /// ``ChatInputBar`` Input box height limit.
     public static var maxInputHeight: CGFloat = 88

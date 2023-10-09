@@ -9,7 +9,7 @@ import UIKit
 
 @objcMembers open class PageContainerTitleBar: UIView {
     
-    var datas: [String] = []
+    var datas: [ChoiceItem] = []
     
     var chooseClosure: ((Int)->())?
         
@@ -48,7 +48,8 @@ import UIKit
         self.init(frame: frame)
         self.backgroundColor = UIColor.theme.neutralColor98
         self.chooseClosure = selectedClosure
-        self.datas = choices
+        self.datas = choices.map({ ChoiceItem(text: $0,selected: false) })
+        self.datas.first?.selected = true
         self.addSubViews([self.indicator,self.choicesBar])
         self.choicesBar.bounces = false
         Theme.registerSwitchThemeViews(view: self)
@@ -74,17 +75,26 @@ extension PageContainerTitleBar: UICollectionViewDataSource, UICollectionViewDel
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(ChoiceItemCell.self), for: indexPath) as? ChoiceItemCell else {
             return ChoiceItemCell()
         }
-        cell.refresh(text: self.datas[indexPath.row])
-        cell.content.textColor(Theme.style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1)
+        cell.refresh(item: self.datas[indexPath.row])
         return cell
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.scrollIndicator(to: indexPath.row)
+        for item in self.datas {
+            item.selected = false
+        }
+        self.datas[safe: indexPath.row]?.selected = true
+        collectionView.reloadData()
         self.chooseClosure?(indexPath.row)
     }
     
     @objc public func scrollIndicator(to index: Int) {
+        for item in self.datas {
+            item.selected = false
+        }
+        self.datas[safe: index]?.selected = true
+        self.choicesBar.reloadData()
         UIView.animate(withDuration: 0.25) {
             self.indicator.frame = CGRect(x: 16+Appearance.pageContainerTitleBarItemWidth/2.0+Appearance.pageContainerTitleBarItemWidth*CGFloat(index)-8, y: self.frame.height-4, width: 16, height: 4)
         }
@@ -110,7 +120,7 @@ extension PageContainerTitleBar: ThemeSwitchProtocol {
 @objcMembers open class ChoiceItemCell: UICollectionViewCell {
     
     lazy var content: UILabel = {
-        UILabel(frame: CGRect(x: 0, y: 0, width: self.contentView.frame.width, height: self.contentView.frame.height)).textAlignment(.center).textColor(UIColor.theme.neutralColor1).font(.systemFont(ofSize: 14, weight: .semibold)).backgroundColor(.clear)
+        UILabel(frame: CGRect(x: 0, y: 0, width: self.contentView.frame.width, height: self.contentView.frame.height)).textAlignment(.center).textColor(UIColor.theme.neutralColor1).font(UIFont.theme.bodyLarge).backgroundColor(.clear)
     }()
     
     override init(frame: CGRect) {
@@ -118,6 +128,7 @@ extension PageContainerTitleBar: ThemeSwitchProtocol {
         self.contentView.backgroundColor = .clear
         self.backgroundColor = .clear
         self.contentView.addSubview(self.content)
+        Theme.registerSwitchThemeViews(view: self)
     }
     
     required public init?(coder: NSCoder) {
@@ -129,11 +140,38 @@ extension PageContainerTitleBar: ThemeSwitchProtocol {
         self.content.frame = CGRect(x: 0, y: 0, width: self.contentView.frame.width, height: self.contentView.frame.height)
     }
     
-    public func refresh(text: String) {
-        self.content.text = text
+    public func refresh(item: ChoiceItem) {
+        self.content.text = item.text
+        if item.selected {
+            self.content.textColor = Theme.style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1
+            self.content.font = UIFont.theme.bodyLarge
+        } else {
+            self.content.textColor = Theme.style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor7
+            self.content.font = UIFont.theme.bodyMedium
+        }
     }
 }
 
+extension ChoiceItemCell: ThemeSwitchProtocol {
+    public func switchTheme(style: ThemeStyle) {
+        self.content.textColor = style == .dark ? UIColor.theme.neutralColor98:UIColor.theme.neutralColor1
+    }
+    
+    public func switchHues() {
+        self.switchTheme(style: .light)
+    }
+    
+}
+
+open class ChoiceItem: NSObject {
+    var text: String
+    var selected: Bool
+    
+    init(text: String, selected: Bool = false) {
+        self.text = text
+        self.selected = selected
+    }
+}
 
 /// Choice layout
 @objcMembers open class ChoiceItemLayout: UICollectionViewFlowLayout {

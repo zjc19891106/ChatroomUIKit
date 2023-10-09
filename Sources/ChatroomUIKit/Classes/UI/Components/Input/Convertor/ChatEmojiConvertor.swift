@@ -40,7 +40,7 @@ import Foundation
                 let value = self.emojiMap.isEmpty ? UIImage(named: symbol, in: .chatroomBundle, with: nil):self.emojiMap[symbol]
                 let attachment = NSTextAttachment()
                 attachment.image = value
-                attachment.bounds = CGRect(x: 0, y: -1.5, width: 14, height: 14)
+                attachment.bounds = CGRect(x: 0, y: -2, width: 14, height: 14)
                 text.replaceCharacters(in: range, with: NSAttributedString(attachment: attachment))
             }
         }

@@ -55,7 +55,7 @@ import UIKit
     
     /// Chat barrages list.
     public private(set) lazy var barrageList: ChatBarrageList = {
-        ChatBarrageList(frame: CGRect(x: 0, y: self.showGiftBarrage ? self.giftBarrages.frame.maxY:self.touchFrame.minY, width: self.touchFrame.width-50, height: 200))
+        ChatBarrageList(frame: CGRect(x: 0, y: self.showGiftBarrage ? self.giftBarrages.frame.maxY:self.touchFrame.minY, width: self.touchFrame.width-50, height: self.touchFrame.height-54-BottomBarHeight-5-(self.showGiftBarrage ? Appearance.giftBarrageRowHeight*2+30:0)))
     }()
     
     /// Bottom function bar below chat barrages list.
@@ -91,9 +91,9 @@ import UIKit
         self.showGiftBarrage = showGiftBarrage
         self.menus = menus
         if showGiftBarrage {
-            self.addSubViews([self.giftBarrages,self.barrageList,self.bottomBar,self.inputBar,self.carouselTextView])
+            self.addSubViews([self.giftBarrages,self.bottomBar,self.barrageList,self.inputBar,self.carouselTextView])
         } else {
-            self.addSubViews([self.barrageList,self.bottomBar,self.inputBar,self.carouselTextView])
+            self.addSubViews([self.bottomBar,self.barrageList,self.inputBar,self.carouselTextView])
         }
         self.carouselTextView.alpha = 0
         self.barrageList.addActionHandler(actionHandler: self)
@@ -225,7 +225,6 @@ extension ChatroomView: ChatBarrageActionEventsHandler {
     }
     
     public func onMessageClicked(message: ChatMessage) {
-        consoleLogInfo("onMessageClicked:\(message.messageId)", type: .debug)
         for delegate in self.eventHandlers.allObjects {
             delegate.onMessageBarrageClicked(message: message)
         }

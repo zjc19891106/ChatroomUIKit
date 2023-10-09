@@ -14,7 +14,7 @@ final class UIComponentsExampleViewController: UIViewController {
     var style: ThemeStyle = .light
     
     lazy var background: UIImageView = {
-        UIImageView(frame: self.view.frame).image(UIImage(named: "bg_img_of_dark_mode"))
+        UIImageView(frame: self.view.frame).image(UIImage(named: "background_light"))
     }()
     
     lazy var giftBarrages: GiftsBarrageList = {
@@ -42,7 +42,7 @@ final class UIComponentsExampleViewController: UIViewController {
     }()
     
     lazy var carouselTextView: HorizontalTextCarousel = {
-        HorizontalTextCarousel(originPoint: CGPoint(x: 20, y: 80), width: self.view.frame.width-40, font: .systemFont(ofSize: 16, weight: .semibold), textColor: UIColor.theme.neutralColor98).cornerRadius(.large)
+        HorizontalTextCarousel(originPoint: CGPoint(x: 20, y: 85), width: self.view.frame.width-40, font: .systemFont(ofSize: 16, weight: .semibold), textColor: UIColor.theme.neutralColor98).cornerRadius(.large).backgroundColor(UIColor.theme.primaryColor6)
     }()
     
     private lazy var modeSegment: UISegmentedControl = {
@@ -61,6 +61,23 @@ final class UIComponentsExampleViewController: UIViewController {
         segment.addTarget(self, action: #selector(switchTheme(sender:)), for: .valueChanged)
         return segment
     }()
+    
+    private lazy var speakerSegment: UISegmentedControl = {
+        let segment = UISegmentedControl(items: ["Light","Dark"])
+        segment.frame = CGRect(x: 100, y: self.modeSegment.frame.maxY+5, width: 96, height: 46)
+        segment.setImage(UIImage(systemName: "speaker.wave.3")?.withTintColor(.white), forSegmentAt: 0)
+        segment.setImage(UIImage(systemName: "speaker.slash")?.withTintColor(.white), forSegmentAt: 1)
+        segment.tintColor = UIColor(0x009EFF)
+        segment.tag = 12
+        segment.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
+        segment.selectedSegmentIndex = self.carouselTextView.voiceIcon.isHidden ? 1:0
+        
+        segment.selectedSegmentTintColor = UIColor(0x009EFF)
+        segment.setTitleTextAttributes([NSAttributedStringKey.foregroundColor : UIColor.white,NSAttributedStringKey.font:UIFont.systemFont(ofSize: 18, weight: .medium)], for: .selected)
+        segment.setTitleTextAttributes([NSAttributedStringKey.foregroundColor : UIColor.white,NSAttributedStringKey.font:UIFont.systemFont(ofSize: 16, weight: .regular)], for: .normal)
+        segment.addTarget(self, action: #selector(switchSpeakerIcon(sender:)), for: .valueChanged)
+        return segment
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,6 +94,7 @@ final class UIComponentsExampleViewController: UIViewController {
         self.view.addSubview(self.inputBar)
         self.view.addSubview(self.carouselTextView)
         self.view.addSubview(self.modeSegment)
+        self.view.addSubview(self.speakerSegment)
         
         self.bottomBar.addActionHandler(actionHandler: self)
         self.inputBar.sendClosure = { [weak self] in
@@ -88,7 +106,7 @@ final class UIComponentsExampleViewController: UIViewController {
         self.carouselTextView.alpha = 0
         
         
-        let switchCellStyle = UIButton(type: .custom).frame(CGRect(x: 100, y: 220, width: 150, height: 40)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.small).title(".all", .normal).title("Long Presse Switch", .normal).font(.systemFont(ofSize: 16, weight: .semibold))
+        let switchCellStyle = UIButton(type: .custom).frame(CGRect(x: 100, y: self.speakerSegment.frame.maxY+5, width: 150, height: 40)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.small).title(".all", .normal).title("Long Presse Switch", .normal).font(.systemFont(ofSize: 16, weight: .semibold))
         switchCellStyle.addInteraction(UIContextMenuInteraction(delegate: self))
         self.view.addSubview(switchCellStyle)
         
@@ -185,7 +203,12 @@ extension UIComponentsExampleViewController {
     @objc func switchTheme(sender: UISegmentedControl) {
         self.style = ThemeStyle(rawValue: UInt(sender.selectedSegmentIndex)) ?? .light
         Theme.switchTheme(style: self.style)
+        self.background.image = Theme.style == .dark ? UIImage(named: "background_dark"):UIImage(named: "background_light")
 //        Theme.switchHues()
+    }
+    
+    @objc func switchSpeakerIcon(sender: UISegmentedControl) {
+        self.carouselTextView.voiceIcon.isHidden = sender.selectedSegmentIndex == 1
     }
     
     /// Constructor of ``ChatBottomFunctionBar`` data source.

@@ -41,7 +41,7 @@ import UIKit
     }()
     
     lazy var cancel: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 0, y: self.frame.height - Appearance.actionSheetRowHeight - BottomBarHeight, width: self.frame.width, height: Appearance.actionSheetRowHeight)).backgroundColor(UIColor.theme.neutralColor98).title("Cancel", .normal).font(UIFont.theme.labelLarge).textColor(UIColor.theme.primaryColor5, .normal).addTargetFor(self, action: #selector(cancelAction), for: .touchUpInside)
+        UIButton(type: .custom).frame(CGRect(x: 0, y: self.frame.height - Appearance.actionSheetRowHeight - BottomBarHeight, width: self.frame.width, height: Appearance.actionSheetRowHeight)).backgroundColor(UIColor.theme.neutralColor98).title("report_button_click_menu_button_cancel".chatroom.localize, .normal).font(UIFont.theme.labelLarge).textColor(UIColor.theme.primaryColor5, .normal).addTargetFor(self, action: #selector(cancelAction), for: .touchUpInside)
     }()
 
     override init(frame: CGRect) {

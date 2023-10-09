@@ -26,7 +26,7 @@ final class UIWithBusinessViewController: UIViewController {
     }
     
     lazy var background: UIImageView = {
-        UIImageView(frame: self.view.frame).image(UIImage(named: "bg_img_of_dark_mode"))
+        UIImageView(frame: self.view.frame).image(UIImage(named: "background_light"))
     }()
     
     lazy var roomView: ChatroomUIKit.ChatroomView = {
@@ -56,7 +56,7 @@ final class UIWithBusinessViewController: UIViewController {
     
     lazy var showGiftInChatArea: UISwitch = {
         let mySwitch = UISwitch()
-        mySwitch.frame = CGRect(x: 100, y: 230, width: 60, height: 20)
+        mySwitch.frame = CGRect(x: 100, y: 255, width: 60, height: 20)
         mySwitch.setOn(true, animated: false)
         mySwitch.addTarget(self, action: #selector(switchValueChanged(sender:)), for: .valueChanged)
         return mySwitch
@@ -93,6 +93,7 @@ extension UIWithBusinessViewController {
     @objc private func onChanged(sender: UISegmentedControl) {
         self.style = ThemeStyle(rawValue: UInt(sender.selectedSegmentIndex)) ?? .light
         Theme.switchTheme(style: self.style)
+        self.background.image = Theme.style == .dark ? UIImage(named: "background_dark"):UIImage(named: "background_light")
     }
     
     @objc func switchValueChanged(sender: UISwitch) {

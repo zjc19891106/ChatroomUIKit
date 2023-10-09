@@ -43,6 +43,7 @@ import UIKit
     lazy var flowLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: (self.frame.width - 30) / 4.0, height: (110 / 84.0) * (self.frame.width - 30) / 4.0)
+        layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
         layout.footerReferenceSize = CGSize(width: self.frame.width, height: 180)
@@ -50,7 +51,7 @@ import UIKit
     }()
 
     lazy var giftList: UICollectionView = {
-        UICollectionView(frame: CGRect(x: 15, y: 10, width: self.frame.width - 30, height: self.frame.height), collectionViewLayout: self.flowLayout).registerCell(ComponentsRegister.shared.GiftsCell.self, forCellReuseIdentifier: "GiftEntityCell").delegate(self).dataSource(self).showsHorizontalScrollIndicator(false).backgroundColor(.clear).showsVerticalScrollIndicator(false).backgroundColor(.clear).registerView(UICollectionReusableView.self, UICollectionView.elementKindSectionFooter , "GiftsFooter")
+        UICollectionView(frame: CGRect(x: 15, y: 0, width: self.frame.width - 30, height: self.frame.height), collectionViewLayout: self.flowLayout).registerCell(ComponentsRegister.shared.GiftsCell.self, forCellReuseIdentifier: "GiftEntityCell").delegate(self).dataSource(self).showsHorizontalScrollIndicator(false).backgroundColor(.clear).showsVerticalScrollIndicator(false).backgroundColor(.clear).registerView(UICollectionReusableView.self, UICollectionView.elementKindSectionFooter , "GiftsFooter")
     }()
 
     override init(frame: CGRect) {
@@ -67,6 +68,7 @@ import UIKit
         self.giftList.bounces = false
         self.addSubViews([self.giftList])
         self.backgroundColor = .clear
+        self.giftList.isScrollEnabled = true
     }
 
     @available(*, unavailable)
@@ -115,6 +117,10 @@ extension GiftsView: UICollectionViewDelegate,UICollectionViewDataSource,GiftEnt
             }
         }
         self.giftList.reloadData()
+    }
+    
+    public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        super.hitTest(point, with: event)
     }
 
 }

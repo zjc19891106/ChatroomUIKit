@@ -46,6 +46,8 @@ public final class PageContainer:  UIView {
         page.view.backgroundColor = .clear
         page.dataSource = self
         page.delegate = self
+        page.view.isUserInteractionEnabled = true
+        
         return page
     }()
 

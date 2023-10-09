@@ -20,7 +20,7 @@ import UIKit
     }()
     
     lazy var cancel: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 16, y: Appearance.pageContainerConstraintsSize.height - 60 - 40  - BottomBarHeight, width: (self.view.frame.width-44)/2.0, height: 40)).layerProperties(UIColor.theme.neutralColor7, 1).textColor(UIColor.theme.neutralColor3, .normal).title("Cancel", .normal).font(UIFont.theme.headlineSmall).cornerRadius(.large).addTargetFor(self, action: #selector(cancelAction), for: .touchUpInside)
+        UIButton(type: .custom).frame(CGRect(x: 16, y: Appearance.pageContainerConstraintsSize.height - 60 - 40  - BottomBarHeight, width: (self.view.frame.width-44)/2.0, height: 40)).layerProperties(UIColor.theme.neutralColor7, 1).textColor(UIColor.theme.neutralColor3, .normal).title("report_button_click_menu_button_cancel".chatroom.localize, .normal).font(UIFont.theme.headlineSmall).cornerRadius(.large).addTargetFor(self, action: #selector(cancelAction), for: .touchUpInside)
     }()
     
     lazy var confirm: UIButton = {

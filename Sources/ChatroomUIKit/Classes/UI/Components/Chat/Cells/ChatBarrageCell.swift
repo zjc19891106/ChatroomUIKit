@@ -75,6 +75,8 @@ fileprivate let gift_tail_indent: CGFloat = 26
                 if string.range(of: symbol).location != NSNotFound {
                     let ranges = text.string.chatroom.rangesOfString(symbol)
                     text = ChatEmojiConvertor.shared.convertEmoji(input: text, ranges: ranges, symbol: symbol)
+                    text.addAttribute(.paragraphStyle, value: self.paragraphStyle(), range: NSMakeRange(0, text.length))
+                    text.addAttribute(.font, value: UIFont.theme.bodyMedium, range: NSMakeRange(0, text.length))
                 }
             }
         }
@@ -86,6 +88,7 @@ fileprivate let gift_tail_indent: CGFloat = 26
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.firstLineHeadIndent = self.firstLineHeadIndent()
         paragraphStyle.lineHeightMultiple = 1.08
+        paragraphStyle.alignment = .natural
         if self.gift != nil {
             paragraphStyle.tailIndent = self.lastLineHeadIndent()
         } else {
@@ -98,12 +101,12 @@ fileprivate let gift_tail_indent: CGFloat = 26
     func firstLineHeadIndent() -> CGFloat {
         var distance:CGFloat = 0
         switch Appearance.barrageCellStyle {
-        case .all: distance = 88
-        case .excludeTime: distance = 48
-        case .excludeLevelAndAvatar: distance = 44
-        case .excludeTimeLevelAvatar: distance = 6
-        case .excludeAvatar,.excludeLevel: distance = 66
-        case .excludeTimeAndLevel,.excludeTimeAndAvatar: distance = 22
+        case .all: distance = 90
+        case .excludeTime: distance = 50
+        case .excludeLevelAndAvatar: distance = 46
+        case .excludeTimeLevelAvatar: distance = 8
+        case .excludeAvatar,.excludeLevel: distance = 68
+        case .excludeTimeAndLevel,.excludeTimeAndAvatar: distance = 24
         }
         return distance
     }
@@ -169,19 +172,6 @@ public extension ChatMessage {
     }()
     
     lazy var content: UILabel = {
-        var originX = 4
-        switch self.style {
-        case .all,.excludeLevel,.excludeTimeAndLevel,.excludeTime:
-            originX += Int(self.avatar.frame.maxX)
-        case .excludeTimeAndAvatar,.excludeAvatar:
-            originX += Int(self.userIdentify.frame.maxX)
-        case .excludeTimeLevelAvatar:
-            originX = 8
-        case .excludeLevelAndAvatar:
-            originX += Int(self.time.frame.maxX)
-        default:
-            break
-        }
         return UILabel(frame: CGRect(x: 10, y: 7, width: self.container.frame.width - 20, height: self.container.frame.height - 18)).backgroundColor(.clear).numberOfLines(0).lineBreakMode(.byCharWrapping)
     }()
     

@@ -14,7 +14,7 @@ import UIKit
     public private(set) lazy var giftService: GiftService? = ChatroomUIKitClient.shared.roomService?.giftService
         
     public private(set) lazy var giftsView: GiftsView = {
-        GiftsView(frame: self.view.frame, gifts: self.gifts)
+        GiftsView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height-BottomBarHeight), gifts: self.gifts)
     }()
     
     /// GiftsViewController init method.

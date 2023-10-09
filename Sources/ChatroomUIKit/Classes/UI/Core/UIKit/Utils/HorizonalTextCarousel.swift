@@ -22,11 +22,11 @@ import UIKit
     
     private var originContentOffset = CGPoint.zero
         
-    lazy var voiceIcon: UIImageView = {
+    public private(set) lazy var voiceIcon: UIImageView = {
         UIImageView(frame: CGRect(x: 4, y: 2, width: (self.frame.height-4), height: (self.frame.height-4))).image(Appearance.notifyMessageIcon).contentMode(.scaleAspectFit)
     }()
     
-    lazy var scroll: UIScrollView = {
+    public private(set) lazy var scroll: UIScrollView = {
         let container = UIScrollView(frame: CGRect(x: self.voiceIcon.frame.maxX+5, y: 0, width: self.frame.width-self.voiceIcon.frame.maxX-15, height: self.frame.height))
         container.showsVerticalScrollIndicator = false
         container.showsHorizontalScrollIndicator = false
@@ -57,6 +57,7 @@ import UIKit
         } else {
             self.addSubViews([self.voiceIcon,self.scroll])
         }
+        self.voiceIcon.isHidden = hiddenIcon
         self.scroll.addSubview(self.textCarousel)
         self.originContentOffset = self.scroll.contentOffset
         self.textCarousel.font(font)
@@ -71,16 +72,15 @@ import UIKit
         let width = text.chatroom.sizeWithText(font: self.textCarousel.font, size: CGSize(width: 999, height: self.frame.height)).width
         var duration: CGFloat = 2
         duration += CGFloat(text.count)*0.1
-        if width > self.frame.width {
-            self.frame = CGRect(x: self.frame.minX, y: self.frame.minY, width: self.frame.width, height: self.frame.height)
-            self.scroll.frame = CGRect(x: self.voiceIcon.frame.maxX+5, y: 0, width: self.frame.width-self.voiceIcon.frame.maxX-15, height: self.frame.height)
-            self.textCarousel.frame = CGRect(x: 10, y: 0, width: width+33+20, height: self.frame.height)
+        if width+self.frame.height > self.frame.width {
+            self.scroll.frame = CGRect(x: (self.voiceIcon.isHidden ? 15:self.voiceIcon.frame.maxX+5), y: 0, width: self.frame.width - (self.voiceIcon.isHidden ? 15:self.voiceIcon.frame.maxX) - 15, height: self.frame.height)
+            self.textCarousel.frame = CGRect(x: 0, y: 0, width: width+33+20, height: self.frame.height)
             self.scroll.contentSize = CGSize(width: width+33+20, height: self.frame.height)
             UIView.animate(withDuration: duration, delay: 2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveLinear) {
                 self.queue.isAnimating = true
                 self.alpha = 1
                 self.textCarousel.text = text
-                let contentOffset = CGPoint(x: self.scroll.contentSize.width - self.scroll.bounds.width-20, y: 0)
+                let contentOffset = CGPoint(x: self.scroll.contentSize.width - self.scroll.bounds.width-0, y: 0)
                 self.scroll.setContentOffset(contentOffset, animated: false)
             } completion: { finished in
                 if finished {
@@ -98,9 +98,9 @@ import UIKit
                 }
             }
         } else {
-            self.frame = CGRect(x: self.frame.minX, y: self.frame.minY, width: width+33+20, height: self.frame.height)
-            self.scroll.frame = CGRect(x: 15, y: 0, width: self.frame.width-self.voiceIcon.frame.maxX-15, height: self.frame.height)
-            self.textCarousel.frame = CGRect(x: 10, y: 0, width: width, height: self.frame.height)
+            self.frame = CGRect(x: self.frame.minX, y: self.frame.minY, width: width+30, height: self.frame.height)
+            self.scroll.frame = CGRect(x: (self.voiceIcon.isHidden ? 15:self.voiceIcon.frame.maxX+5), y: 0, width: self.frame.width - (self.voiceIcon.isHidden ? 15:self.voiceIcon.frame.maxX) - 15, height: self.frame.height)
+            self.textCarousel.frame = CGRect(x: 0, y: 0, width: width, height: self.frame.height)
             UIView.animate(withDuration: duration, delay: 2, usingSpringWithDamping: 0.8, initialSpringVelocity: 1, options: .curveLinear) {
                 self.queue.isAnimating = true
                 self.alpha = 1

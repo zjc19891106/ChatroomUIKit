@@ -31,7 +31,7 @@ import UIKit
     }()
 
     public lazy var deleteEmoji: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: self.frame.width - 48, y: self.frame.height - 56, width: 36, height: 36)).addTargetFor(self, action: #selector(deleteAction), for: .touchUpInside).isEnabled(false).isUserInteractionEnabled(false).cornerRadius(.large)
+        UIButton(type: .custom).frame(CGRect(x: self.frame.width - 48, y: self.frame.height - 56, width: 36, height: 36)).addTargetFor(self, action: #selector(deleteAction), for: .touchUpInside).isEnabled(false).isUserInteractionEnabled(false).cornerRadius(.large).backgroundColor(.clear)
     }()
 
     @objc required override public init(frame: CGRect) {
@@ -72,7 +72,6 @@ extension ChatEmojiView: UICollectionViewDelegate, UICollectionViewDataSource {
 
 extension ChatEmojiView: ThemeSwitchProtocol {
     public func switchTheme(style: ThemeStyle) {
-        self.deleteEmoji.backgroundColor = style == .dark ? UIColor.theme.neutralColor3:UIColor.theme.neutralColor98
         self.deleteEmoji.setImage(UIImage(named: style == .dark ? "delete_emoji_dark":"delete_emoji_light", in: .chatroomBundle, with: nil), for: .normal)
     }
     
