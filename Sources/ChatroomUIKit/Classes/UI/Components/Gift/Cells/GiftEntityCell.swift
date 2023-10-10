@@ -52,7 +52,6 @@ import UIKit
         self.contentView.addSubViews([self.cover, self.icon, self.name, self.displayValue])
         self.cover.addSubview(self.send)
         self.displayValue.imageEdgeInsets(UIEdgeInsets(top: self.displayValue.imageEdgeInsets.top, left: -10, bottom: self.displayValue.imageEdgeInsets.bottom, right: self.displayValue.imageEdgeInsets.right))
-        
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
     }
@@ -74,7 +73,6 @@ import UIKit
         let url = item?.giftIcon ?? ""
         self.icon.image(with: url, placeHolder: Appearance.giftPlaceHolder)
         self.name.text = item?.giftName
-        self.displayValue.setImage(UIImage(named: "dollagora", in: .chatroomBundle, with: nil), for: .normal)
         self.displayValue.setTitle(item?.giftPrice ?? "100", for: .normal)
         self.cover.isHidden = !(item?.selected ?? false)
         self.displayValue.frame = CGRect(x: 0, y: item!.selected ? self.icon.frame.maxY + 4:self.name.frame.maxY + 1, width: self.contentView.frame.width, height: 15)
