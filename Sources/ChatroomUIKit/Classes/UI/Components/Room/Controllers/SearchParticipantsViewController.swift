@@ -111,7 +111,7 @@ import UIKit
                 cell?.refresh(user: item)
             }
         }
-        cell?.more.isHidden = !(ChatroomContext.shared?.owner ?? false)
+//        cell?.more.isHidden = !(ChatroomContext.shared?.owner ?? false)
         cell?.moreClosure = { [weak self] in
             self?.action?($0)
         }

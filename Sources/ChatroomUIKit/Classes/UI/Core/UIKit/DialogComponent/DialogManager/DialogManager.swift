@@ -86,7 +86,7 @@ import UIKit
                 }
             }
         }
-        UIViewController.currentController?.presentingViewController?.presentViewController(vc)
+        UIViewController.currentController?.presentViewController(vc)
     }
     
     /// Alert view will show on call the method.

@@ -113,7 +113,7 @@ open class ParticipantsController: UITableViewController {
         if let user = self.users[safe: indexPath.row] {
             cell?.refresh(user: user)
         }
-        cell?.more.isHidden = !(ChatroomContext.shared?.owner ?? false)
+//        cell?.more.isHidden = !(ChatroomContext.shared?.owner ?? false)
         cell?.moreClosure = { [weak self] user in
             self?.operationUser(user: user)
         }
