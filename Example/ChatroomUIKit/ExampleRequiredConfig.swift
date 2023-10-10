@@ -32,7 +32,7 @@ public class ExampleRequiredConfig {
         
         public var gender: Int = 1
         
-        public var identify: String = "https://accktvpic.oss-cn-beijing.aliyuncs.com/pic/sample_avatar/sample_avatar_2.png"
+        public var identify: String = ""
         
         
     }
