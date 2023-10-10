@@ -55,7 +55,7 @@ fileprivate let gift_tail_indent: CGFloat = 26
             case chatroom_UIKit_gift:
                 if let item = self.gift {
                     text.append(NSMutableAttributedString {
-                        AttributedText(" "+item.giftName+" "+"X \(item.giftCount)").foregroundColor(Color.theme.neutralColor98).font(UIFont.theme.labelMedium).paragraphStyle(self.paragraphStyle())
+                        AttributedText(" "+item.giftName+" "+"× \(item.giftCount)").foregroundColor(Color.theme.neutralColor98).font(UIFont.theme.labelMedium).paragraphStyle(self.paragraphStyle())
                     })
                 }
             case chatroom_UIKit_user_join:
@@ -67,9 +67,15 @@ fileprivate let gift_tail_indent: CGFloat = 26
             }
             
         } else {
-            text.append(NSAttributedString {
-                AttributedText(" : "+self.message.text).foregroundColor(Color.theme.neutralColor98).font(UIFont.theme.bodyMedium).paragraphStyle(self.paragraphStyle())
-            })
+            if self.message.translation != nil,let translation = message.translation {
+                text.append(NSAttributedString {
+                    AttributedText(" : "+translation).foregroundColor(Color.theme.neutralColor98).font(UIFont.theme.bodyMedium).paragraphStyle(self.paragraphStyle())
+                })
+            } else {
+                text.append(NSAttributedString {
+                    AttributedText(" : "+self.message.text).foregroundColor(Color.theme.neutralColor98).font(UIFont.theme.bodyMedium).paragraphStyle(self.paragraphStyle())
+                })
+            }
             let string = text.string as NSString
             for symbol in ChatEmojiConvertor.shared.emojis {
                 if string.range(of: symbol).location != NSNotFound {
@@ -77,6 +83,7 @@ fileprivate let gift_tail_indent: CGFloat = 26
                     text = ChatEmojiConvertor.shared.convertEmoji(input: text, ranges: ranges, symbol: symbol)
                     text.addAttribute(.paragraphStyle, value: self.paragraphStyle(), range: NSMakeRange(0, text.length))
                     text.addAttribute(.font, value: UIFont.theme.bodyMedium, range: NSMakeRange(0, text.length))
+                    text.addAttribute(.backgroundColor, value: UIColor.orange, range: NSMakeRange(0, text.length-1))
                 }
             }
         }
@@ -121,6 +128,9 @@ public extension ChatMessage {
     }
     var text: String {
         (self.body as? ChatTextMessageBody)?.text ?? ""
+    }
+    var translation: String? {
+        (self.body as? ChatTextMessageBody)?.translations?[Appearance.targetLanguage.rawValue]
     }
 }
 
@@ -176,7 +186,7 @@ public extension ChatMessage {
     }()
     
     lazy var giftIcon: ImageView = {
-        ImageView(frame: CGRect(x: self.content.frame.width-26, y: self.content.frame.height-10, width: 18, height: 18)).backgroundColor(.clear)
+        ImageView(frame: CGRect(x: self.content.frame.width-22, y: self.content.frame.height-10, width: 18, height: 18)).backgroundColor(.clear)
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -235,6 +245,7 @@ public extension ChatMessage {
         self.content.attributedText = chat.attributeText
         self.content.preferredMaxLayoutWidth =  self.container.frame.width - 24
         self.content.frame = CGRect(x: self.content.frame.minX, y: self.content.frame.minY, width:  self.container.frame.width - 24, height:  self.container.frame.height - 16)
+        self.giftIcon.frame = CGRect(x: self.content.frame.width-16, y: (self.container.frame.height-18)/2.0, width: 18, height: 18)
         self.giftIcon.isHidden = chat.gift == nil
         if let item = chat.gift {
             self.giftIcon.image(with: item.giftIcon, placeHolder: Appearance.giftPlaceHolder)

@@ -15,6 +15,8 @@ import UIKit
     
     public private(set) var selectIndex = 0
     
+    private var reportClosure: ((ChatError?) -> Void)?
+    
     lazy var optionsList: UITableView = {
         UITableView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: Appearance.pageContainerConstraintsSize.height - 60 - 50 - BottomBarHeight), style: .grouped).separatorStyle(.none).rowHeight(54).tableFooterView(UIView()).delegate(self).dataSource(self).registerCell(ReportOptionCell.self, forCellReuseIdentifier: "ReportOptionCell").backgroundColor(.clear)
     }()
@@ -29,8 +31,9 @@ import UIKit
     
     /// Init method
     /// - Parameter message: Reported message.
-    @objc public required convenience init(message: ChatMessage) {
+    @objc public required convenience init(message: ChatMessage,completion: @escaping (ChatError?) -> Void) {
         self.init()
+        self.reportClosure = completion
         self.reportMessage = message
     }
 
@@ -74,11 +77,10 @@ extension ReportOptionsController: UITableViewDelegate,UITableViewDataSource {
     }
     
     @objc private func report() {
-        ChatClient.shared().chatManager?.reportMessage(withId: self.reportMessage.messageId, tag: Appearance.reportTags[safe: self.selectIndex] ?? "", reason: "",completion: { error in
-            if error != nil {
-                UIViewController.currentController?.makeToast(toast: error?.errorDescription ?? "",style: Theme.style == .light ? .light:.dark,duration: 2)
-            }
+        ChatClient.shared().chatManager?.reportMessage(withId: self.reportMessage.messageId, tag: Appearance.reportTags[safe: self.selectIndex] ?? "", reason: "",completion: { [weak self] error in
+            self?.reportClosure?(error)
         })
+        
     }
     
     @objc private func cancelAction() {

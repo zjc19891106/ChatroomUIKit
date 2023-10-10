@@ -27,8 +27,9 @@ import Combine
     ///   - placeHolder: An optional placeholder image to display while the image is being loaded.
     public func image(with url: String,placeHolder: UIImage?) {
         self.image = placeHolder
-        guard url.isEmpty else { return }
-        guard let imageURL = URL(string: url) else { return }
+        guard let imageURL = URL(string: url) else {
+            return
+        }
         ImageLoader.shared.loadImage(from: imageURL)
             .sink(receiveValue: { [weak self] url_image in
                 if url_image != nil {

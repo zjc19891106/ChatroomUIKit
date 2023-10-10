@@ -54,10 +54,14 @@ final class UIWithBusinessViewController: UIViewController {
         return segment
     }()
     
+    lazy var illustrate: UILabel = {
+        UILabel(frame: CGRect(x: 100, y: 259, width: 130, height: 20)).text("show gift in chat area").font(UIFont.theme.labelSmall).textColor(UIColor.theme.neutralColor98)
+    }()
+    
     lazy var showGiftInChatArea: UISwitch = {
         let mySwitch = UISwitch()
-        mySwitch.frame = CGRect(x: 100, y: 255, width: 60, height: 20)
-        mySwitch.setOn(true, animated: false)
+        mySwitch.frame = CGRect(x: self.illustrate.frame.maxX, y: 255, width: 60, height: 20)
+        mySwitch.setOn(false, animated: false)
         mySwitch.addTarget(self, action: #selector(switchValueChanged(sender:)), for: .valueChanged)
         return mySwitch
     }()
@@ -78,7 +82,7 @@ final class UIWithBusinessViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.view.addSubViews([self.background,self.roomView,self.members,self.modeSegment,self.showGiftInChatArea])
+        self.view.addSubViews([self.background,self.roomView,self.members,self.modeSegment,self.illustrate,self.showGiftInChatArea])
         //Not necessary.When you want to receive chatroom view's click events.
         self.roomView.addActionHandler(actionHandler: self)
         //Not necessary.But when you want to receive room events,you can call as follows.

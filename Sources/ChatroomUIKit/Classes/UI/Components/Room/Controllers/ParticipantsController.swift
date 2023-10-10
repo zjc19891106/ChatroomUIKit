@@ -156,7 +156,7 @@ open class ParticipantsController: UITableViewController {
                         self.users.removeAll { $0.userId == user.userId }
                         self.tableView.reloadDataSafe()
                     } else {
-                        self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",style: Theme.style == .light ? .light:.dark,duration: 2)
+                        self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",duration: 2)
                     }
                 })
             case "unmute":
@@ -166,7 +166,7 @@ open class ParticipantsController: UITableViewController {
                         self.users.removeAll { $0.userId == user.userId }
                         self.tableView.reloadDataSafe()
                     } else {
-                        self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",style: Theme.style == .light ? .light:.dark,duration: 2)
+                        self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",duration: 2)
                     }
                 })
             case "Remove":
@@ -175,7 +175,7 @@ open class ParticipantsController: UITableViewController {
                     self.roomService.kick(userId: user.userId) { [weak self] error in
                         guard let `self` = self else { return }
                         self.search?.removeUser(userId: user.userId)
-                        self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",style: Theme.style == .light ? .light:.dark,duration: 2)
+                        self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",duration: 2)
                     }
                 }
             default:

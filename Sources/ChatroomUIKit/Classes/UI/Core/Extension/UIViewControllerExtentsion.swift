@@ -45,34 +45,38 @@ public extension UIViewController {
 
 extension UIViewController {
     
-    func makeToast(toast content: String, style: UIBlurEffect.Style = .light, duration: TimeInterval = 2.0) {
-        let toastView = UIVisualEffectView(effect: UIBlurEffect(style: style)).cornerRadius(.small)
+    public func makeToast(toast content: String, duration: TimeInterval = 2.0) {
+        let toastView = UIVisualEffectView(effect: UIBlurEffect(style: .light)).cornerRadius(.medium)
         toastView.alpha = 0
+        toastView.backgroundColor = Theme.style == .dark ? UIColor.theme.barrageLightColor3:UIColor.theme.barrageDarkColor3
         toastView.translatesAutoresizingMaskIntoConstraints = false
+        let size = content.chatroom.sizeWithText(font: UIFont.theme.bodyMedium, size: CGSize(width: ScreenWidth-40, height: 999))
         view.addSubview(toastView)
-        
+        view.bringSubviewToFront(toastView)
         NSLayoutConstraint.activate([
             toastView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             toastView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            toastView.widthAnchor.constraint(greaterThanOrEqualToConstant: ScreenWidth - 40),
-            toastView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50)
+            toastView.widthAnchor.constraint(greaterThanOrEqualToConstant: size.width+40),
+            toastView.heightAnchor.constraint(greaterThanOrEqualToConstant: size.height+16)
         ])
         
-        let label = UILabel().text(content).textColor(style == .light ? UIColor.theme.neutralColor3:UIColor.theme.neutralColor98).textAlignment(.center).numberOfLines(0).backgroundColor(.clear)
+        let label = UILabel().text(content).textColor(UIColor.theme.neutralColor98).textAlignment(.center).numberOfLines(0).backgroundColor(.clear)
         label.translatesAutoresizingMaskIntoConstraints = false
         toastView.contentView.addSubview(label)
         
         NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: toastView.leadingAnchor, constant: 8),
-            label.trailingAnchor.constraint(equalTo: toastView.trailingAnchor, constant: -8),
+            label.leadingAnchor.constraint(equalTo: toastView.leadingAnchor, constant: 10),
+            label.trailingAnchor.constraint(equalTo: toastView.trailingAnchor, constant: -10),
             label.topAnchor.constraint(equalTo: toastView.topAnchor, constant: 8),
             label.bottomAnchor.constraint(equalTo: toastView.bottomAnchor, constant: -8)
         ])
         
-        UIView.animate(withDuration: 0.5, delay: duration, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
             toastView.alpha = 1
         }, completion: { (isCompleted) in
-            toastView.removeFromSuperview()
+            DispatchQueue.main.asyncAfter(deadline: .now()+duration) {
+                toastView.removeFromSuperview()
+            }
         })
     }
 }

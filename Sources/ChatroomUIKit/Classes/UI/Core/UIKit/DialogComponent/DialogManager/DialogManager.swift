@@ -36,9 +36,18 @@ import UIKit
     /// Message report dialog will show on call the method.
     /// - Parameter message: ``ChatMessage``
     @objc public func showReportDialog(message: ChatMessage) {
+        var vc = PageContainersDialogController()
         let report = ComponentsRegister
-            .shared.ReportViewController.init(message: message)
-        let vc = PageContainersDialogController(pageTitles: ["barrage_long_press_menu_report".chatroom.localize], childControllers: [report], constraintsSize: Appearance.pageContainerConstraintsSize)
+            .shared.ReportViewController.init(message: message) {
+                vc.dismiss(animated: true)
+                if $0 != nil {
+                    UIViewController.currentController?.makeToast(toast: $0?.errorDescription ?? "",duration: 2)
+                } else {
+                    UIViewController.currentController?.makeToast(toast: "Successful!",duration: 2)
+                }
+            }
+        vc = PageContainersDialogController(pageTitles: ["barrage_long_press_menu_report".chatroom.localize], childControllers: [report], constraintsSize: Appearance.pageContainerConstraintsSize)
+        
         UIViewController.currentController?.presentViewController(vc)
     }
     

@@ -110,6 +110,7 @@ final class UIComponentsExampleViewController: UIViewController {
         switchCellStyle.addInteraction(UIContextMenuInteraction(delegate: self))
         self.view.addSubview(switchCellStyle)
         
+        
     }
 
     

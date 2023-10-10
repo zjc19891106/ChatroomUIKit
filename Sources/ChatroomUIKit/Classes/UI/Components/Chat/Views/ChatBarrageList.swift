@@ -88,7 +88,7 @@ var chatViewWidth: CGFloat = 0
         self.chatView.bounces = false
         self.chatView.allowsSelection = false
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longGesture(gesture:)))
-        longGesture.minimumPressDuration = 1.0
+        longGesture.minimumPressDuration = 0.5
         self.chatView.addGestureRecognizer(longGesture)
     }
     
@@ -188,10 +188,8 @@ extension ChatBarrageList: IChatBarrageListDriver {
     }
     
     public func removeMessage(message: ChatMessage) {
-        if let index = self.messages?.firstIndex(where: { $0.message.messageId == message.messageId }),let count = self.messages?.count,count > 0,index < count - 1 {
-            self.messages?.remove(at: index)
-            self.chatView.reloadData()
-        }
+        self.messages?.removeAll(where: { $0.message.messageId == message.messageId })
+        self.chatView.reloadData()
     }
     
     public func refreshMessage(message: ChatMessage) {

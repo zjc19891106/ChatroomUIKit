@@ -68,10 +68,10 @@ import UIKit
 
     override public func layoutSubviews() {
         super.layoutSubviews()
-        self.container.frame = CGRect(x: 0, y: 5, width: contentView.frame.width, height: contentView.frame.height - 10)
+        self.container.frame = CGRect(x: 0, y: 0, width: contentView.frame.width, height: contentView.frame.height)
         self.container.createGradient([], [CGPoint(x: 0, y: 0), CGPoint(x: 0, y: 1)],[0,1])
         self.container.cornerRadius(self.container.frame.height/2.0)
-        self.blur.frame = CGRect(x: 0, y: 0, width: self.contentView.frame.width, height: self.contentView.frame.height - 10)
+        self.blur.frame = CGRect(x: 0, y: 0, width: self.contentView.frame.width, height: self.contentView.frame.height)
         self.avatar.frame = CGRect(x: 5, y: 5, width: self.container.frame.height - 10, height: self.container.frame.height - 10)
         self.avatar.cornerRadius(Appearance.avatarRadius)
         self.userName.frame = CGRect(x: self.avatar.frame.maxX + 6, y: self.container.frame.height/2.0 - 15, width: frame.width / 5.0 * 2 - 12, height: 15)

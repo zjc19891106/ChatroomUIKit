@@ -120,7 +120,6 @@ import UIKit
     }
     
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
         if self.searchController.isActive {
             if let item = self.searchResults[safe: indexPath.row] {
                 self.action?(item)
