@@ -60,7 +60,7 @@ final class Log {
         return documentsDirectoryURL.appendingPathComponent("ChatroomUIKit.log")
     }()
     
-    static func saveLog(_ message: StaticString, file: StaticString = #file, function: StaticString = #function, line: Int = #line) {
+    static func saveLog(_ message: String, file: StaticString = #file, function: StaticString = #function, line: UInt = #line) {
         let fileName = (file.description as NSString).lastPathComponent
         let functionName = (function.description as NSString).lastPathComponent
         let logMessage = "[\(sourceFileName(fileName))]:\(functionName), line \(line) - \(message)"
