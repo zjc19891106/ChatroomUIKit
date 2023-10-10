@@ -94,6 +94,8 @@ extension GiftServiceImplement: ChatManagerDelegate {
     
     public var giftName: String = ""
     
+    public var giftName1: String = ""
+    
     public var giftPrice: String = ""
     
     public var giftCount: String = "1"
@@ -116,3 +118,7 @@ extension GiftServiceImplement: ChatManagerDelegate {
         property.name
     }
 }
+
+//extension GiftEntityProtocol {
+//    var giftName2: String {get}
+//}

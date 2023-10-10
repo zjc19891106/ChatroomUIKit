@@ -45,7 +45,8 @@ private func consoleLog<T> (
     time.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
     let timeString = time.string(from: Date())
     let fileName = (file.description as NSString).lastPathComponent
-    debugPrint("\(timeString) \(type.rawValue) \(fileName):\(line) ChatroomUIKit Log:\(message)")
+    let functionName = (function.description as NSString).lastPathComponent
+    debugPrint("\(timeString) \(type.rawValue) \(fileName):\(line) ChatroomUIKit Log:\(message) function Name:\(functionName)")
     #else
     if type == .error {
         Log.saveLog(" ChatroomUIKit Log:\(message)",file: file,function: function,line: line)
@@ -59,8 +60,10 @@ final class Log {
         return documentsDirectoryURL.appendingPathComponent("ChatroomUIKit.log")
     }()
     
-    static func saveLog(_ message: String, file: String = #file, function: String = #function, line: Int = #line) {
-        let logMessage = "[\(sourceFileName(file))]:\(function), line \(line) - \(message)"
+    static func saveLog(_ message: StaticString, file: StaticString = #file, function: StaticString = #function, line: Int = #line) {
+        let fileName = (file.description as NSString).lastPathComponent
+        let functionName = (function.description as NSString).lastPathComponent
+        let logMessage = "[\(sourceFileName(fileName))]:\(functionName), line \(line) - \(message)"
         writeToFile(logMessage)
     }
     

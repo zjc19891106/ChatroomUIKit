@@ -46,12 +46,11 @@ import UIKit
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
-        layout.footerReferenceSize = CGSize(width: self.frame.width, height: 180)
         return layout
     }()
 
     lazy var giftList: UICollectionView = {
-        UICollectionView(frame: CGRect(x: 15, y: 0, width: self.frame.width - 30, height: self.frame.height), collectionViewLayout: self.flowLayout).registerCell(ComponentsRegister.shared.GiftsCell.self, forCellReuseIdentifier: "GiftEntityCell").delegate(self).dataSource(self).showsHorizontalScrollIndicator(false).backgroundColor(.clear).showsVerticalScrollIndicator(false).backgroundColor(.clear).registerView(UICollectionReusableView.self, UICollectionView.elementKindSectionFooter , "GiftsFooter")
+        UICollectionView(frame: CGRect(x: 15, y: 0, width: self.frame.width - 30, height: Appearance.giftDialogContainerConstraintsSize.height-60-BottomBarHeight), collectionViewLayout: self.flowLayout).registerCell(ComponentsRegister.shared.GiftsCell.self, forCellReuseIdentifier: "GiftEntityCell").delegate(self).dataSource(self).showsHorizontalScrollIndicator(false).backgroundColor(.clear).showsVerticalScrollIndicator(false)
     }()
 
     override init(frame: CGRect) {
@@ -97,16 +96,6 @@ extension GiftsView: UICollectionViewDelegate,UICollectionViewDataSource,GiftEnt
         return cell
     }
     
-    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionView.elementKindSectionFooter {
-            let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "GiftsFooter", for: indexPath)
-            reusableView.backgroundColor = .clear
-            reusableView.frame = CGRect(origin: reusableView.frame.origin, size: CGSize(width: self.frame.width, height: 180))
-            return reusableView
-        }
-        return UICollectionReusableView()
-    }
-
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         self.gifts.forEach { $0.selected = false }
