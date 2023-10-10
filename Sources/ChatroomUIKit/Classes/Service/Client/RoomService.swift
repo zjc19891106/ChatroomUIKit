@@ -294,6 +294,7 @@ import UIKit
     
     @objc public func fetchMuteUsers(pageSize: UInt, completion: @escaping (([UserInfoProtocol]?,ChatError?)->Void)) {
         self.roomService?.fetchMuteUsers(roomId: self.roomId, pageNum: UInt(self.pageNum), pageSize: pageSize, completion: { [weak self] userIds, error in
+            guard let `self` = self else { return }
             if error == nil {
                 ChatroomContext.shared?.muteMap = [:]
             }
@@ -305,7 +306,7 @@ import UIKit
                         unknownUserIds.append(userId)
                     }
                 }
-                if unknownUserIds.count > 0,ChatroomUIKitClient.shared.option.useProperties {
+                if unknownUserIds.count > 0,self.pageNum == 1,ChatroomUIKitClient.shared.option.useProperties {
                     ChatroomUIKitClient.shared.userImplement?.userInfos(userIds: unknownUserIds, completion: { infos, error in
                         if error == nil {
                             var users = [UserInfoProtocol]()
@@ -334,8 +335,22 @@ import UIKit
                 }
             } else {
                 if error != nil {
-                    self?.handleError(type: .fetchMutes, error: error!)
+                    self.handleError(type: .fetchMutes, error: error!)
                 }
+            }
+        })
+    }
+    
+    @objc public func fetchThenCacheUserInfos(unknownUserIds:[String], completion: @escaping (([UserInfoProtocol]?,ChatError?)->Void)) {
+        ChatroomUIKitClient.shared.userImplement?.userInfos(userIds: unknownUserIds, completion: { infos, error in
+            if error == nil {
+                var users = [UserInfoProtocol]()
+                for info in infos {
+                    ChatroomContext.shared?.usersMap?[info.userId] = info
+                }
+                completion(users,error)
+            } else {
+                completion(nil,error)
             }
         })
     }

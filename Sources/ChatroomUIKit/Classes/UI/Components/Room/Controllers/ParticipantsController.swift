@@ -183,6 +183,25 @@ open class ParticipantsController: UITableViewController {
             }
         }
     }
+    
+    open override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        var unknownIds = [String]()
+        if let visiblePaths = tableView.indexPathsForVisibleRows {
+            for indexPath in visiblePaths {
+                if let nickName = self.users[safe: indexPath.row]?.nickName,nickName.isEmpty {
+                    unknownIds.append(self.users[safe: indexPath.row]?.userId ?? "")
+                }
+            }
+        }
+        
+        self.roomService.fetchThenCacheUserInfos(unknownUserIds: unknownIds) { [weak self] infos, error in
+            if error == nil {
+                DispatchQueue.main.async {
+                    self?.tableView.reloadRows(at: self?.tableView.indexPathsForVisibleRows ?? [], with: .none)
+                }
+            }
+        }
+    }
 }
 
 extension ParticipantsController: SearchBarActionEvents {
