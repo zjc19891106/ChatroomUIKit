@@ -103,7 +103,7 @@ import UIKit
     }
     
     /// Participants list request page number
-    public private(set)var pageNum = 15
+    public private(set)var pageNum = 1
     
     public private(set) lazy var giftService: GiftService? = {
         let newValue = GiftServiceImplement(roomId: self.roomId)
@@ -240,6 +240,7 @@ import UIKit
     
     @objc public func fetchParticipants(pageSize: UInt, completion: @escaping (([UserInfoProtocol]?,ChatError?)->Void)) {
         self.roomService?.fetchParticipants(roomId: self.roomId, pageSize: pageSize, completion: { [weak self] userIds, error in
+            guard let `self` = self else { return  }
             if let ids = userIds {
                 var unknownUserIds = [String]()
                 for userId in ids {
@@ -248,7 +249,7 @@ import UIKit
                     }
                 }
                 if ChatroomUIKitClient.shared.option.useProperties {
-                    if unknownUserIds.count > 0 {
+                    if unknownUserIds.count > 0,self.pageNum <= 1 {
                         ChatroomUIKitClient.shared.userImplement?.userInfos(userIds: unknownUserIds, completion: { infos, error in
                             if error == nil {
                                 var users = [UserInfoProtocol]()
@@ -286,7 +287,7 @@ import UIKit
                 }
             } else {
                 if error != nil {
-                    self?.handleError(type: .fetchParticipants, error: error!)
+                    self.handleError(type: .fetchParticipants, error: error!)
                 }
             }
         })
