@@ -34,7 +34,9 @@ import UIKit
     public var gifts = [GiftEntityProtocol]() {
         didSet {
             if self.gifts.count > 0 {
-                self.cellAnimation()
+                DispatchQueue.main.async {
+                    self.cellAnimation()
+                }
             }
         }
     }
