@@ -9,7 +9,7 @@ import UIKit
 
 /// Chatroom participants list
 open class ParticipantsController: UITableViewController {
-        
+    
     public private(set) var roomService = RoomService(roomId: ChatroomContext.shared?.roomId ?? "")
     
     public private(set) var users = [UserInfoProtocol]() {
@@ -28,7 +28,7 @@ open class ParticipantsController: UITableViewController {
     
     public private(set) var muteTab = false
     
-    private var search: SearchParticipantsViewController?
+    private weak var search: SearchParticipantsViewController?
     
     lazy var loadingView: LoadingView = {
         LoadingView(frame: CGRect(x: self.tableView.frame.width/2.0 - 50, y: self.tableView.frame.height/2.0 - 50, width: 100, height: 100))
@@ -50,7 +50,7 @@ open class ParticipantsController: UITableViewController {
         self.init()
         self.muteTab = muteTab
     }
-
+    
     open override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .clear
@@ -96,9 +96,9 @@ open class ParticipantsController: UITableViewController {
             }
         }
     }
-
+    
     // MARK: - Table view data source
-
+    
     open override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return self.users.count
@@ -153,20 +153,18 @@ open class ParticipantsController: UITableViewController {
                 self.roomService.mute(userId: user.userId, completion: { [weak self] error in
                     guard let `self` = self else { return }
                     if error == nil {
-                        self.users.removeAll { $0.userId == user.userId }
-                        self.tableView.reloadDataSafe()
+                        self.removeUser(user: user)
                     } else {
-                        self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",duration: 2)
+                        self.makeToast(toast: "\(error?.errorDescription ?? "")",duration: 3)
                     }
                 })
             case "unmute":
                 self.roomService.unmute(userId: user.userId, completion: { [weak self] error in
                     guard let `self` = self else { return }
                     if error == nil {
-                        self.users.removeAll { $0.userId == user.userId }
-                        self.tableView.reloadDataSafe()
+                        self.removeUser(user: user)
                     } else {
-                        self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",duration: 2)
+                        self.makeToast(toast: "\(error?.errorDescription ?? "")", duration: 3)
                     }
                 })
             case "Remove":
@@ -174,14 +172,25 @@ open class ParticipantsController: UITableViewController {
                     guard let `self` = self else { return }
                     self.roomService.kick(userId: user.userId) { [weak self] error in
                         guard let `self` = self else { return }
-                        self.search?.removeUser(userId: user.userId)
-                        self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",duration: 2)
+                        if error == nil {
+                            self.removeUser(user: user)
+                            self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",duration: 2)
+                            
+                        } else {
+                            self.makeToast(toast: "\(error?.errorDescription ?? "")", duration: 3)
+                        }
                     }
                 }
             default:
                 item.action?(item)
             }
         }
+    }
+    
+    private func removeUser(user: UserInfoProtocol) {
+        self.search?.removeUser(userId: user.userId)
+        self.users.removeAll { $0.userId == user.userId }
+        self.tableView.reloadRows(at: self.tableView.indexPathsForVisibleRows ?? [], with: .none)
     }
     
     open override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
