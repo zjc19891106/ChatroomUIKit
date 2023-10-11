@@ -109,7 +109,9 @@ import UIKit
             if error == nil {
                 self?.barrageList.showNewMessage(message: message, gift: nil)
             } else {
-                consoleLogInfo("Send message failure!\n\(error?.errorDescription ?? "")", type: .error)
+                let errorInfo = "Send message failure!\n\(error?.errorDescription ?? "")"
+                consoleLogInfo(errorInfo, type: .error)
+                UIViewController.currentController?.makeToast(toast: errorInfo, duration: 3)
             }
         })
     }
@@ -129,7 +131,9 @@ import UIKit
             if error == nil {
                 self?.service?.fetchMuteUsers(pageSize: 100, completion: { _, error in
                     if error != nil {
-                        consoleLogInfo("SDK fetch mute users failure!\nError:\(error?.errorDescription ?? "")", type: .error)
+                        let errorInfo = "SDK fetch mute users failure!\nError:\(error?.errorDescription ?? "")"
+                        consoleLogInfo(errorInfo, type: .error)
+                        UIViewController.currentController?.makeToast(toast: errorInfo, duration: 3)
                     }
                 })
             }
@@ -143,7 +147,9 @@ import UIKit
             if error == nil {
                 self?.service = nil
             } else {
-                consoleLogInfo("SDK leave chatroom failure!\nError:\(error?.errorDescription ?? "")", type: .error)
+                let errorInfo = "SDK leave chatroom failure!\nError:\(error?.errorDescription ?? "")"
+                consoleLogInfo(errorInfo, type: .error)
+                UIViewController.currentController?.makeToast(toast: errorInfo, duration: 3)
             }
         })
     }

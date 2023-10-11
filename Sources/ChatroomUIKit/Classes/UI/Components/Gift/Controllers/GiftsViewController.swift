@@ -45,7 +45,9 @@ extension GiftsViewController: GiftsViewActionEventsDelegate {
         //If you need the server to process the deduction logic before sending the gift message after clicking send, set it to `false`, and after the processing is completed, you need to call `sendGift` method send gift message to channel.
         self.giftService?.sendGift(gift: item) { [weak self] message,error in
             if error != nil {
-                consoleLogInfo("Send gift message to channel failure!\nError:\(error?.errorDescription ?? "")", type: .error)
+                let errorInfo = "Send gift message to channel failure!\nError:\(error?.errorDescription ?? "")"
+                consoleLogInfo(errorInfo, type: .error)
+                UIViewController.currentController?.makeToast(toast: errorInfo, duration: 3)
             } else {
                 item.sendUser = ChatroomContext.shared?.currentUser
                 item.giftCount = "1"

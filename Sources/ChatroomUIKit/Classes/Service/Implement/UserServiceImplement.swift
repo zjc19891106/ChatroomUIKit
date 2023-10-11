@@ -17,12 +17,16 @@ import KakaJSON
         super.init()
         self.login(userId: userInfo.userId, token: token) { [weak self] success, error in
             if !success {
-                consoleLogInfo(error?.errorDescription ?? "", type: .error)
+                let errorInfo = error?.errorDescription ?? ""
+                consoleLogInfo(errorInfo, type: .error)
+                UIViewController.currentController?.makeToast(toast: errorInfo, duration: 3)
             } else {
                 if userProperty {
                     self?.updateUserInfo(userInfo: userInfo, completion: { success, error in
                         if !success {
-                            consoleLogInfo("update user info failure:\(error?.errorDescription ?? "")", type: .error)
+                            let errorInfo = "update user info failure:\(error?.errorDescription ?? "")"
+                            consoleLogInfo(errorInfo, type: .error)
+                            UIViewController.currentController?.makeToast(toast: errorInfo, duration: 3)
                         }
                     })
                 }

@@ -35,14 +35,16 @@ final class ExamplesViewController: UIViewController {
 
     @IBAction func push_business_UI(_ sender: Any) {
         let user = ExampleRequiredConfig.YourAppUser()
-        if let userName = self.userNameField.text {
+        if let userName = self.userNameField.text,!userName.isEmpty {
             user.userId = userName
         }
         ChatroomUIKitClient.shared.login(with: user, token: ExampleRequiredConfig.chatToken, use: true) { error in
             if error == nil || error?.code == .errorUserAlreadyLoginSame {
                 self.navigationController?.pushViewController(ChatroomListViewController(), animated: true)
             } else {
-                consoleLogInfo("ChatroomUIKitClient login failed!\nError:\(error?.errorDescription ?? "")", type: .error)
+                let errorInfo = "ChatroomUIKitClient login failed!\nError:\(error?.errorDescription ?? "")"
+                consoleLogInfo(errorInfo, type: .error)
+                UIViewController.currentController?.makeToast(toast: errorInfo, duration: 3)
             }
         }
     }
