@@ -11,9 +11,9 @@ import UIKit
 /**
  A UITableViewCell subclass used to display chat messages as a barrage-style cell.
  
- This cell contains a container view, a time label, a user identity image view, an avatar image view, and a content label. The appearance of these subviews can be customized by setting the `ChatBarrageCellStyle` of the cell.
+ This cell contains a container view, a time label, a user identity image view, an avatar image view, and a content label. The appearance of these subviews can be customized by setting the ``ChatBarrageCellStyle`` of the cell.
  
- Use the `refresh(chat:)` method to update the content of the cell with a `ChatEntity` object.
+ Use the ``refresh(chat:)`` method to update the content of the cell with a `ChatEntity` object.
  */
 @objcMembers open class ChatBarrageCell: UITableViewCell {
     
@@ -70,7 +70,7 @@ import UIKit
     
     /// ChatBarrageCell init method
     /// - Parameters:
-    ///   - barrageStyle: ChatBarrageCellStyle
+    ///   - barrageStyle: ``ChatBarrageCellStyle``
     ///   - reuseIdentifier: reuse identifier
     @objc required public convenience init(barrageStyle: ChatBarrageCellStyle, reuseIdentifier: String?) {
         self.init(style: .default, reuseIdentifier: reuseIdentifier)
@@ -109,7 +109,7 @@ import UIKit
     
     
     /// Refresh the entity that renders the chat barrage, which contains height, width and rich text cache.
-    /// - Parameter chat: ChatEntity
+    /// - Parameter chat: ``ChatEntity``
     @objc public func refresh(chat: ChatEntity) {
         self.time.text = chat.showTime
         self.userIdentify.image(with: chat.message.user?.identify ?? "", placeHolder: Appearance.userIdentifyPlaceHolder)
