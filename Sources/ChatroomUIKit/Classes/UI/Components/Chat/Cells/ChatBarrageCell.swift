@@ -7,133 +7,6 @@
 
 import UIKit
 
-fileprivate let gift_tail_indent: CGFloat = 26
-
-/// An enumeration that represents the different styles of a chat barrage cell.
-@objc public enum ChatBarrageCellStyle: UInt {
-    case all = 1
-    case excludeTime
-    case excludeLevel
-    case excludeAvatar
-    case excludeTimeAndLevel
-    case excludeTimeAndAvatar
-    case excludeLevelAndAvatar
-    case excludeTimeLevelAvatar
-}
-
-/// A class that represents a chat entity, which includes a message, a timestamp, attributed text, height, and width.
-@objc open class ChatEntity: NSObject {
-    
-    /// The message associated with the chat entity.
-    lazy public var message: ChatMessage = ChatMessage()
-    
-    /// The time at which the message was sent, formatted as "HH:mm".
-    lazy public var showTime: String = {
-        let date = Date(timeIntervalSince1970: Double(self.message.timestamp)/1000)
-        return date.chatroom.dateString("HH:mm")
-    }()
-    
-    /// The attributed text of the message, including the user's nickname, message text, and emojis.
-    lazy public var attributeText: NSAttributedString = self.convertAttribute()
-        
-    /// The height of the chat entity, calculated based on the attributed text and the width of the chat view.
-    lazy public var height: CGFloat =  UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).height + 26
-    
-    /// The width of the chat entity, calculated based on the attributed text and the width of the chat view.
-    lazy public var width: CGFloat = UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).width+(self.gift != nil ? gift_tail_indent:0)
-    
-    /// Chat barrage display gift info.Need to set it.
-    lazy public var gift: GiftEntityProtocol? = nil
-    
-    /// Converts the message text into an attributed string, including the user's nickname, message text, and emojis.
-    func convertAttribute() -> NSAttributedString {
-        var text = NSMutableAttributedString {
-            AttributedText((self.message.user?.nickName ?? "")).foregroundColor(Color.theme.primaryColor8).font(UIFont.theme.labelMedium).paragraphStyle(self.paragraphStyle())
-        }
-        if self.message.body.type == .custom,let body = self.message.body as? ChatCustomMessageBody {
-            switch body.event {
-            case chatroom_UIKit_gift:
-                if let item = self.gift {
-                    text.append(NSMutableAttributedString {
-                        AttributedText(" "+item.giftName+" "+"× \(item.giftCount)").foregroundColor(Color.theme.neutralColor98).font(UIFont.theme.labelMedium).paragraphStyle(self.paragraphStyle())
-                    })
-                }
-            case chatroom_UIKit_user_join:
-                text.append(NSMutableAttributedString {
-                    AttributedText(" "+"Joined".chatroom.localize).foregroundColor(Color.theme.secondaryColor7).font(UIFont.theme.labelMedium).paragraphStyle(self.paragraphStyle())
-                })
-            default:
-                break
-            }
-            
-        } else {
-            if self.message.translation != nil,let translation = message.translation {
-                text.append(NSAttributedString {
-                    AttributedText(" : "+translation).foregroundColor(Color.theme.neutralColor98).font(UIFont.theme.bodyMedium).paragraphStyle(self.paragraphStyle())
-                })
-            } else {
-                text.append(NSAttributedString {
-                    AttributedText(" : "+self.message.text).foregroundColor(Color.theme.neutralColor98).font(UIFont.theme.bodyMedium).paragraphStyle(self.paragraphStyle())
-                })
-            }
-            let string = text.string as NSString
-            for symbol in ChatEmojiConvertor.shared.emojis {
-                if string.range(of: symbol).location != NSNotFound {
-                    let ranges = text.string.chatroom.rangesOfString(symbol)
-                    text = ChatEmojiConvertor.shared.convertEmoji(input: text, ranges: ranges, symbol: symbol)
-                    text.addAttribute(.paragraphStyle, value: self.paragraphStyle(), range: NSMakeRange(0, text.length))
-                    text.addAttribute(.font, value: UIFont.theme.bodyMedium, range: NSMakeRange(0, text.length))
-                    text.addAttribute(.backgroundColor, value: UIColor.orange, range: NSMakeRange(0, text.length-1))
-                }
-            }
-        }
-        return text
-    }
-    
-    /// Returns a paragraph style object with the first line head indent set based on the appearance of the chat cell.
-    func paragraphStyle() -> NSMutableParagraphStyle {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.firstLineHeadIndent = self.firstLineHeadIndent()
-        paragraphStyle.lineHeightMultiple = 1.08
-        paragraphStyle.alignment = .natural
-        if self.gift != nil {
-            paragraphStyle.tailIndent = self.lastLineHeadIndent()
-        } else {
-            paragraphStyle.tailIndent = 0
-        }
-        return paragraphStyle
-    }
-    
-    /// Returns the distance of the first line head indent based on the appearance of the chat cell.
-    func firstLineHeadIndent() -> CGFloat {
-        var distance:CGFloat = 0
-        switch Appearance.barrageCellStyle {
-        case .all: distance = 90
-        case .excludeTime: distance = 50
-        case .excludeLevelAndAvatar: distance = 46
-        case .excludeTimeLevelAvatar: distance = 8
-        case .excludeAvatar,.excludeLevel: distance = 68
-        case .excludeTimeAndLevel,.excludeTimeAndAvatar: distance = 24
-        }
-        return distance
-    }
-    
-    /// Returns the distance of the last line head indent based on the appearance of the chat cell.
-    func lastLineHeadIndent() -> CGFloat { 26 }
-}
-
-public extension ChatMessage {
-    var user: UserInfoProtocol? {
-        ChatroomContext.shared?.usersMap?[self.from]
-    }
-    var text: String {
-        (self.body as? ChatTextMessageBody)?.text ?? ""
-    }
-    var translation: String? {
-        (self.body as? ChatTextMessageBody)?.translations?[Appearance.targetLanguage.rawValue]
-    }
-}
-
 
 /**
  A UITableViewCell subclass used to display chat messages as a barrage-style cell.
@@ -261,5 +134,133 @@ extension ChatBarrageCell: ThemeSwitchProtocol {
     
     public func switchHues() {
         self.switchTheme(style: .dark)
+    }
+}
+
+
+fileprivate let gift_tail_indent: CGFloat = 26
+
+/// An enumeration that represents the different styles of a chat barrage cell.
+@objc public enum ChatBarrageCellStyle: UInt {
+    case all = 1
+    case excludeTime
+    case excludeLevel
+    case excludeAvatar
+    case excludeTimeAndLevel
+    case excludeTimeAndAvatar
+    case excludeLevelAndAvatar
+    case excludeTimeLevelAvatar
+}
+
+/// A class that represents a chat entity, which includes a message, a timestamp, attributed text, height, and width.
+@objc open class ChatEntity: NSObject {
+    
+    /// The message associated with the chat entity.
+    lazy public var message: ChatMessage = ChatMessage()
+    
+    /// The time at which the message was sent, formatted as "HH:mm".
+    lazy public var showTime: String = {
+        let date = Date(timeIntervalSince1970: Double(self.message.timestamp)/1000)
+        return date.chatroom.dateString("HH:mm")
+    }()
+    
+    /// The attributed text of the message, including the user's nickname, message text, and emojis.
+    lazy public var attributeText: NSAttributedString = self.convertAttribute()
+        
+    /// The height of the chat entity, calculated based on the attributed text and the width of the chat view.
+    lazy public var height: CGFloat =  UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).height + 26
+    
+    /// The width of the chat entity, calculated based on the attributed text and the width of the chat view.
+    lazy public var width: CGFloat = UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).width+(self.gift != nil ? gift_tail_indent:0)
+    
+    /// Chat barrage display gift info.Need to set it.
+    lazy public var gift: GiftEntityProtocol? = nil
+    
+    /// Converts the message text into an attributed string, including the user's nickname, message text, and emojis.
+    func convertAttribute() -> NSAttributedString {
+        var text = NSMutableAttributedString {
+            AttributedText((self.message.user?.nickName ?? "")).foregroundColor(Color.theme.primaryColor8).font(UIFont.theme.labelMedium).paragraphStyle(self.paragraphStyle())
+        }
+        if self.message.body.type == .custom,let body = self.message.body as? ChatCustomMessageBody {
+            switch body.event {
+            case chatroom_UIKit_gift:
+                if let item = self.gift {
+                    text.append(NSMutableAttributedString {
+                        AttributedText(" "+item.giftName+" "+"× \(item.giftCount)").foregroundColor(Color.theme.neutralColor98).font(UIFont.theme.labelMedium).paragraphStyle(self.paragraphStyle())
+                    })
+                }
+            case chatroom_UIKit_user_join:
+                text.append(NSMutableAttributedString {
+                    AttributedText(" "+"Joined".chatroom.localize).foregroundColor(Color.theme.secondaryColor7).font(UIFont.theme.labelMedium).paragraphStyle(self.paragraphStyle())
+                })
+            default:
+                break
+            }
+            
+        } else {
+            if self.message.translation != nil,let translation = message.translation {
+                text.append(NSAttributedString {
+                    AttributedText(" : "+translation).foregroundColor(Color.theme.neutralColor98).font(UIFont.theme.bodyMedium).paragraphStyle(self.paragraphStyle())
+                })
+            } else {
+                text.append(NSAttributedString {
+                    AttributedText(" : "+self.message.text).foregroundColor(Color.theme.neutralColor98).font(UIFont.theme.bodyMedium).paragraphStyle(self.paragraphStyle())
+                })
+            }
+            let string = text.string as NSString
+            for symbol in ChatEmojiConvertor.shared.emojis {
+                if string.range(of: symbol).location != NSNotFound {
+                    let ranges = text.string.chatroom.rangesOfString(symbol)
+                    text = ChatEmojiConvertor.shared.convertEmoji(input: text, ranges: ranges, symbol: symbol)
+                    text.addAttribute(.paragraphStyle, value: self.paragraphStyle(), range: NSMakeRange(0, text.length))
+                    text.addAttribute(.font, value: UIFont.theme.bodyMedium, range: NSMakeRange(0, text.length))
+                    text.addAttribute(.backgroundColor, value: UIColor.orange, range: NSMakeRange(0, text.length-1))
+                }
+            }
+        }
+        return text
+    }
+    
+    /// Returns a paragraph style object with the first line head indent set based on the appearance of the chat cell.
+    func paragraphStyle() -> NSMutableParagraphStyle {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.firstLineHeadIndent = self.firstLineHeadIndent()
+        paragraphStyle.lineHeightMultiple = 1.08
+        paragraphStyle.alignment = .natural
+        if self.gift != nil {
+            paragraphStyle.tailIndent = self.lastLineHeadIndent()
+        } else {
+            paragraphStyle.tailIndent = 0
+        }
+        return paragraphStyle
+    }
+    
+    /// Returns the distance of the first line head indent based on the appearance of the chat cell.
+    func firstLineHeadIndent() -> CGFloat {
+        var distance:CGFloat = 0
+        switch Appearance.barrageCellStyle {
+        case .all: distance = 90
+        case .excludeTime: distance = 50
+        case .excludeLevelAndAvatar: distance = 46
+        case .excludeTimeLevelAvatar: distance = 8
+        case .excludeAvatar,.excludeLevel: distance = 68
+        case .excludeTimeAndLevel,.excludeTimeAndAvatar: distance = 24
+        }
+        return distance
+    }
+    
+    /// Returns the distance of the last line head indent based on the appearance of the chat cell.
+    func lastLineHeadIndent() -> CGFloat { gift_tail_indent }
+}
+
+public extension ChatMessage {
+    var user: UserInfoProtocol? {
+        ChatroomContext.shared?.usersMap?[self.from]
+    }
+    var text: String {
+        (self.body as? ChatTextMessageBody)?.text ?? ""
+    }
+    var translation: String? {
+        (self.body as? ChatTextMessageBody)?.translations?[Appearance.targetLanguage.rawValue]
     }
 }
