@@ -17,10 +17,16 @@ final class ExamplesViewController: UIViewController {
     
     @IBOutlet weak var component_UI_OC: UIButton!
     
+    @IBOutlet weak var userNameField: UITextField!
+    
+    @IBOutlet weak var chatTokenField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "ChatroomUIKit Examples"
         // Do any additional setup after loading the view.
+        self.userNameField.delegate = self
+        self.chatTokenField.delegate = self
     }
     
     @IBAction func push_component_UI(_ sender: UIButton) {
@@ -28,7 +34,11 @@ final class ExamplesViewController: UIViewController {
     }
 
     @IBAction func push_business_UI(_ sender: Any) {
-        ChatroomUIKitClient.shared.login(with: ExampleRequiredConfig.YourAppUser(), token: ExampleRequiredConfig.chatToken, use: true) { error in
+        let user = ExampleRequiredConfig.YourAppUser()
+        if let userName = self.userNameField.text {
+            user.userId = userName
+        }
+        ChatroomUIKitClient.shared.login(with: user, token: ExampleRequiredConfig.chatToken, use: true) { error in
             if error == nil || error?.code == .errorUserAlreadyLoginSame {
                 self.navigationController?.pushViewController(ChatroomListViewController(), animated: true)
             } else {
@@ -41,4 +51,19 @@ final class ExamplesViewController: UIViewController {
         self.navigationController?.pushViewController(OCUIComponentsExampleViewController(), animated: true)
     }
     
+}
+
+extension ExamplesViewController: UITextFieldDelegate  {
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.tag == 11 {
+            if let text = textField.text {
+                ExampleRequiredConfig.chatToken = text
+            }
+        }
+    }
 }
