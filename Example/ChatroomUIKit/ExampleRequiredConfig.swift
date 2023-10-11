@@ -17,7 +17,7 @@ public class ExampleRequiredConfig {
     // https://docs.agora.io/en/agora-chat/get-started/enable?platform=ios
     static let appKey: String = <#T##String#>
     //  ProjectManager->Operation Manager->User->Create User.Then Basic Information->Application Info->Chat User temp token.Next,fill below param.Move on,fill user id.
-    static let chatToken: String = <#T##String#>
+    static var chatToken: String = <#T##String#>
     //    Follow the following process to create a chat room on console.
     //    ProjectManager->Operation Manager->Chat Room->Create Chat Room.Then fill in the `chatroomId` parameter below.
     
