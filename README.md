@@ -117,7 +117,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         // You can initialize ChatroomUIKit when the app loads or before you need to use ChatroomUIKit
         //What's app key?Where to get?
-        //You can visit `https://docs.agora.io/en/agora-chat/get-started/enable?platform=ios` website.
+        //You can visit the [console](https://docs.agora.io/en/agora-chat/get-started/enable?platform=ios) website.
         ChatroomUIKitClient.shared.setup(with: "Appkey")
         return true
     }
