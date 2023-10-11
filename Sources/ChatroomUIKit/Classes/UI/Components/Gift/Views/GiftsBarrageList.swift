@@ -121,7 +121,7 @@ extension GiftsBarrageList: UITableViewDelegate, UITableViewDataSource {
             if self.gifts.count > 1 {
                 let cell = self.giftList.cellForRow(at: indexPath) as? GiftBarrageCell
                 UIView.animate(withDuration: 0.3) {
-                    cell?.alpha = 0.75'
+                    cell?.alpha = 0.75
                     cell?.contentView.transform = CGAffineTransform(scaleX: self.dataSource?.zoomScaleX?() ?? 0.75, y: self.dataSource?.zoomScaleY?() ?? 0.75)
                     self.giftList.scrollToRow(at: IndexPath(row: self.gifts.count - 1, section: 0), at: .top, animated: false)
                 } completion: { finished in
