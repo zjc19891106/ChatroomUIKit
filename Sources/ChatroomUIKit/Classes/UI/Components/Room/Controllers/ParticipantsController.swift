@@ -113,7 +113,7 @@ open class ParticipantsController: UITableViewController {
         if let user = self.users[safe: indexPath.row] {
             cell?.refresh(user: user)
         }
-//        cell?.more.isHidden = !(ChatroomContext.shared?.owner ?? false)
+        cell?.more.isHidden = !(ChatroomContext.shared?.owner ?? false)
         cell?.moreClosure = { [weak self] user in
             self?.operationUser(user: user)
         }
@@ -194,10 +194,12 @@ open class ParticipantsController: UITableViewController {
             }
         }
         
-        self.roomService.fetchThenCacheUserInfos(unknownUserIds: unknownIds) { [weak self] infos, error in
-            if error == nil {
-                DispatchQueue.main.async {
-                    self?.tableView.reloadRows(at: self?.tableView.indexPathsForVisibleRows ?? [], with: .none)
+        if !unknownIds.isEmpty {
+            self.roomService.fetchThenCacheUserInfosOnEndScroll(unknownUserIds: unknownIds) { [weak self] infos, error in
+                if error == nil {
+                    DispatchQueue.main.async {
+                        self?.tableView.reloadRows(at: self?.tableView.indexPathsForVisibleRows ?? [], with: .none)
+                    }
                 }
             }
         }

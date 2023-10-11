@@ -296,9 +296,6 @@ import UIKit
     @objc public func fetchMuteUsers(pageSize: UInt, completion: @escaping (([UserInfoProtocol]?,ChatError?)->Void)) {
         self.roomService?.fetchMuteUsers(roomId: self.roomId, pageNum: UInt(self.pageNum), pageSize: pageSize, completion: { [weak self] userIds, error in
             guard let `self` = self else { return }
-            if error == nil {
-                ChatroomContext.shared?.muteMap = [:]
-            }
             if let ids = userIds {
                 var unknownUserIds = [String]()
                 for userId in ids {
@@ -342,7 +339,11 @@ import UIKit
         })
     }
     
-    @objc public func fetchThenCacheUserInfos(unknownUserIds:[String], completion: @escaping (([UserInfoProtocol]?,ChatError?)->Void)) {
+    /// Fetch user infos on members list end scroll,Then cache user info
+    /// - Parameters:
+    ///   - unknownUserIds: User ID array without user information
+    ///   - completion: Callback user infos and error.
+    @objc public func fetchThenCacheUserInfosOnEndScroll(unknownUserIds:[String], completion: @escaping (([UserInfoProtocol]?,ChatError?)->Void)) {
         ChatroomUIKitClient.shared.userImplement?.userInfos(userIds: unknownUserIds, completion: { infos, error in
             if error == nil {
                 var users = [UserInfoProtocol]()
