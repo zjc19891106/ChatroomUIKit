@@ -128,7 +128,7 @@ import UIKit
             service.bindGiftDriver(driver: self.giftBarrages)
         }
         service.enterRoom(completion: { [weak self] error in
-            if error == nil {
+            if error == nil,ChatroomContext.shared?.owner ?? false {
                 self?.service?.fetchMuteUsers(pageSize: 100, completion: { _, error in
                     if error != nil {
                         let errorInfo = "SDK fetch mute users failure!\nError:\(error?.errorDescription ?? "")"

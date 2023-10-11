@@ -50,13 +50,17 @@ extension UIViewController {
         toastView.alpha = 0
         toastView.backgroundColor = Theme.style == .dark ? UIColor.theme.barrageLightColor3:UIColor.theme.barrageDarkColor3
         toastView.translatesAutoresizingMaskIntoConstraints = false
-        let size = content.chatroom.sizeWithText(font: UIFont.theme.bodyMedium, size: CGSize(width: ScreenWidth-40, height: 999))
+        let size = content.chatroom.sizeWithText(font: UIFont.theme.bodyMedium, size: CGSize(width: view.frame.width-80, height: 999))
         view.addSubview(toastView)
         view.bringSubviewToFront(toastView)
+        var toastWidth = size.width+40
+        if toastWidth >= view.frame.width-80 {
+            toastWidth = view.frame.width - 80
+        }
         NSLayoutConstraint.activate([
             toastView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             toastView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            toastView.widthAnchor.constraint(greaterThanOrEqualToConstant: size.width+40),
+            toastView.widthAnchor.constraint(lessThanOrEqualToConstant: view.frame.width-80),
             toastView.heightAnchor.constraint(greaterThanOrEqualToConstant: size.height+16)
         ])
         

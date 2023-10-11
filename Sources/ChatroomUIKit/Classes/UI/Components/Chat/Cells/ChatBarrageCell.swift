@@ -214,7 +214,6 @@ fileprivate let gift_tail_indent: CGFloat = 26
                     text = ChatEmojiConvertor.shared.convertEmoji(input: text, ranges: ranges, symbol: symbol)
                     text.addAttribute(.paragraphStyle, value: self.paragraphStyle(), range: NSMakeRange(0, text.length))
                     text.addAttribute(.font, value: UIFont.theme.bodyMedium, range: NSMakeRange(0, text.length))
-                    text.addAttribute(.backgroundColor, value: UIColor.orange, range: NSMakeRange(0, text.length-1))
                 }
             }
         }
