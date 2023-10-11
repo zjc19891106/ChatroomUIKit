@@ -85,7 +85,7 @@ extension GiftsBarrageList: UITableViewDelegate, UITableViewDataSource {
     }
 
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        self.dataSource?.rowHeight?() ?? 64
+        self.dataSource?.rowHeight?() ?? 58
     }
 
     public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -121,6 +121,7 @@ extension GiftsBarrageList: UITableViewDelegate, UITableViewDataSource {
             if self.gifts.count > 1 {
                 let cell = self.giftList.cellForRow(at: indexPath) as? GiftBarrageCell
                 UIView.animate(withDuration: 0.3) {
+                    cell?.alpha = 0.75'
                     cell?.contentView.transform = CGAffineTransform(scaleX: self.dataSource?.zoomScaleX?() ?? 0.75, y: self.dataSource?.zoomScaleY?() ?? 0.75)
                     self.giftList.scrollToRow(at: IndexPath(row: self.gifts.count - 1, section: 0), at: .top, animated: false)
                 } completion: { finished in
@@ -151,7 +152,7 @@ extension GiftsBarrageList: UITableViewDelegate, UITableViewDataSource {
 
 extension GiftsBarrageList: GiftsBarrageListTransformAnimationDataSource {
     public func rowHeight() -> CGFloat {
-        64
+        58
     }
     
     public func zoomScaleX() -> CGFloat {

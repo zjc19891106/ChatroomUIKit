@@ -10,26 +10,14 @@ import UIKit
 import ChatroomUIKit
 
 final class HueSettingViewController: UIViewController {
-
-    @IBOutlet weak var scope: UILabel!
-    
-    @IBOutlet weak var primaryHue: UILabel!
     
     @IBOutlet weak var primaryValue: UISlider!
     
-    @IBOutlet weak var secondaryHue: UILabel!
-    
     @IBOutlet weak var secondaryValue: UISlider!
-    
-    @IBOutlet weak var errorHue: UILabel!
     
     @IBOutlet weak var errorValue: UISlider!
     
-    @IBOutlet weak var neutralHue: UILabel!
-    
     @IBOutlet weak var neutralValue: UISlider!
-    
-    @IBOutlet weak var neutralSpecialHue: UILabel!
     
     @IBOutlet weak var neutralSpecialValue: UISlider!
     
