@@ -32,7 +32,7 @@ public class ExampleRequiredConfig {
         
         public var gender: Int = 1
         
-        public var identify: String = ""
+        public var identify: String = ""//user level picture url
         
         
     }
