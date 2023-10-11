@@ -117,7 +117,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         // You can initialize ChatroomUIKit when the app loads or before you need to use ChatroomUIKit
         //What's app key?Where to get?
-        //You can visit the [console](https://docs.agora.io/en/agora-chat/get-started/enable?platform=ios) website.
+        //You can visit `https://docs.agora.io/en/agora-chat/get-started/enable?platform=ios` website.
         ChatroomUIKitClient.shared.setup(with: "Appkey")
         return true
     }
@@ -139,9 +139,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Required,you need fetch room list or create room contain owner info from app server.Then join room with chatroom id.
         // Let's start creating the ChatroomView. The parameters that need to be passed in include layout parameters, the bottom toolbar extension button model protocol array, whether to hide the button that evokes the input box, etc.
         // Where to get?
-        //    Follow the following process to create a chat room on console.    `ProjectManager->Operation Manager->Chat Room->Create Chat Room`.Then fill in the `chatroomId` parameter below.
+        // First,enter `https://console.agora.io/project/` console.
+        // Follow the following process to create a chat room on console.    
+        // `ProjectManager->Operation Manager->Chat Room->Create Chat Room`.
+        //Then fill in the `chatroomId` parameter below.
         let roomView = ChatroomUIKitClient.shared.launchRoomView(roomId: String,frame: CGRect, is owner: Bool)        
         //Then add to you destination frame.
+        //Next,process is `ProjectManager->Operation Manager->Chat Room->More->View chat room members->Add members.
 ```
 # AdvancedUsage
 
