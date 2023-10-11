@@ -5,6 +5,10 @@
 [![License](https://img.shields.io/cocoapods/l/ChatroomUIKit.svg?style=flat)](https://cocoapods.org/pods/ChatroomUIKit)
 [![Platform](https://img.shields.io/cocoapods/p/ChatroomUIKit.svg?style=flat)](https://cocoapods.org/pods/ChatroomUIKit)
 
+# Sample Demo
+
+![SampleDemo](./Documentation/demo.png).
+
 # Chatroom UIKit Guide 
 
 ## Introduction
