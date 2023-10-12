@@ -80,7 +80,7 @@ import UIKit
     ///   - announcement: Announcement text
     func onAnnouncementUpdate(roomId: String, announcement: String)
     
-    /// The method called on  some chatroom events error occured.
+    /// The method called on  some chatroom events error occur.
     /// - Parameters:
     ///   - error: ChatError
     ///   - type: RoomEventsError
@@ -128,7 +128,7 @@ import UIKit
     /// ``HorizontalTextCarousel`` UI driver
     public private(set) weak var notifyDriver: IHorizontalTextCarouselDriver?
     
-    public required init(roomId: String) {
+    @objc public required init(roomId: String) {
         self.roomId = roomId
     }
     
@@ -144,6 +144,8 @@ import UIKit
         self.notifyDriver = driver
     }
     
+    /// Register all event listeners in the chat room
+    /// - Parameter listener: ``RoomEventsListener``
     @objc public func registerListener(listener: RoomEventsListener) {
         if self.eventsListener.contains(listener) {
             return
@@ -151,6 +153,8 @@ import UIKit
         self.eventsListener.add(listener)
     }
     
+    /// unregister all event listeners in the chat room
+    /// - Parameter listener: ``RoomEventsListener``
     @objc public func unregisterListener(listener: RoomEventsListener) {
         if self.eventsListener.contains(listener) {
             self.eventsListener.remove(listener)

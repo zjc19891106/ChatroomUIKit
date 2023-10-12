@@ -19,10 +19,10 @@ import UIKit
     /// When `selected` is `true` show image.
     var selectedImage: UIImage? {set get}
     
-    /// normal image
+    /// Normal image
     var normalImage: UIImage? {set get}
     
-    /// tag
+    /// Tag
     var type: Int {set get}
     
     /// Action
@@ -66,7 +66,7 @@ import UIKit
     }
     
     /// Refresh subviews.
-    /// - Parameter item: `ChatBottomItemProtocol`
+    /// - Parameter item: ``ChatBottomItemProtocol``
     @objc public func refresh(item: ChatBottomItemProtocol) {
         self.icon.image = item.selected ? item.selectedImage:item.normalImage
         self.redDot.isHidden = !item.showRedDot
