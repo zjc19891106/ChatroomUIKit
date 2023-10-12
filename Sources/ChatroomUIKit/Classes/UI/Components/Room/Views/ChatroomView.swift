@@ -117,7 +117,7 @@ import UIKit
     }
     
     /// This method binds your view to the model it serves. A ChatroomView can only call it once. There is judgment in this method. Calling it multiple times is invalid.
-    /// - Parameter service: RoomService
+    /// - Parameter service: ``RoomService``
     @objc public func connectService(service: RoomService) {
         if self.service != nil {
             return
@@ -141,7 +141,7 @@ import UIKit
     }
     
     /// Disconnect room service
-    /// - Parameter service: RoomService
+    /// - Parameter service: ``RoomService``
     @objc public func disconnectService(service: RoomService) {
         self.service?.leaveRoom(completion: { [weak self] error in
             if error == nil {
@@ -156,7 +156,7 @@ import UIKit
     
     
     /// When you want receive chatroom view's touch action events.You can called the method.
-    /// - Parameter actionHandler: `ChatroomViewActionEventsDelegate`
+    /// - Parameter actionHandler: ``ChatroomViewActionEventsDelegate``
     @objc public func addActionHandler(actionHandler: ChatroomViewActionEventsDelegate) {
         if self.eventHandlers.contains(actionHandler) {
             return
@@ -165,7 +165,7 @@ import UIKit
     }
     
     /// When you doesn't want receive chatroom view's touch action events.You can called the method.
-    /// - Parameter actionHandler: `ChatroomViewActionEventsDelegate`
+    /// - Parameter actionHandler: ``ChatroomViewActionEventsDelegate``
     @objc public func removeEventHandler(actionHandler: ChatroomViewActionEventsDelegate) {
         self.eventHandlers.remove(actionHandler)
     }

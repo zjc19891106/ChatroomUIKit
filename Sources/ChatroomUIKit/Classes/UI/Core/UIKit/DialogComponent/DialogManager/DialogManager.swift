@@ -80,13 +80,15 @@ import UIKit
         let vc = DialogContainerViewController(custom: actionSheet,constraintsSize: actionSheet.frame.size)
         for item in actionSheet.items {
             item.action = { choice in
-                vc.dismiss(animated: true)
-                DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+                vc.dismiss(animated: true) {
                     action(choice)
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+                    
                 }
             }
         }
-        UIViewController.currentController?.presentViewController(vc)
+        UIViewController.currentController?.presentingViewController?.presentViewController(vc)
     }
     
     /// Alert view will show on call the method.
@@ -96,14 +98,14 @@ import UIKit
     ///   - showConfirm: Whether display confirm button or not.
     ///   - confirmClosure: Callback on click confirm button.
     @objc public func showAlert(content: String,showCancel: Bool,showConfirm: Bool,confirmClosure: @escaping () -> Void) {
-        let alert = AlertView().background(color: Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98).content(content: content)
+        let alert = AlertView().background(color: Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98).content(content: content).title(title: "participant_list_button_click_menu_remove".chatroom.localize).contentTextAlignment(textAlignment: .center)
         if showCancel {
-            alert.leftButton(color: Theme.style == .dark ? UIColor.theme.neutralColor95:UIColor.theme.neutralColor3).leftButtonBorder(color: Theme.style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor7)
+            alert.leftButton(color: Theme.style == .dark ? UIColor.theme.neutralColor95:UIColor.theme.neutralColor3).leftButtonBorder(color: Theme.style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor7).leftButton(title: "report_button_click_menu_button_cancel".chatroom.localize)
         }
         if showConfirm {
             alert.rightButtonBackground(color: Theme.style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5).rightButton(color: UIColor.theme.neutralColor98).rightButtonTapClosure { _ in
                 confirmClosure()
-            }
+            }.rightButton(title: "Confirm".chatroom.localize)
         }
         let alertVC = AlertViewController(custom: alert)
         UIViewController.currentController?.presentViewController(alertVC)

@@ -193,7 +193,7 @@ open class ParticipantsController: UITableViewController {
     private func removeUser(user: UserInfoProtocol) {
         self.search?.removeUser(userId: user.userId)
         self.users.removeAll { $0.userId == user.userId }
-        self.tableView.reloadRows(at: self.tableView.indexPathsForVisibleRows ?? [], with: .none)
+        self.tableView.reloadData()
     }
     
     open override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

@@ -9,7 +9,7 @@ import UIKit
 
 @objc open class AlertViewController: UIViewController , PresentedViewType {
     
-    public var presentedViewComponent: PresentedViewComponent? = PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: ScreenHeight),destination: .center)
+    public var presentedViewComponent: PresentedViewComponent? = PresentedViewComponent(contentSize: Appearance.alertContainerConstraintsSize,destination: .center)
 
     var customView: UIView?
 
@@ -38,6 +38,7 @@ import UIKit
         if self.customView != nil {
             self.customView?.cornerRadius(Appearance.alertCornerRadius)
             self.view.addSubview(self.customView!)
+            self.customView?.center = self.view.center
         }
     }
 }
@@ -297,6 +298,7 @@ import UIKit
         cancelClosure = onTap
         return self
     }
+    @discardableResult
     public func rightButton(title: String?) -> AlertView {
         rightButton.isHidden = title == nil
         rightButton.setTitle(title, for: .normal)

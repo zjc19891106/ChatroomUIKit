@@ -69,7 +69,7 @@ import UIKit
         } else {
             self.rawSources.removeAll { $0.userId == userId }
         }
-        self.tableView.reloadRows(at: self.tableView.indexPathsForVisibleRows ?? [], with: .none)
+        self.tableView.reloadData()
     }
 
     open override func viewDidLoad() {
