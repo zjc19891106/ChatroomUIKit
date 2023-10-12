@@ -19,10 +19,10 @@ import UIKit
     /// Whether to hide the evoke keyboard button.
     @objc public var hiddenChatRaise = false
     
-    /// Whether to use user attributes
+    /// Whether to use user attributes.
     @objc public var useProperties: Bool = true
     
-    /// Whether chat barrage show gift info or not.
+    /// Whether  show gift info or not on chat barrage area.
     @objc public var chatBarrageShowGift = false
 }
 
