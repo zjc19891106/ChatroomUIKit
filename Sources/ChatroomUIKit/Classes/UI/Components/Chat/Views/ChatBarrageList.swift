@@ -96,6 +96,10 @@ var chatViewWidth: CGFloat = 0
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    deinit {
+        consoleLogInfo("Deinit chatbarragelist", type: .debug)
+    }
 
 }
 

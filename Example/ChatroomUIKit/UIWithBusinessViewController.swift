@@ -89,7 +89,11 @@ final class UIWithBusinessViewController: UIViewController {
         ChatroomUIKitClient.shared.registerRoomEventsListener(listener: self)
     }
         
-
+    deinit {
+        ChatroomUIKitClient.shared.unregisterRoomEventsListener(listener: self)
+        ChatroomUIKitClient.shared.destroyRoom()
+        consoleLogInfo("\(self.swiftClassName ?? "") deinit", type: .debug)
+    }
 }
 
 extension UIWithBusinessViewController {

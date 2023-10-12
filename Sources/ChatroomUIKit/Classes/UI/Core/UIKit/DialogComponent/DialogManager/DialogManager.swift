@@ -98,7 +98,7 @@ import UIKit
     ///   - showConfirm: Whether display confirm button or not.
     ///   - confirmClosure: Callback on click confirm button.
     @objc public func showAlert(content: String,showCancel: Bool,showConfirm: Bool,confirmClosure: @escaping () -> Void) {
-        let alert = AlertView().background(color: Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98).content(content: content).title(title: "participant_list_button_click_menu_remove".chatroom.localize).contentTextAlignment(textAlignment: .center)
+        let alert = AlertView(frame: CGRect(x: 0, y: 0, width: Appearance.alertContainerConstraintsSize.width, height: Appearance.alertContainerConstraintsSize.height)).background(color: Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98).content(content: content).title(title: "participant_list_button_click_menu_remove".chatroom.localize).contentTextAlignment(textAlignment: .center)
         if showCancel {
             alert.leftButton(color: Theme.style == .dark ? UIColor.theme.neutralColor95:UIColor.theme.neutralColor3).leftButtonBorder(color: Theme.style == .dark ? UIColor.theme.neutralColor4:UIColor.theme.neutralColor7).leftButton(title: "report_button_click_menu_button_cancel".chatroom.localize)
         }

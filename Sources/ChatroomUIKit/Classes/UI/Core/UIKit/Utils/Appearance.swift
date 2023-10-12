@@ -20,7 +20,7 @@ import UIKit
     public static var giftDialogContainerConstraintsSize = CGSize(width: ScreenWidth, height: ScreenHeight/2.0)
     
     /// Alert constraints size
-    public static var alertContainerConstraintsSize = CGSize(width: ScreenWidth-50, height: ScreenHeight/3.0)
+    public static var alertContainerConstraintsSize = CGSize(width: ScreenWidth-40, height: ScreenHeight/3.0)
     
     /// Alert view corner radius.``AlertView``
     public static var alertCornerRadius: CornerRadius = .medium

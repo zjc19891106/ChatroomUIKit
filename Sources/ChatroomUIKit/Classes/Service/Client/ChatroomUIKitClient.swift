@@ -102,6 +102,12 @@ import UIKit
         return room
     }
     
+    /// Free memory.Free views and service
+    @objc public func destroyRoom() {
+        Theme.unregisterSwitchThemeViews()
+        self.roomService = nil
+    }
+    
     /// Update user information.When you user the `login(with user: UserInfoProtocol,token: String,use userProperties: Bool = true,completion: @escaping (ChatError?) -> Void)` method login.
     /// - Parameters:
     ///   - info: Conform ``UserInfoProtocol`` instance.

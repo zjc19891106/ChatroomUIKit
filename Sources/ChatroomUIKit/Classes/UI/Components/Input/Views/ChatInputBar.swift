@@ -95,6 +95,7 @@ import UIKit
         inputField.removeFromSuperview()
         emoji?.removeFromSuperview()
         emoji = nil
+        consoleLogInfo("\(self.swiftClassName ?? "") deinit", type: .debug)
     }
     
     @available(*, unavailable)

@@ -36,7 +36,7 @@ import Foundation
     
     public static var style: ThemeStyle = .light
     
-    private static var registerViews = NSMutableSet()
+    private static var registerViews :NSHashTable<ThemeSwitchProtocol> = NSHashTable<ThemeSwitchProtocol>.weakObjects()
     
     /// Register some user's own views that Implement with the ThemeSwitchProtocol protocol.
     /// - Parameter view: The view conform ThemeSwitchProtocol.
@@ -49,27 +49,30 @@ import Foundation
         self.registerViews.add(view)
     }
     
+    public static func unregisterSwitchThemeViews() {
+        self.registerViews.removeAllObjects()
+    }
+    
     /// The method
     /// - Parameter style: ThemeStyle
     /// How to use?
     /// `Theme.switchTheme(style: .dark)`
     @MainActor public static func switchTheme(style: ThemeStyle) {
         self.style = style
-        for view in self.registerViews {
-            if let themeView = view as? ThemeSwitchProtocol {
-                themeView.switchTheme(style: style)
-            }
+        for view in self.registerViews.allObjects {
+            view.switchTheme(style: style)
         }
     }
     /// After the custom view implements this protocol method, you can use this method to switch the custom theme color, which includes the following five hue values: primary, secondary, error, neutral, and neutral special. The designer recommends that the hue values of primary and neutral are the same. The hue values ​​of neutral and neutral special are similar.
     @MainActor public static func switchHues() {
         UIColor.ColorTheme.switchHues(hues: Appearance.colorHues)
-        for view in self.registerViews {
-            if let themeView = view as? ThemeSwitchProtocol {
-                themeView.switchHues()
-            }
+        for view in self.registerViews.allObjects {
+            view.switchHues()
         }
     }
         
 }
 
+extension Unmanaged where Instance : ThemeSwitchProtocol&UIView {
+    
+}

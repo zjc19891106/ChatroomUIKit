@@ -31,7 +31,7 @@ import UIKit
 @objc open class ChatroomView: UIView {
     
     /// ``RoomService``
-    public private(set) var service: RoomService?
+    public private(set) weak var service: RoomService?
     
     /// Bottom bar extension view's data source.
     public private(set) var menus = [ChatBottomItemProtocol]()
@@ -170,7 +170,9 @@ import UIKit
         self.eventHandlers.remove(actionHandler)
     }
     
-
+    deinit {
+        consoleLogInfo("\(self.swiftClassName ?? "") deinit", type: .debug)
+    }
 }
 
 //MARK: - GiftsBarrageListDataSource

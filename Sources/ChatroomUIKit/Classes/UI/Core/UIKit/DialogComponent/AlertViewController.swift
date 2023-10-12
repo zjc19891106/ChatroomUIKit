@@ -38,7 +38,6 @@ import UIKit
         if self.customView != nil {
             self.customView?.cornerRadius(Appearance.alertCornerRadius)
             self.view.addSubview(self.customView!)
-            self.customView?.center = self.view.center
         }
     }
 }
@@ -370,12 +369,12 @@ import UIKit
         layer.shadowOpacity = 1
         layer.shadowOffset = CGSize(width: 0, height: 0)
         translatesAutoresizingMaskIntoConstraints = false
-        widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
+        widthAnchor.constraint(equalToConstant: Appearance.alertContainerConstraintsSize.width).isActive = true
         
-        stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (ScreenWidth-Appearance.alertContainerConstraintsSize.width)/2.0).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(ScreenWidth-Appearance.alertContainerConstraintsSize.width)/2.0).isActive = true
         stackView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        stackView.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
+        stackView.topAnchor.constraint(equalTo: topAnchor, constant: (ScreenWidth-Appearance.alertContainerConstraintsSize.width)/2.0).isActive = true
         
         titleLabel.topAnchor.constraint(equalTo: titleLabelContainer.topAnchor).isActive = true
         titleLabel.centerXAnchor.constraint(equalTo: titleLabelContainer.centerXAnchor).isActive = true
