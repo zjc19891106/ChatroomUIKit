@@ -106,9 +106,9 @@ extension UIWithBusinessViewController {
     
     @objc func showParticipants() {
         DialogManager.shared.showParticipantsDialog { user in
-            
+            //Statistical data
         } muteMoreClosure: { user in
-            
+            //Statistical data
         }
 
     }
@@ -151,15 +151,15 @@ extension UIWithBusinessViewController {
 //MARK: - When you called `self.roomView.addActionHandler(actionHandler: self)`.You'll receive chatroom view's click action events callback.
 extension UIWithBusinessViewController : ChatroomViewActionEventsDelegate {
     func onMessageBarrageClicked(message: ChatroomUIKit.ChatMessage) {
-        
+        //Statistical data
     }
     
     func onMessageListBarrageLongPressed(message: ChatroomUIKit.ChatMessage) {
-        
+        //Statistical data
     }
     
     func onKeyboardRaiseClicked() {
-        
+        //Statistical data
     }
     
     func onExtensionBottomItemClicked(item: ChatroomUIKit.ChatBottomItemProtocol) {
@@ -173,18 +173,21 @@ extension UIWithBusinessViewController : ChatroomViewActionEventsDelegate {
 //MARK: - When you called `ChatroomUIKitClient.shared.registerRoomEventsListener(listener: self)`.You'll implement these method.
 extension UIWithBusinessViewController: RoomEventsListener {
     func onUserLeave(roomId: String, userId: String) {
+        //Statistical data
+        self.makeToast(toast: "\(ChatroomContext.shared?.usersMap?[userId]?.nickName ?? userId) was left.", duration: 3)
     }
     
     
     func onSocketConnectionStateChanged(state: ChatroomUIKit.ConnectionState) {
-        
+        self.makeToast(toast: "Socket connection state change to \(state.rawValue).", duration: 3)
     }
     
     func onUserTokenDidExpired() {
+        self.makeToast(toast: "User chat token was expired.", duration: 3)
         //SDK will auto enter current chatroom of `ChatroomContext` on reconnect success.
-        ChatroomUIKitClient.shared.login(with: ExampleRequiredConfig.YourAppUser(), token: ExampleRequiredConfig.chatToken, use: true) { error in
-            if error == nil {
-
+        ChatroomUIKitClient.shared.login(with: ExampleRequiredConfig.YourAppUser(), token: ExampleRequiredConfig.chatToken, use: true) { [weak self] error in
+            if error != nil {
+                self?.makeToast(toast: "User chat token was expired.Login again error:\(error?.errorDescription ?? "")", duration: 3)
             }
         }
         //MARK: - Warning note
@@ -196,15 +199,15 @@ extension UIWithBusinessViewController: RoomEventsListener {
     }
     
     func onUserLoginOtherDevice(device: String) {
-        
+        self.makeToast(toast: "User login on other device", duration: 3)
     }
     
     func onUserUnmuted(roomId: String, userId: String, operatorId: String) {
-        
+        self.makeToast(toast: "\(ChatroomContext.shared?.usersMap?[userId]?.nickName ?? userId) was unmuted.", duration: 3)
     }
     
     func onUserMuted(roomId: String, userId: String, operatorId: String) {
-        
+        self.makeToast(toast: "\(ChatroomContext.shared?.usersMap?[userId]?.nickName ?? userId) was muted.", duration: 3)
     }
     
     func onUserJoined(roomId: String, user: ChatroomUIKit.UserInfoProtocol) {
@@ -212,7 +215,7 @@ extension UIWithBusinessViewController: RoomEventsListener {
     }
     
     func onUserBeKicked(roomId: String, reason: ChatroomUIKit.ChatroomBeKickedReason) {
-        
+        self.makeToast(toast: "You was kicked.", duration: 3)
     }
     
     func onReceiveGlobalNotify(message: ChatroomUIKit.ChatMessage) {
@@ -221,10 +224,12 @@ extension UIWithBusinessViewController: RoomEventsListener {
     
     func onAnnouncementUpdate(roomId: String, announcement: String) {
         //toast or alert notify participants.
+        self.makeToast(toast: "The chat room announcement is updated to \(announcement)", duration: 5)
     }
     
     func onErrorOccur(error: ChatroomUIKit.ChatError, type: ChatroomUIKit.RoomEventsError) {
         //you can catch error then handle.
+        self.makeToast(toast: "RoomEventsError occur \(error.errorDescription ?? "")", duration: 3)
     }
     
     

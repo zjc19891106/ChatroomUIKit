@@ -41,10 +41,12 @@ final class UIComponentsExampleViewController: UIViewController {
         GiftsViewController(gifts: self.gifts())
     }()
     
+    /// Global notify container
     lazy var carouselTextView: HorizontalTextCarousel = {
         HorizontalTextCarousel(originPoint: CGPoint(x: 20, y: 85), width: self.view.frame.width-40, font: .systemFont(ofSize: 16, weight: .semibold), textColor: UIColor.theme.neutralColor98).cornerRadius(.large).backgroundColor(UIColor.theme.primaryColor6)
     }()
     
+    /// Switch theme
     private lazy var modeSegment: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["Light","Dark"])
         segment.frame = CGRect(x: 100, y: 170, width: 96, height: 46)
@@ -62,6 +64,7 @@ final class UIComponentsExampleViewController: UIViewController {
         return segment
     }()
     
+    /// Switch show or hidden global notify icon.
     private lazy var speakerSegment: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["Light","Dark"])
         segment.frame = CGRect(x: 100, y: self.modeSegment.frame.maxY+5, width: 96, height: 46)
@@ -101,11 +104,13 @@ final class UIComponentsExampleViewController: UIViewController {
             guard let `self` = self else { return }
             self.barrageList.showNewMessage(message: self.startMessage($0),gift: nil)
         }
+        
+        //View global notify
         let button = UIButton(type: .custom).frame(CGRect(x: 100, y: 140, width: 150, height: 20)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.extraSmall).title("Add Global Notify", .normal).addTargetFor(self, action: #selector(addCarouselTask), for: .touchUpInside)
         self.view.addSubview(button)
         self.carouselTextView.alpha = 0
         
-        
+        // Switch ChatBarrageCellStyle
         let switchCellStyle = UIButton(type: .custom).frame(CGRect(x: 100, y: self.speakerSegment.frame.maxY+5, width: 150, height: 40)).textColor(.white, .normal).backgroundColor(UIColor.theme.primaryColor6).cornerRadius(.small).title(".all", .normal).title("Long Presse Switch", .normal).font(.systemFont(ofSize: 16, weight: .semibold))
         switchCellStyle.addInteraction(UIContextMenuInteraction(delegate: self))
         self.view.addSubview(switchCellStyle)

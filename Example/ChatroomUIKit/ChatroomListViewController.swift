@@ -31,10 +31,12 @@ final class ChatroomListViewController: UITableViewController {
         self.tableView.registerCell(ChatroomCell.self, forCellReuseIdentifier: "reuseIdentifier")
         self.tableView.rowHeight = 60
         self.tableView.tableFooterView = UIView()
-        ChatClient.shared().roomManager?.getChatroomsFromServer(withPage: 1, pageSize: 100, completion: { result, error in
+        ChatClient.shared().roomManager?.getChatroomsFromServer(withPage: 1, pageSize: 100, completion: { [weak self] result, error in
             if error == nil {
-                self.chatrooms.append(contentsOf: result?.list ?? [])
-                self.tableView.reloadDataSafe()
+                self?.chatrooms.append(contentsOf: result?.list ?? [])
+                self?.tableView.reloadDataSafe()
+            } else {
+                self?.makeToast(toast: "get chatroom error:\(error?.errorDescription ?? "")", duration: 3)
             }
         })
     }

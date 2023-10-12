@@ -80,6 +80,8 @@ open class ParticipantsController: UITableViewController {
                     if error == nil {
                         self?.users.append(contentsOf: datas ?? [])
                         self?.tableView.reloadData()
+                    } else {
+                        self?.makeToast(toast: "fetch mute error:\(error?.errorDescription ?? "")", duration: 3)
                     }
                 }
             }
@@ -91,6 +93,8 @@ open class ParticipantsController: UITableViewController {
                     if error == nil {
                         self?.users.append(contentsOf: datas ?? [])
                         self?.tableView.reloadData()
+                    } else {
+                        self?.makeToast(toast: "fetch members error:\(error?.errorDescription ?? "")", duration: 3)
                     }
                 }
             }
@@ -175,7 +179,6 @@ open class ParticipantsController: UITableViewController {
                         if error == nil {
                             self.removeUser(user: user)
                             self.makeToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",duration: 2)
-                            
                         } else {
                             self.makeToast(toast: "\(error?.errorDescription ?? "")", duration: 3)
                         }
@@ -209,6 +212,8 @@ open class ParticipantsController: UITableViewController {
                     DispatchQueue.main.async {
                         self?.tableView.reloadRows(at: self?.tableView.indexPathsForVisibleRows ?? [], with: .none)
                     }
+                } else {
+                    self?.makeToast(toast: "fetchThenCacheUserInfosOnEndScroll error:\(error?.errorDescription ?? "")", duration: 3)
                 }
             }
         }
