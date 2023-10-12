@@ -7,7 +7,7 @@
 
 import UIKit
 
-@objc public protocol IHorizontalTextCarouselDriver: NSObjectProtocol {
+@objc public protocol IHorizontalTextCarouselDrive: NSObjectProtocol {
     
     /// Display text on received global notify message.
     /// - Parameter text: show text
@@ -148,7 +148,7 @@ import UIKit
     
 }
 
-extension HorizontalTextCarousel: IHorizontalTextCarouselDriver {
+extension HorizontalTextCarousel: IHorizontalTextCarouselDrive {
     public func showNewNotify(text: String) {
         self.addTask(text: text)
     }

@@ -8,7 +8,7 @@
 import UIKit
 
 
-@objc public protocol IGiftsBarrageListDriver {
+@objc public protocol IGiftsBarrageListDrive {
     /// Refresh the UI after receiving the gift
     /// - Parameter gift: GiftEntityProtocol
     func receiveGift(gift: GiftEntityProtocol)
@@ -166,7 +166,7 @@ extension GiftsBarrageList: GiftsBarrageListTransformAnimationDataSource {
     }
 }
 
-extension GiftsBarrageList: IGiftsBarrageListDriver {
+extension GiftsBarrageList: IGiftsBarrageListDrive {
     public func receiveGift(gift: GiftEntityProtocol) {
         self.gifts.append(gift)
     }

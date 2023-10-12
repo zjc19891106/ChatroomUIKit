@@ -9,8 +9,8 @@ import UIKit
 
 var chatViewWidth: CGFloat = 0
 
-/// ChatBarrageList's driver.
-@objc public protocol IChatBarrageListDriver: NSObjectProtocol {
+/// ChatBarrageList's Drive.
+@objc public protocol IChatBarrageListDrive: NSObjectProtocol {
     
     /// When you receive or will send a message.
     /// - Parameter message: ``ChatMessage``
@@ -181,7 +181,7 @@ extension ChatBarrageList:UITableViewDelegate, UITableViewDataSource {
 }
 
 
-extension ChatBarrageList: IChatBarrageListDriver {
+extension ChatBarrageList: IChatBarrageListDrive {
     public func cleanMessages() {
         self.messages?.removeAll()
         self.chatView.reloadData()

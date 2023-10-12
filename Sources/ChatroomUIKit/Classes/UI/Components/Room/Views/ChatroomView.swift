@@ -123,9 +123,9 @@ import UIKit
             return
         }
         self.service = service
-        service.bindChatDriver(driver: self.barrageList)
+        service.bindChatDrive(Drive: self.barrageList)
         if self.showGiftBarrage {
-            service.bindGiftDriver(driver: self.giftBarrages)
+            service.bindGiftDrive(Drive: self.giftBarrages)
         }
         service.enterRoom(completion: { [weak self] error in
             if error == nil,ChatroomContext.shared?.owner ?? false {

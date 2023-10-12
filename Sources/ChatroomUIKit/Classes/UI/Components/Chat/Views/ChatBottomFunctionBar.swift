@@ -7,8 +7,8 @@
 
 import UIKit
 
-/// ChatBottomFunctionBar‘s driver.
-@objc public protocol IChatBottomFunctionBarDriver: NSObjectProtocol {
+/// ChatBottomFunctionBar‘s Drive.
+@objc public protocol IChatBottomFunctionBarDrive: NSObjectProtocol {
     
     /// You can call the method update item select state.
     /// - Parameters:
@@ -149,7 +149,7 @@ extension ChatBottomFunctionBar: UICollectionViewDelegate, UICollectionViewDataS
     }
 }
 
-extension ChatBottomFunctionBar: IChatBottomFunctionBarDriver {
+extension ChatBottomFunctionBar: IChatBottomFunctionBarDrive {
     public func updateItemSelectState(index: UInt, select: Bool) {
         self.datas[safe: Int(index)]?.selected = select
     }

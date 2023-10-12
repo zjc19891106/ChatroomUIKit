@@ -52,7 +52,7 @@ extension GiftsViewController: GiftsViewActionEventsDelegate {
                 item.sendUser = ChatroomContext.shared?.currentUser
                 item.giftCount = "1"
                 if let implement = self?.giftService as? GiftServiceImplement,let giftMessage = message {
-                    implement.notifyGiftDriverShowSelfSend(gift: item,message: giftMessage)
+                    implement.notifyGiftDriveShowSelfSend(gift: item,message: giftMessage)
                 }
             }
         }

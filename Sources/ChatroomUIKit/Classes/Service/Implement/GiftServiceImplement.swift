@@ -22,7 +22,7 @@ let chatroom_UIKit_gift = "CHATROOMUIKITGIFT"
         ChatClient.shared().chatManager?.add(self, delegateQueue: .main)
     }
     
-    @objc public func notifyGiftDriverShowSelfSend(gift: GiftEntityProtocol,message: ChatMessage) {
+    @objc public func notifyGiftDriveShowSelfSend(gift: GiftEntityProtocol,message: ChatMessage) {
         for response in self.responseDelegates.allObjects {
             if ChatroomUIKitClient.shared.option.chatBarrageShowGift {
                 response.receiveGift(gift: gift, message: message)

@@ -119,29 +119,29 @@ import UIKit
         return implement
     }()
     
-    /// ``ChatroomView``  UI driver.
-    public private(set) weak var chatDriver: IChatBarrageListDriver?
+    /// ``ChatroomView``  UI Drive.
+    public private(set) weak var chatDrive: IChatBarrageListDrive?
     
-    /// ``GiftsBarrageList`` UI driver
-    public private(set) weak var giftDriver: IGiftsBarrageListDriver?
+    /// ``GiftsBarrageList`` UI Drive
+    public private(set) weak var giftDrive: IGiftsBarrageListDrive?
     
-    /// ``HorizontalTextCarousel`` UI driver
-    public private(set) weak var notifyDriver: IHorizontalTextCarouselDriver?
+    /// ``HorizontalTextCarousel`` UI Drive
+    public private(set) weak var notifyDrive: IHorizontalTextCarouselDrive?
     
     @objc public required init(roomId: String) {
         self.roomId = roomId
     }
     
-    func bindChatDriver(driver: IChatBarrageListDriver) {
-        self.chatDriver = driver
+    func bindChatDrive(Drive: IChatBarrageListDrive) {
+        self.chatDrive = Drive
     }
     
-    func bindGiftDriver(driver: IGiftsBarrageListDriver) {
-        self.giftDriver = driver
+    func bindGiftDrive(Drive: IGiftsBarrageListDrive) {
+        self.giftDrive = Drive
     }
     
-    func bindGlobalNotifyDriver(driver: IHorizontalTextCarouselDriver) {
-        self.notifyDriver = driver
+    func bindGlobalNotifyDrive(Drive: IHorizontalTextCarouselDrive) {
+        self.notifyDrive = Drive
     }
     
     /// Register all event listeners in the chat room
@@ -180,7 +180,7 @@ import UIKit
         ChatroomContext.shared?.muteMap?.removeAll()
         self.enterRoom(completion: { [weak self] in
             if $0 == nil {
-                self?.chatDriver?.cleanMessages()
+                self?.chatDrive?.cleanMessages()
             }
             completion($0)
         })
@@ -390,7 +390,7 @@ import UIKit
     @objc public func translate(message: ChatMessage,completion: @escaping (ChatError?) -> Void) {
         self.roomService?.translateMessage(message: message, completion: { [weak self] translateResult, error in
             if error == nil,let translation = translateResult {
-                self?.chatDriver?.refreshMessage(message: translation)
+                self?.chatDrive?.refreshMessage(message: translation)
             } else {
                 self?.handleError(type: .translate, error: error!)
             }
@@ -403,7 +403,7 @@ import UIKit
             if error != nil {
                 self?.handleError(type: .recall, error: error!)
             } else {
-                self?.chatDriver?.removeMessage(message: message)
+                self?.chatDrive?.removeMessage(message: message)
             }
             completion(error)
         })
@@ -436,14 +436,14 @@ extension RoomService: ChatroomResponseListener {
     
     public func onMessageRecalled(roomId: String, message: ChatMessage, by userId: String) {
         if roomId == self.roomId {
-            self.chatDriver?.removeMessage(message: message)
+            self.chatDrive?.removeMessage(message: message)
         }
     }
     
     public func onGlobalNotifyReceived(roomId: String, notifyMessage: ChatMessage) {
         if self.roomId == roomId {
             if let body = notifyMessage.body as? ChatTextMessageBody {
-                self.notifyDriver?.showNewNotify(text: body.text)
+                self.notifyDrive?.showNewNotify(text: body.text)
             }
         }
         for listener in self.eventsListener.allObjects {
@@ -453,13 +453,13 @@ extension RoomService: ChatroomResponseListener {
     
     public func onMessageReceived(roomId: String, message: ChatMessage) {
         if roomId == self.roomId {
-            self.chatDriver?.showNewMessage(message: message, gift: nil)
+            self.chatDrive?.showNewMessage(message: message, gift: nil)
         }
     }
         
     public func onUserJoined(roomId: String, message: ChatMessage) {
         if roomId == self.roomId {
-            self.chatDriver?.showNewMessage(message: message, gift: nil)
+            self.chatDrive?.showNewMessage(message: message, gift: nil)
         }
         for listener in self.eventsListener.allObjects {
             if let user = message.user {
@@ -489,9 +489,9 @@ extension RoomService: ChatroomResponseListener {
     private func clean() {
         self.roomService = nil
         self.giftService = nil
-        self.chatDriver = nil
-        self.giftDriver = nil
-        self.notifyDriver = nil
+        self.chatDrive = nil
+        self.giftDrive = nil
+        self.notifyDrive = nil
         self.roomId = ""
         ChatroomContext.shared?.roomId = nil
         ChatroomContext.shared?.usersMap?.removeAll()
@@ -503,11 +503,11 @@ extension RoomService: ChatroomResponseListener {
 extension RoomService: GiftResponseListener {
     
     public func receiveGift(gift: GiftEntityProtocol) {
-        self.giftDriver?.receiveGift(gift: gift)
+        self.giftDrive?.receiveGift(gift: gift)
     }
     
     public func receiveGift(gift: GiftEntityProtocol, message: ChatMessage) {
-        self.chatDriver?.showNewMessage(message: message,gift: gift)
+        self.chatDrive?.showNewMessage(message: message,gift: gift)
     }
     
     
