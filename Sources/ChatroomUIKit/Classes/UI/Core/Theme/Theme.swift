@@ -49,6 +49,7 @@ import Foundation
         self.registerViews.add(view)
     }
     
+    /// Clean register views.
     public static func unregisterSwitchThemeViews() {
         self.registerViews.removeAllObjects()
     }
