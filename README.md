@@ -64,9 +64,9 @@ You can install it using Swift Package Manager or CocoaPods. As a dependency to 
 ```
 ChatroomUIKit  
 ├─ Service                           // Basic service components
-│  ├─ Protocol                       // ChatroomUIKit bussiness protocols.Component    
-│  │  ├─ GiftSerivce                 // Gift send and receive channel.
-│  │  ├─ UserSerivce                 // User login and update your profile.
+│  ├─ Protocol                       // ChatroomUIKit business protocols.Component    
+│  │  ├─ GiftService                 // Gift send and receive channel.
+│  │  ├─ UserService                 // User login and update your profile.
 │  │  └─ ChatroomService             // The chat room management protocol includes the join and leave operations of the chat room as well as operations on members, sending and receiving messages, etc.
 │  ├─ Implement                      // Protocol implement. 
 │  └─ Client                         // ChatroomUIKit initialize class.
