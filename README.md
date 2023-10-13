@@ -286,6 +286,8 @@ Please note that custom themes and native themes are mutually exclusive and do n
 
 # DesignGuidelines
 
+If you have any questions about design guidelines and details, please add comments to the figma design draft and mention our designer Stevie Jiang.
+
 Please refer to the [UI design drawing](https://www.figma.com/file/OX2dUdilAKHahAh9VwX8aI/Streamuikit?node-id=137%3A38589&mode=dev).
 
 Please refer to [UI design guidelines](https://www.figma.com/file/OX2dUdilAKHahAh9VwX8aI/Streamuikit?node-id=137)
