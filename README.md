@@ -97,7 +97,7 @@ ChatroomUIKit
  python3 -m http.server 8080
  ```
  
- Then,open `http://yourlocalhost:8080/documentation/chatroomuikit` in your browser.
+ Then,open `http://yourlocalhost:8080/documentation/chatroomuikit` in your browser.yourlocalhost is your local ip address.
  
 ## [Appearance](https://github.com/zjc19891106/ChatroomUIKit/tree/main/Documentation/Appearance.md).
 Detailed illustrations of available items in the UI part.
