@@ -161,6 +161,19 @@ import UIKit
         }
     }
     
+    @objc public func destroyed() {
+        self.roomId = ""
+        self.roomService = nil
+        self.giftDrive = nil
+        self.chatDrive = nil
+        self.giftDrive = nil
+        self.notifyDrive = nil
+        self.eventsListener.removeAllObjects()
+        ChatroomContext.shared?.roomId = nil
+        ChatroomContext.shared?.usersMap?.removeAll()
+        ChatroomContext.shared?.muteMap?.removeAll()
+    }
+    
     private func handleError(type: RoomEventsError,error: ChatError) {
         for handler in self.eventsListener.allObjects {
             handler.onErrorOccur(error: error,type: type)
@@ -486,17 +499,6 @@ extension RoomService: ChatroomResponseListener {
         }
     }
     
-    private func clean() {
-        self.roomService = nil
-        self.giftService = nil
-        self.chatDrive = nil
-        self.giftDrive = nil
-        self.notifyDrive = nil
-        self.roomId = ""
-        ChatroomContext.shared?.roomId = nil
-        ChatroomContext.shared?.usersMap?.removeAll()
-        ChatroomContext.shared?.muteMap?.removeAll()
-    }
 }
 
 

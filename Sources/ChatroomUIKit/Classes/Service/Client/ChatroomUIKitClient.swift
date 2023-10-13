@@ -105,6 +105,7 @@ import UIKit
     /// Free memory.Free views and service
     @objc public func destroyRoom() {
         Theme.unregisterSwitchThemeViews()
+        self.roomService?.destroyed()
         self.roomService = nil
     }
     
