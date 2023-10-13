@@ -207,7 +207,7 @@ import UIKit
                     let errorInfo = "Joined chatroom error:\(error?.errorDescription ?? "")"
                     consoleLogInfo(errorInfo, type: .error)
                     self.handleError(type: .join, error: error!)
-                    UIViewController.currentController?.makeToast(toast: errorInfo, duration: 3)
+                    UIViewController.currentController?.showToast(toast: errorInfo, duration: 3)
                 }
                 completion(error)
             }

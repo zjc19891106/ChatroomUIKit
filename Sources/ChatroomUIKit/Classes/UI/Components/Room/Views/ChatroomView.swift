@@ -111,7 +111,7 @@ import UIKit
             } else {
                 let errorInfo = "Send message failure!\n\(error?.errorDescription ?? "")"
                 consoleLogInfo(errorInfo, type: .error)
-                UIViewController.currentController?.makeToast(toast: errorInfo, duration: 3)
+                UIViewController.currentController?.showToast(toast: errorInfo, duration: 3)
             }
         })
     }
@@ -133,7 +133,7 @@ import UIKit
                     if error != nil {
                         let errorInfo = "SDK fetch mute users failure!\nError:\(error?.errorDescription ?? "")"
                         consoleLogInfo(errorInfo, type: .error)
-                        UIViewController.currentController?.makeToast(toast: errorInfo, duration: 3)
+                        UIViewController.currentController?.showToast(toast: errorInfo, duration: 3)
                     }
                 })
             }
@@ -149,7 +149,7 @@ import UIKit
             } else {
                 let errorInfo = "SDK leave chatroom failure!\nError:\(error?.errorDescription ?? "")"
                 consoleLogInfo(errorInfo, type: .error)
-                UIViewController.currentController?.makeToast(toast: errorInfo, duration: 3)
+                UIViewController.currentController?.showToast(toast: errorInfo, duration: 3)
             }
         })
     }

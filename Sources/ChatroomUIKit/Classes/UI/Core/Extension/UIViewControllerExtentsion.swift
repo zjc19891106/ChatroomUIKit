@@ -45,7 +45,11 @@ public extension UIViewController {
 
 extension UIViewController {
     
-    public func makeToast(toast content: String, duration: TimeInterval = 2.0) {
+    /// Current view controller show toast.When you want to show some content for user.
+    /// - Parameters:
+    ///   - content: ``String`` value.
+    ///   - duration: ``TimeInterval``.How long show
+    public func showToast(toast content: String, duration: TimeInterval = 2.0) {
         let toastView = UIVisualEffectView(effect: UIBlurEffect(style: .light)).cornerRadius(.medium)
         toastView.alpha = 0
         toastView.backgroundColor = Theme.style == .dark ? UIColor.theme.barrageLightColor3:UIColor.theme.barrageDarkColor3
@@ -77,9 +81,11 @@ extension UIViewController {
         
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
             toastView.alpha = 1
-        }, completion: { (isCompleted) in
-            DispatchQueue.main.asyncAfter(deadline: .now()+duration) {
-                toastView.removeFromSuperview()
+        }, completion: { (finished) in
+            if finished {
+                DispatchQueue.main.asyncAfter(deadline: .now()+duration) {
+                    toastView.removeFromSuperview()
+                }
             }
         })
     }

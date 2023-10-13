@@ -44,7 +44,7 @@ final class ExamplesViewController: UIViewController {
             } else {
                 let errorInfo = "ChatroomUIKitClient login failed!\nError:\(error?.errorDescription ?? "")"
                 consoleLogInfo(errorInfo, type: .error)
-                UIViewController.currentController?.makeToast(toast: errorInfo, duration: 3)
+                UIViewController.currentController?.showToast(toast: errorInfo, duration: 3)
             }
         }
     }

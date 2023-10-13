@@ -257,7 +257,7 @@ extension UIComponentsExampleViewController {
     }
 }
 
-class ChatBottomItem:NSObject, ChatBottomItemProtocol {
+final class ChatBottomItem:NSObject, ChatBottomItemProtocol {
     
     var action: ((ChatroomUIKit.ChatBottomItemProtocol) -> Void)?
     

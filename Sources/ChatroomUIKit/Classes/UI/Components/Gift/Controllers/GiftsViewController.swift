@@ -47,7 +47,7 @@ extension GiftsViewController: GiftsViewActionEventsDelegate {
             if error != nil {
                 let errorInfo = "Send gift message to channel failure!\nError:\(error?.errorDescription ?? "")"
                 consoleLogInfo(errorInfo, type: .error)
-                UIViewController.currentController?.makeToast(toast: errorInfo, duration: 3)
+                UIViewController.currentController?.showToast(toast: errorInfo, duration: 3)
             } else {
                 item.sendUser = ChatroomContext.shared?.currentUser
                 item.giftCount = "1"

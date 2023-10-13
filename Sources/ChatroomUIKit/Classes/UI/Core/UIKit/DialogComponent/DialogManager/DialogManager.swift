@@ -41,9 +41,9 @@ import UIKit
             .shared.ReportViewController.init(message: message) {
                 vc.dismiss(animated: true)
                 if $0 != nil {
-                    UIViewController.currentController?.makeToast(toast: $0?.errorDescription ?? "",duration: 2)
+                    UIViewController.currentController?.showToast(toast: $0?.errorDescription ?? "",duration: 2)
                 } else {
-                    UIViewController.currentController?.makeToast(toast: "Successful!",duration: 2)
+                    UIViewController.currentController?.showToast(toast: "Successful!",duration: 2)
                 }
             }
         vc = PageContainersDialogController(pageTitles: ["barrage_long_press_menu_report".chatroom.localize], childControllers: [report], constraintsSize: Appearance.pageContainerConstraintsSize)

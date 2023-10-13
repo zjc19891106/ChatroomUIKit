@@ -25,14 +25,14 @@ import KakaJSON
             if !success {
                 let errorInfo = error?.errorDescription ?? ""
                 consoleLogInfo(errorInfo, type: .error)
-                UIViewController.currentController?.makeToast(toast: errorInfo, duration: 3)
+                UIViewController.currentController?.showToast(toast: errorInfo, duration: 3)
             } else {
                 if userProperty {
                     self?.updateUserInfo(userInfo: userInfo, completion: { success, error in
                         if !success {
                             let errorInfo = "update user info failure:\(error?.errorDescription ?? "")"
                             consoleLogInfo(errorInfo, type: .error)
-                            UIViewController.currentController?.makeToast(toast: errorInfo, duration: 3)
+                            UIViewController.currentController?.showToast(toast: errorInfo, duration: 3)
                         }
                     })
                 }
@@ -113,7 +113,12 @@ extension UserServiceImplement:UserServiceProtocol {
         user.nickName = info.nickname ?? ""
         user.avatarURL = info.avatarUrl ?? ""
         user.gender = info.gender
-        user.identify = info.ext ?? ""
+        if let ext = info.ext{
+            let extMap = ext.chatroom.jsonToDictionary()
+            if let identify = extMap["identify"] as? String {
+                user.identify = identify
+            }
+        }
         return user
     }
     
@@ -123,7 +128,9 @@ extension UserServiceImplement:UserServiceProtocol {
         info.nickname = user.nickName
         info.avatarUrl = user.avatarURL
         info.gender = user.gender
-        info.ext = user.identify
+        //In addition to the existing user attribute fields in the UserInfo object of the SDK, other extended fields are placed in the ext map and serialized into json string to interact with other terminals.
+        let ext = ["identify":user.identify].chatroom.jsonString
+        info.ext = ext
         return info
     }
     

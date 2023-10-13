@@ -36,7 +36,7 @@ final class ChatroomListViewController: UITableViewController {
                 self?.chatrooms.append(contentsOf: result?.list ?? [])
                 self?.tableView.reloadDataSafe()
             } else {
-                self?.makeToast(toast: "get chatroom error:\(error?.errorDescription ?? "")", duration: 3)
+                self?.showToast(toast: "get chatroom error:\(error?.errorDescription ?? "")", duration: 3)
             }
         })
     }
@@ -78,7 +78,7 @@ final class ChatroomListViewController: UITableViewController {
     
 }
 
-class ChatroomCell: UITableViewCell {
+final class ChatroomCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
     }
