@@ -17,6 +17,10 @@ import UIKit
         super.init(frame: frame)
     }
     
+    /// Init a empty state view.
+    /// - Parameters:
+    ///   - frame: CGRect
+    ///   - emptyImage: UIImage?
     @objc public required convenience init(frame: CGRect,emptyImage: UIImage?) {
         self.init(frame: frame)
         self.setupView()

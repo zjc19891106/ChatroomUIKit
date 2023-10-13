@@ -66,6 +66,8 @@ import UIKit
         fatalError("init(coder:) has not been implemented")
     }
     
+    /// Refresh gift item view.
+    /// - Parameter item: ``GiftEntityProtocol``
     @objc public func refresh(item: GiftEntityProtocol?) {
         self.gift = item
         self.contentView.isHidden = (item == nil)

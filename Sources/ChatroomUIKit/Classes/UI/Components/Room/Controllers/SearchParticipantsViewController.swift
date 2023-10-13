@@ -63,6 +63,8 @@ import UIKit
         Theme.registerSwitchThemeViews(view: self)
     }
     
+    /// Remove a user.
+    /// - Parameter userId: user id
     @objc public func removeUser(userId: String) {
         if self.searchController.isActive {
             self.searchResults.removeAll { $0.userId == userId }

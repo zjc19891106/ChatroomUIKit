@@ -13,7 +13,7 @@ import UIKit
  
  This cell contains a container view, a time label, a user identity image view, an avatar image view, and a content label. The appearance of these subviews can be customized by setting the ``ChatBarrageCellStyle`` of the cell.
  
- Use the ``refresh(chat:)`` method to update the content of the cell with a `ChatEntity` object.
+ Use the ``refresh(chat:)`` method to update the content of the cell with a ``ChatEntity`` object.
  */
 @objcMembers open class ChatBarrageCell: UITableViewCell {
     
@@ -173,7 +173,7 @@ fileprivate let gift_tail_indent: CGFloat = 26
     /// The width of the chat entity, calculated based on the attributed text and the width of the chat view.
     lazy public var width: CGFloat = UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth - 54, height: 15)).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeText).sizeThatFits(CGSize(width: chatViewWidth - 54, height: 9999)).width+(self.gift != nil ? gift_tail_indent:0)
     
-    /// Chat barrage display gift info.Need to set it.
+    /// Chat barrage display gift info.Need to set it.``GiftEntityProtocol``
     lazy public var gift: GiftEntityProtocol? = nil
     
     /// Converts the message text into an attributed string, including the user's nickname, message text, and emojis.

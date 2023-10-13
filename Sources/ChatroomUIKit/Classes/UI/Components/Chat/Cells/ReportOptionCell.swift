@@ -40,6 +40,10 @@ import UIKit
         self.stateView.frame = CGRect(x: self.contentView.frame.width-44, y: (self.contentView.frame.height-32)/2.0, width: 32, height: 32)
     }
     
+    /// Refresh report option select state.
+    /// - Parameters:
+    ///   - select: Whether select or not.
+    ///   - title: title
     @objc public func refresh(select: Bool ,title: String) {
         self.stateView.image(select ? self.selectImage:self.normalImage)
         self.content.text = title

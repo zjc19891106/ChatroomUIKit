@@ -79,7 +79,9 @@ import UIKit
         self.giftIcon.frame = CGRect(x: frame.width / 5.0 * 3, y: 0, width: self.container.frame.height, height: self.container.frame.height)
         self.giftNumbers.frame = CGRect(x: self.giftIcon.frame.maxX + 5, y: 5, width: self.container.frame.width - self.giftIcon.frame.maxX - 5, height: self.container.frame.height - 5)
     }
-
+    
+    /// Refresh view on receive gift.
+    /// - Parameter item: ``GiftEntityProtocol``
     @objc open func refresh(item: GiftEntityProtocol) {
         if self.gift == nil {
             self.gift = item
