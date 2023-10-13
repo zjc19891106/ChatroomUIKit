@@ -91,7 +91,7 @@ ChatroomUIKit
 ## [Document](https://github.com/zjc19891106/ChatroomUIKit/tree/main/Documentation/ChatroomUIKit.doccarchive)
  You can use Xcode to open the ChatroomUIKit.doccarchive file to view the document in Xcode deploy it to your homepage for viewing.
  
- You can right-click to display the package contents and copy all files inside to a folder. Then drag this folder to the `terminal` app and run the following command to deploy it to the local IP address. You can view it by accessing the link, or you can deploy it to an external network address.
+ You can also right-click to display the package contents and copy all files inside to a folder. Then drag this folder to the `terminal` app and run the following command to deploy it to the local IP address. You can view it by accessing the link, or you can deploy it to an external network address.
  
  ```
  python3 -m http.server 8080
