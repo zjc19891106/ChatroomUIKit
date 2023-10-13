@@ -11,13 +11,25 @@ import ChatroomUIKit
 
 final class HueSettingViewController: UIViewController {
     
+    @IBOutlet weak var scope: UILabel!
+    
+    @IBOutlet weak var primaryHue: UILabel!
+    
     @IBOutlet weak var primaryValue: UISlider!
+    
+    @IBOutlet weak var secondaryHue: UILabel!
     
     @IBOutlet weak var secondaryValue: UISlider!
     
+    @IBOutlet weak var errorHue: UILabel!
+    
     @IBOutlet weak var errorValue: UISlider!
     
+    @IBOutlet weak var neutralHue: UILabel!
+    
     @IBOutlet weak var neutralValue: UISlider!
+    
+    @IBOutlet weak var neutralSpecialHue: UILabel!
     
     @IBOutlet weak var neutralSpecialValue: UISlider!
     
@@ -28,7 +40,6 @@ final class HueSettingViewController: UIViewController {
     }
     
     @IBAction func valueChanged(_ sender: UISlider) {
-        var value = CGFloat(0)
         switch sender.tag {
         case 5: Appearance.primaryHue = CGFloat(sender.value)
         case 6: Appearance.secondaryHue = CGFloat(sender.value)
@@ -39,5 +50,9 @@ final class HueSettingViewController: UIViewController {
             break
         }
         Theme.switchHues()
+    }
+    
+    override class func setValue(_ value: Any?, forUndefinedKey key: String) {
+        
     }
 }

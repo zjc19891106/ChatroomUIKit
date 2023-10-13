@@ -292,16 +292,16 @@
                     </view>
                     <navigationItem key="navigationItem" id="Xjy-JG-Jwt"/>
                     <connections>
-                        <outlet property="errorHue" destination="ACz-TL-QQH" id="TSI-9k-K1d"/>
+                        <outlet property="errorHue" destination="ACz-TL-QQH" id="Brb-J8-2fp"/>
                         <outlet property="errorValue" destination="i5s-nO-wXh" id="QaO-6h-NsS"/>
-                        <outlet property="neutralHue" destination="szt-4i-P4f" id="D3r-ob-DUG"/>
-                        <outlet property="neutralSpecialHue" destination="gZZ-Bf-GfG" id="Ydp-W8-LVH"/>
+                        <outlet property="neutralHue" destination="szt-4i-P4f" id="lcR-ut-x5C"/>
+                        <outlet property="neutralSpecialHue" destination="gZZ-Bf-GfG" id="dGG-Bb-C9J"/>
                         <outlet property="neutralSpecialValue" destination="9Il-Lm-wK5" id="WQZ-BP-EDl"/>
                         <outlet property="neutralValue" destination="HCy-v7-VRi" id="ASV-oR-kVw"/>
-                        <outlet property="primaryHue" destination="VCX-Yh-CAT" id="OhT-82-niD"/>
+                        <outlet property="primaryHue" destination="VCX-Yh-CAT" id="IuF-Jc-pTT"/>
                         <outlet property="primaryValue" destination="zDG-LH-vrM" id="Of1-h5-69x"/>
-                        <outlet property="scope" destination="YBF-NI-G88" id="quz-sx-do8"/>
-                        <outlet property="secondaryHue" destination="QSP-rY-gYq" id="N2Z-Xv-d0s"/>
+                        <outlet property="scope" destination="YBF-NI-G88" id="sm4-uf-XdL"/>
+                        <outlet property="secondaryHue" destination="QSP-rY-gYq" id="qjg-vo-fER"/>
                         <outlet property="secondaryValue" destination="TwI-kE-4Wu" id="6vR-ty-VFB"/>
                     </connections>
                 </viewController>
@@ -315,7 +315,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray6Color">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

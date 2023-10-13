@@ -7,6 +7,10 @@
 
 # Sample Demo
 
+After you download the project, there is a best practice demonstration project in the Example folder. You can refer to this project to build your business.
+
+The QR code below is a demo that can be used to demonstrate and switch most functions of ChatroomUIKit.
+
 ![SampleDemo](./Documentation/demo.png).
 
 # Chatroom UIKit Guide 
