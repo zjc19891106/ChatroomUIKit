@@ -63,6 +63,8 @@ var chatViewWidth: CGFloat = 0
     private var lastOffsetY = CGFloat(0)
 
     private var cellOffset = CGFloat(0)
+    
+    private var hover = false
 
     public var messages: [ChatEntity]? = [ChatEntity]()
 
@@ -98,7 +100,7 @@ var chatViewWidth: CGFloat = 0
     }
     
     deinit {
-        consoleLogInfo("Deinit chatbarragelist", type: .debug)
+        consoleLogInfo("deinit \(self.swiftClassName ?? "")", type: .debug)
     }
 
 }
@@ -147,6 +149,10 @@ extension ChatBarrageList:UITableViewDelegate, UITableViewDataSource {
             }
         }
     }
+        
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.hover = true
+    }
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let indexPath = self.chatView.indexPathForRow(at: scrollView.contentOffset) ?? IndexPath(row: 0, section: 0)
@@ -166,6 +172,12 @@ extension ChatBarrageList:UITableViewDelegate, UITableViewDataSource {
         self.lastOffsetY = offsetY
         if self.lastOffsetY == 0 {
             self.cellOffset = 0
+        }
+        let contentHeight = scrollView.contentSize.height
+        let tableHeight = scrollView.bounds.size.height
+        
+        if offsetY > contentHeight - tableHeight {
+            self.hover = false
         }
     }
     
@@ -206,9 +218,20 @@ extension ChatBarrageList: IChatBarrageListDrive {
     
     public func showNewMessage(message: ChatMessage,gift: GiftEntityProtocol?) {
         self.messages?.append(self.convertMessageToRender(message: message, gift: gift))
-        self.chatView.reloadDataSafe()
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
-            self.scrollTableViewToBottom()
+        if message.from == ChatClient.shared().currentUsername {
+            self.chatView.reloadDataSafe()
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
+                self.scrollTableViewToBottom()
+            }
+        } else {
+            if !self.hover {
+                self.chatView.reloadDataSafe()
+                DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
+                    self.scrollTableViewToBottom()
+                }
+            } else {
+                //TODO: - How much messages were received?
+            }
         }
     }
     

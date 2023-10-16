@@ -43,7 +43,7 @@ import UIKit
     }()
 
     lazy var displayValue: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 0, y: self.name.frame.maxY + 1, width: self.contentView.frame.width, height: 15)).font(UIFont.theme.labelExtraSmall).textColor(UIColor.theme.neutralColor5, .normal).isUserInteractionEnabled(false).backgroundColor(.clear).image(UIImage(named: "dollar", in: .chatroomBundle, with: nil), .normal)
+        UIButton(type: .custom).frame(CGRect(x: 0, y: self.name.frame.maxY + 1, width: self.contentView.frame.width, height: 15)).font(UIFont.theme.labelExtraSmall).textColor(UIColor.theme.neutralColor5, .normal).isUserInteractionEnabled(false).backgroundColor(.clear).image(Appearance.giftPriceIcon, .normal)
     }()
 
     override required public init(frame: CGRect) {

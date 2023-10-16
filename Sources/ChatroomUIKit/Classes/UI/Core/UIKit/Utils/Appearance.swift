@@ -72,6 +72,9 @@ import UIKit
     /// Gift list ``GiftEntityCell`` cell's gift image view placeholder image.
     public static var giftPlaceHolder: UIImage? = UIImage(named: "sendgift", in: .chatroomBundle, with: nil)
     
+    /// Gift list ``GiftEntityCell`` cell's gift price default image.
+    public static var giftPriceIcon: UIImage? = UIImage(named: "dollar", in: .chatroomBundle, with: nil)
+    
     /// ``ChatBarrageCell`` avatar image view placeholder image.
     public static var avatarPlaceHolder: UIImage? = UIImage(named: "default_avatar", in: .chatroomBundle, with: nil)
     

@@ -70,6 +70,10 @@ open class ParticipantsController: UITableViewController {
         self.fetchUsers()
     }
     
+    deinit {
+        consoleLogInfo("deinit \(self.swiftClassName ?? "")", type: .debug)
+    }
+    
     func fetchUsers() {
         self.loadingView.startAnimating()
         if self.muteTab {

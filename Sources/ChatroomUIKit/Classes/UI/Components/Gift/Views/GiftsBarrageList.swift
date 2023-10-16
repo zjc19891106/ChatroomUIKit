@@ -76,7 +76,10 @@ import UIKit
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
+    deinit {
+        consoleLogInfo("deinit \(self.swiftClassName ?? "")", type: .debug)
+    }
 }
 
 

@@ -77,14 +77,6 @@
                     "giftName": "Rocket",
                     "giftPrice": 1000,
                     "effectMD5": "de5094b30eebeadf8b8f5d8357a19578"
-                },
-                {
-                    "giftId": "beada6a3-eae6-450e-869c-743d02fa95e7",
-                    "giftIcon": "https://fullapp.oss-cn-beijing.aliyuncs.com/uikit/pictures/gift/AUIKitGift12.png",
-                    "giftEffect": "https://fullapp.oss-cn-beijing.aliyuncs.com/uikit/pag/rocket.pag",
-                    "giftName": "Rocket",
-                    "giftPrice": 1000,
-                    "effectMD5": "de5094b30eebeadf8b8f5d8357a19578"
                 }
             ]
 }

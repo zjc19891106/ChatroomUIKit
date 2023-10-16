@@ -29,7 +29,7 @@ The QR code below is a demo that can be used to demonstrate and switch most func
 - [AdvancedUsage](#advancedusage)
 - [Customize](#customize)
 - [BusinessFlowchart](#businessflowchart)
-- [UML](#uml)
+- [ApiSequenceDiagram](#apisequencediagram)
 - [DesignGuidelines](#designguidelines)
 - [Contributing](#contributing)
 - [License](#license)
@@ -292,7 +292,7 @@ The following figure mainly describes the starting and ending logic of business 
 
 ![Overall flow diagram of business logic](./Documentation/BusinessFlowchart.png)
 
-# UML
+# ApiSequenceDiagram
 
 The following figure is the best practice api calling sequence diagram in the Example project.
 

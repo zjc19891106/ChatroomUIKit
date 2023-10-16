@@ -89,6 +89,10 @@ import UIKit
         self.switchTheme(style: Theme.style)
     }
     
+    deinit {
+        consoleLogInfo("deinit \(self.swiftClassName ?? "")", type: .debug)
+    }
+    
     public override func numberOfSections(in tableView: UITableView) -> Int {
         1
     }

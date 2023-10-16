@@ -75,7 +75,9 @@ import UIKit
         fatalError("init(coder:) has not been implemented")
     }
 
-
+    deinit {
+        consoleLogInfo("deinit \(self.swiftClassName ?? "")", type: .debug)
+    }
 }
 
 extension GiftsView: UICollectionViewDelegate,UICollectionViewDataSource,GiftEntityCellActionEvents {

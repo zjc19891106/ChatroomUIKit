@@ -32,6 +32,9 @@ import UIKit
         self.giftsView.addActionHandler(actionHandler: self)
     }
     
+    deinit {
+        consoleLogInfo("deinit \(self.swiftClassName ?? "")", type: .debug)
+    }
 }
 
 extension GiftsViewController: GiftsViewActionEventsDelegate {
