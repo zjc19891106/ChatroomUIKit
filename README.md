@@ -29,7 +29,7 @@ The QR code below is a demo that can be used to demonstrate and switch most func
 - [AdvancedUsage](#advancedusage)
 - [Customize](#customize)
 - [BusinessFlowchart](#businessflowchart)
-- [UML]#(uml)
+- [UML](#uml)
 - [DesignGuidelines](#designguidelines)
 - [Contributing](#contributing)
 - [License](#license)
