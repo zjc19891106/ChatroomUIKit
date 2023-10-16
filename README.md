@@ -289,7 +289,7 @@ Please note that custom themes and native themes are mutually exclusive and do n
 
 The following figure mainly describes the starting and ending logic of business requests and callbacks.
 
-![Overall flow diagram of business logic](./Documentation/BusinessFlowchart)
+![Overall flow diagram of business logic](./Documentation/BusinessFlowchart.png)
 
 # DesignGuidelines
 
