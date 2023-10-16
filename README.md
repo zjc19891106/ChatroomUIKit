@@ -29,6 +29,7 @@ The QR code below is a demo that can be used to demonstrate and switch most func
 - [AdvancedUsage](#advancedusage)
 - [Customize](#customize)
 - [BusinessFlowchart](#businessflowchart)
+- [UML]#(uml)
 - [DesignGuidelines](#designguidelines)
 - [Contributing](#contributing)
 - [License](#license)
@@ -290,6 +291,12 @@ Please note that custom themes and native themes are mutually exclusive and do n
 The following figure mainly describes the starting and ending logic of business requests and callbacks.
 
 ![Overall flow diagram of business logic](./Documentation/BusinessFlowchart.png)
+
+# UML
+
+The following figure is the best practice api calling sequence diagram in the Example project.
+
+![APIUML](/Documentation/Api.png)
 
 # DesignGuidelines
 
