@@ -28,6 +28,7 @@ The QR code below is a demo that can be used to demonstrate and switch most func
 - [QuickStart](#quickStart)
 - [AdvancedUsage](#advancedusage)
 - [Customize](#customize)
+- [BusinessFlowchart](#businessflowchart)
 - [DesignGuidelines](#designguidelines)
 - [Contributing](#contributing)
 - [License](#license)
@@ -283,6 +284,12 @@ For details, please refer to [ComponentsRegister](https://github.com/zjc19891106
 ```
 
 Please note that custom themes and native themes are mutually exclusive and do not support simultaneous switching.
+
+# BusinessFlowchart
+
+The following figure mainly describes the starting and ending logic of business requests and callbacks.
+
+![Overall flow diagram of business logic](./Documentation/BusinessFlowchart)
 
 # DesignGuidelines
 
