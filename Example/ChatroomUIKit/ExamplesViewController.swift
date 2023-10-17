@@ -34,6 +34,7 @@ final class ExamplesViewController: UIViewController {
     }
 
     @IBAction func push_business_UI(_ sender: Any) {
+        ChatroomUIKitClient.shared.logout()
         let user = ExampleRequiredConfig.YourAppUser()
         if let userName = self.userNameField.text,!userName.isEmpty {
             user.userId = userName

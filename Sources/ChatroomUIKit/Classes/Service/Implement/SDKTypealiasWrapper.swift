@@ -11,7 +11,6 @@ import Foundation
  
  If HyphenateChat is imported, the typealiases are defined for HyphenateChat classes. If AgoraChat is imported, the typealiases are defined for AgoraChat classes.
  
- - Author: GitHub Copilot
  */
 
 #if canImport(HyphenateChat)

@@ -253,12 +253,18 @@ fileprivate let gift_tail_indent: CGFloat = 26
 }
 
 public extension ChatMessage {
+    
+    /// ``UserInfoProtocol``
     var user: UserInfoProtocol? {
         ChatroomContext.shared?.usersMap?[self.from]
     }
+    
+    /// Content of the text message.
     var text: String {
         (self.body as? ChatTextMessageBody)?.text ?? ""
     }
+    
+    /// Translation of the text message.
     var translation: String? {
         (self.body as? ChatTextMessageBody)?.translations?[Appearance.targetLanguage.rawValue]
     }

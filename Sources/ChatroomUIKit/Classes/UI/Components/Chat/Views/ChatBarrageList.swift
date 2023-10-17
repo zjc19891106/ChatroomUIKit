@@ -64,7 +64,22 @@ var chatViewWidth: CGFloat = 0
 
     private var cellOffset = CGFloat(0)
     
-    private var hover = false
+    private var hover = false {
+        willSet {
+            DispatchQueue.main.async {
+                if !newValue {
+                    self.moreMessagesCount = 0
+                }
+                if self.moreMessagesCount > 0 {
+                    self.moreMessages.isHidden = !newValue
+                } else {
+                    self.moreMessages.isHidden = true
+                }
+            }
+        }
+    }
+    
+    private var moreMessagesCount = 0
 
     public var messages: [ChatEntity]? = [ChatEntity]()
 
@@ -79,6 +94,10 @@ var chatViewWidth: CGFloat = 0
     private lazy var blurView: UIView = {
         UIView(frame: CGRect(x: 0, y: 0, width: chatViewWidth, height: self.frame.height)).backgroundColor(.clear).isUserInteractionEnabled(true)
     }()
+    
+    lazy var moreMessages: UIButton = {
+        UIButton(type: .custom).frame(CGRect(x: 10, y: self.chatView.frame.maxY-26, width: 180, height: 26)).cornerRadius(.large).font(UIFont.theme.labelMedium)
+    }()
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -87,11 +106,15 @@ var chatViewWidth: CGFloat = 0
         self.addSubViews([self.blurView])
         self.blurView.layer.mask = self.gradientLayer
         self.blurView.addSubview(self.chatView)
+        self.chatView.addSubview(self.moreMessages)
+        self.moreMessages.isHidden = true
         self.chatView.bounces = false
         self.chatView.allowsSelection = false
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longGesture(gesture:)))
         longGesture.minimumPressDuration = 0.5
         self.chatView.addGestureRecognizer(longGesture)
+        Theme.registerSwitchThemeViews(view: self)
+        self.switchTheme(style: Theme.style)
     }
     
     @available(*, unavailable)
@@ -196,6 +219,19 @@ extension ChatBarrageList:UITableViewDelegate, UITableViewDataSource {
 
 }
 
+extension ChatBarrageList: ThemeSwitchProtocol {
+    public func switchTheme(style: ThemeStyle) {
+        self.moreMessages.backgroundColor(style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98)
+        self.moreMessages.textColor(style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5, .normal)
+        self.moreMessages.image(UIImage(named: "more_messages", in: .chatroomBundle, with: nil)?.withTintColor(style == .dark ? UIColor.theme.primaryColor6:UIColor.theme.primaryColor5), .normal)
+    }
+    
+    public func switchHues() {
+        self.switchTheme(style: .light)
+    }
+    
+    
+}
 
 extension ChatBarrageList: IChatBarrageListDrive {
     public func cleanMessages() {
@@ -231,6 +267,12 @@ extension ChatBarrageList: IChatBarrageListDrive {
                 }
             } else {
                 //TODO: - How much messages were received?
+                self.moreMessagesCount += 1
+                var count = "\(self.moreMessagesCount)"
+                if self.moreMessagesCount > 99 {
+                    count = "99+ "
+                }
+                self.moreMessages.setTitle("    \(count)new messages", for: .normal)
             }
         }
     }
