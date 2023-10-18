@@ -5,7 +5,6 @@
 //  Created by 朱继超 on 2020/12/16.
 //
 
-import Foundation
 import UIKit
 
 /// The width of the screen in points.
