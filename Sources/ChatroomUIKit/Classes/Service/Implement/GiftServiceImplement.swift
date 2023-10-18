@@ -31,6 +31,10 @@ let chatroom_UIKit_gift = "CHATROOMUIKITGIFT"
             }
         }
     }
+    
+    deinit {
+        ChatClient.shared().removeDelegate(self)
+    }
 }
 //MARK: - GiftService
 extension GiftServiceImplement: GiftService {
