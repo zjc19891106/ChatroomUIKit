@@ -110,4 +110,7 @@ import UIKit
     
     /// Participants list page size.
     public static var membersPageSize: UInt = 10
+    
+    /// Participants mute list page size.
+    public static var mutePageSize: UInt = 200
 }

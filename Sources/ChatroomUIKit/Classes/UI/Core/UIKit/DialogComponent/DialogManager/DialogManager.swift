@@ -29,7 +29,15 @@ import UIKit
             .shared.ParticipantsViewController.init(muteTab: false, moreClosure: moreClosure)
         let mutes = ComponentsRegister
             .shared.ParticipantsViewController.init(muteTab: true, moreClosure: muteMoreClosure)
-        let container = PageContainersDialogController(pageTitles: ["participant_list_title".chatroom.localize,"Ban List".chatroom.localize], childControllers: [participants,mutes],constraintsSize: Appearance.pageContainerConstraintsSize)
+        var pageTitles = ["participant_list_title".chatroom.localize,"Ban List".chatroom.localize]
+        if ChatroomContext.shared?.owner ?? false == false {
+            pageTitles = ["participant_list_title".chatroom.localize]
+        }
+        var controllers = [participants,mutes]
+        if ChatroomContext.shared?.owner ?? false == false {
+            controllers = [participants]
+        }
+        let container = PageContainersDialogController(pageTitles: pageTitles, childControllers: controllers,constraintsSize: Appearance.pageContainerConstraintsSize)
         UIViewController.currentController?.presentViewController(container)
     }
     

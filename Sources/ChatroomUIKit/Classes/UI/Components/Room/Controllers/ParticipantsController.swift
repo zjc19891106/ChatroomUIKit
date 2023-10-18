@@ -77,7 +77,7 @@ open class ParticipantsController: UITableViewController {
     func fetchUsers() {
         self.loadingView.startAnimating()
         if self.muteTab {
-            self.roomService.fetchMuteUsers(pageSize: Appearance.membersPageSize) { [weak self] datas, error in
+            self.roomService.fetchMuteUsers(pageSize: Appearance.mutePageSize) { [weak self] datas, error in
                 DispatchQueue.main.async {
                     self?.loadingView.stopAnimating()
                     self?.fetchFinish = true
@@ -130,9 +130,11 @@ open class ParticipantsController: UITableViewController {
     }
     
     open override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if UInt(self.users.count)%Appearance.membersPageSize == 0,self.users.count - 2 == indexPath.row,self.fetchFinish {
-            self.fetchFinish = false
-            self.fetchUsers()
+        if !self.muteTab {
+            if UInt(self.users.count)%Appearance.membersPageSize == 0,self.users.count - 2 == indexPath.row,self.fetchFinish {
+                self.fetchFinish = false
+                self.fetchUsers()
+            }
         }
     }
     
