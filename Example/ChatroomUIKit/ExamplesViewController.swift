@@ -21,9 +21,7 @@ final class ExamplesViewController: UIViewController {
     
     @IBOutlet weak var chatTokenField: UITextField!
     
-    lazy var nickNameField: UITextField = {
-        UITextField(frame: CGRect(x: 40, y: self.chatTokenField.frame.maxY+20, width: ScreenWidth-80, height: 35)).backgroundColor(.systemGray6).cornerRadius(3).placeholder("Please input nick name").font(.systemFont(ofSize: 14, weight: .regular)).delegate(self).tag(12)
-    }()
+    @IBOutlet weak var nickNameField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +30,7 @@ final class ExamplesViewController: UIViewController {
         self.view.addSubview(self.nickNameField)
         self.userNameField.delegate = self
         self.chatTokenField.delegate = self
+        self.nickNameField.delegate = self
     }
     
     @IBAction func push_component_UI(_ sender: UIButton) {
