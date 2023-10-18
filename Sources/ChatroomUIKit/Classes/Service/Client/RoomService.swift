@@ -185,19 +185,19 @@ import UIKit
     /// - Parameters:
     ///   - roomId: Chatroom id
     ///   - completion: switch result
-    @objc public func switchChatroom(roomId: String,completion: @escaping (ChatError?) -> Void) {
-        self.leaveRoom { _ in }
-        self.roomId = roomId
-        ChatroomContext.shared?.roomId = self.roomId
-        ChatroomContext.shared?.usersMap?.removeAll()
-        ChatroomContext.shared?.muteMap?.removeAll()
-        self.enterRoom(completion: { [weak self] in
-            if $0 == nil {
-                self?.chatDrive?.cleanMessages()
-            }
-            completion($0)
-        })
-    }
+//    @objc public func switchChatroom(roomId: String,completion: @escaping (ChatError?) -> Void) {
+//        self.leaveRoom { _ in }
+//        self.roomId = roomId
+//        ChatroomContext.shared?.roomId = self.roomId
+//        ChatroomContext.shared?.usersMap?.removeAll()
+//        ChatroomContext.shared?.muteMap?.removeAll()
+//        self.enterRoom(completion: { [weak self] in
+//            if $0 == nil {
+//                self?.chatDrive?.cleanMessages()
+//            }
+//            completion($0)
+//        })
+//    }
     
     @objc public func enterRoom(completion: @escaping (ChatError?) -> Void) {
         if let userId = ChatroomContext.shared?.currentUser?.userId  {
@@ -267,7 +267,7 @@ import UIKit
                         unknownUserIds.append(userId)
                     }
                 }
-                if ChatroomUIKitClient.shared.option.useProperties {
+                if ChatroomUIKitClient.shared.option.option_chat.useProperties {
                     if unknownUserIds.count > 0,self.pageNum <= 1 {
                         ChatroomUIKitClient.shared.userImplement?.userInfos(userIds: unknownUserIds, completion: { infos, error in
                             if error == nil {
@@ -323,7 +323,7 @@ import UIKit
                         unknownUserIds.append(userId)
                     }
                 }
-                if unknownUserIds.count > 0,self.pageNum == 1,ChatroomUIKitClient.shared.option.useProperties {
+                if unknownUserIds.count > 0,self.pageNum == 1,ChatroomUIKitClient.shared.option.option_chat.useProperties {
                     ChatroomUIKitClient.shared.userImplement?.userInfos(userIds: unknownUserIds, completion: { infos, error in
                         if error == nil {
                             var users = [UserInfoProtocol]()

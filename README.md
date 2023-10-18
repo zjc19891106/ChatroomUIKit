@@ -26,6 +26,7 @@ The QR code below is a demo that can be used to demonstrate and switch most func
 - [Documentation](#documentation)
 - [Structure](#structure)
 - [QuickStart](#quickStart)
+- [Precautions](#precautions)
 - [AdvancedUsage](#advancedusage)
 - [Customize](#customize)
 - [BusinessFlowchart](#businessflowchart)
@@ -115,6 +116,8 @@ UI components can be inherited to add specific illustrations of custom business 
 ## [GiftsViewController](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/GiftsViewController.md)
 This is a container containing a gift list. You can inherit this class to implement additional UI definitions and business processing. After clicking the Send button, decide whether to close the gift pop-up window after a gift is delivered to display some animation effects and display special effects. It is recommended to use Tencent libpag, or go to the server to call the gift interface in your business, and then send the gift message to the chat room after the call is successful.
 
+
+
 # QuickStart
 
 This guide provides several usage examples for different ChatroomUIKit components. Refer to the Examples folder for detailed code snippets and projects showcasing various use cases.
@@ -155,18 +158,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 ### Step 3: Create chatroom view
 ```Swift
-        //Required,you need fetch room list or create room contain owner info from app server.Then join room with chatroom id.
+        // Required,you need fetch room list or create room contain owner info from app server.Then join room with chatroom id.
         // Let's start creating the ChatroomView. The parameters that need to be passed in include layout parameters, the bottom toolbar extension button model protocol array, whether to hide the button that evokes the input box, etc.
         // Where to get?
         // First,enter `https://console.agora.io/project/` console.
         // Follow the following process to create a chat room on console.    
         // `ProjectManager->Operation Manager->Chat Room->Create Chat Room`.
-        //Then fill in the `chatroomId` parameter below.
+        // Then fill in the `chatroomId` parameter below.
+        // Note that it is recommended that you initialize the width of ChatroomView to the width of the screen, and the height should be no less than the height of the screen minus the height of the navigation.
+        // Please refer to event transparent transmission (#precautions)
         let roomView = ChatroomUIKitClient.shared.launchRoomView(roomId: String,frame: CGRect, is owner: Bool)        
         //Then add to you destination frame.
         //Next,process is `ProjectManager->Operation Manager->Chat Room->More->View chat room members->Add members.
 ```
 ![CreateChatroom](./Documentation/CreateChatroom.png).
+
+# Precautions
+
+After calling `ChatroomUIKitClient.shared.launchRoomView(roomId: String, frame: CGRect, is owner: Bool)`, be sure to add ChatroomView above your existing view to facilitate interception and transparent transmission of click events.
+
+For example, if you have a view that plays video streams, please add ChatroomView above the view that plays video streams.
+
+
 # AdvancedUsage
 
 Let me give three examples below

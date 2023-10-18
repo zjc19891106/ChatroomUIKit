@@ -17,8 +17,8 @@ final class UIWithBusinessViewController: UIViewController {
     
     var owner = false
     
-    var option: ChatroomUIKitInitialOptions {
-        let options  = ChatroomUIKitInitialOptions()
+    var option: ChatroomUIKitInitialOptions.UIOptions {
+        let options  = ChatroomUIKitInitialOptions.UIOptions()
         options.bottomDataSource = self.bottomBarDatas()
         options.showGiftsBarrage = true
         options.hiddenChatRaise = false
@@ -105,7 +105,7 @@ extension UIWithBusinessViewController {
     }
     
     @objc func switchValueChanged(sender: UISwitch) {
-        ChatroomUIKitClient.shared.option.chatBarrageShowGift = sender.isOn
+        ChatroomUIKitClient.shared.option.option_UI.chatBarrageShowGift = sender.isOn
     }
     
     @objc func showParticipants() {
@@ -189,7 +189,7 @@ extension UIWithBusinessViewController: RoomEventsListener {
     func onUserTokenDidExpired() {
         self.showToast(toast: "User chat token was expired.", duration: 3)
         //SDK will auto enter current chatroom of `ChatroomContext` on reconnect success.
-        ChatroomUIKitClient.shared.login(with: ExampleRequiredConfig.YourAppUser(), token: ExampleRequiredConfig.chatToken, use: true) { [weak self] error in
+        ChatroomUIKitClient.shared.login(user: ExampleRequiredConfig.YourAppUser(), token: ExampleRequiredConfig.chatToken) { [weak self] error in
             if error != nil {
                 self?.showToast(toast: "User chat token was expired.Login again error:\(error?.errorDescription ?? "")", duration: 3)
             }

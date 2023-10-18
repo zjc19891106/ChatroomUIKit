@@ -28,7 +28,6 @@ import KakaJSON
                 UIViewController.currentController?.showToast(toast: errorInfo, duration: 3)
             } else {
                 if userProperty {
-                    //TODO: - 是否先拉取判断所有用户属性一致就不上传，否则有不一致的属性则update
                     self?.updateUserInfo(userInfo: userInfo, completion: { success, error in
                         if !success {
                             let errorInfo = "update user info failure:\(error?.errorDescription ?? "")"

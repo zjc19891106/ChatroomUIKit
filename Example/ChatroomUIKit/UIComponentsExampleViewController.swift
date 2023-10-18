@@ -18,7 +18,7 @@ final class UIComponentsExampleViewController: UIViewController {
     }()
     
     lazy var giftBarrages: GiftsBarrageList = {
-        GiftsBarrageList(frame: CGRect(x: 10, y: 400, width: self.view.frame.width-100, height: Appearance.giftBarrageRowHeight*2+20),source:nil)
+        GiftsBarrageList(frame: CGRect(x: 10, y: 400, width: self.view.frame.width-100, height: Appearance.giftBarrageRowHeight*2),source:nil)
     }()
     
     lazy var barrageList: ChatBarrageList = {
@@ -131,37 +131,37 @@ extension UIComponentsExampleViewController: UIContextMenuInteractionDelegate {
                 self.barrageList.chatView.reloadData()
             }
             let action2 = UIAction(title: ".excludeTime", image: UIImage(systemName: "bookmark.fill")) { (_) in
-                Appearance.barrageCellStyle = .excludeTime
+                Appearance.barrageCellStyle = .hasTime
                 self.barrageList.messages?.removeAll()
                 self.barrageList.chatView.reloadData()
             }
             let action3 = UIAction(title: ".excludeLevel", image: UIImage(systemName: "bookmark.fill")) { (_) in
-                Appearance.barrageCellStyle = .excludeLevel
+                Appearance.barrageCellStyle = .hasIdentity
                 self.barrageList.messages?.removeAll()
                 self.barrageList.chatView.reloadData()
             }
             let action4 = UIAction(title: ".excludeAvatar", image: UIImage(systemName: "bookmark.fill")) { (_) in
-                Appearance.barrageCellStyle = .excludeAvatar
+                Appearance.barrageCellStyle = .hasAvatar
                 self.barrageList.messages?.removeAll()
                 self.barrageList.chatView.reloadData()
             }
             let action5 = UIAction(title: ".excludeTimeAndLevel", image: UIImage(systemName: "bookmark.fill")) { (_) in
-                Appearance.barrageCellStyle = .excludeTimeAndLevel
+                Appearance.barrageCellStyle = .hasTimeAndIdentity
                 self.barrageList.messages?.removeAll()
                 self.barrageList.chatView.reloadData()
             }
             let action6 = UIAction(title: ".excludeTimeAndAvatar", image: UIImage(systemName: "bookmark.fill")) { (_) in
-                Appearance.barrageCellStyle = .excludeTimeAndAvatar
+                Appearance.barrageCellStyle = .hasTimeAndAvatar
                 self.barrageList.messages?.removeAll()
                 self.barrageList.chatView.reloadData()
             }
             let action7 = UIAction(title: ".excludeLevelAndAvatar", image: UIImage(systemName: "bookmark.fill")) { (_) in
-                Appearance.barrageCellStyle = .excludeLevelAndAvatar
+                Appearance.barrageCellStyle = .hasLevelAndAvatar
                 self.barrageList.messages?.removeAll()
                 self.barrageList.chatView.reloadData()
             }
             let action8 = UIAction(title: ".excludeTimeLevelAvatar", image: UIImage(systemName: "bookmark.fill")) { (_) in
-                Appearance.barrageCellStyle = .excludeTimeLevelAvatar
+                Appearance.barrageCellStyle = .noTimeAndIdentityAndAvatar
                 self.barrageList.messages?.removeAll()
                 self.barrageList.chatView.reloadData()
             }

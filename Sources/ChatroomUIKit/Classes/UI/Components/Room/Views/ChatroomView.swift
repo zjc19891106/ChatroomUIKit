@@ -50,12 +50,12 @@ import UIKit
         
     /// Gift list on receive gift.
     public private(set) lazy var giftBarrages: GiftsBarrageList = {
-        GiftsBarrageList(frame: CGRect(x: 10, y: self.touchFrame.minY, width: self.touchFrame.width-100, height: Appearance.giftBarrageRowHeight*2+20),source:self)
+        GiftsBarrageList(frame: CGRect(x: 10, y: self.touchFrame.minY, width: self.touchFrame.width-70, height: Appearance.giftBarrageRowHeight*2),source:self)
     }()
     
     /// Chat barrages list.
     public private(set) lazy var barrageList: ChatBarrageList = {
-        ChatBarrageList(frame: CGRect(x: 0, y: self.showGiftBarrage ? self.giftBarrages.frame.maxY:self.touchFrame.minY, width: self.touchFrame.width-50, height: self.touchFrame.height-54-BottomBarHeight-5-(self.showGiftBarrage ? Appearance.giftBarrageRowHeight*2+30:0)))
+        ChatBarrageList(frame: CGRect(x: 0, y: self.showGiftBarrage ? self.giftBarrages.frame.maxY+20:self.touchFrame.minY, width: self.touchFrame.width-50, height: self.touchFrame.height-54-BottomBarHeight-5-(self.showGiftBarrage ? (Appearance.giftBarrageRowHeight*2):0)))
     }()
     
     /// Bottom function bar below chat barrages list.

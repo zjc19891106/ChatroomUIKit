@@ -96,7 +96,7 @@ var chatViewWidth: CGFloat = 0
     }()
     
     lazy var moreMessages: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 10, y: self.chatView.frame.maxY-26, width: 180, height: 26)).cornerRadius(.large).font(UIFont.theme.labelMedium)
+        UIButton(type: .custom).frame(CGRect(x: self.chatView.frame.width-180, y: self.chatView.frame.maxY, width: 180, height: 26)).cornerRadius(.large).font(UIFont.theme.labelMedium).title("    \(self.moreMessagesCount) new messages", .normal)
     }()
 
     override public init(frame: CGRect) {
@@ -106,7 +106,7 @@ var chatViewWidth: CGFloat = 0
         self.addSubViews([self.blurView])
         self.blurView.layer.mask = self.gradientLayer
         self.blurView.addSubview(self.chatView)
-        self.chatView.addSubview(self.moreMessages)
+        self.blurView.addSubview(self.moreMessages)
         self.moreMessages.isHidden = true
         self.chatView.bounces = false
         self.chatView.allowsSelection = false
@@ -266,7 +266,6 @@ extension ChatBarrageList: IChatBarrageListDrive {
                     self.scrollTableViewToBottom()
                 }
             } else {
-                //TODO: - How much messages were received?
                 self.moreMessagesCount += 1
                 var count = "\(self.moreMessagesCount)"
                 if self.moreMessagesCount > 99 {

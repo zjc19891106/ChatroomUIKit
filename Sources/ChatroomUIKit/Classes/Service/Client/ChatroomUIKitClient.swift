@@ -8,22 +8,36 @@
 import UIKit
 
 /// A wrapper class for some options when initializing ChatroomUIKit.ChatroomView.
-@objc open class ChatroomUIKitInitialOptions: NSObject {
+@objcMembers open class ChatroomUIKitInitialOptions: NSObject {
     
-    /// Whether show a gift barrage?
-    @objc public var showGiftsBarrage = false
+    public var option_UI: UIOptions = UIOptions()
     
-    /// ChatBottomBar data source.
-    @objc public var bottomDataSource: [ChatBottomItemProtocol] = []
+    public var option_chat: ChatOptions = ChatOptions()
     
-    /// Whether to hide the evoke keyboard button.
-    @objc public var hiddenChatRaise = false
+    @objcMembers public class UIOptions: NSObject {
+        /// Whether show a gift barrage?
+        @objc public var showGiftsBarrage = false
+        
+        /// ChatBottomBar data source.
+        @objc public var bottomDataSource: [ChatBottomItemProtocol] = []
+        
+        /// Whether to hide the evoke keyboard button.
+        @objc public var hiddenChatRaise = false
+        
+        /// Whether  show gift info or not on chat barrage area.
+        @objc public var chatBarrageShowGift = false
+    }
     
-    /// Whether to use user attributes.
-    @objc public var useProperties: Bool = true
-    
-    /// Whether  show gift info or not on chat barrage area.
-    @objc public var chatBarrageShowGift = false
+    @objcMembers public class ChatOptions: NSObject {
+        
+        public var enableConsoleLog = false
+
+        public var autoLogin = false
+        
+        /// Whether to use user attributes.
+        @objc public var useProperties: Bool = true
+        
+    }
 }
 
 /// ChatroomUIKit initialize class.
@@ -46,7 +60,7 @@ import UIKit
     /// Initialize chat room UIKit.
     /// - Parameter appKey: Application key.(https://docs.agora.io/en/agora-chat/get-started/enable?platform=ios)
     /// - Returns: Result error that nil  result indicates success, otherwise it fails.
-    @objc public func setup(with appKey: String) -> ChatError? {
+    @objc public func setup(with appKey: String,option: ChatroomUIKitInitialOptions.ChatOptions = ChatroomUIKitInitialOptions.ChatOptions()) -> ChatError? {
         let option = Options(appkey: appKey)
         option.enableConsoleLog = true
         option.isAutoLogin = false
@@ -57,12 +71,10 @@ import UIKit
     /// - Parameters:
     ///   - user: Conform UserInfoProtocol instance.
     ///   - token: Chat token
-    ///   - userProperties: This parameter means whether the user passes in his or her own user information (including avatar, nickname, user id) as a user attribute for use in ChatRoomUIKit.
     ///   - completion: Login result.
-    @objc public func login(with user: UserInfoProtocol,token: String,use userProperties: Bool = true,completion: @escaping (ChatError?) -> Void) {
+    @objc public func login(user: UserInfoProtocol,token: String,completion: @escaping (ChatError?) -> Void) {
         ChatroomContext.shared?.currentUser = user
-        self.option.useProperties = userProperties
-        self.userImplement = UserServiceImplement(userInfo: user, token: token, use: userProperties, completion: completion)
+        self.userImplement = UserServiceImplement(userInfo: user, token: token, use: self.option.option_chat.useProperties, completion: completion)
     }
     
     /// Login method
@@ -70,7 +82,7 @@ import UIKit
     ///   - userId: userId
     ///   - token: Chat token
     ///   - completion: Login result.
-    @objc public func login(with userId: String,token: String,completion: @escaping (ChatError?) -> Void) {
+    @objc public func login(userId: String,token: String,completion: @escaping (ChatError?) -> Void) {
         let user = User()
         user.userId = userId
         ChatroomContext.shared?.currentUser = user
@@ -89,12 +101,13 @@ import UIKit
     ///   - owner: Whether judge current user is owner or not.
     ///   - options: ``RoomUIKitInitialOptions``
     /// - Returns: ``ChatroomView``
-    @objc public func launchRoomViewWithOptions(roomId: String,frame: CGRect, is owner: Bool, options: ChatroomUIKitInitialOptions = ChatroomUIKitInitialOptions()) -> ChatroomView {
+    @objc public func launchRoomViewWithOptions(roomId: String,frame: CGRect, is owner: Bool, options: ChatroomUIKitInitialOptions.UIOptions = ChatroomUIKitInitialOptions.UIOptions()) -> ChatroomView {
         self.roomId = roomId
         ChatroomContext.shared?.roomId = roomId
-        self.option.bottomDataSource = options.bottomDataSource
-        self.option.showGiftsBarrage = options.showGiftsBarrage
-        self.option.hiddenChatRaise = options.hiddenChatRaise
+        self.option.option_UI.bottomDataSource = options.bottomDataSource
+        self.option.option_UI.showGiftsBarrage = options.showGiftsBarrage
+        self.option.option_UI.hiddenChatRaise = options.hiddenChatRaise
+        self.option.option_UI.chatBarrageShowGift = options.chatBarrageShowGift
         let room = ChatroomView(respondTouch: frame,bottom: options.bottomDataSource,showGiftBarrage: options.showGiftsBarrage,hiddenChat: options.hiddenChatRaise)
         let service = RoomService(roomId: roomId)
         self.roomService = service
