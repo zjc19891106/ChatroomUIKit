@@ -203,17 +203,17 @@ open class ParticipantsController: UITableViewController {
     }
     
     open override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        var unknownIds = [String]()
+        var unknownInfoIds = [String]()
         if let visiblePaths = tableView.indexPathsForVisibleRows {
             for indexPath in visiblePaths {
                 if let nickName = self.users[safe: indexPath.row]?.nickName,nickName.isEmpty {
-                    unknownIds.append(self.users[safe: indexPath.row]?.userId ?? "")
+                    unknownInfoIds.append(self.users[safe: indexPath.row]?.userId ?? "")
                 }
             }
         }
         
-        if !unknownIds.isEmpty {
-            self.roomService.fetchThenCacheUserInfosOnEndScroll(unknownUserIds: unknownIds) { [weak self] infos, error in
+        if !unknownInfoIds.isEmpty {
+            self.roomService.fetchThenCacheUserInfosOnEndScroll(unknownUserIds: unknownInfoIds) { [weak self] infos, error in
                 if error == nil {
                     DispatchQueue.main.async {
                         self?.tableView.reloadRows(at: self?.tableView.indexPathsForVisibleRows ?? [], with: .none)
