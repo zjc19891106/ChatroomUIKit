@@ -365,11 +365,10 @@ import UIKit
     @objc public func fetchThenCacheUserInfosOnEndScroll(unknownUserIds:[String], completion: @escaping (([UserInfoProtocol]?,ChatError?)->Void)) {
         ChatroomUIKitClient.shared.userImplement?.userInfos(userIds: unknownUserIds, completion: { infos, error in
             if error == nil {
-                var users = [UserInfoProtocol]()
                 for info in infos {
                     ChatroomContext.shared?.usersMap?[info.userId] = info
                 }
-                completion(users,error)
+                completion(infos,error)
             } else {
                 completion(nil,error)
             }
