@@ -21,10 +21,15 @@ final class ExamplesViewController: UIViewController {
     
     @IBOutlet weak var chatTokenField: UITextField!
     
+    lazy var nickNameField: UITextField = {
+        UITextField(frame: CGRect(x: self.chatTokenField.frame.minX, y: self.chatTokenField.frame.maxY+20, width: ScreenWidth-80, height: 35)).backgroundColor(.systemGray6).cornerRadius(3).placeholder("Please input nick name").font(.systemFont(ofSize: 14, weight: .regular)).delegate(self).tag(12)
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "ChatroomUIKit Examples"
         // Do any additional setup after loading the view.
+        self.view.addSubview(self.nickNameField)
         self.userNameField.delegate = self
         self.chatTokenField.delegate = self
     }
@@ -38,6 +43,9 @@ final class ExamplesViewController: UIViewController {
         let user = ExampleRequiredConfig.YourAppUser()
         if let userName = self.userNameField.text,!userName.isEmpty {
             user.userId = userName
+        }
+        if let nickName = self.nickNameField.text,!nickName.isEmpty {
+            user.nickName = nickName
         }
         ChatroomUIKitClient.shared.login(with: user, token: ExampleRequiredConfig.chatToken, use: true) { error in
             if error == nil || error?.code == .errorUserAlreadyLoginSame {

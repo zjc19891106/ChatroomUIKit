@@ -37,8 +37,14 @@ extension GiftServiceImplement: GiftService {
     
     public func sendGift(gift: GiftEntityProtocol, completion: @escaping (ChatMessage?,ChatError?) -> Void) {
         let gift = gift as? GiftEntity
-        let user = ChatroomContext.shared?.currentUser as? User
-        let message = ChatMessage(conversationID: self.currentRoomId, body: ChatCustomMessageBody(event: chatroom_UIKit_gift, customExt: ["gift" : gift?.kj.JSONString() ?? ""]), ext: user?.kj.JSONObject())
+        let user = User()
+        user.userId = ChatroomContext.shared?.currentUser?.userId ?? ""
+        user.nickName = ChatroomContext.shared?.currentUser?.nickName ?? ""
+        user.avatarURL = ChatroomContext.shared?.currentUser?.avatarURL ?? ""
+        user.identify = ChatroomContext.shared?.currentUser?.identify ?? ""
+        user.gender = ChatroomContext.shared?.currentUser?.gender ?? 1
+        let userMap = user.kj.JSONObject()
+        let message = ChatMessage(conversationID: self.currentRoomId, body: ChatCustomMessageBody(event: chatroom_UIKit_gift, customExt: ["gift" : gift?.kj.JSONString() ?? ""]), ext: userMap)
         message.chatType = .chatRoom
         ChatClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
             completion(chatMessage,error)
@@ -119,6 +125,3 @@ extension GiftServiceImplement: ChatManagerDelegate {
     }
 }
 
-//extension GiftEntityProtocol {
-//    var giftName2: String {get}
-//}
