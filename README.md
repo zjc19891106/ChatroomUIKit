@@ -166,6 +166,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Then add to you destination frame.
         //Next,process is `ProjectManager->Operation Manager->Chat Room->More->View chat room members->Add members.
 ```
+![CreateChatroom](./Documentation/CreateChatroom.png).
 # AdvancedUsage
 
 Let me give three examples below
