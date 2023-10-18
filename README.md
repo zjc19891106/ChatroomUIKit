@@ -166,12 +166,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // `ProjectManager->Operation Manager->Chat Room->Create Chat Room`.
         // Then fill in the `chatroomId` parameter below.
         // Note that it is recommended that you initialize the width of ChatroomView to the width of the screen, and the height should be no less than the height of the screen minus the height of the navigation.
-        // Please refer to event transparent transmission (#precautions)
         let roomView = ChatroomUIKitClient.shared.launchRoomView(roomId: String,frame: CGRect, is owner: Bool)        
         //Then add to you destination frame.
         //Next,process is `ProjectManager->Operation Manager->Chat Room->More->View chat room members->Add members.
 ```
 ![CreateChatroom](./Documentation/CreateChatroom.png).
+
+Please refer to the next chapter for event transparent transmission.
 
 # Precautions
 
