@@ -24,6 +24,8 @@ open class ParticipantsController: UITableViewController {
         }
     }
     
+    public private(set) var userClosure: ((UserInfoProtocol) -> Void)?
+    
     public private(set) var fetchFinish = true
     
     public private(set) var muteTab = false
@@ -31,7 +33,7 @@ open class ParticipantsController: UITableViewController {
     private var search: SearchParticipantsViewController?
     
     lazy var loadingView: LoadingView = {
-        LoadingView(frame: CGRect(x: self.tableView.frame.width/2.0 - 50, y: self.tableView.frame.height/2.0 - 50, width: 100, height: 100))
+        LoadingView(frame: CGRect(x: Appearance.pageContainerConstraintsSize.width/2.0-50, y: Appearance.pageContainerConstraintsSize.height/2.0-70, width: 100, height: 100))
     }()
     
     lazy var searchField: SearchBar = {
@@ -49,6 +51,7 @@ open class ParticipantsController: UITableViewController {
     @objc required public convenience init(muteTab:Bool = false,moreClosure: @escaping (UserInfoProtocol) -> Void) {
         self.init()
         self.muteTab = muteTab
+        self.userClosure = moreClosure
     }
     
     open override func viewDidLoad() {
@@ -157,43 +160,7 @@ open class ParticipantsController: UITableViewController {
     
     private func operationUser(user: UserInfoProtocol) {
         self.filterItems(user: user)
-        DialogManager.shared.showUserActions(actions: self.muteTab ? Appearance.defaultOperationMuteUserActions:Appearance.defaultOperationUserActions) { item in
-            switch item.tag {
-            case "Mute":
-                self.roomService.mute(userId: user.userId, completion: { [weak self] error in
-                    guard let `self` = self else { return }
-                    if error == nil {
-                        self.removeUser(user: user)
-                    } else {
-                        self.showToast(toast: "\(error?.errorDescription ?? "")",duration: 3)
-                    }
-                })
-            case "unmute":
-                self.roomService.unmute(userId: user.userId, completion: { [weak self] error in
-                    guard let `self` = self else { return }
-                    if error == nil {
-                        self.removeUser(user: user)
-                    } else {
-                        self.showToast(toast: "\(error?.errorDescription ?? "")", duration: 3)
-                    }
-                })
-            case "Remove":
-                DialogManager.shared.showAlert(content: "Remove `\(user.nickName.isEmpty ? user.userId:user.nickName)`.Are you sure?", showCancel: true, showConfirm: true) { [weak self] in
-                    guard let `self` = self else { return }
-                    self.roomService.kick(userId: user.userId) { [weak self] error in
-                        guard let `self` = self else { return }
-                        if error == nil {
-                            self.removeUser(user: user)
-                            self.showToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",duration: 2)
-                        } else {
-                            self.showToast(toast: "\(error?.errorDescription ?? "")", duration: 3)
-                        }
-                    }
-                }
-            default:
-                item.action?(item)
-            }
-        }
+        self.userClosure?(user)
     }
     
     private func removeUser(user: UserInfoProtocol) {

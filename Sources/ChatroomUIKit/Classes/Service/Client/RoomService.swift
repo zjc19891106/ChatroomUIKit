@@ -212,6 +212,8 @@ import UIKit
                     consoleLogInfo(errorInfo, type: .error)
                     self.handleError(type: .join, error: error!)
                     UIViewController.currentController?.showToast(toast: errorInfo, duration: 3)
+                } else {
+                    _ = self.giftService
                 }
                 completion(error)
             }
@@ -224,6 +226,7 @@ import UIKit
                 self?.roomId = ""
             } else {
                 self?.handleError(type: .leave, error: error!)
+                self?.destroyed()
             }
         })
     }
@@ -251,7 +254,7 @@ import UIKit
     }
     
     @objc public func unmute(userId: String,completion: @escaping (ChatError?) -> Void) {
-        self.roomService?.operatingUser(roomId: self.roomId, userId: userId, type: .mute, completion: { [weak self] success, error in
+        self.roomService?.operatingUser(roomId: self.roomId, userId: userId, type: .unmute, completion: { [weak self] success, error in
             if error != nil {
                 self?.handleError(type: .unmute, error: error!)
             } else {
@@ -319,7 +322,7 @@ import UIKit
     @objc public func fetchMuteUsers(pageSize: UInt, completion: @escaping (([UserInfoProtocol]?,ChatError?)->Void)) {
         self.roomService?.fetchMuteUsers(roomId: self.roomId, pageNum: UInt(self.pageNum), pageSize: pageSize, completion: { [weak self] userIds, error in
             guard let `self` = self else { return }
-            if let ids = userIds {
+            if let ids = userIds,(ids.count != 0) {
                 var unknownUserIds = [String]()
                 for userId in ids {
                     ChatroomContext.shared?.muteMap?[userId] = true
@@ -358,6 +361,7 @@ import UIKit
                 if error != nil {
                     self.handleError(type: .fetchMutes, error: error!)
                 }
+                completion(nil,error)
             }
         })
     }

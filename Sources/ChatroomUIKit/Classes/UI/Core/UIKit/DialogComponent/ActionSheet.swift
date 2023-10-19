@@ -20,6 +20,8 @@ import UIKit
         
     public var items: [ActionSheetItemProtocol] = []
     
+    public private(set) var actionClosure: ActionClosure?
+    
     lazy var indicator: UIView = {
         UIView(frame: CGRect(x: self.frame.width/2.0-18, y: 6, width: 36, height: 5)).cornerRadius(2.5).backgroundColor(UIColor.theme.neutralColor8)
     }()
@@ -58,7 +60,7 @@ import UIKit
      
      - Returns: An initialized ActionSheet object.
      */
-    @objc public convenience init(items:[ActionSheetItemProtocol],title: String? = nil,message: String? = nil) {
+    @objc public convenience init(items:[ActionSheetItemProtocol],title: String? = nil,message: String? = nil,action: @escaping ActionClosure) {
         let messageHeight = (message?.chatroom.sizeWithText(font: UIFont.theme.bodyMedium, size: CGSize(width: ScreenWidth-32, height: ScreenHeight/3.0)).height ?? 0)
         var contentHeight = 11+Int(Appearance.actionSheetRowHeight)*items.count+Int(Appearance.actionSheetRowHeight)+8+Int(BottomBarHeight)
         if messageHeight > 0 {
@@ -99,7 +101,7 @@ import UIKit
                 }
             }
         }
-        
+        self.actionClosure = action
         Theme.registerSwitchThemeViews(view: self)
         self.switchTheme(style: Theme.style)
     }
@@ -164,7 +166,7 @@ extension ActionSheet: UITableViewDelegate,UITableViewDataSource {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let item = self.items[indexPath.row]
-        item.action?(item)
+        self.actionClosure?(item)
     }
     
 }

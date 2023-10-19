@@ -19,9 +19,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = UIColor.whiteColor;
-    ActionSheet *sheet = [[ActionSheet alloc] initWithItems:@[[[ActionSheetItem alloc] initWithTitle:@"Normal" type:ActionSheetItemTypeNormal tag:@"" action:^(id<ActionSheetItemProtocol> _Nonnull item) {
+    ActionSheet *sheet = [[ActionSheet alloc] initWithItems:@[[[ActionSheetItem alloc] initWithTitle:@"Normal" type:ActionSheetItemTypeNormal tag:@""]] title:nil message:nil action:^(id<ActionSheetItemProtocol> _Nonnull item) {
         
-    }]] title:nil message:nil];
+    }];
     [self.view addSubview:sheet];
 }
 

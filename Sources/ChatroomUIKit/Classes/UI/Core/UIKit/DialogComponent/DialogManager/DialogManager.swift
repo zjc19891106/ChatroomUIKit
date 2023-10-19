@@ -65,17 +65,12 @@ import UIKit
     ///   - actions: ``ActionSheetItemProtocol`` array.
     ///   - action: Choice touched callback.
     @objc public func showMessageActions(actions: [ActionSheetItemProtocol],action: @escaping ActionClosure) {
-        let actionSheet = ActionSheet(items: actions)
+        let actionSheet = ActionSheet(items: actions) { item in
+            action(item)
+            UIViewController.currentController?.dismiss(animated: true)
+        }
         actionSheet.frame = CGRect(x: 0, y: 0, width: actionSheet.frame.width, height: actionSheet.frame.height)
         let vc = DialogContainerViewController(custom: actionSheet,constraintsSize: actionSheet.frame.size)
-        for item in actionSheet.items {
-            item.action = { choice in
-                vc.dismiss(animated: true)
-                DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
-                    action(choice)
-                }
-            }
-        }
         UIViewController.currentController?.presentViewController(vc)
     }
     
@@ -84,19 +79,12 @@ import UIKit
     ///   - actions: ``ActionSheetItemProtocol`` array.
     ///   - action: Choice touched callback.
     @objc public func showUserActions(actions: [ActionSheetItemProtocol],action: @escaping ActionClosure) {
-        let actionSheet = ActionSheet(items: actions)
-        actionSheet.frame = CGRect(x: 0, y: 0, width: actionSheet.frame.width, height: actionSheet.frame.height)
-        let vc = DialogContainerViewController(custom: actionSheet,constraintsSize: actionSheet.frame.size)
-        for item in actionSheet.items {
-            item.action = { choice in
-                vc.dismiss(animated: true) {
-                    action(choice)
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
-                    
-                }
-            }
+        let actionSheet = ActionSheet(items: actions) { item in
+            action(item)
+            UIViewController.currentController?.dismiss(animated: true)
         }
+        let vc = DialogContainerViewController(custom: actionSheet,constraintsSize: actionSheet.frame.size)
+        actionSheet.frame = CGRect(x: 0, y: 0, width: actionSheet.frame.width, height: actionSheet.frame.height)
         UIViewController.currentController?.presentingViewController?.presentViewController(vc)
     }
     

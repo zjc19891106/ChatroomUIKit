@@ -22,6 +22,7 @@ final class UIWithBusinessViewController: UIViewController {
         options.bottomDataSource = self.bottomBarDatas()
         options.showGiftsBarrage = true
         options.hiddenChatRaise = false
+        options.showGiftsBarrage = false
         return options
     }
     
@@ -109,12 +110,52 @@ extension UIWithBusinessViewController {
     }
     
     @objc func showParticipants() {
-        DialogManager.shared.showParticipantsDialog { user in
-            //Statistical data
-        } muteMoreClosure: { user in
-            //Statistical data
+        DialogManager.shared.showParticipantsDialog { [weak self] user in
+            self?.handleUserAction(user: user, muteTab: false)
+        } muteMoreClosure: { [weak self] user in
+            self?.handleUserAction(user: user, muteTab: true)
         }
 
+    }
+    
+    private func handleUserAction(user: UserInfoProtocol,muteTab: Bool) {
+        DialogManager.shared.showUserActions(actions: muteTab ? Appearance.defaultOperationMuteUserActions:Appearance.defaultOperationUserActions) { item in
+            switch item.tag {
+            case "Mute":
+                ChatroomUIKitClient.shared.roomService?.mute(userId: user.userId, completion: { [weak self] error in
+                    guard let `self` = self else { return }
+                    if error == nil {
+//                        self.removeUser(user: user)
+                    } else {
+                        self.showToast(toast: "\(error?.errorDescription ?? "")",duration: 3)
+                    }
+                })
+            case "unMute":
+                ChatroomUIKitClient.shared.roomService?.unmute(userId: user.userId, completion: { [weak self] error in
+                    guard let `self` = self else { return }
+                    if error == nil {
+//                        self.removeUser(user: user)
+                    } else {
+                        self.showToast(toast: "\(error?.errorDescription ?? "")", duration: 3)
+                    }
+                })
+            case "Remove":
+                DialogManager.shared.showAlert(content: "Remove `\(user.nickName.isEmpty ? user.userId:user.nickName)`.Are you sure?", showCancel: true, showConfirm: true) { [weak self] in
+                    guard let `self` = self else { return }
+                    ChatroomUIKitClient.shared.roomService?.kick(userId: user.userId) { [weak self] error in
+                        guard let `self` = self else { return }
+                        if error == nil {
+//                            self.removeUser(user: user)
+                            self.showToast(toast: error == nil ? "Remove successful!":"\(error?.errorDescription ?? "")",duration: 2)
+                        } else {
+                            self.showToast(toast: "\(error?.errorDescription ?? "")", duration: 3)
+                        }
+                    }
+                }
+            default:
+                item.action?(item)
+            }
+        }
     }
     
     /// Constructor of ``ChatBottomFunctionBar`` data source.
