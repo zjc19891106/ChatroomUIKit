@@ -84,11 +84,9 @@ import UIKit
     /// - Parameters:
     ///   - frame: CGRect
     ///   - datas: Array<ChatBottomItemProtocol>
-    ///   - hiddenChat: Whether to hide the evoke keyboard button
-    @objc required public convenience init(frame: CGRect, datas: [ChatBottomItemProtocol] = [], hiddenChat: Bool = false) {
+    @objc required public convenience init(frame: CGRect, datas: [ChatBottomItemProtocol] = []) {
         self.init(frame: frame)
         self.datas = datas
-        self.chatRaiser.isHidden = hiddenChat
         self.addSubViews([self.chatRaiser, self.toolBar])
         self.chatRaiser.setImage(UIImage(named: "chatraise",in: .chatroomBundle,with: nil), for: .normal)
         self.chatRaiser.setTitle(" " + "StartChat".chatroom.localize, for: .normal)
@@ -104,10 +102,17 @@ import UIKit
     private func refreshToolBar(datas: [ChatBottomItemProtocol]) {
         self.datas.removeAll()
         self.datas = datas
-        let toolBarWidth = (40 * CGFloat(datas.count)) + (CGFloat(datas.count) - 1) * 8 + 32
-        self.toolBar.frame = CGRect(x: self.frame.width-toolBarWidth, y: 0, width: toolBarWidth, height: self.frame.height)
+        var toolBarWidth = (40 * CGFloat(datas.count)) + (CGFloat(datas.count) - 1) * 8 + 32
+        if datas.count <= 0 {
+            toolBarWidth = 0
+            self.toolBar.frame = .zero
+            self.toolBar.isHidden = true
+        } else {
+            self.toolBar.isHidden = false
+            self.toolBar.frame = CGRect(x: self.frame.width-toolBarWidth, y: 0, width: toolBarWidth, height: self.frame.height)
+        }
         if !self.chatRaiser.isHidden {
-            self.chatRaiser.frame = CGRect(x: 15, y: 5, width: self.frame.width-31-toolBarWidth, height: self.frame.height - 10)
+            self.chatRaiser.frame = CGRect(x: 15, y: 5, width: self.frame.width-30-toolBarWidth, height: self.frame.height - 10)
         }
         self.toolBar.reloadData()
     }

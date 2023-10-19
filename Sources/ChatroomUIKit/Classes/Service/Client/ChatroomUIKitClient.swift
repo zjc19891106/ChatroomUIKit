@@ -16,16 +16,13 @@ import UIKit
     
     @objcMembers public class UIOptions: NSObject {
         /// Whether show a gift barrage?
-        @objc public var showGiftsBarrage = false
+        @objc public var showGiftsBarrage = true
         
         /// ChatBottomBar data source.
         @objc public var bottomDataSource: [ChatBottomItemProtocol] = []
         
-        /// Whether to hide the evoke keyboard button.
-        @objc public var hiddenChatRaise = false
-        
         /// Whether  show gift info or not on chat barrage area.
-        @objc public var chatBarrageShowGift = false
+        @objc public var chatBarrageAreaShowGift = false
     }
     
     @objcMembers public class ChatOptions: NSObject {
@@ -106,9 +103,8 @@ import UIKit
         ChatroomContext.shared?.roomId = roomId
         self.option.option_UI.bottomDataSource = options.bottomDataSource
         self.option.option_UI.showGiftsBarrage = options.showGiftsBarrage
-        self.option.option_UI.hiddenChatRaise = options.hiddenChatRaise
-        self.option.option_UI.chatBarrageShowGift = options.chatBarrageShowGift
-        let room = ChatroomView(respondTouch: frame,bottom: options.bottomDataSource,showGiftBarrage: options.showGiftsBarrage,hiddenChat: options.hiddenChatRaise)
+        self.option.option_UI.chatBarrageAreaShowGift = options.chatBarrageAreaShowGift
+        let room = ChatroomView(respondTouch: frame)
         let service = RoomService(roomId: roomId)
         self.roomService = service
         room.connectService(service: service)

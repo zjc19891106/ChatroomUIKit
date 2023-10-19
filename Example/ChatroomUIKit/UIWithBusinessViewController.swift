@@ -21,8 +21,7 @@ final class UIWithBusinessViewController: UIViewController {
         let options  = ChatroomUIKitInitialOptions.UIOptions()
         options.bottomDataSource = self.bottomBarDatas()
         options.showGiftsBarrage = true
-        options.hiddenChatRaise = false
-        options.showGiftsBarrage = false
+        options.chatBarrageAreaShowGift = false
         return options
     }
     
@@ -106,7 +105,7 @@ extension UIWithBusinessViewController {
     }
     
     @objc func switchValueChanged(sender: UISwitch) {
-        ChatroomUIKitClient.shared.option.option_UI.chatBarrageShowGift = sender.isOn
+        ChatroomUIKitClient.shared.option.option_UI.chatBarrageAreaShowGift = sender.isOn
     }
     
     @objc func showParticipants() {

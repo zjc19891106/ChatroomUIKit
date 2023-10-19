@@ -26,7 +26,7 @@ final class UIComponentsExampleViewController: UIViewController {
     }()
     
     lazy var bottomBar: ChatBottomFunctionBar = {
-        ChatBottomFunctionBar(frame: CGRect(x: 0, y: self.view.frame.height-54-BottomBarHeight, width: self.view.frame.width, height: 54), datas: self.bottomBarDatas(), hiddenChat: false)
+        ChatBottomFunctionBar(frame: CGRect(x: 0, y: self.view.frame.height-54-BottomBarHeight, width: self.view.frame.width, height: 54), datas: self.bottomBarDatas())
     }()
     
     lazy var inputBar: ChatInputBar = {

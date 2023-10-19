@@ -33,16 +33,7 @@ import UIKit
     /// ``RoomService``
     public private(set) weak var service: RoomService?
     
-    /// Bottom bar extension view's data source.
-    public private(set) var menus = [ChatBottomItemProtocol]()
-    
     lazy private var eventHandlers: NSHashTable<ChatroomViewActionEventsDelegate> = NSHashTable<ChatroomViewActionEventsDelegate>.weakObjects()
-    
-    /// Whether display gift barrages or not on receive gifts.
-    public private(set) var showGiftBarrage = true
-    
-    /// Whether display raise keyboard button or not.
-    public private(set) var hiddenChat = false
         
     public private(set) lazy var carouselTextView: HorizontalTextCarousel = {
         HorizontalTextCarousel(originPoint: Appearance.notifyMessageOriginPoint, width: self.frame.width-40, font: UIFont.theme.headlineExtraSmall, textColor: UIColor.theme.neutralColor98).cornerRadius(.large)
@@ -55,12 +46,12 @@ import UIKit
     
     /// Chat barrages list.
     public private(set) lazy var barrageList: ChatBarrageList = {
-        ChatBarrageList(frame: CGRect(x: 0, y: self.showGiftBarrage ? self.giftBarrages.frame.maxY+20:self.touchFrame.minY, width: self.touchFrame.width-50, height: self.touchFrame.height-54-BottomBarHeight-5-(self.showGiftBarrage ? (Appearance.giftBarrageRowHeight*2):0)))
+        ChatBarrageList(frame: CGRect(x: 0, y: ChatroomUIKitClient.shared.option.option_UI.showGiftsBarrage ? self.giftBarrages.frame.maxY+20:self.touchFrame.minY, width: self.touchFrame.width-50, height: self.touchFrame.height-54-BottomBarHeight-5-(ChatroomUIKitClient.shared.option.option_UI.showGiftsBarrage ? (Appearance.giftBarrageRowHeight*2):0)))
     }()
     
     /// Bottom function bar below chat barrages list.
     public private(set) lazy var bottomBar: ChatBottomFunctionBar = {
-        ChatBottomFunctionBar(frame: CGRect(x: 0, y: self.frame.height-54-BottomBarHeight, width: self.touchFrame.width, height: 54), datas: self.menus, hiddenChat: self.hiddenChat)
+        ChatBottomFunctionBar(frame: CGRect(x: 0, y: self.frame.height-54-BottomBarHeight, width: self.touchFrame.width, height: 54), datas: ChatroomUIKitClient.shared.option.option_UI.bottomDataSource)
     }()
     
     /// Input text menu bar.
@@ -76,8 +67,8 @@ import UIKit
     ///   - menus: Array<ChatBottomItemProtocol>
     ///   - showGiftBarrage: `Bool` showGiftBarrage value
     ///   - hiddenChat: `Bool` hiddenChat value
-    @objc public required convenience init(respondTouch frame: CGRect,bottom menus: [ChatBottomItemProtocol] = [],showGiftBarrage: Bool = true,hiddenChat: Bool = false) {
-        if showGiftBarrage {
+    @objc public required convenience init(respondTouch frame: CGRect) {
+        if ChatroomUIKitClient.shared.option.option_UI.showGiftsBarrage {
             if frame.height < 236 {
                 assert(false,"The lower limit of the entire view height must not be less than 206.")
             }
@@ -88,9 +79,7 @@ import UIKit
         }
         self.init(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: ScreenHeight))
         self.touchFrame = frame
-        self.showGiftBarrage = showGiftBarrage
-        self.menus = menus
-        if showGiftBarrage {
+        if ChatroomUIKitClient.shared.option.option_UI.showGiftsBarrage {
             self.addSubViews([self.giftBarrages,self.bottomBar,self.barrageList,self.inputBar,self.carouselTextView])
         } else {
             self.addSubViews([self.bottomBar,self.barrageList,self.inputBar,self.carouselTextView])
@@ -124,7 +113,7 @@ import UIKit
         }
         self.service = service
         service.bindChatDrive(Drive: self.barrageList)
-        if self.showGiftBarrage {
+        if ChatroomUIKitClient.shared.option.option_UI.showGiftsBarrage {
             service.bindGiftDrive(Drive: self.giftBarrages)
         }
         service.enterRoom(completion: { [weak self] error in
