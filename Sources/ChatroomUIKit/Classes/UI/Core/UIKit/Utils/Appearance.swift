@@ -66,6 +66,8 @@ import UIKit
     /// ActionSheet data source on participants list cell more button clicked.
     public static var defaultOperationUserActions: [ActionSheetItemProtocol] = [ActionSheetItem(title: "barrage_long_press_menu_mute".chatroom.localize, type: .normal,tag: "Mute"),ActionSheetItem(title: "participant_list_button_click_menu_remove".chatroom.localize, type: .destructive,tag: "Remove")]
     
+    public static var defaultOperationMuteUserActions: [ActionSheetItemProtocol] = [ActionSheetItem(title: "barrage_long_press_menu_unmute".chatroom.localize, type: .normal,tag: "unMute"),ActionSheetItem(title: "participant_list_button_click_menu_remove".chatroom.localize, type: .destructive,tag: "Remove")]
+    
     /// ActionSheet row height.
     public static var actionSheetRowHeight: CGFloat = 56
     

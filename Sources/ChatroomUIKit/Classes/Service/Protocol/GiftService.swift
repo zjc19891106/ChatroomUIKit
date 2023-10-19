@@ -44,12 +44,12 @@ import Foundation
 @objc public protocol GiftResponseListener: NSObjectProtocol {
     
     /// Some one send gift to chatroom
-    /// - Parameter gift: GiftEntityProtocol
-    func receiveGift(gift: GiftEntityProtocol)
+    /// - Parameter gift: ``GiftEntityProtocol``
+    func receiveGift(roomId:String,gift: GiftEntityProtocol)
     
     
     /// Some one send gift to chatroom
-    /// - Parameter gift: GiftEntityProtocol
+    /// - Parameter gift: ``GiftEntityProtocol``
     ///   - message: ``ChatMessage``
-    func receiveGift(gift: GiftEntityProtocol,message: ChatMessage)
+    func receiveGift(roomId:String,gift: GiftEntityProtocol,message: ChatMessage)
 }

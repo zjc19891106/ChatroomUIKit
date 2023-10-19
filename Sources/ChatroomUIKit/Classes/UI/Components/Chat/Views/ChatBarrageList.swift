@@ -245,9 +245,9 @@ extension ChatBarrageList: IChatBarrageListDrive {
     }
     
     public func refreshMessage(message: ChatMessage) {
-        if let index = self.messages?.firstIndex(where: { $0.message.messageId == message.messageId }),let count = self.messages?.count,count > 0,index < count - 1 {
-            let entity = self.messages?[index]
-            self.messages?[index] = self.convertMessageToRender(message: message,gift: entity?.gift)
+        if let index = self.messages?.lastIndex(where: { $0.message.messageId == message.messageId }) {
+            let entity = self.messages?[safe: index]
+            self.messages?[index] = self.convertMessageToRender(message: message, gift: entity?.gift)
             self.chatView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
         }
     }

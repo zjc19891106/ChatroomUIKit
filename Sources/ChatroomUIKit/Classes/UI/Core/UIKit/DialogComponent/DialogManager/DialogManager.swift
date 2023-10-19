@@ -17,6 +17,7 @@ import UIKit
     ///   - gifts: ``GiftsViewController`` array
     @objc public func showGiftsDialog(titles: [String],gifts: [GiftsViewController]) {
         let gift = PageContainersDialogController(pageTitles: titles, childControllers: gifts,constraintsSize: Appearance.giftDialogContainerConstraintsSize)
+        
         UIViewController.currentController?.presentViewController(gift)
     }
     

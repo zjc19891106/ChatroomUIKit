@@ -176,6 +176,10 @@ extension UIWithBusinessViewController : ChatroomViewActionEventsDelegate {
 }
 //MARK: - When you called `ChatroomUIKitClient.shared.registerRoomEventsListener(listener: self)`.You'll implement these method.
 extension UIWithBusinessViewController: RoomEventsListener {
+    func onReceiveMessage(message: ChatroomUIKit.ChatMessage) {
+        //Received new message
+    }
+    
     func onUserLeave(roomId: String, userId: String) {
         //Statistical data
         self.showToast(toast: "\(ChatroomContext.shared?.usersMap?[userId]?.nickName ?? userId) was left.", duration: 3)

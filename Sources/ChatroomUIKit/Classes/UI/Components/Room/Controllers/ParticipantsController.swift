@@ -157,7 +157,7 @@ open class ParticipantsController: UITableViewController {
     
     private func operationUser(user: UserInfoProtocol) {
         self.filterItems(user: user)
-        DialogManager.shared.showUserActions(actions: Appearance.defaultOperationUserActions) { item in
+        DialogManager.shared.showUserActions(actions: self.muteTab ? Appearance.defaultOperationMuteUserActions:Appearance.defaultOperationUserActions) { item in
             switch item.tag {
             case "Mute":
                 self.roomService.mute(userId: user.userId, completion: { [weak self] error in

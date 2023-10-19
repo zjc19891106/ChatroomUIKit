@@ -71,8 +71,12 @@ import UIKit
     func onUserBeKicked(roomId: String, reason: ChatroomBeKickedReason)
     
     /// The method called on receive global notify message.
-    /// - Parameter message: ChatMessage
+    /// - Parameter message: ``ChatMessage``
     func onReceiveGlobalNotify(message: ChatMessage)
+    
+    /// The method called on receive new message.
+    /// - Parameter message: ``ChatMessage``
+    func onReceiveMessage(message: ChatMessage)
     
     /// The method called on chatroom announcement updated.
     /// - Parameters:
@@ -467,6 +471,9 @@ extension RoomService: ChatroomResponseListener {
         if roomId == self.roomId {
             self.chatDrive?.showNewMessage(message: message, gift: nil)
         }
+        for listener in self.eventsListener.allObjects {
+            listener.onReceiveMessage(message: message)
+        }
     }
         
     public func onUserJoined(roomId: String, message: ChatMessage) {
@@ -503,12 +510,16 @@ extension RoomService: ChatroomResponseListener {
 
 extension RoomService: GiftResponseListener {
     
-    public func receiveGift(gift: GiftEntityProtocol) {
-        self.giftDrive?.receiveGift(gift: gift)
+    public func receiveGift(roomId: String,gift: GiftEntityProtocol) {
+        if roomId == self.roomId {
+            self.giftDrive?.receiveGift(gift: gift)
+        }
     }
     
-    public func receiveGift(gift: GiftEntityProtocol, message: ChatMessage) {
-        self.chatDrive?.showNewMessage(message: message,gift: gift)
+    public func receiveGift(roomId: String,gift: GiftEntityProtocol, message: ChatMessage) {
+        if self.roomId == roomId {
+            self.chatDrive?.showNewMessage(message: message,gift: gift)
+        }
     }
     
     
