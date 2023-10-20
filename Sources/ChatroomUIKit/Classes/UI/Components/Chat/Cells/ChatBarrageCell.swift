@@ -30,7 +30,7 @@ import UIKit
     lazy var userIdentify: ImageView = {
         var originX = 6
         switch self.style {
-        case .all,.excludeAvatar:
+        case .all,.hideAvatar:
             originX += Int(self.time.frame.maxX)
         default:
             originX = originX
@@ -42,11 +42,11 @@ import UIKit
     lazy var avatar: ImageView = {
         var originX = 6
         switch self.style {
-        case .all,.excludeTime:
+        case .all,.hideTime:
             originX += Int(self.userIdentify.frame.maxX)
-        case .excludeLevel:
+        case .hideUserIdentity:
             originX += Int(self.time.frame.maxX)
-        case .excludeTimeAndLevel:
+        case .hideTimeAndUserIdentity:
             originX = originX
         default:
             break
@@ -79,19 +79,19 @@ import UIKit
         switch barrageStyle {
         case .all:
             self.container.addSubViews([self.time,self.userIdentify,self.avatar,self.content])
-        case .excludeTime:
+        case .hideTime:
             self.container.addSubViews([self.userIdentify,self.avatar,self.content])
-        case .excludeLevel:
+        case .hideUserIdentity:
             self.container.addSubViews([self.time,self.avatar,self.content])
-        case .excludeAvatar:
+        case .hideAvatar:
             self.container.addSubViews([self.time,self.userIdentify,self.content])
-        case .excludeTimeAndLevel:
+        case .hideTimeAndUserIdentity:
             self.container.addSubViews([self.avatar,self.content])
-        case .excludeTimeAndAvatar:
+        case .hideTimeAndAvatar:
             self.container.addSubViews([self.userIdentify,self.content])
-        case .excludeLevelAndAvatar:
+        case .hideUserIdentityAndAvatar:
             self.container.addSubViews([self.time,self.content])
-        case .excludeTimeLevelAvatar:
+        case .hideTimeAndUserIdentityAndAvatar:
             self.container.addSubview(self.content)
         default:
             break
@@ -140,16 +140,16 @@ extension ChatBarrageCell: ThemeSwitchProtocol {
 
 fileprivate let gift_tail_indent: CGFloat = 26
 
-/// An enumeration that represents the different styles of a chat barrage cell.
+/// An enumeration that represents the different styles of a chat barrage cell.Time,level and avatar can be hidden
 @objc public enum ChatBarrageCellStyle: UInt {
     case all = 1
-    case excludeTime
-    case excludeLevel
-    case excludeAvatar
-    case excludeTimeAndLevel
-    case excludeTimeAndAvatar
-    case excludeLevelAndAvatar
-    case excludeTimeLevelAvatar
+    case hideTime
+    case hideAvatar
+    case hideUserIdentity
+    case hideTimeAndAvatar
+    case hideTimeAndUserIdentity
+    case hideUserIdentityAndAvatar
+    case hideTimeAndUserIdentityAndAvatar
 }
 
 /// A class that represents a chat entity, which includes a message, a timestamp, attributed text, height, and width.
@@ -239,11 +239,11 @@ fileprivate let gift_tail_indent: CGFloat = 26
         var distance:CGFloat = 0
         switch Appearance.barrageCellStyle {
         case .all: distance = 90
-        case .excludeTime: distance = 50
-        case .excludeLevelAndAvatar: distance = 46
-        case .excludeTimeLevelAvatar: distance = 8
-        case .excludeAvatar,.excludeLevel: distance = 68
-        case .excludeTimeAndLevel,.excludeTimeAndAvatar: distance = 24
+        case .hideTime: distance = 50
+        case .hideUserIdentityAndAvatar: distance = 46
+        case .hideTimeAndUserIdentityAndAvatar: distance = 8
+        case .hideAvatar,.hideUserIdentity: distance = 68
+        case .hideTimeAndUserIdentity,.hideTimeAndAvatar: distance = 24
         }
         return distance
     }

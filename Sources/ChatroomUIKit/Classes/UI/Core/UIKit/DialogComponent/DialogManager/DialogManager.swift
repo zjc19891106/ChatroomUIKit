@@ -11,20 +11,20 @@ import UIKit
     
     public static let shared = DialogManager()
     
-    /// Gifts list dialog will show on call the method.
+    /// Shows the gift list page.
     /// - Parameters:
     ///   - titles: `[String]`
-    ///   - gifts: ``GiftsViewController`` array
+    ///   - gifts: ``GiftsViewController`` array.
     @objc public func showGiftsDialog(titles: [String],gifts: [GiftsViewController]) {
         let gift = PageContainersDialogController(pageTitles: titles, childControllers: gifts,constraintsSize: Appearance.giftDialogContainerConstraintsSize)
         
         UIViewController.currentController?.presentViewController(gift)
     }
     
-    /// Participants list dialog will show on call the method.
+    /// Shows the chat room member list page.
     /// - Parameters:
-    ///   - moreClosure: Callback you want to operator user info on click `...`.
-    ///   - muteMoreClosure: Callback you want to operator user  info  on click `...`.
+    ///   - moreClosure: Callback that occurs when you click `...` to perform operations on chat room members.
+    ///   - muteMoreClosure: Callback that occurs when you click `...` to perform operations on muted chat room members.
     @objc public func showParticipantsDialog(moreClosure: @escaping (UserInfoProtocol) -> Void,muteMoreClosure: @escaping (UserInfoProtocol) -> Void) {
         let participants = ComponentsRegister
             .shared.ParticipantsViewController.init(muteTab: false, moreClosure: moreClosure)
@@ -42,7 +42,7 @@ import UIKit
         UIViewController.currentController?.presentViewController(container)
     }
     
-    /// Message report dialog will show on call the method.
+    /// Shows the message reporting page.
     /// - Parameter message: ``ChatMessage``
     @objc public func showReportDialog(message: ChatMessage) {
         var vc = PageContainersDialogController()
@@ -60,10 +60,11 @@ import UIKit
         UIViewController.currentController?.presentViewController(vc)
     }
     
-    /// Message operation list dialog will show on call the method.General use on message long pressed.
+    /// Shows message operations.
+    /// Generally, message operations are shown when you long-press a message.
     /// - Parameters:
     ///   - actions: ``ActionSheetItemProtocol`` array.
-    ///   - action: Choice touched callback.
+    ///   - action: Callback upon a click of a message operation.
     @objc public func showMessageActions(actions: [ActionSheetItemProtocol],action: @escaping ActionClosure) {
         let actionSheet = ActionSheet(items: actions) { item in
             action(item)
@@ -74,10 +75,10 @@ import UIKit
         UIViewController.currentController?.presentViewController(vc)
     }
     
-    /// User operation list dialog will show on call the method.
+    /// Shows the member operation list when you click `...`.
     /// - Parameters:
     ///   - actions: ``ActionSheetItemProtocol`` array.
-    ///   - action: Choice touched callback.
+    ///   - action: Callback upon a click of a member operation.
     @objc public func showUserActions(actions: [ActionSheetItemProtocol],action: @escaping ActionClosure) {
         let actionSheet = ActionSheet(items: actions) { item in
             action(item)
@@ -88,12 +89,12 @@ import UIKit
         UIViewController.currentController?.presentingViewController?.presentViewController(vc)
     }
     
-    /// Alert view will show on call the method.
+    // Shows the alert view.
     /// - Parameters:
-    ///   - content: You want to display content.
-    ///   - showCancel: Whether display cancel button or not.
-    ///   - showConfirm: Whether display confirm button or not.
-    ///   - confirmClosure: Callback on click confirm button.
+    ///   - content: The alert content to display.
+    ///   - showCancel: Whether to display the `Cancel` button.
+    ///   - showConfirm: Whether to display the `Confirm` button.
+    ///   - confirmClosure: Callback upon a click of the `Confirm` button.
     @objc public func showAlert(content: String,showCancel: Bool,showConfirm: Bool,confirmClosure: @escaping () -> Void) {
         let alert = AlertView(frame: CGRect(x: 0, y: 0, width: Appearance.alertContainerConstraintsSize.width, height: Appearance.alertContainerConstraintsSize.height)).background(color: Theme.style == .dark ? UIColor.theme.neutralColor1:UIColor.theme.neutralColor98).content(content: content).title(title: "participant_list_button_click_menu_remove".chatroom.localize).contentTextAlignment(textAlignment: .center)
         if showCancel {

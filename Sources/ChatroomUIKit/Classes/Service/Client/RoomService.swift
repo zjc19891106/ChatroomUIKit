@@ -7,7 +7,7 @@
 
 import UIKit
 
-/// All of business service error
+/// All business service errors
 @objc public enum RoomEventsError: UInt {
     case join
     case leave
@@ -21,83 +21,96 @@ import UIKit
     case fetchMutes
 }
 
-/// All events listener of chatroom.
+/// The chat room event listener.
 @objc public protocol RoomEventsListener: NSObjectProtocol {
     
-    /// This function will be called when the network link status changes.
-    /// - Parameter state: ConnectionState
+    /// Occurs when the network connection status changes.
+    /// - Parameter state: ConnectionState. The state of the connection between the UIKit and the server.
     func onSocketConnectionStateChanged(state: ConnectionState)
     
-    /// Token expired you were logout.You need fetch token from your server then call `RoomUIKitClient.shared.login(with userId: "user id", token: "token", completion: <#T##(ChatError?) -> Void#>)` method.
+    /// Occurs when the user token expires.
+    /// You need to get a new user token from your app server and call `RoomUIKitClient.shared.login(with userId: "user id", token: "token", completion: <#T##(ChatError?) -> Void#>)` to log in again.
     func onUserTokenDidExpired()
     
-    /// Token will expire.If this process takes more than two minutes, the server will kick the user out of the chat room and you will need to rejoin the chat room.You  need fetch token from server then call `RoomUIKitClient.shared.refreshToken(token: "token")`.
+    /// Occurs when the user token is about to expire.
+    /// This callback occurs, starting from when half of the token validity period has passed.
+    /// When a user goes offline for two minutes, the server will kick the user out of the chat room and the user needs to rejoin the chat room.
+    /// To rejoin the chat room, the user needs to fetch a new token from the server, call `RoomUIKitClient.shared.refreshToken(token: "token")` to refresh the token, and then call the `enterRoom` method to join the chat room.
     func onUserTokenWillExpired()
     
-    /// If you do not set up multi-device login in the Chat service provider's application configuration service, and the user logs in to the same account on other devices, the current device will be kicked offline.
-    /// - Parameter device: other device name
+    /// Occurs when a member logs in on another device while remaining in the login state on the current device in a single-device login scenario.
+    /// The callback occurs on the current device that gets kicked off.
+    /// - Parameter device: The name of another device.
     func onUserLoginOtherDevice(device: String)
     
-    /// The method called on user unmuted.
+    /// Occurs when a member is unmuted.
+    /// The unmuted member, administrators, and the owner of the chat room receive this event.
     /// - Parameters:
-    ///   - roomId: Chatroom id
-    ///   - userId: User id
-    ///   - operatorId: Operator id
+    ///   - roomId: Chat room ID.
+    ///   - userId: The user ID of the unmuted member.
+    ///   - operatorId: The user ID of the operator that removes the member from the mute list of the chat room.
     func onUserUnmuted(roomId: String, userId: String, operatorId: String)
     
-    /// The method called on user muted.
+    /// Occurs when a member is muted.
+    /// The muted member, administrators, and the owner of the chat room receive this event.
     /// - Parameters:
-    ///   - roomId: Chatroom id
-    ///   - userId: User id
-    ///   - operatorId: Operator id
+    ///   - roomId: Chat room ID.
+    ///   - userId: The user ID of the muted member.
+    ///   - operatorId: The user ID of the operator that adds the member to the mute list of the chat room.
     func onUserMuted(roomId: String, userId: String, operatorId: String)
     
-    /// The method called on user joined chatroom.
+    /// Occurs when a user joins the chat room.
+    /// All members in the chat room, except the new member, receive the event.
     /// - Parameters:
-    ///   - roomId: Chatroom id
-    ///   - user: UserInfoProtocol
+    ///   - roomId: Chat room ID.
+    ///   - user: The user ID that conforms to UserInfoProtocol.
     func onUserJoined(roomId: String, user: UserInfoProtocol)
     
-    /// You'll receive the callback on user left,
+    /// Occurs when a member leaves the chat room.
+    /// All members in the chat room, except the one that leaves, receive the event.
     /// - Parameters:
-    ///   - roomId: chatroom id
-    ///   - userId: user id
+    ///   - roomId: Chat room ID.
+    ///   - userId: The user ID of the member that leaves the chat room.
     func onUserLeave(roomId: String, userId: String)
     
-    /// The method called on user kicked out chatroom.
+    /// Occurs when a member is removed from the chat room.
+    /// The member that is removed from the chat room receives the event.
     /// - Parameters:
-    ///   - roomId: Chatroom id
-    ///   - reason: ChatroomBeKickedReason
+    ///   - roomId: Chat room ID.
+    ///   - reason: ChatroomBeKickedReason.
     func onUserBeKicked(roomId: String, reason: ChatroomBeKickedReason)
     
-    /// The method called on receive global notify message.
-    /// - Parameter message: ``ChatMessage``
+    /// Occurs when a global notification message is received.
+    /// All members in the chat room receive the event.
+    /// - Parameter message: ChatMessage instance.
     func onReceiveGlobalNotify(message: ChatMessage)
     
-    /// The method called on receive new message.
+    /// Occurs when receive new message.
     /// - Parameter message: ``ChatMessage``
     func onReceiveMessage(message: ChatMessage)
     
-    /// The method called on chatroom announcement updated.
+    /// Occurs when the chat room announcement is updated.
+    /// All members in the chat room receive the event.
     /// - Parameters:
-    ///   - roomId: Chatroom id
-    ///   - announcement: Announcement text
+    ///   - roomId: Chat room ID.
+    ///   - announcement: The chat room announcement text.
     func onAnnouncementUpdate(roomId: String, announcement: String)
     
-    /// The method called on  some chatroom events error occur.
+    /// Occurs when a chat room event error is reported.
+    /// The current user receives the event.
     /// - Parameters:
     ///   - error: ChatError
     ///   - type: RoomEventsError
     func onErrorOccur(error: ChatError,type: RoomEventsError)
 }
 
-/// Chat room hub service transfer class in chat room UIKit.
+/// Chat room request & response wrapper class in the chat room UIKit.
 @objc open class RoomService: NSObject {
     
-    /// Events listener of chatroom.
+    /// The chat room events listener.
     public private(set) var eventsListener: NSHashTable<RoomEventsListener> = NSHashTable<RoomEventsListener>.weakObjects()
     
-    /// Current chatroom id.
+    /// Current chat room ID.
     public private(set)var roomId = "" {
         willSet {
             if !newValue.isEmpty {
@@ -106,7 +119,7 @@ import UIKit
         }
     }
     
-    /// Participants list request page number
+    /// The current page number for getting chat room members.
     public private(set)var pageNum = 1
     
     public private(set) lazy var giftService: GiftService? = {
@@ -148,7 +161,7 @@ import UIKit
         self.notifyDrive = Drive
     }
     
-    /// Register all event listeners in the chat room
+    /// Registers an event listener in the chat room.
     /// - Parameter listener: ``RoomEventsListener``
     @objc public func registerListener(listener: RoomEventsListener) {
         if self.eventsListener.contains(listener) {
@@ -157,7 +170,7 @@ import UIKit
         self.eventsListener.add(listener)
     }
     
-    /// unregister all event listeners in the chat room
+    /// Unregisters an event listener in the chat room.
     /// - Parameter listener: ``RoomEventsListener``
     @objc public func unregisterListener(listener: RoomEventsListener) {
         if self.eventsListener.contains(listener) {
@@ -185,10 +198,12 @@ import UIKit
     }
     
     //MARK: - Room operation
-    /// Switch to another chatroom.Notice,SDK'll clean users cache.Then fetch users&mute list.Will cause a lot of network io.Restricted to non-owner permissions.
+    /// Switches to another chat room.
+    /// In this case, the SDK will clean the user cache and fetch member information and the mute list from the server. This will cause a lot of network IO.
+    /// This method can only be called by other chat room members than the chat room owner.
     /// - Parameters:
-    ///   - roomId: Chatroom id
-    ///   - completion: switch result
+    ///   - roomId: Chat room ID.
+    ///   - completion: Switch result.
 //    @objc public func switchChatroom(roomId: String,completion: @escaping (ChatError?) -> Void) {
 //        self.leaveRoom { _ in }
 //        self.roomId = roomId
