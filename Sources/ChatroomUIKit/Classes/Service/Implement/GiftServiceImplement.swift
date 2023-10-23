@@ -48,7 +48,7 @@ extension GiftServiceImplement: GiftService {
         user.identity = ChatroomContext.shared?.currentUser?.identity ?? ""
         user.gender = ChatroomContext.shared?.currentUser?.gender ?? 1
         let userMap = user.kj.JSONObject()
-        let message = ChatMessage(conversationID: self.currentRoomId, body: ChatCustomMessageBody(event: chatroom_UIKit_gift, customExt: ["gift" : gift?.kj.JSONString() ?? ""]), ext: userMap)
+        let message = ChatMessage(conversationID: self.currentRoomId, body: ChatCustomMessageBody(event: chatroom_UIKit_gift, customExt: ["chatroom_uikit_gift" : gift?.kj.JSONString() ?? ""]), ext: userMap)
         message.chatType = .chatRoom
         ChatClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
             completion(chatMessage,error)
@@ -79,7 +79,7 @@ extension GiftServiceImplement: ChatManagerDelegate {
                     if let body = message.body as? ChatCustomMessageBody {
                         if body.event == chatroom_UIKit_gift,let json = message.ext as? [String:Any] {
                             let user = model(from: json, type: User.self)
-                            if let userInfo = user as? UserInfoProtocol,let jsonString = body.customExt["gift"] {
+                            if let userInfo = user as? UserInfoProtocol,let jsonString = body.customExt["chatroom_uikit_gift"] {
                                 let json = jsonString.chatroom.jsonToDictionary()
                                 let model = model(from: json, type: GiftEntity.self)
                                 if let gift = model as? GiftEntityProtocol {
