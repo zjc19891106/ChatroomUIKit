@@ -192,7 +192,7 @@ class YourAppUser: UserInfoProtocol {
             
     var gender: Int = 1
             
-    var identify: String =  "you user level symbol url"
+    var identity: String =  "you user level symbol url"
             
 }
 // Use the user information of the current user object that conforms to the UserInfoProtocol protocol to log in to ChatroomUIKit.

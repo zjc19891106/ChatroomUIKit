@@ -84,7 +84,7 @@ import UIKit
     public static var notifyMessageOriginPoint: CGPoint = CGPoint(x: 20, y: 100)
         
     /// The placeholder image of the user-level image view of ``ChatBarrageCell``.
-    public static var userIdentifyPlaceHolder: UIImage? = UIImage(named: "achievement", in: .chatroomBundle, with: nil)
+    public static var identityPlaceHolder: UIImage? = UIImage(named: "achievement", in: .chatroomBundle, with: nil)
     
     /// The height limit of the input box in ``ChatInputBar``.
     public static var maxInputHeight: CGFloat = 88
@@ -102,7 +102,7 @@ import UIKit
     public static var giftBarrageRowHeight: CGFloat = 58
     
     /// The label for message reporting types.
-    public static var reportTags: [String] = ["violation_reason_1".chatroom.localize,"violation_reason_2".chatroom.localize,"violation_reason_3".chatroom.localize,"violation_reason_5".chatroom.localize,"violation_reason_5".chatroom.localize,"violation_reason_6".chatroom.localize,"violation_reason_7".chatroom.localize,"violation_reason_8".chatroom.localize,"violation_reason_9".chatroom.localize]
+    public static var reportTags: [String] = ["violation_reason_1".chatroom.localize,"violation_reason_2".chatroom.localize,"violation_reason_3".chatroom.localize,"violation_reason_4".chatroom.localize,"violation_reason_5".chatroom.localize,"violation_reason_6".chatroom.localize,"violation_reason_7".chatroom.localize,"violation_reason_8".chatroom.localize,"violation_reason_9".chatroom.localize]
     
     /// The row height of the member cell.
     public static var membersRowHeight: CGFloat = 62

@@ -197,7 +197,9 @@ extension ParticipantsController: SearchBarActionEvents {
     
     public func onSearchBarClicked() {
         self.search = SearchParticipantsViewController(rawSources: self.rawSources()) { [weak self] user in
-            self?.operationUser(user: user)
+            if ChatroomContext.shared?.owner ?? false {
+                self?.operationUser(user: user)
+            }
         } didSelect: { user in
             
         }

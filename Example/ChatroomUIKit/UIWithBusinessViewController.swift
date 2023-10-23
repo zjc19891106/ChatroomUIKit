@@ -139,8 +139,7 @@ extension UIWithBusinessViewController {
                     }
                 })
             case "Remove":
-                DialogManager.shared.showAlert(content: "Remove `\(user.nickName.isEmpty ? user.userId:user.nickName)`.Are you sure?", showCancel: true, showConfirm: true) { [weak self] in
-                    guard let `self` = self else { return }
+                DialogManager.shared.showAlert(content: "Remove `\(user.nickName.isEmpty ? user.userId:user.nickName)`.Are you sure?", showCancel: true, showConfirm: true) {
                     ChatroomUIKitClient.shared.roomService?.kick(userId: user.userId) { [weak self] error in
                         guard let `self` = self else { return }
                         if error == nil {

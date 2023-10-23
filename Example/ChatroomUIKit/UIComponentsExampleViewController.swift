@@ -87,7 +87,7 @@ final class UIComponentsExampleViewController: UIViewController {
         let user = User()
         user.nickName = "Jack"
         user.avatarURL = "https://accktvpic.oss-cn-beijing.aliyuncs.com/pic/sample_avatar/sample_avatar_1.png"
-        user.identify = "https://accktvpic.oss-cn-beijing.aliyuncs.com/pic/sample_avatar/sample_avatar_2.png"
+        user.identity = "https://accktvpic.oss-cn-beijing.aliyuncs.com/pic/sample_avatar/sample_avatar_2.png"
         user.userId = "12323123123"
         ChatroomContext.shared?.currentUser = user
         self.view.addSubview(self.background)
