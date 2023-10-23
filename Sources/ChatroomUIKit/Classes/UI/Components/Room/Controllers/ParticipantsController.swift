@@ -203,7 +203,9 @@ extension ParticipantsController: SearchBarActionEvents {
         } didSelect: { user in
             
         }
-        self.present(self.search!, animated: true)
+        if let vc = self.search {
+            self.present(vc, animated: true)
+        }
     }
     
     private func rawSources() -> [UserInfoProtocol] {
