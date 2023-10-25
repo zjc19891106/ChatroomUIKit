@@ -29,7 +29,7 @@ import UIKit
     }
     
     /// The cache mute users map.Key is user id.
-    public var muteMap: Dictionary<String,Bool>?
+    public var muteMap: Dictionary<String,Bool>? = Dictionary<String,Bool>()
     
     public var roomId: String?
     

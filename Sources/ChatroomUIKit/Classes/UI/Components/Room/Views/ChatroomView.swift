@@ -196,6 +196,12 @@ extension ChatroomView: ChatBarrageActionEventsHandler {
                 Appearance.defaultMessageActions.remove(at: index)
             }
         }
+        if message.body.type == .custom {
+            if let index = Appearance.defaultMessageActions.firstIndex(where: { $0.tag == "Report"
+            }) {
+                Appearance.defaultMessageActions.remove(at: index)
+            }
+        }
         self.showLongPressDialog(message: message)
         for delegate in self.eventHandlers.allObjects {
             delegate.onMessageListBarrageLongPressed(message: message)
@@ -215,8 +221,12 @@ extension ChatroomView: ChatBarrageActionEventsHandler {
                 self?.service?.unmute(userId: message.from, completion: { _ in })
             case "Report":
                 DialogManager.shared.showReportDialog(message: message) { error in
+                    var result = "Report successful!"
                     if error != nil {
-                        UIViewController.currentController?.showToast(toast: "\(error?.errorDescription ?? "")", duration: 2)
+                        result = "\(error?.errorDescription ?? "")"
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now()+0.3) {
+                        UIViewController.currentController?.showToast(toast: result, duration: 2)
                     }
                 }
             default:

@@ -43,8 +43,10 @@ extension GiftsViewController: GiftsViewActionEventsDelegate {
     open func onGiftSendClick(item: GiftEntityProtocol) {
         //It can be called after completing the interaction related to the gift sending interface with the server.
         if ChatroomContext.shared?.muteMap?[ChatroomContext.shared?.currentUser?.userId ?? ""] ?? false {
-            self.showToast(toast: "Your were muted!".chatroom.localize, duration: 2)
-           return
+            UIViewController.currentController?.dismiss(animated: true) {
+                self.showToast(toast: "Your were muted!".chatroom.localize, duration: 2)
+            }
+            return
         }
         if item.sentThenClose {
             UIViewController.currentController?.dismiss(animated: true)
