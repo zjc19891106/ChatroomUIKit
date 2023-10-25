@@ -60,7 +60,12 @@ extension ChatroomServiceImplement: ChatroomService {
             ChatClient.shared().roomManager?.leaveChatroom(roomId,completion: { error in
                 completion(error == nil,error)
             })
+        case .destroyed:
+            ChatClient.shared().roomManager?.destroyChatroom(roomId, completion: { error in
+                completion(error == nil,error)
+            })
         }
+        
     }
     
     public func announcement(roomId: String, completion: @escaping (String?, ChatError?) -> Void) {
@@ -106,15 +111,19 @@ extension ChatroomServiceImplement: ChatroomService {
             ChatClient.shared().roomManager?.removeMembers([userId], fromChatroom: roomId,completion: { room, error in
                 completion(error == nil,error)
             })
+        case .leave:
+            ChatClient.shared().roomManager?.leaveChatroom(roomId, completion: { error in
+                completion(error == nil,error)
+            })
         default:
             break
         }
     }
     
     public func sendMessage(text: String, roomId: String, completion: @escaping (ChatMessage, ChatError?) -> Void) {
-        let user = ChatroomContext.shared?.currentUser as? User
-        if let user_json = user?.kj.JSONObject() {
-            let message = ChatMessage(conversationID: roomId, body: ChatCustomMessageBody(event: chatroom_UIKit_user_join, customExt: nil), ext: ["chatroom_uikit_userInfo":user_json])
+        let user = ChatroomContext.shared?.currentUser
+        if let user_json = user?.toJsonObject() {
+            let message = ChatMessage(conversationID: roomId, body: ChatTextMessageBody(text: text), ext: ["chatroom_uikit_userInfo":user_json])
             message.chatType = .chatRoom
             ChatClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
                 completion(chatMessage ?? ChatMessage(),error)
@@ -124,8 +133,8 @@ extension ChatroomServiceImplement: ChatroomService {
     
     public func sendMessage(to userIds: [String], roomId: String, content: String, completion: @escaping (Bool, ChatError?) -> Void) {
         let user = ChatroomContext.shared?.currentUser as? User
-        if let user_json = user?.kj.JSONObject() {
-            let message = ChatMessage(conversationID: roomId, body: ChatCustomMessageBody(event: chatroom_UIKit_user_join, customExt: nil), ext: ["chatroom_uikit_userInfo":user_json])
+        if let user_json = user?.toJsonObject() {
+            let message = ChatMessage(conversationID: roomId, body: ChatTextMessageBody(text: content), ext: ["chatroom_uikit_userInfo":user_json])
             message.chatType = .chatRoom
             message.receiverList = userIds
             ChatClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
@@ -136,7 +145,7 @@ extension ChatroomServiceImplement: ChatroomService {
     
     public func sendCustomMessage(to userIds: [String], roomId: String, eventType: String, infoMap: [String : String], completion: @escaping (Bool, ChatError?) -> Void) {
         let user = ChatroomContext.shared?.currentUser as? User
-        if let user_json = user?.kj.JSONObject() {
+        if let user_json = user?.toJsonObject() {
             let message = ChatMessage(conversationID: roomId, body: ChatCustomMessageBody(event: chatroom_UIKit_user_join, customExt: nil), ext: ["chatroom_uikit_userInfo":user_json])
             message.chatType = .chatRoom
             message.receiverList = userIds
@@ -153,16 +162,8 @@ extension ChatroomServiceImplement: ChatroomService {
     }
     
     private func sendJoinMessage(roomId: String, completion: @escaping (ChatError?) -> Void) {
-        let user = ChatroomContext.shared?.currentUser.map({
-            let user = User()
-            user.userId = $0.userId
-            user.nickName = $0.nickName
-            user.avatarURL = $0.avatarURL
-            user.identity = $0.identity
-            user.gender = $0.gender
-            return user
-        })
-        if let user_json = user?.kj.JSONObject() {
+        let user = ChatroomContext.shared?.currentUser
+        if let user_json = user?.toJsonObject() {
             let message = ChatMessage(conversationID: roomId, body: ChatCustomMessageBody(event: chatroom_UIKit_user_join, customExt: nil), ext: ["chatroom_uikit_userInfo":user_json])
             message.chatType = .chatRoom
             ChatClient.shared().chatManager?.send(message, progress: nil,completion: { [weak self] chatMessage, error in
@@ -266,9 +267,9 @@ extension ChatroomServiceImplement: ChatManagerDelegate {
                 switch message.body.type {
                 case .text:
                     if let json = message.ext as? [String:Any],let userInfo = json["chatroom_uikit_userInfo"] as? [String:Any] {
-                        if let user = model(from: userInfo, type: User.self) as? User {
-                            ChatroomContext.shared?.usersMap?[user.userId] = user
-                        }
+                        let user = User()
+                        user.setValuesForKeys(userInfo)
+                        ChatroomContext.shared?.usersMap?[user.userId] = user
                     }
                     response.onMessageReceived(roomId: message.to, message: message)
                 case .custom:
@@ -276,9 +277,9 @@ extension ChatroomServiceImplement: ChatManagerDelegate {
                 default:
                     if message.broadcast {
                         if let json = message.ext as? [String:Any],let userInfo = json["chatroom_uikit_userInfo"] as? [String:Any] {
-                            if let user = model(from: userInfo, type: User.self) as? User {
-                                ChatroomContext.shared?.usersMap?[user.userId] = user
-                            }
+                            let user = User()
+                            user.setValuesForKeys(userInfo)
+                            ChatroomContext.shared?.usersMap?[user.userId] = user
                         }
                         response.onGlobalNotifyReceived(roomId: message.to, notifyMessage: message)
                     }
@@ -291,14 +292,14 @@ extension ChatroomServiceImplement: ChatManagerDelegate {
     private func notifyJoin(message: ChatMessage, response: ChatroomResponseListener?) {
         if let body = message.body as? ChatCustomMessageBody{
             if body.event == chatroom_UIKit_user_join,let json = message.ext as? [String:Any],let userInfo = json["chatroom_uikit_userInfo"] as? [String:Any] {
-                if let user = model(from: userInfo, type: User.self) as? User {
-                    ChatroomContext.shared?.usersMap?[user.userId] = user
-                    if response != nil {
-                        response?.onUserJoined(roomId: message.to, message: message)
-                    } else {
-                        for response in self.responseDelegates.allObjects {
-                            response.onUserJoined(roomId: message.to, message: message)
-                        }
+                let user = User()
+                user.setValuesForKeys(userInfo)
+                ChatroomContext.shared?.usersMap?[user.userId] = user
+                if response != nil {
+                    response?.onUserJoined(roomId: message.to, message: message)
+                } else {
+                    for response in self.responseDelegates.allObjects {
+                        response.onUserJoined(roomId: message.to, message: message)
                     }
                 }
             }

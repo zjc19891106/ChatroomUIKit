@@ -11,6 +11,7 @@ import UIKit
 @objc public enum RoomEventsError: UInt {
     case join
     case leave
+    case destroyed
     case kick
     case mute
     case unmute
@@ -181,7 +182,7 @@ import UIKit
         }
     }
     
-    @objc public func destroyed() {
+    private func cleanCache() {
         self.roomId = ""
         self.roomService = nil
         self.giftDrive = nil
@@ -241,13 +242,23 @@ import UIKit
     @objc public func leaveRoom(completion: @escaping (ChatError?) -> Void) {
         self.roomService?.chatroomOperating(roomId: self.roomId, userId: ChatClient.shared().currentUsername ?? "", type: .leave, completion: { [weak self] success, error in
             if success {
-                self?.roomId = ""
+                self?.cleanCache()
             } else {
                 self?.handleError(type: .leave, error: error!)
-                self?.destroyed()
             }
         })
     }
+    
+    @objc public func destroyed(completion: @escaping (ChatError?) -> Void) {
+        self.roomService?.chatroomOperating(roomId: self.roomId, userId: ChatClient.shared().currentUsername ?? "", type: .destroyed, completion: { [weak self] success, error in
+            if success {
+                self?.cleanCache()
+            } else {
+                self?.handleError(type: .destroyed, error: error!)
+            }
+        })
+    }
+    
     //MARK: - Participants operation
     @objc public func kick(userId: String,completion: @escaping (ChatError?) -> Void) {
         self.roomService?.operatingUser(roomId: self.roomId, userId: userId, type: .kick, completion: { [weak self] success, error in

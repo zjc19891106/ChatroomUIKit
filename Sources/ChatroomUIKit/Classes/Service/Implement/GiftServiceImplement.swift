@@ -41,13 +41,8 @@ extension GiftServiceImplement: GiftService {
     
     public func sendGift(gift: GiftEntityProtocol, completion: @escaping (ChatMessage?,ChatError?) -> Void) {
         let gift = gift as? GiftEntity
-        let user = User()
-        user.userId = ChatroomContext.shared?.currentUser?.userId ?? ""
-        user.nickName = ChatroomContext.shared?.currentUser?.nickName ?? ""
-        user.avatarURL = ChatroomContext.shared?.currentUser?.avatarURL ?? ""
-        user.identity = ChatroomContext.shared?.currentUser?.identity ?? ""
-        user.gender = ChatroomContext.shared?.currentUser?.gender ?? 1
-        let userMap = user.kj.JSONObject()
+        let user =  ChatroomContext.shared?.currentUser
+        let userMap = user?.toJsonObject()
         let message = ChatMessage(conversationID: self.currentRoomId, body: ChatCustomMessageBody(event: chatroom_UIKit_gift, customExt: ["chatroom_uikit_gift" : gift?.kj.JSONString() ?? ""]), ext: userMap)
         message.chatType = .chatRoom
         ChatClient.shared().chatManager?.send(message, progress: nil,completion: { chatMessage, error in
@@ -78,12 +73,13 @@ extension GiftServiceImplement: ChatManagerDelegate {
                 case .custom:
                     if let body = message.body as? ChatCustomMessageBody {
                         if body.event == chatroom_UIKit_gift,let json = message.ext as? [String:Any] {
-                            let user = model(from: json, type: User.self)
-                            if let userInfo = user as? UserInfoProtocol,let jsonString = body.customExt["chatroom_uikit_gift"] {
+                            let user = User()
+                            user.setValuesForKeys(json)
+                            if let jsonString = body.customExt["chatroom_uikit_gift"] {
                                 let json = jsonString.chatroom.jsonToDictionary()
                                 let model = model(from: json, type: GiftEntity.self)
                                 if let gift = model as? GiftEntityProtocol {
-                                    gift.sendUser = userInfo
+                                    gift.sendUser = user
                                     response.receiveGift(roomId: self.currentRoomId, gift: gift,message: message)
                                 }
 

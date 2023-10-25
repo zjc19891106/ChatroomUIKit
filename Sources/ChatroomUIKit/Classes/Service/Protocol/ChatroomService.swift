@@ -17,12 +17,14 @@ import Foundation
     case block
     case unblock
     case kick
+    case leave
 }
 
 /// Chatroom operation events.Ext,leave or join.
 @objc public enum ChatroomOperationType: Int {
     case join
     case leave
+    case destroyed
 }
 
 
