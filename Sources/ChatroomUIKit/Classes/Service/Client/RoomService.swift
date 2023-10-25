@@ -122,6 +122,9 @@ import UIKit
     /// The current page number for getting chat room members.
     public private(set)var pageNum = 1
     
+    
+    public private(set)var pageNumOfMute = 1
+    
     public private(set) lazy var giftService: GiftService? = {
         let newValue = GiftServiceImplement(roomId: self.roomId)
         newValue.unbindGiftResponseListener(listener: self)
@@ -282,6 +285,9 @@ import UIKit
     @objc public func fetchParticipants(pageSize: UInt, completion: @escaping (([UserInfoProtocol]?,ChatError?)->Void)) {
         self.roomService?.fetchParticipants(roomId: self.roomId, pageSize: pageSize, completion: { [weak self] userIds, error in
             guard let `self` = self else { return  }
+            if error == nil {
+                self.pageNum += 1
+            }
             if let ids = userIds {
                 var unknownUserIds = [String]()
                 for userId in ids {
@@ -335,8 +341,11 @@ import UIKit
     }
     
     @objc public func fetchMuteUsers(pageSize: UInt, completion: @escaping (([UserInfoProtocol]?,ChatError?)->Void)) {
-        self.roomService?.fetchMuteUsers(roomId: self.roomId, pageNum: UInt(self.pageNum), pageSize: pageSize, completion: { [weak self] userIds, error in
+        self.roomService?.fetchMuteUsers(roomId: self.roomId, pageNum: UInt(self.pageNumOfMute), pageSize: pageSize, completion: { [weak self] userIds, error in
             guard let `self` = self else { return }
+            if error == nil {
+                self.pageNumOfMute += 1
+            }
             if let ids = userIds,(ids.count != 0) {
                 var unknownUserIds = [String]()
                 for userId in ids {

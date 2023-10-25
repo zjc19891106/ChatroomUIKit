@@ -81,7 +81,7 @@ import UIKit
     public static var notifyMessageIcon: UIImage? = UIImage(named: "speaker", in: .chatroomBundle, with: nil)
     
     /// The origin point of the global notification message.
-    public static var notifyMessageOriginPoint: CGPoint = CGPoint(x: 20, y: 100)
+    public static var notifyMessageOriginPoint: CGPoint = CGPoint(x: 20, y: NavigationHeight+10)
         
     /// The placeholder image of the user-level image view of ``ChatBarrageCell``.
     public static var identityPlaceHolder: UIImage? = UIImage(named: "achievement", in: .chatroomBundle, with: nil)
