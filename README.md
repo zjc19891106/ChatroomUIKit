@@ -160,7 +160,7 @@ ChatroomUIKitClient.shared.login(with userId: "user id", token: "token", complet
 // Choose ProjectManager > Operation Manager > Chat Room and click Create Chat Room and set parameters in the displayed dialog box to create a chat room. Get the chat room ID to pass it in to the following `launchRoomView` method.
 // 2. Create a chat room view with `ChatroomView` by passing in parameters such as layout parameters and the array of extension button model protocols of the bottom toolbar.
 // It is recommended that the width of ChatroomView should be initialized as the width of the screen and the height should be no less than the height of the screen minus the height of the navigation.
-let roomView = ChatroomUIKitClient.shared.launchRoomView(roomId: String,frame: CGRect, is owner: Bool)        
+let roomView = ChatroomUIKitClient.shared.launchRoomViewWithOptions(roomId: self.room?.chatroomId ?? "", frame: CGRect(x: 0, y: self.playView.frame.maxY, width: self.view.frame.width, height: 336+BottomBarHeight), ownerId: "Chatroom's owner user id")        
 // 3. Add to the destination frame. 
 // 4. Add users to the chat room on the Console.
 // Choose ProjectManager > Operation Manager > Chat Room. Select View Chat Room Members in the Action column of a chat room and add users to the chat room in the displayed dialog box.  
@@ -205,11 +205,11 @@ ChatroomUIKitClient.shared.login(with: YourAppUser(), token: "token", completion
 ```
 //1. Get a chat room list and join a chat room. Alternatively, create a chat room on the Agora Console.
 // 2. Create a chat room view with `ChatroomView` by passing in parameters such as layout parameters and the array of extension button model protocols of the bottom toolbar.
-let options  = ChatroomUIKitInitialOptions()
-options.bottomDataSource = self.bottomBarDatas()
-options.hasGiftsBarrage = true
-options.hiddenChatRaise = false
-ChatroomUIKitClient.shared.launchRoomViewWithOptions(roomId: "chatroom id", frame: .zero, is: true,options: options)        
+    let options  = ChatroomUIKitInitialOptions()
+    options.bottomDataSource = self.bottomBarDatas()
+    options.hasGiftsBarrage = true
+    options.hiddenChatRaise = false
+    ChatroomUIKitClient.shared.launchRoomViewWithOptions(roomId: self.room?.chatroomId ?? "", frame: CGRect(x: 0, y: self.playView.frame.maxY, width: self.view.frame.width, height: 336+BottomBarHeight), ownerId: self.room?.owner ?? "",options: self.option_UI)        
 //3. Add to the destination frame. 
 ```
 
@@ -231,7 +231,7 @@ The following shows how to change the overall cell layout style of the barrage a
 // You can change the overall cell layout style of the barrage area by setting the properties.
 Appearance.barrageCellStyle = .excludeLevel
 // Create the ChatroomView by passing in parameters like layout parameters and the bottom toolbar extension button model protocol array.
-let roomView = ChatroomUIKitClient.shared.launchRoomView(roomId: "chatroom Id", frame: <#T##CGRect#>)
+let roomView = ChatroomUIKitClient.shared.launchRoomViewWithOptions(roomId: self.room?.chatroomId ?? "", frame: CGRect(x: 0, y: self.playView.frame.maxY, width: self.view.frame.width, height: 336+BottomBarHeight), ownerId: self.room?.owner ?? "")
 self.view.addSubView(roomView)
 ```
 
