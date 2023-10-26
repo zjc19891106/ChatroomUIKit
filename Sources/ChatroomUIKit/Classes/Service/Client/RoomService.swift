@@ -363,7 +363,7 @@ import UIKit
                         unknownUserIds.append(userId)
                     }
                 }
-                if unknownUserIds.count > 0,self.pageNum == 1,ChatroomUIKitClient.shared.option.option_chat.useProperties {
+                if unknownUserIds.count > 0,self.pageNumOfMute == 1,ChatroomUIKitClient.shared.option.option_chat.useProperties {
                     ChatroomUIKitClient.shared.userImplement?.userInfos(userIds: unknownUserIds, completion: { infos, error in
                         if error == nil {
                             var users = [UserInfoProtocol]()
