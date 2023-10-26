@@ -121,12 +121,12 @@ import UIKit
     /// This method frees memory.
     @objc public func destroyRoom() {
         if ChatroomContext.shared?.owner ?? false {
-            self.roomService?.leaveRoom(completion: { [weak self] error in
+            self.roomService?.destroyed(completion: { [weak self] error in
                 self?.roomService = nil
                 self?.roomId = ""
             })
         } else {
-            self.roomService?.destroyed(completion: { [weak self] error in
+            self.roomService?.leaveRoom(completion: { [weak self] error in
                 self?.roomService = nil
                 self?.roomId = ""
             })
@@ -200,8 +200,12 @@ extension ChatroomUIKitClient: UserStateChangedListener {
         switch state {
         case .connected:
             if !self.roomId.isEmpty {
-                self.roomService?.enterRoom(completion: { _ in
-                    
+                self.roomService?.enterRoom(completion: { error in
+                    if let service = self.roomService,let error = error {
+                        for listener in service.eventsListener.allObjects {
+                            listener.onErrorOccur(error: error, type: .join)
+                        }
+                    }
                 })
             }
         default:

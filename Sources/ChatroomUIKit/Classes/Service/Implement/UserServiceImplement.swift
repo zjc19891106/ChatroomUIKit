@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import KakaJSON
 
 @objc public final class UserServiceImplement: NSObject {
         
@@ -182,6 +181,9 @@ extension UserServiceImplement: ChatClientDelegate {
     
     public var mute: Bool = false
     
+    public override func setValue(_ value: Any?, forUndefinedKey key: String) {
+        
+    }
     
 }
 

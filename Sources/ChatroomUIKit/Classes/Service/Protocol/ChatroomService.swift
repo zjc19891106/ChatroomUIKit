@@ -176,14 +176,14 @@ import Foundation
     ///   - roomId: chatroom id
     ///   - userId: UserId were muted
     ///   - operatorId: Operator user id
-    func onUserMuted(roomId: String,userId: String,operatorId: String)
+    func onUserMuted(roomId: String,userId: String)
     
     /// When some room members were unmuted,then method will call notify Administrator.
     /// - Parameters:
     ///   - roomId: chatroom id
     ///   - userId: UserId were muted
     ///   - operatorId: Operator user id
-    func onUserUnmuted(roomId: String,userId: String,operatorId: String)
+    func onUserUnmuted(roomId: String,userId: String)
 }
 
 

@@ -175,16 +175,19 @@ extension ChatroomView: GiftsBarrageListTransformAnimationDataSource {
 extension ChatroomView: ChatBarrageActionEventsHandler {
     
     public func onMessageBarrageLongPressed(message: ChatMessage) {
+        if message.body.type == .custom {
+            return
+        }
         if let owner = ChatroomContext.shared?.owner,owner {
             if let map = ChatroomContext.shared?.muteMap {
                 let mute = map[message.from] ?? false
                 if mute {
                     if let index = Appearance.defaultMessageActions.firstIndex(where: { $0.tag == "Mute"
                     }) {
-                        Appearance.defaultMessageActions[index] = ActionSheetItem(title: "barrage_long_press_menu_unmute".chatroom.localize, type: .normal, tag: "unmute")
+                        Appearance.defaultMessageActions[index] = ActionSheetItem(title: "barrage_long_press_menu_unmute".chatroom.localize, type: .normal,tag: "unMute")
                     }
                 } else {
-                    if let index = Appearance.defaultMessageActions.firstIndex(where: { $0.tag == "unmute"
+                    if let index = Appearance.defaultMessageActions.firstIndex(where: { $0.tag == "unMute"
                     }) {
                         Appearance.defaultMessageActions[index] = ActionSheetItem(title: "barrage_long_press_menu_mute".chatroom.localize, type: .normal, tag: "Mute")
                     }
@@ -194,17 +197,6 @@ extension ChatroomView: ChatBarrageActionEventsHandler {
             if let index = Appearance.defaultMessageActions.firstIndex(where: { $0.tag == "Mute"
             }) {
                 Appearance.defaultMessageActions.remove(at: index)
-            }
-        }
-        if message.body.type == .custom {
-            if let index = Appearance.defaultMessageActions.firstIndex(where: { $0.tag == "Report"
-            }) {
-                Appearance.defaultMessageActions.remove(at: index)
-            }
-        } else {
-            let report = Appearance.defaultMessageActions.first { $0.tag == "Report" }
-            if report == nil {
-                Appearance.defaultMessageActions.append(ActionSheetItem(title: "barrage_long_press_menu_report".chatroom.localize, type: .destructive,tag: "Report"))
             }
         }
         self.showLongPressDialog(message: message)

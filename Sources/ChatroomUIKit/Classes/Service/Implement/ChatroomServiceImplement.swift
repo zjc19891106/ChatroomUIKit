@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import KakaJSON
 
 let chatroom_UIKit_user_join = "CHATROOMUIKITUSERJOIN"
 
@@ -52,7 +51,11 @@ extension ChatroomServiceImplement: ChatroomService {
                     completion(false,error)
                 } else {
                     self?.sendJoinMessage(roomId: room?.chatroomId ?? "", completion: { error in
-                        completion(error == nil,error)
+                        if error?.code == .errorUserMuted {
+                            completion(true,nil)
+                        } else {
+                            completion(error == nil,error)
+                        }
                     })
                 }
             })
@@ -240,7 +243,7 @@ extension ChatroomServiceImplement: ChatroomManagerDelegate {
             for userId in aMutes {
                 if let roomId = aChatroom.chatroomId {
                     ChatroomContext.shared?.muteMap?.removeValue(forKey: userId)
-                    response.onUserUnmuted(roomId: roomId, userId: userId, operatorId: "")
+                    response.onUserUnmuted(roomId: roomId, userId: userId)
                 }
             }
         }
@@ -251,10 +254,16 @@ extension ChatroomServiceImplement: ChatroomManagerDelegate {
             for userId in aMutes {
                 if let roomId = aChatroom.chatroomId {
                     ChatroomContext.shared?.muteMap?[userId] = true
-                    response.onUserMuted(roomId: roomId, userId: userId, operatorId: "")
+                    response.onUserMuted(roomId: roomId, userId: userId)
                 }
             }
         }
+    }
+    
+    public func userDidJoin(_ aChatroom: ChatRoom, user aUsername: String) {
+        let user = User()
+        user.userId = aUsername
+        ChatroomContext.shared?.usersMap?[aUsername] = user
     }
     
 }

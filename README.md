@@ -182,7 +182,7 @@ Here are three examples of advanced usage.
 
 ### [1.Login](https://github.com/zjc19891106/ChatroomUIKit#1login)
 
-```swift
+```Swift
 class YourAppUser: UserInfoProtocol {
     var userId: String = "your application user id"
             
@@ -229,7 +229,7 @@ The following shows how to change the overall cell layout style of the barrage a
 
 ```
 // You can change the overall cell layout style of the barrage area by setting the properties.
-Appearance.barrageCellStyle = .excludeLevel
+Appearance.barrageCellStyle = .all
 // Create the ChatroomView by passing in parameters like layout parameters and the bottom toolbar extension button model protocol array.
 let roomView = ChatroomUIKitClient.shared.launchRoomViewWithOptions(roomId: self.room?.chatroomId ?? "", frame: CGRect(x: 0, y: self.playView.frame.maxY, width: self.view.frame.width, height: 336+BottomBarHeight), ownerId: self.room?.owner ?? "")
 self.view.addSubView(roomView)
@@ -306,13 +306,13 @@ Note that custom themes and built-in themes are mutually exclusive.
 
 The following figure presents the entire logic of business requests and callbacks.
 
-[![Overall flow diagram of business logic](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/BusinessFlowchart.png)](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/BusinessFlowchart.png)
+![Overall flow diagram of business logic](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/BusinessFlowchart.png)](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/BusinessFlowchart.png)
 
 # [ApiSequenceDiagram](https://github.com/zjc19891106/ChatroomUIKit#apisequencediagram)
 
 The following figure is the best-practice API calling sequence diagram in the `Example` project.
 
-[![APIUML](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/Api.png)](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/Api.png)
+![APIUML](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/Api.png)](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/Api.png)
 
 # [DesignGuidelines](https://github.com/zjc19891106/ChatroomUIKit#designguidelines)
 

@@ -147,10 +147,10 @@ open class ParticipantsController: UITableViewController {
             if mute {
                 if let index = Appearance.defaultOperationUserActions.firstIndex(where: { $0.tag == "Mute"
                 }) {
-                    Appearance.defaultOperationUserActions[index] = ActionSheetItem(title: "barrage_long_press_menu_unmute".chatroom.localize, type: .normal, tag: "unmute")
+                    Appearance.defaultOperationUserActions[index] = ActionSheetItem(title: "barrage_long_press_menu_unmute".chatroom.localize, type: .normal,tag: "unMute")
                 }
             } else {
-                if let index = Appearance.defaultOperationUserActions.firstIndex(where: { $0.tag == "unmute"
+                if let index = Appearance.defaultOperationUserActions.firstIndex(where: { $0.tag == "unMute"
                 }) {
                     Appearance.defaultOperationUserActions[index] = ActionSheetItem(title: "barrage_long_press_menu_mute".chatroom.localize, type: .normal, tag: "Mute")
                 }

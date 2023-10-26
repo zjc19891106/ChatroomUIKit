@@ -250,7 +250,11 @@ extension UIComponentsExampleViewController {
                 assert(false)
             }
             if let jsons = data["gifts"] as? [Dictionary<String,Any>] {
-                return jsons.kj.modelArray(GiftEntity.self)
+                return jsons.compactMap {
+                    let entity = GiftEntity()
+                    entity.setValuesForKeys($0)
+                    return entity
+                }
             }
         }
         return []

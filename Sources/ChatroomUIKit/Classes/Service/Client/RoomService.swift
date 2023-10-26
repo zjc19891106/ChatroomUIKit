@@ -49,22 +49,20 @@ import UIKit
     /// - Parameters:
     ///   - roomId: Chat room ID.
     ///   - userId: The user ID of the unmuted member.
-    ///   - operatorId: The user ID of the operator that removes the member from the mute list of the chat room.
-    func onUserUnmuted(roomId: String, userId: String, operatorId: String)
+    func onUserUnmuted(roomId: String, userId: String)
     
     /// Occurs when a member is muted.
     /// The muted member, administrators, and the owner of the chat room receive this event.
     /// - Parameters:
     ///   - roomId: Chat room ID.
     ///   - userId: The user ID of the muted member.
-    ///   - operatorId: The user ID of the operator that adds the member to the mute list of the chat room.
-    func onUserMuted(roomId: String, userId: String, operatorId: String)
+    func onUserMuted(roomId: String, userId: String)
     
     /// Occurs when a user joins the chat room.
     /// All members in the chat room, except the new member, receive the event.
     /// - Parameters:
     ///   - roomId: Chat room ID.
-    ///   - user: The user ID that conforms to UserInfoProtocol.
+    ///   - user: The user instance that conforms to UserInfoProtocol.
     func onUserJoined(roomId: String, user: UserInfoProtocol)
     
     /// Occurs when a member leaves the chat room.
@@ -476,16 +474,17 @@ import UIKit
 
 extension RoomService: ChatroomResponseListener {
     
-    public func onUserMuted(roomId: String, userId: String, operatorId: String) {
+    public func onUserMuted(roomId: String, userId: String) {
         for listener in self.eventsListener.allObjects {
-            listener.onUserMuted(roomId: roomId, userId: userId, operatorId: operatorId)
+            listener.onUserMuted(roomId: roomId, userId: userId)
         }
 
     }
     
-    public func onUserUnmuted(roomId: String, userId: String, operatorId: String) {
+    public func onUserUnmuted(roomId: String, userId: String) {
         for listener in self.eventsListener.allObjects {
-            listener.onUserUnmuted(roomId: roomId, userId: userId, operatorId: operatorId)
+            ChatroomContext.shared?.muteMap?.removeValue(forKey: userId)
+            listener.onUserUnmuted(roomId: roomId, userId: userId)
         }
     }
     
