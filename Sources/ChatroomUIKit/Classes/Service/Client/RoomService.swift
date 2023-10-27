@@ -223,7 +223,7 @@ import UIKit
     @objc public func enterRoom(completion: @escaping (ChatError?) -> Void) {
         if let userId = ChatroomContext.shared?.currentUser?.userId  {
             self.roomService?.chatroomOperating(roomId: self.roomId, userId: userId, type: .join) { [weak self] success, error in
-                guard let `self` = self else { return  }
+                guard let `self` = self else { return }
                 if !success {
                     let errorInfo = "Joined chatroom error:\(error?.errorDescription ?? "")"
                     consoleLogInfo(errorInfo, type: .error)
