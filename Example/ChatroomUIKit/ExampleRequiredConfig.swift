@@ -23,6 +23,12 @@ public class ExampleRequiredConfig {
     
     /// `YourAppUser` means that you application project's user class.
     public final class YourAppUser: NSObject,UserInfoProtocol {
+        public var identity: String = ""//user level picture url
+        
+        public func toJsonObject() -> Dictionary<String, Any>? {
+            ["userId":self.userId,"nickName":self.nickName,"avatarURL":self.avatarURL,"identity":self.identity,"gender":self.gender]
+        }
+        
         
         public var userId: String = <#T##String#>
         
@@ -32,7 +38,6 @@ public class ExampleRequiredConfig {
         
         public var gender: Int = 1
         
-        public var identify: String = ""//user level picture url
         
         
     }
