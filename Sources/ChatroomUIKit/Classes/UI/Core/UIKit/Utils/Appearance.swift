@@ -105,10 +105,10 @@ import UIKit
     public static var reportTags: [String] = ["violation_reason_1".chatroom.localize,"violation_reason_2".chatroom.localize,"violation_reason_3".chatroom.localize,"violation_reason_4".chatroom.localize,"violation_reason_5".chatroom.localize,"violation_reason_6".chatroom.localize,"violation_reason_7".chatroom.localize,"violation_reason_8".chatroom.localize,"violation_reason_9".chatroom.localize]
     
     /// The row height of the member cell.
-    public static var membersRowHeight: CGFloat = 62
+    public static var participantsRowHeight: CGFloat = 62
     
     /// The number of chat room members that you expect to get on each page.
-    public static var membersPageSize: UInt = 10
+    public static var participantsPageSize: UInt = 10
     
     /// The number of  mute list page size.
     public static var mutePageSize: UInt = 200

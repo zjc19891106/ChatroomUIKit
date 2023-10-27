@@ -62,7 +62,7 @@ open class ParticipantsController: UITableViewController {
         self.tableView.dataSource = self
         self.tableView.tableHeaderView = self.searchField
         self.tableView.registerCell(ComponentsRegister.shared.ChatroomParticipantCell, forCellReuseIdentifier: "ChatroomParticipantsCell")
-        self.tableView.rowHeight = Appearance.membersRowHeight
+        self.tableView.rowHeight = Appearance.participantsRowHeight
         self.tableView.separatorColor(UIColor.theme.neutralColor9)
         self.tableView.tableFooterView(UIView())
         self.searchField.addActionHandler(handler: self)
@@ -93,7 +93,7 @@ open class ParticipantsController: UITableViewController {
                 }
             }
         } else {
-            self.roomService.fetchParticipants(pageSize: Appearance.membersPageSize) { [weak self] datas, error in
+            self.roomService.fetchParticipants(pageSize: Appearance.participantsPageSize) { [weak self] datas, error in
                 DispatchQueue.main.async {
                     self?.loadingView.stopAnimating()
                     self?.fetchFinish = true
@@ -101,7 +101,7 @@ open class ParticipantsController: UITableViewController {
                         self?.users.append(contentsOf: datas ?? [])
                         self?.tableView.reloadData()
                     } else {
-                        self?.showToast(toast: "fetch members error:\(error?.errorDescription ?? "")", duration: 3)
+                        self?.showToast(toast: "fetch participants error:\(error?.errorDescription ?? "")", duration: 3)
                     }
                 }
             }
@@ -134,7 +134,7 @@ open class ParticipantsController: UITableViewController {
     
     open override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if !self.muteTab {
-            if UInt(self.users.count)%Appearance.membersPageSize == 0,self.users.count - 2 == indexPath.row,self.fetchFinish {
+            if UInt(self.users.count)%Appearance.participantsPageSize == 0,self.users.count - 2 == indexPath.row,self.fetchFinish {
                 self.fetchFinish = false
                 self.fetchUsers()
             }

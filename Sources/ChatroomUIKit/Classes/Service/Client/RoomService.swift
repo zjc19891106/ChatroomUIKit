@@ -59,14 +59,14 @@ import UIKit
     func onUserMuted(roomId: String, userId: String)
     
     /// Occurs when a user joins the chat room.
-    /// All members in the chat room, except the new member, receive the event.
+    /// All participants in the chat room, except the new member, receive the event.
     /// - Parameters:
     ///   - roomId: Chat room ID.
     ///   - user: The user instance that conforms to UserInfoProtocol.
     func onUserJoined(roomId: String, user: UserInfoProtocol)
     
     /// Occurs when a member leaves the chat room.
-    /// All members in the chat room, except the one that leaves, receive the event.
+    /// All participants in the chat room, except the one that leaves, receive the event.
     /// - Parameters:
     ///   - roomId: Chat room ID.
     ///   - userId: The user ID of the member that leaves the chat room.
@@ -80,7 +80,7 @@ import UIKit
     func onUserBeKicked(roomId: String, reason: ChatroomBeKickedReason)
     
     /// Occurs when a global notification message is received.
-    /// All members in the chat room receive the event.
+    /// All participants in the chat room receive the event.
     /// - Parameter message: ChatMessage instance.
     func onReceiveGlobalNotify(message: ChatMessage)
     
@@ -89,7 +89,7 @@ import UIKit
     func onReceiveMessage(message: ChatMessage)
     
     /// Occurs when the chat room announcement is updated.
-    /// All members in the chat room receive the event.
+    /// All participants in the chat room receive the event.
     /// - Parameters:
     ///   - roomId: Chat room ID.
     ///   - announcement: The chat room announcement text.
@@ -118,7 +118,7 @@ import UIKit
         }
     }
     
-    /// The current page number for getting chat room members.
+    /// The current page number for getting chat room participants.
     public private(set)var pageNum = 1
     
     
@@ -202,7 +202,7 @@ import UIKit
     //MARK: - Room operation
     /// Switches to another chat room.
     /// In this case, the SDK will clean the user cache and fetch member information and the mute list from the server. This will cause a lot of network IO.
-    /// This method can only be called by other chat room members than the chat room owner.
+    /// This method can only be called by other chat room participants than the chat room owner.
     /// - Parameters:
     ///   - roomId: Chat room ID.
     ///   - completion: Switch result.
@@ -399,7 +399,7 @@ import UIKit
         })
     }
     
-    /// Fetch user infos on members list end scroll,Then cache user info
+    /// Fetch user infos on participants list end scroll,Then cache user info
     /// - Parameters:
     ///   - unknownUserIds: User ID array without user information
     ///   - completion: Callback user infos and error.

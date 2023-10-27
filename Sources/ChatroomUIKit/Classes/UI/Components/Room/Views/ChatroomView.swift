@@ -144,7 +144,7 @@ import UIKit
     }
     
     open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        let respondRect = CGRect(x: self.touchFrame.minX, y: self.touchFrame.minY+Appearance.giftBarrageRowHeight*2, width: self.touchFrame.width, height: self.touchFrame.height)
+        let respondRect = CGRect(x: self.touchFrame.minX, y: self.touchFrame.minY+Appearance.giftBarrageRowHeight*2-Appearance.maxInputHeight, width: self.touchFrame.width, height: self.touchFrame.height)
         if respondRect.contains(point) {
             for subview in subviews.reversed() {
                 let convertedPoint = subview.convert(point, from: self)
