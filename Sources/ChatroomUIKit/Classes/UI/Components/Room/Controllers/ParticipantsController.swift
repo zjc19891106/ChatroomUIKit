@@ -86,6 +86,9 @@ open class ParticipantsController: UITableViewController {
                     self?.fetchFinish = true
                     if error == nil {
                         self?.users.append(contentsOf: datas ?? [])
+                        if self?.users.first?.userId != ChatroomContext.shared?.ownerId,let owner = ChatroomContext.shared?.usersMap?[ChatroomContext.shared?.ownerId ?? ""] {
+                            self?.users.insert(owner, at: 0)
+                        }
                         self?.tableView.reloadData()
                     } else {
                         self?.showToast(toast: "fetch mute error:\(error?.errorDescription ?? "")", duration: 3)
