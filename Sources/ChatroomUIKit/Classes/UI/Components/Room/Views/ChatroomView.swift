@@ -143,6 +143,18 @@ import UIKit
         })
     }
     
+    open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let respondRect = CGRect(x: self.touchFrame.minX, y: self.touchFrame.minY+Appearance.giftBarrageRowHeight*2, width: self.touchFrame.width, height: self.touchFrame.height)
+        if respondRect.contains(point) {
+            for subview in subviews.reversed() {
+                let convertedPoint = subview.convert(point, from: self)
+                if let hitView = subview.hitTest(convertedPoint, with: event) {
+                    return hitView
+                }
+            }
+        }
+        return super.hitTest(point, with: event)
+    }
     
     /// When you want receive chatroom view's touch action events.You can called the method.
     /// - Parameter actionHandler: ``ChatroomViewActionEventsDelegate``
