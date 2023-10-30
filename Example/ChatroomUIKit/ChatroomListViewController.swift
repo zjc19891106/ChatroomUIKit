@@ -69,7 +69,7 @@ final class ChatroomListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        self.navigationController?.pushViewController(UIWithBusinessViewController(chatroomId: self.chatrooms[indexPath.row].chatroomId ?? ""), animated: true)
+        self.navigationController?.pushViewController(UIWithBusinessViewController(chatroomId: self.chatrooms[indexPath.row].chatroomId ?? "", ownerId: self.chatrooms[safe: indexPath.row]?.owner ?? ""), animated: true)
     }
     
     deinit {

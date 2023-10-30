@@ -17,6 +17,8 @@ final class UIWithBusinessViewController: UIViewController {
     
     var owner = false
     
+    var ownerId = ""
+    
     var option: ChatroomUIKitInitialOptions.UIOptions {
         let options  = ChatroomUIKitInitialOptions.UIOptions()
         options.bottomDataSource = self.bottomBarDatas()
@@ -30,7 +32,7 @@ final class UIWithBusinessViewController: UIViewController {
     }()
     
     lazy var roomView: ChatroomUIKit.ChatroomView = {
-        ChatroomUIKitClient.shared.launchRoomViewWithOptions(roomId: self.roomId, frame: CGRect(x: 0, y: ScreenHeight/2.0, width: ScreenWidth, height: ScreenHeight/2.0), ownerId: "", options: self.option)
+        ChatroomUIKitClient.shared.launchRoomViewWithOptions(roomId: self.roomId, frame: CGRect(x: 0, y: ScreenHeight/2.0, width: ScreenWidth, height: ScreenHeight/2.0), ownerId: self.ownerId, options: self.option)
     }()
     
     lazy var members: UIButton = {
@@ -74,9 +76,10 @@ final class UIWithBusinessViewController: UIViewController {
         GiftsViewController(gifts: self.gifts())
     }()
     
-    @objc public required convenience init(chatroomId: String) {
+    @objc public required convenience init(chatroomId: String,ownerId: String) {
         self.init()
         self.roomId = chatroomId
+        self.ownerId = ownerId
     }
 
     override func viewDidLoad() {
