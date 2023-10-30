@@ -306,13 +306,13 @@ Note that custom themes and built-in themes are mutually exclusive.
 
 The following figure presents the entire logic of business requests and callbacks.
 
-![Overall flow diagram of business logic](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/BusinessFlowchart.png)](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/BusinessFlowchart.png)
+![Overall flow diagram of business logic](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/BusinessFlowchart.png)(https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/BusinessFlowchart.png)
 
 # [ApiSequenceDiagram](https://github.com/zjc19891106/ChatroomUIKit#apisequencediagram)
 
 The following figure is the best-practice API calling sequence diagram in the `Example` project.
 
-![APIUML](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/Api.png)](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/Api.png)
+![APIUML](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/Api.png)(https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/Api.png)
 
 # [DesignGuidelines](https://github.com/zjc19891106/ChatroomUIKit#designguidelines)
 
