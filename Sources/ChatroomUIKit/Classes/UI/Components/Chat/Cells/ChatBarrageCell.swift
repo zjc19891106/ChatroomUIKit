@@ -224,11 +224,11 @@ fileprivate let gift_tail_indent: CGFloat = 26
         paragraphStyle.firstLineHeadIndent = self.firstLineHeadIndent()
         paragraphStyle.lineHeightMultiple = 1.08
         paragraphStyle.alignment = .natural
-//        if self.gift != nil {
-//            paragraphStyle.tailIndent = self.lastLineHeadIndent()
-//        } else {
-//            paragraphStyle.tailIndent = 0
-//        }
+        if self.gift != nil {
+            paragraphStyle.tailIndent = self.lastLineHeadIndent()
+        } else {
+            paragraphStyle.tailIndent = 0
+        }
         return paragraphStyle
     }
     
