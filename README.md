@@ -122,6 +122,13 @@ If you want to present animation and special effects, you are advised to use Ten
 
 This guide provides several usage examples for different ChatroomUIKit components. Refer to the `Examples` folder for detailed code snippets and projects showing various use cases.
 
+Refer to the following steps to create an iOS platform App in Xcode. The creation settings are as follows:
+
+* Product Name fill in ChatroomUIKitQuickStart.
+* Organization Identifier is set to your identifier.
+* User Interface Select Storyboard.
+* Language select your common development language.
+
 ### [Step 1: Initialize ChatroomUIKit](https://github.com/zjc19891106/ChatroomUIKit#step-1-initialize-chatroomuikit)
 
 ```
