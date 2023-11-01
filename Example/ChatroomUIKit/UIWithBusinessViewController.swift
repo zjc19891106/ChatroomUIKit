@@ -293,9 +293,13 @@ extension UIWithBusinessViewController: RoomEventsListener {
         self.showToast(toast: "The chat room announcement is updated to \(announcement)", duration: 5)
     }
     
-    func onErrorOccur(error: ChatroomUIKit.ChatError, type: ChatroomUIKit.RoomEventsError) {
+    func onEventResultChanged(error: ChatroomUIKit.ChatError?, type: ChatroomUIKit.RoomEventsType) {
         //you can catch error then handle.
-        self.showToast(toast: "RoomEventsError occur \(error.errorDescription ?? "")", duration: 3)
+        if error == nil {
+            self.showToast(toast: "RoomEvents type \(type): successful!", duration: 3)
+        } else {
+            self.showToast(toast: "RoomEvents type \(type): \(error?.errorDescription ?? "")", duration: 3)
+        }
         switch type {
         case .leave,.destroyed:
             ChatroomUIKitClient.shared.destroyRoom()
