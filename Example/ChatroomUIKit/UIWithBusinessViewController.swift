@@ -222,6 +222,18 @@ extension UIWithBusinessViewController : ChatroomViewActionEventsDelegate {
 }
 //MARK: - When you called `ChatroomUIKitClient.shared.registerRoomEventsListener(listener: self)`.You'll implement these method.
 extension UIWithBusinessViewController: RoomEventsListener {
+    func userAccountDidRemoved() {
+        self.showToast(toast: "userAccountDidRemoved", duration: 3)
+    }
+    
+    func userDidForbidden() {
+        self.showToast(toast: "userDidForbidden", duration: 3)
+    }
+    
+    func userAccountDidForcedToLogout(error: ChatroomUIKit.ChatError?) {
+        self.showToast(toast: "userAccountDidForcedToLogout:\(error?.errorDescription ?? "")", duration: 3)
+    }
+    
     func onReceiveMessage(message: ChatroomUIKit.ChatMessage) {
         //Received new message
     }
