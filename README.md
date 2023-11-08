@@ -116,8 +116,6 @@ UI components that can be inherited for customization.
 
 A container that contains a gift list. You can inherit this class to implement additional UI definitions and business processing. After you click the **Send** button to deliver a gift, you can decide whether to close the gift pop-up window and call the gift API in your business on your server to send the gift message to the chat room. 
 
-If you want to present animation and special effects, you are advised to use Tencent libpag.  
-
 # [QuickStart](https://github.com/zjc19891106/ChatroomUIKit#quickstart)
 
 This guide provides several usage examples for different ChatroomUIKit components. Refer to the `Examples` folder for detailed code snippets and projects showing various use cases.
