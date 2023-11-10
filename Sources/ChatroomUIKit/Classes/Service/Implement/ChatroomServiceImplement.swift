@@ -281,14 +281,14 @@ extension ChatroomServiceImplement: ChatEventsListener {
                 case .custom:
                     self.notifyJoin(message: message, response: response)
                 default:
-                    if message.broadcast {
-                        if let json = message.ext as? [String:Any],let userInfo = json["chatroom_uikit_userInfo"] as? [String:Any] {
-                            let user = User()
-                            user.setValuesForKeys(userInfo)
-                            ChatroomContext.shared?.usersMap?[user.userId] = user
-                        }
-                        response.onGlobalNotifyReceived(roomId: message.to, notifyMessage: message)
-                    }
+//                    if message.broadcast {
+//                        if let json = message.ext as? [String:Any],let userInfo = json["chatroom_uikit_userInfo"] as? [String:Any] {
+//                            let user = User()
+//                            user.setValuesForKeys(userInfo)
+//                            ChatroomContext.shared?.usersMap?[user.userId] = user
+//                        }
+//                        response.onGlobalNotifyReceived(roomId: message.to, notifyMessage: message)
+//                    }
                     break
                 }
             }

@@ -15,9 +15,9 @@ import ChatroomUIKit
  **/
 public class ExampleRequiredConfig {
     // https://docs.agora.io/en/agora-chat/get-started/enable?platform=ios
-    static let appKey: String = <#T##String#>
+    static let appKey: String = <#Agora Chat Appkey#>
     //  ProjectManager->Operation Manager->User->Create User.Then Basic Information->Application Info->Chat User temp token.Next,fill below param.Move on,fill user id.
-    static var chatToken: String = <#T##String#>
+    static var chatToken: String = <#Agora Chat Token#>
     //    Follow the following process to create a chat room on console.
     //    ProjectManager->Operation Manager->Chat Room->Create Chat Room.Then fill in the `chatroomId` parameter below.
     
@@ -30,7 +30,7 @@ public class ExampleRequiredConfig {
         }
         
         
-        public var userId: String = <#T##String#>
+        public var userId: String = <#Agora Chat User ID#>
         
         public var nickName: String = "Jack"
         

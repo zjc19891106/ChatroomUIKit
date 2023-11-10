@@ -81,8 +81,8 @@ ChatroomUIKit
    ├─ Resource                       // Image or localize file.
    ├─ Component                      // UI module containing specific business. Some functional UI components in chat room UIKit.
    │  ├─ Room                        // Container of all chat room subviews.
-   │  ├─ Chat                        // The barrage component and bottom functional area in the chat room.  
-   │  ├─ Gift                        // Components such as the gift barrage area and gift container in the chat room.
+   │  ├─ Chat                        // The chat component and bottom functional area in the chat room.  
+   │  ├─ Gift                        // Components such as the gift area and gift container in the chat room.
    │  └─ Input                       // Input components in chat rooms such as emoticons. 
    └─ Core
       ├─ UIKit                       // Some common UIKit components and custom components. 
@@ -210,11 +210,11 @@ ChatroomUIKitClient.shared.login(with: YourAppUser(), token: "token", completion
 ```
 //1. Get a chat room list and join a chat room. Alternatively, create a chat room on the Agora Console.
 // 2. Create a chat room view with `ChatroomView` by passing in parameters such as layout parameters and the array of extension button model protocols of the bottom toolbar.
-    let options  = ChatroomUIKitInitialOptions()
+    let options  = ChatroomUIKitInitialOptions.UIOptions()
     options.bottomDataSource = self.bottomBarDatas()
-    options.hasGiftsBarrage = true
-    options.hiddenChatRaise = false
-    ChatroomUIKitClient.shared.launchRoomViewWithOptions(roomId: self.room?.chatroomId ?? "", frame: CGRect(x: 0, y: self.playView.frame.maxY, width: self.view.frame.width, height: 336+BottomBarHeight), ownerId: self.room?.owner ?? "",options: self.option_UI)        
+    options.showGiftMessageArea = true
+    options.chatAreaShowGift = false
+    ChatroomUIKitClient.shared.launchRoomViewWithOptions(roomId: self.room?.chatroomId ?? "", frame: CGRect(x: 0, y: self.playView.frame.maxY, width: self.view.frame.width, height: 336+BottomBarHeight), ownerId: self.room?.owner ?? "",options: options)        
 //3. Add to the destination frame. 
 ```
 
@@ -230,11 +230,11 @@ ChatroomUIKitClient.shared.registerRoomEventsListener(listener: self)
 
 ### [1.Modify configurable items](https://github.com/zjc19891106/ChatroomUIKit#1modify-configurable-items)
 
-The following shows how to change the overall cell layout style of the barrage area and how to create the ChatroomView.
+The following shows how to change the overall cell layout style of the chat area and how to create the ChatroomView.
 
 ```
-// You can change the overall cell layout style of the barrage area by setting the properties.
-Appearance.barrageCellStyle = .all
+// You can change the overall cell layout style of the chat area by setting the properties.
+Appearance.ChatMessageDisplayContentStyle = .all
 // Create the ChatroomView by passing in parameters like layout parameters and the bottom toolbar extension button model protocol array.
 let roomView = ChatroomUIKitClient.shared.launchRoomViewWithOptions(roomId: self.room?.chatroomId ?? "", frame: CGRect(x: 0, y: self.playView.frame.maxY, width: self.view.frame.width, height: 336+BottomBarHeight), ownerId: self.room?.owner ?? "")
 self.view.addSubView(roomView)
@@ -244,10 +244,10 @@ For details, see [Appearance](https://github.com/zjc19891106/ChatroomUIKit/blob/
 
 ### [2.Custom components](https://github.com/zjc19891106/ChatroomUIKit#2custom-components)
 
-The following shows how to customize the gift barrage view cell.
+The following shows how to customize the gift message  cell.
 
 ```
-class CustomGiftBarragesViewCell: GiftBarrageCell {
+class CustomGiftMessageCell: GiftMessageCell {
     lazy var redDot: UIView = {
         UIView().backgroundColor(.red).cornerRadius(.large)
     }()
@@ -264,7 +264,7 @@ class CustomGiftBarragesViewCell: GiftBarrageCell {
 }
 //Register the custom class that inherits the original class in ChatroomUIKit to replace the original one.
 //Call this method before creating a ChatroomView or using other UI components.
-ComponentsRegister.shared.GiftBarragesViewCell = CustomGiftBarragesViewCell.self
+ComponentsRegister.shared.GiftMessagesViewCell = CustomGiftMessageCell.self
 ```
 
 For details, see [ComponentsRegister](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/ComponentsRegister.md).
