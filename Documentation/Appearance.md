@@ -53,12 +53,12 @@ Appearance.swift is a class file that configures some UI options before launchRo
 ![Schematic diagram](giftPlaceHolder.png).
 
 
-12. [Appearance.avatarPlaceHolder](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Chat/Cells/ChatBarrageCell.swift).
+12. [Appearance.avatarPlaceHolder](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Chat/Cells/ChatMessageCell.swift).
 
 ![Schematic diagram](avatarPlaceHolder.png)
 
 
-13. [Appearance.userIdentifyPlaceHolder]((https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Chat/Cells/ChatBarrageCell.swift)).
+13. [Appearance.userIdentifyPlaceHolder]((https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Chat/Cells/ChatMessageCell.swift)).
 
 ![Schematic diagram](userIdentifyPlaceHolder.png)
 
