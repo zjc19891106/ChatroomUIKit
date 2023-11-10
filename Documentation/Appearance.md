@@ -19,7 +19,7 @@ Appearance.swift is a class file that configures some UI options before launchRo
 ![schematic diagram](giftContainerConstraintsSize.png).
 
 
-4. [Appearance.barrageCellStyle](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Core/UIKit/Utils/Appearance.swift).It can change the style of the barrage in the
+4. [Appearance.messageDisplayStyle](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Core/UIKit/Utils/Appearance.swift).It can change the style of the  in the chat area cell.
 
 ![schematic diagram](custom%20chat%20barrage.png).
 
