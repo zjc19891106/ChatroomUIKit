@@ -27,7 +27,7 @@ Appearance.swift is a class file that configures some UI options before launchRo
 
 6. [Appearance.emojiMap](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Input/Convertor/ChatEmojiConvertor.swift).If you want to replace all custom expressions, you can set this attribute Key using the specified string value using the image you want to replace.
 
-![Schematic diagram](custom%20chat%20barrage.png).
+![Schematic diagram](inputBar.png).
 
 
 7. [Appearance.targetLanguage](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Core/UIKit/Utils/LanguageConvertor.swift).You can set the target translation language for text messages by modifying it. The translation languages supported by chat room UIKit are in LanguageType and can be extended.
