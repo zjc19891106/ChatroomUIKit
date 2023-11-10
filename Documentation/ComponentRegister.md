@@ -4,7 +4,7 @@ An object containing types of UI Components that are used through the ChatroomUI
 
 ## Classes that can be inherited and modified
 
-1. [ComponentsRegister.shared.GiftBarragesViewCell](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Gift/Cells/GiftBarrageCell.swift).
+1. [ComponentsRegister.shared.GiftMessagesViewCell](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Gift/Cells/GiftMessageCell.swift).
 
 ![Schematic diagram](giftBarrage.png).
 
@@ -19,7 +19,7 @@ An object containing types of UI Components that are used through the ChatroomUI
 ![Schematic diagram](inputBar.png).
 
 
-4. [ComponentsRegister.shared.ChatBarrageCell](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Chat/Cells/ChatBarrageCell.swift).
+4. [ComponentsRegister.shared.ChatsCell](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Chat/Cells/ChatMessageCell.swift).
 
 ![Schematic diagram](custom%20chat%20barrage.png).
 

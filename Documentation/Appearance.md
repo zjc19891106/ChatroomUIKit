@@ -24,8 +24,6 @@ Appearance.swift is a class file that configures some UI options before launchRo
 ![schematic diagram](custom%20chat%20barrage.png).
 
 
-5. [`Appearance.colorHues`,`Appearance.secondaryHue`,`Appearance.errorHue`,`Appearance.neutralHue`,`Appearance.neutralSpecialHue`](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Core/UIKit/Utils/Appearance.swifthttps://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Core/Theme/ColorTheme.swift).Changing these five can customize a theme color system. The colors of the related color systems used internally in ChatroomUIKit will change as they change.[UIDesign](https://www.figma.com/file/OX2dUdilAKHahAh9VwX8aI/Streamuikit?node-id=137%3A38589&mode=dev)
-
 
 6. [Appearance.emojiMap](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Input/Convertor/ChatEmojiConvertor.swift).If you want to replace all custom expressions, you can set this attribute Key using the specified string value using the image you want to replace.
 
