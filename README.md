@@ -191,13 +191,13 @@ Here are three examples of advanced usage.
 class YourAppUser: UserInfoProtocol {
     var userId: String = "your application user id"
             
-    var nickName: String = "you user nick name"
+    var nickName: String = "Your user nick name"
             
-    var avatarURL: String = "you user avatar url"
+    var avatarURL: String = "Your user avatar url"
             
     var gender: Int = 1
             
-    var identity: String =  "you user level symbol url"
+    var identity: String =  "Your user level symbol url"
             
 }
 // Use the user information of the current user object that conforms to the UserInfoProtocol protocol to log in to ChatroomUIKit.
