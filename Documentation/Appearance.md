@@ -68,17 +68,17 @@ Appearance.swift is a class file that configures some UI options before launchRo
 ![Schematic diagram](notifyMessageIcon.png)
 
 
-15. [Appearance.maxInputHeight](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Input/Views/ChatInputBar.swift).
+15. [Appearance.maxInputHeight](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Input/Views/MessageInputBar.swift).
 
 ![Schematic diagram](maxInputHeight.png)
 
 
-16. [Appearance.inputPlaceHolder](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Input/Views/ChatInputBar.swift).
+16. [Appearance.inputPlaceHolder](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Input/Views/MessageInputBar.swift).
 
 ![Schematic diagram](inputCorner.png) default is Aa.
 
 
-17. [Appearance.inputBarCorner](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Input/Views/ChatInputBar.swift).
+17. [Appearance.inputBarCorner](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Sources/ChatroomUIKit/Classes/UI/Components/Input/Views/MessageInputBar.swift).
 
 ![Schematic diagram](inputCorner.png) radius corner default is large.
 
