@@ -13,11 +13,11 @@ To experience functions of the ChatroomUIKit, you can scan the following QR code
 
 [![SampleDemo](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/demo.png)](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/demo.png).
 
-# [Chatroom UIKit Guide](https://github.com/zjc19891106/ChatroomUIKit#chatroom-uikit-guide) 
+# [ChatroomUIKit Guide](https://github.com/zjc19891106/ChatroomUIKit#chatroomuikit-guide)
 
 ## [Introduction](https://github.com/zjc19891106/ChatroomUIKit#introduction)
 
-This guide presents an overview and usage examples of the ChatroomUIKit framework in iOS development, as well as describes various components and features of this UIKit, enabling developers to have a good understanding of the UIKit and make effective use of it.
+This guide presents an overview and usage examples of the ChatroomUIKit framework in iOS development, and describes various components and features of this UIKit, enabling developers to have a good understanding of the UIKit and make effective use of it.
 
 ## [Table of Contents](https://github.com/zjc19891106/ChatroomUIKit#table-of-contents)
 
@@ -25,17 +25,17 @@ This guide presents an overview and usage examples of the ChatroomUIKit framewor
 - [Installation](https://github.com/zjc19891106/ChatroomUIKit#installation)
 - [Documentation](https://github.com/zjc19891106/ChatroomUIKit#documentation)
 - [Structure](https://github.com/zjc19891106/ChatroomUIKit#structure)
-- [QuickStart](https://github.com/zjc19891106/ChatroomUIKit#quickStart)
+- [Quick Start](https://github.com/zjc19891106/ChatroomUIKit#quick-start)
 - [Precautions](https://github.com/zjc19891106/ChatroomUIKit#precautions)
-- [AdvancedUsage](https://github.com/zjc19891106/ChatroomUIKit#advancedusage)
-- [Customize](https://github.com/zjc19891106/ChatroomUIKit#customize)
-- [BusinessFlowchart](https://github.com/zjc19891106/ChatroomUIKit#businessflowchart)
-- [ApiSequenceDiagram](https://github.com/zjc19891106/ChatroomUIKit#apisequencediagram)
-- [DesignGuidelines](https://github.com/zjc19891106/ChatroomUIKit#designguidelines)
+- [Advanced Usage](https://github.com/zjc19891106/ChatroomUIKit#advanced-usage)
+- [Customization](https://github.com/zjc19891106/ChatroomUIKit#customization)
+- [BusinessFlowchart](https://github.com/zjc19891106/ChatroomUIKit#business-flowchart)
+- [API Sequence Diagram](https://github.com/zjc19891106/ChatroomUIKit#api-sequence-diagram)
+- [DesignGuidelines](https://github.com/zjc19891106/ChatroomUIKit#design-guidelines)
 - [Contributing](https://github.com/zjc19891106/ChatroomUIKit#contributing)
 - [License](https://github.com/zjc19891106/ChatroomUIKit#license)
 
-# [Requirements](https://github.com/zjc19891106/ChatroomUIKit#requirements) 
+# [Requirements](https://github.com/zjc19891106/ChatroomUIKit#requirements)
 
 - iOS 13.0+
 - Xcode 13.0+
@@ -43,18 +43,14 @@ This guide presents an overview and usage examples of the ChatroomUIKit framewor
 
 # [Installation](https://github.com/zjc19891106/ChatroomUIKit#installation)
 
-You can install ChatroomUIKit with the Swift Package Manager or CocoaPods as a dependency of your Xcode project. 
+You can install ChatroomUIKit with the Swift Package Manager or CocoaPods as a dependency of your Xcode project.
 
 ## [Swift Package Manager](https://github.com/zjc19891106/ChatroomUIKit#swift-package-manager)
 
 1. Open your project in Xcode.
-
 2. Choose **File** > **Add Package**.
-
-3. Search for **ChatroomUIKit** and select it. 
-
+3. Search for **ChatroomUIKit** and select it.
 4. Select the desired version.
-
 5. Click **Add Package** to add the ChatroomUIKit.
 
 ## [CocoaPods](https://github.com/zjc19891106/ChatroomUIKit#cocoapods)
@@ -65,7 +61,7 @@ pod 'ChatroomUIKit'
 
 # [Structure](https://github.com/zjc19891106/ChatroomUIKit#structure)
 
-### [ChatroomUIKit Basic Components](https://github.com/zjc19891106/ChatroomUIKit#chatroomuikit-basic-components)
+### [Basic Components of ChatroomUIKit](https://github.com/zjc19891106/ChatroomUIKit#basic-components-of-chatroomuikit)
 
 ```
 ChatroomUIKit  
@@ -90,11 +86,13 @@ ChatroomUIKit
       └─ Extension                   // Some convenient system class extensions.  
 ```
 
-# [Documentation](https://github.com/zjc19891106/ChatroomUIKit#documentation) 
+
+
+# [Documentation](https://github.com/zjc19891106/ChatroomUIKit#documentation)
 
 ## [Document](https://github.com/zjc19891106/ChatroomUIKit/tree/main/Documentation/ChatroomUIKit.doccarchive)
 
-You can open the `ChatroomUIKit.doccarchive` file in Xcode to view files in it or deploy this file to your homepage. 
+You can open the `ChatroomUIKit.doccarchive` file in Xcode to view files in it or deploy this file to your homepage.
 
 Also, you can right-click the file to show the package contents and copy all files inside to a folder. Then drag this folder to the `terminal` app and run the following command to deploy it on the local IP address.
 
@@ -114,18 +112,18 @@ UI components that can be inherited for customization.
 
 ## [GiftsViewController](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/GiftsViewController.md)
 
-A container that contains a gift list. You can inherit this class to implement additional UI definitions and business processing. After you click the **Send** button to deliver a gift, you can decide whether to close the gift pop-up window and call the gift API in your business on your server to send the gift message to the chat room. 
+A container that contains a gift list. You can inherit this class to implement additional UI definitions and business processing. After you click the **Send** button to deliver a gift, you can decide whether to close the gift pop-up window and call the gift API in your business on your server to send the gift message to the chat room.
 
-# [QuickStart](https://github.com/zjc19891106/ChatroomUIKit#quickstart)
+# [Quick Start](https://github.com/zjc19891106/ChatroomUIKit#quick-start)
 
 This guide provides several usage examples for different ChatroomUIKit components. Refer to the `Examples` folder for detailed code snippets and projects showing various use cases.
 
 Refer to the following steps to create an iOS platform App in Xcode. The creation settings are as follows:
 
-* Product Name fill in ChatroomUIKitQuickStart.
-* Organization Identifier is set to your identifier.
-* User Interface Select Storyboard.
-* Language select your common development language.
+- Product Name: Fill in **ChatroomUIKitQuickStart**.
+- Organization Identifier: Fill in your identifier.
+- User Interface: Select **Storyboard**.
+- Language: You common development language.
 
 ### [Step 1: Initialize ChatroomUIKit](https://github.com/zjc19891106/ChatroomUIKit#step-1-initialize-chatroomuikit)
 
@@ -149,7 +147,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 ```
 
-### [Step 2: Login](https://github.com/zjc19891106/ChatroomUIKit#step-2-login)
+### [Step 2: Log in to the ChatroomUIKit](https://github.com/zjc19891106/ChatroomUIKit#step-2-log-in-to-the-chatroomuikit)
 
 ```
 // Log in to the ChatroomUIKit with the user information of the current user object that conforms to the `UserInfoProtocol` protocol.
@@ -158,11 +156,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ChatroomUIKitClient.shared.login(with userId: "user id", token: "token", completion: <#T##(ChatError?) -> Void#>)
 ```
 
-### [Step 3: Create chat room view](https://github.com/zjc19891106/ChatroomUIKit#step-3-create-chat-room-view)
+### [Step 3: Create a chat room view](https://github.com/zjc19891106/ChatroomUIKit#step-3-create-a-chat-room-view)
 
 ```
 // 1. Get a chat room list and join a chat room. Alternatively, create a chat room on the Agora Console.
-// Choose ProjectManager > Operation Manager > Chat Room and click Create Chat Room and set parameters in the displayed dialog box to create a chat room. Get the chat room ID to pass it in to the following `launchRoomView` method.
+// Choose Project Management > Operation Management > Chat Room and click Create Chat Room and set parameters in the displayed dialog box to create a chat room. Get the chat room ID to pass it to the following `launchRoomView` method.
 // 2. Create a chat room view with `ChatroomView` by passing in parameters such as layout parameters and the array of extension button model protocols of the bottom toolbar.
 // It is recommended that the width of ChatroomView should be initialized as the width of the screen and the height should be no less than the height of the screen minus the height of the navigation.
 let roomView = ChatroomUIKitClient.shared.launchRoomViewWithOptions(roomId: self.room?.chatroomId ?? "", frame: CGRect(x: 0, y: self.playView.frame.maxY, width: self.view.frame.width, height: 336+BottomBarHeight), ownerId: "Chatroom's owner user id")        
@@ -173,7 +171,7 @@ let roomView = ChatroomUIKitClient.shared.launchRoomViewWithOptions(roomId: self
 
 [![CreateChatroom](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/CreateChatroom.png)](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/CreateChatroom.png).
 
-Please refer to the next chapter for transparent transmission of events.  
+Please refer to the next chapter for transparent transmission of events.
 
 # [Precautions](https://github.com/zjc19891106/ChatroomUIKit#precautions)
 
@@ -181,13 +179,13 @@ When calling `ChatroomUIKitClient.shared.launchRoomView(roomId: String, frame: C
 
 For example, if you have a view that plays video streams, be sure to add ChatroomView above this view.
 
-# [AdvancedUsage](https://github.com/zjc19891106/ChatroomUIKit#advancedusage)
+# [Advanced Usage](https://github.com/zjc19891106/ChatroomUIKit#advanced-usage)
 
 Here are three examples of advanced usage.
 
-### [1.Login](https://github.com/zjc19891106/ChatroomUIKit#1login)
+### [1.Log in to ChatroomUIKit](https://github.com/zjc19891106/ChatroomUIKit#1log-in-to-chatroomuikit)
 
-```Swift
+```
 class YourAppUser: UserInfoProtocol {
     var userId: String = "your application user id"
             
@@ -201,11 +199,11 @@ class YourAppUser: UserInfoProtocol {
             
 }
 // Use the user information of the current user object that conforms to the UserInfoProtocol protocol to log in to ChatroomUIKit.
-// You need to get a user token from your app server. Alternatively, you can use a temporary token. To generate a temporary toke, visit https://docs.agora.io/en/agora-chat/get-started/enable?platform=ios#generate-a-user-token.
+// You need to get a user token from your app server. Alternatively, you can use a temporary token. To generate a temporary token, visit https://docs.agora.io/en/agora-chat/get-started/enable?platform=ios#generate-a-user-token.
 ChatroomUIKitClient.shared.login(with: YourAppUser(), token: "token", completion: <#T##(ChatError?) -> Void#>)
 ```
 
-### [2.Initializing the chat room view](https://github.com/zjc19891106/ChatroomUIKit#2initializing-the-chat-room-view)
+### [2.Initialize the chat room view](https://github.com/zjc19891106/ChatroomUIKit#2initialize-the-chat-room-view)
 
 ```
 //1. Get a chat room list and join a chat room. Alternatively, create a chat room on the Agora Console.
@@ -218,7 +216,7 @@ ChatroomUIKitClient.shared.login(with: YourAppUser(), token: "token", completion
 //3. Add to the destination frame. 
 ```
 
-### [3.Listening to ChatroomUIKit events and errors](https://github.com/zjc19891106/ChatroomUIKit#3listening-to-chatroomuikit-events-and-errors)
+### [3.Listen for ChatroomUIKit events and errors](https://github.com/zjc19891106/ChatroomUIKit#3listen-for-chatroomuikit-events-and-errors)
 
 You can call the `registerRoomEventsListener` method to listen for ChatroomUIKit events and errors.
 
@@ -242,9 +240,9 @@ self.view.addSubView(roomView)
 
 For details, see [Appearance](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/Appearance.md).
 
-### [2.Custom components](https://github.com/zjc19891106/ChatroomUIKit#2custom-components)
+### [2.Customize components](https://github.com/zjc19891106/ChatroomUIKit#2customize-components)
 
-The following shows how to customize the gift message  cell.
+The following shows how to customize the gift message cell.
 
 ```
 class CustomGiftMessageCell: GiftMessageCell {
@@ -269,7 +267,7 @@ ComponentsRegister.shared.GiftMessagesViewCell = CustomGiftMessageCell.self
 
 For details, see [ComponentsRegister](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/ComponentsRegister.md).
 
-### [3.Switch original or custom theme](https://github.com/zjc19891106/ChatroomUIKit#3switch-original-or-custom-theme)
+### [3.Switch to the original or custom theme](https://github.com/zjc19891106/ChatroomUIKit#3switch-to-the-original-or-custom-theme)
 
 - Switch to the light or dark theme that comes with the ChatroomUIKit.
 
@@ -305,21 +303,21 @@ Appearance.neutralSpecialHue = 199/360.0
 Theme.switchTheme(style: .custom)
 ```
 
-Note that custom themes and built-in themes are mutually exclusive. 
+Note that custom themes and built-in themes are mutually exclusive.
 
-# [BusinessFlowchart](https://github.com/zjc19891106/ChatroomUIKit#businessflowchart)
+# [Business Flowchart](https://github.com/zjc19891106/ChatroomUIKit#business-flowchart)
 
 The following figure presents the entire logic of business requests and callbacks.
 
-![Overall flow diagram of business logic](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/BusinessFlowchart.png)
+[![Overall flow diagram of business logic](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/BusinessFlowchart.png)](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/BusinessFlowchart.png)
 
-# [ApiSequenceDiagram](https://github.com/zjc19891106/ChatroomUIKit#apisequencediagram)
+# [API Sequence Diagram](https://github.com/zjc19891106/ChatroomUIKit#api-sequence-diagram)
 
 The following figure is the best-practice API calling sequence diagram in the `Example` project.
 
-![APIUML](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/Api.png)
+[![APIUML](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/Api.png)](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/Api.png)
 
-# [DesignGuidelines](https://github.com/zjc19891106/ChatroomUIKit#designguidelines)
+# [Design Guidelines](https://github.com/zjc19891106/ChatroomUIKit#design-guidelines)
 
 For any questions about design guidelines and details, you can add comments to the Figma design draft and mention our designer Stevie Jiang.
 
