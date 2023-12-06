@@ -305,14 +305,13 @@ Theme.switchTheme(style: .custom)
 
 Note that custom themes and built-in themes are mutually exclusive.
 
-# [Business Flowchart]
-![](./Documentation/BusinessFlowchart.png)
+# Business Flowchart
 
 The following figure presents the entire logic of business requests and callbacks.
 
-[![Overall flow diagram of business logic](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/BusinessFlowchart.png)](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/BusinessFlowchart.png)
+![](./Documentation/BusinessFlowchart.png)
 
-# [API Sequence Diagram](https://github.com/zjc19891106/ChatroomUIKit#api-sequence-diagram)
+# API Sequence Diagram
 
 The following figure is the best-practice API calling sequence diagram in the `Example` project.
 
