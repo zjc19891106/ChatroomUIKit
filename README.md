@@ -11,7 +11,7 @@ In this project, there is a best practice demonstration project in the `Example`
 
 To experience functions of the ChatroomUIKit, you can scan the following QR code to try a demo.
 
-[![SampleDemo](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/demo.png)](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/demo.png).
+[![SampleDemo](./Documentation/demo.png)]
 
 # [ChatroomUIKit Guide](https://github.com/zjc19891106/ChatroomUIKit#chatroomuikit-guide)
 
@@ -169,7 +169,7 @@ let roomView = ChatroomUIKitClient.shared.launchRoomViewWithOptions(roomId: self
 // Choose ProjectManager > Operation Manager > Chat Room. Select View Chat Room Members in the Action column of a chat room and add users to the chat room in the displayed dialog box.  
 ```
 
-[![CreateChatroom](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/CreateChatroom.png)](https://github.com/zjc19891106/ChatroomUIKit/blob/main/Documentation/CreateChatroom.png).
+[![CreateChatroom](./Documentation/CreateChatroom.png).
 
 Please refer to the next chapter for transparent transmission of events.
 
@@ -305,7 +305,8 @@ Theme.switchTheme(style: .custom)
 
 Note that custom themes and built-in themes are mutually exclusive.
 
-# [Business Flowchart](https://github.com/zjc19891106/ChatroomUIKit#business-flowchart)
+# [Business Flowchart]
+![](./Documentation/BusinessFlowchart.png)
 
 The following figure presents the entire logic of business requests and callbacks.
 
@@ -315,7 +316,7 @@ The following figure presents the entire logic of business requests and callback
 
 The following figure is the best-practice API calling sequence diagram in the `Example` project.
 
-[![APIUML](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/Api.png)](https://github.com/zjc19891106/ChatroomUIKit/raw/main/Documentation/Api.png)
+![](./Documentation/api.png)
 
 # [Design Guidelines](https://github.com/zjc19891106/ChatroomUIKit#design-guidelines)
 
