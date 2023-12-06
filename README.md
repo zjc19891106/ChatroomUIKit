@@ -317,6 +317,7 @@ The following figure is the best-practice API calling sequence diagram in the `E
 
 ![](./Documentation/api.png)
 
+
 # [Design Guidelines](https://github.com/zjc19891106/ChatroomUIKit#design-guidelines)
 
 For any questions about design guidelines and details, you can add comments to the Figma design draft and mention our designer Stevie Jiang.
