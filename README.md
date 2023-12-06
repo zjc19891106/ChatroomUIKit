@@ -315,7 +315,7 @@ The following figure presents the entire logic of business requests and callback
 
 The following figure is the best-practice API calling sequence diagram in the `Example` project.
 
-![](./Documentation/api.png)
+![](./Documentation/Api.png)
 
 
 # [Design Guidelines](https://github.com/zjc19891106/ChatroomUIKit#design-guidelines)
