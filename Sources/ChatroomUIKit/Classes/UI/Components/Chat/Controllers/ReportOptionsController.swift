@@ -36,7 +36,7 @@ import UIKit
         self.reportClosure = completion
         self.reportMessage = message
     }
-
+    
     open override func viewDidLoad() {
         super.viewDidLoad()
         self.items = Appearance.reportTags.map({ $0 == "Adult" })
