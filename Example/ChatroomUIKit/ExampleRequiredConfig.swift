@@ -26,13 +26,13 @@ public class ExampleRequiredConfig {
         public var identity: String = ""//user level picture url
         
         public func toJsonObject() -> Dictionary<String, Any>? {
-            ["userId":self.userId,"nickName":self.nickName,"avatarURL":self.avatarURL,"identity":self.identity,"gender":self.gender]
+            ["userId":self.userId,"nickName":self.nickname,"avatarURL":self.avatarURL,"identity":self.identity,"gender":self.gender]
         }
         
         
         public var userId: String = <#Agora Chat User ID#>
         
-        public var nickName: String = "Jack"
+        public var nickname: String = "Jack"
         
         public var avatarURL: String = "https://accktvpic.oss-cn-beijing.aliyuncs.com/pic/sample_avatar/sample_avatar_1.png"
         
