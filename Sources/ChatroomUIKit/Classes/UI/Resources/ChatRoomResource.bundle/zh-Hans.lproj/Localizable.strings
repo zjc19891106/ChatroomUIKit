@@ -23,7 +23,7 @@
 "Violation options" = "违规选项";
 "barrage_long_press_menu_privatechat" = "私信";
 "barrage_long_press_menu_translate" = "翻译";
-"barrage_long_press_menu_delete" = "删除";
+"barrage_long_press_menu_delete" = "撤回";
 "barrage_long_press_menu_mute" = "禁言";
 "barrage_long_press_menu_unmute" = "解除禁言";
 "barrage_long_press_menu_report" = "举报";
@@ -49,6 +49,6 @@
 "Search" = "搜索";
 "participant_list_button_click_menu_remove" = "移除";
 "Your were muted!" = "您已被禁言";
-"You have been muted and are unable to send messages." = "You have been muted and are unable to send messages." = "你已被禁言，无法发送消息";
+"You have been muted and are unable to send messages." = "你已被禁言，无法发送消息";
 "new messages" = "条新消息";
 "Host" = "房主";

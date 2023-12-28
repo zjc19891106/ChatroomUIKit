@@ -44,10 +44,10 @@ final class ExamplesViewController: UIViewController {
             user.userId = userName
         }
         if let nickName = self.nickNameField.text,!nickName.isEmpty {
-            user.nickName = nickName
+            user.nickname = nickName
         }
         ChatroomUIKitClient.shared.login(user: user, token: ExampleRequiredConfig.chatToken) { error in
-            if error == nil || error?.code == .errorUserAlreadyLoginSame {
+            if error == nil || error?.code == .userAlreadyLoginSame {
                 self.navigationController?.pushViewController(ChatroomListViewController(), animated: true)
             } else {
                 let errorInfo = "ChatroomUIKitClient login failed!\nError:\(error?.errorDescription ?? "")"

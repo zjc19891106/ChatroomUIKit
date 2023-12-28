@@ -203,7 +203,7 @@ extension UIComponentsExampleViewController: BottomAreaToolBarActionEvents,Gifts
 extension UIComponentsExampleViewController {
     
     @objc func addCarouselTask() {
-        self.carouselTextView.addTask(text: ["123123adadsasjdaklsdjaskldjakdjakldsjkadjkasldjalksjdlkjasdklsajdl","99999999999999999999999999999999","66666666666666666666666666666"].randomElement()!)
+        self.carouselTextView.addTask(text: ["123123adadsasjdaklsdjaskldjakdjakldsjkadjkasldjalksjdlkjasdklsajdl9999999999999999999999999999999966666666666666666666666666666"].randomElement()!)
     }
     
     @objc func switchTheme(sender: UISegmentedControl) {
