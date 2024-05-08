@@ -32,11 +32,11 @@ A chat room UIKit that is easy to use, efficient, innovative and rich in custom 
       ]
       ss.dependency 'HyphenateChat'
   end
-
   s.subspec 'UI' do |ss|
     ss.source_files = [
       'Sources/ChatroomUIKit/Classes/UI/**/*.swift'
     ]
+    ss.dependency 'HyphenateChat'
     ss.resources = ['Sources/ChatroomUIKit/**/*.bundle']
 
   end
